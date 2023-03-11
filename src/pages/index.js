@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import testNFT from '../../public/test.jpg'
 import gradient from '../../public/gradient.jpg'
+import heroImg from '../../public/hero.jpg'
 import Link from "next/link";
 
 
@@ -19,9 +20,10 @@ export default function Home() {
       </Head>
 
       {/* hero section  */}
-      <div className="relative pb-10 pt-20 md:pt-32 lg:h-[88vh]">
-        <div className="container h-full">
-          <div className="grid h-full items-center gap-4 md:grid-cols-12">
+      <div className="relative pb-10 pt-20 md:pt-32 lg:h-[88vh]" id="heroBack">
+        <div className="container h-full mt-10">
+          <div className="grid h-full items-center gap-6 md:grid-cols-12">
+
             <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
               <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl">
                 Buy, sell and collect NFTs.
@@ -45,44 +47,11 @@ export default function Home() {
               </div>
             </div>
 
-            {/* <div className="col-span-6 xl:col-span-8">
-              <div className="relative text-center md:pl-8 md:text-right">
-                <svg
-                  viewBox="0 0 200 200"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="mt-8 inline-block w-72 rotate-[8deg] sm:w-full lg:w-[24rem] xl:w-[35rem]"
-                >
-                  <defs>
-                    <clipPath id="clipping" clipPathUnits="userSpaceOnUse">
-                      <path
-                        d="
-                    M 0, 100
-                    C 0, 17.000000000000004 17.000000000000004, 0 100, 0
-                    S 200, 17.000000000000004 200, 100
-                        183, 200 100, 200
-                        0, 183 0, 100
-                "
-                        fill="#9446ED"
-                      ></path>
-                    </clipPath>
-                  </defs>
-                  <g clipPath="url(#clipping)">
-                    <image
-                      href="Image/hero/hero.jpg"
-                      width="200"
-                      height="200"
-                      clipPath="url(#clipping)"
-                    />
-                  </g>
-                </svg>
-                <Image
-                  height={100} width={100}
-                  src={testNFT}
-                  alt=""
-                  className="absolute top-0 animate-fly md:-right-[10%]"
-                />
+            <div className="col-span-8 xl:col-span-8">
+              <div className="relative">
+                <Image src={heroImg} height="200px" width="auto" className="xl:ml-[300px]" />
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
@@ -168,7 +137,7 @@ export default function Home() {
         </picture>
         <div className="container">
           <h2 className="mb-16 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-            Create and sell your NFTs
+            What makes us unique ?
           </h2>
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
@@ -182,7 +151,7 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">1. Set up your wallet</h3>
+              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">1. AI NFT Generation</h3>
               <p className="dark:text-jacarta-300">
                 Once you've set up your wallet of choice, connect it to OpenSeaby clicking the NFT Marketplacein the top
                 right corner.
@@ -198,7 +167,7 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">2. Create Your Collection</h3>
+              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">2. Cross Chain NFTs</h3>
               <p className="dark:text-jacarta-300">
                 Click Create and set up your collection. Add social links, a description, profile & banner images, and
                 set a secondary sales fee.
@@ -215,7 +184,7 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">3. Add Your NFTs</h3>
+              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">3. On Chain Collections</h3>
               <p className="dark:text-jacarta-300">
                 Upload your work (image, video, audio, or 3D art), add a title and description, and customize your NFTs
                 with properties, stats.
@@ -232,7 +201,7 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">4. List Them For Sale</h3>
+              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">4. Chat With Artists</h3>
               <p className="dark:text-jacarta-300">
                 Choose between auctions, fixed-price listings, and declining-price listings. You choose how you want to
                 sell your NFTs!
