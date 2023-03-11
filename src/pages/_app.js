@@ -13,9 +13,9 @@ export default function App({ Component, pageProps }) {
   const [signer, setSigner] = useState();
   const [signer_address, set_signer_address] = useState("");
   const [signer_bal, set_signer_bal] = useState(0);
+  const [format_signer_bal, set_format_signer_bal] = useState(0);
 
-  const default_collection_address =
-    "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
+  const default_collection_address = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
 
   const connectToWallet = async () => {
@@ -33,7 +33,11 @@ export default function App({ Component, pageProps }) {
       set_signer_address(user_address);
 
       const user_balance = await signer.getBalance();
-      set_signer_bal(ethers.utils.formatEther(user_balance.toString()));
+      const signerToStr = ethers.utils.formatEther(user_balance.toString());
+      set_signer_bal(signerToStr);
+
+      const formatBalance = parseFloat(signerToStr).toFixed(2);
+      set_format_signer_bal(formatBalance);
 
       console.log("wallet connected");
 
@@ -73,6 +77,10 @@ export default function App({ Component, pageProps }) {
     console.log(txn);
   };
 
+  const create_collection = async () => {
+    console.log("creating collection");
+  };
+
   useEffect(() => {
     connectToWallet();
   }, []);
@@ -82,10 +90,10 @@ export default function App({ Component, pageProps }) {
       <Navbar
         connectToWallet={connectToWallet}
         signer={signer}
-        signer_bal={signer_bal}
+        signer_bal={format_signer_bal}
         signer_address={signer_address}
       />
-      <Component {...pageProps} create_token={create_token} />
+      <Component {...pageProps} create_token={create_token} create_collection={create_collection} defaultCol={default_collection_address} />
       <Footer />
     </>
   );

@@ -1,6 +1,7 @@
+import Link from "next/link";
 import React, { useState } from "react";
 
-const CreateNFT = ({ create_token }) => {
+const CreateNFT = ({ create_token, defaultCol }) => {
   const [propModel, setPropModel] = useState(false);
   const [data, set_data] = useState({
     image: "",
@@ -29,7 +30,7 @@ const CreateNFT = ({ create_token }) => {
             {/* <!-- File Upload --> */}
             <div className="mb-6">
               <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                Image, Video, Audio, or 3D Model
+                Select Image Or Video
                 <span className="text-red">*</span>
               </label>
               <p className="mb-3 text-2xs dark:text-jacarta-300">
@@ -49,7 +50,7 @@ const CreateNFT = ({ create_token }) => {
                     <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
                   </svg>
                   <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
-                    JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max
+                    JPG, PNG, GIF, SVG. Max
                     size: 100 MB
                   </p>
                 </div>
@@ -94,9 +95,11 @@ const CreateNFT = ({ create_token }) => {
                 className="mb-2 block font-display text-jacarta-700 dark:text-white"
               >
                 Description
+                <span className="text-red">*</span>
+
               </label>
               <p className="mb-3 text-2xs dark:text-jacarta-300">
-                The description will be included on the fnt detail page.
+                The description will be included on the nft detail page.
               </p>
               <textarea
                 onChange={handleChange}
@@ -109,7 +112,7 @@ const CreateNFT = ({ create_token }) => {
               ></textarea>
             </div>
 
-            {/* <!-- Collection --> */}
+            {/* select collection  */}
             <div className="relative">
               <div>
                 <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
@@ -117,73 +120,18 @@ const CreateNFT = ({ create_token }) => {
                 </label>
                 <div className="mb-3 flex items-center space-x-2">
                   <p className="text-2xs dark:text-jacarta-300">
-                    This is the collection where your nft will appear.
+                    This is the collection where your nft will appear. <Link href="/mint/CreateNFTCollection" target="_blank" className="underline">Create a new collection </Link>
                   </p>
                 </div>
               </div>
-
-              <div className="dropdown my-1 cursor-pointer">
-                <div
-                  className="dropdown-toggle flex items-center justify-between rounded-lg border border-jacarta-100 bg-white py-3 px-3 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300"
-                  role="button"
-                  id="item-collection"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span className="">Select collection</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="h-4 w-4 fill-jacarta-500 dark:fill-white"
-                  >
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                  </svg>
-                </div>
-
-                {/* collection drop down  */}
-                <div
-                  className="dropdown-menu z-10 hidden w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
-                  aria-labelledby="item-collection"
-                >
-                  <ul className="scrollbar-custom flex max-h-48 flex-col overflow-y-auto">
-                    <li>
-                      <a
-                        href="#"
-                        className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                      >
-                        <span className="flex items-center space-x-3">
-                          <img
-                            src="img/avatars/collection_ava_1.png"
-                            className="h-8 w-8 rounded-full"
-                            loading="lazy"
-                            alt="avatar"
-                          />
-                          <span className="text-jacarta-700 dark:text-white">
-                            CryptoKitties
-                          </span>
-                        </span>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="mb-[3px] h-4 w-4 fill-accent"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                        </svg>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <select name="select" className="dropdown my-1 cursor-pointer w-[100%]">
+                <option value={defaultCol}>RarX Marketplace Collection</option>
+                {/* create a loop of fetched nft collections of users  */}
+              </select>
             </div>
 
             {/* <!-- Properties --> */}
-            <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-8">
+            <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
               <div className="flex items-center justify-between">
                 <div className="flex">
                   <svg
@@ -212,18 +160,32 @@ const CreateNFT = ({ create_token }) => {
                   id="item-properties"
                   data-bs-toggle="modal"
                   data-bs-target="#propertiesModal"
-                  onClick={() => setPropModel(true)}
+                  onClick={() => setPropModel(!propModel)}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="fill-accent group-hover:fill-white"
-                  >
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
-                  </svg>
+
+                  {!propModel ?
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="fill-accent group-hover:fill-white"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                    </svg>
+                    :
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z"></path>
+                      <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                    </svg>
+                  }
                 </button>
               </div>
             </div>
@@ -231,31 +193,8 @@ const CreateNFT = ({ create_token }) => {
             {/* <!-- Properties Modal --> */}
             {propModel && (
               <div>
-                <div className="modal-dialog max-w-2xl">
+                <div className="max-w-2xl mb-4">
                   <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="addPropertiesLabel">
-                        Add properties
-                      </h5>
-                      <button
-                        onClick={() => setPropModel(false)}
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="h-6 w-6 fill-jacarta-700 dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-                        </svg>
-                      </button>
-                    </div>
                     <div className="modal-body p-6">
                       <div className="relative my-3 flex items-center">
                         <button className="flex h-12 w-12 shrink-0 items-center justify-center self-end rounded-l-lg border border-r-0 border-jacarta-100 bg-jacarta-50 hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700">
@@ -298,16 +237,6 @@ const CreateNFT = ({ create_token }) => {
                         Add More
                       </button>
                     </div>
-                    <div className="modal-footer">
-                      <div className="flex items-center justify-center space-x-4">
-                        <button
-                          type="button"
-                          className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -318,7 +247,7 @@ const CreateNFT = ({ create_token }) => {
               type="submit"
               className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white transition-all cursor-pointer"
             >
-              Create
+              Create NFT
             </button>
           </div>
         </div>
