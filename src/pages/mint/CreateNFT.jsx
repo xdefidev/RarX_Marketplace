@@ -41,7 +41,7 @@ const CreateNFT = ({ create_token, defaultCol }) => {
     try {
       set_loading(true);
       console.log(data);
-      // await create_token(data);
+      await create_token(data);
     } catch (error) {
       console.log(error);
     }

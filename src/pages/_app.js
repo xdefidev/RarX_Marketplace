@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }) {
   const [format_signer_bal, set_format_signer_bal] = useState(0);
 
   //COLLECTIONS INFORMATION
-  const [collections, set_collections] = useState([]);
+  const [all_collections, set_collections] = useState([]);
 
   //CONTRACT ADDRESSES
   const default_collection_address =
@@ -95,7 +95,6 @@ export default function App({ Component, pageProps }) {
       const tokenURI = await storage.upload(_tokenURI);
       const rarx = rarx_collection(default_collection_address);
       const txn = await rarx.createToken(tokenURI);
-      console.log(txn);
     } catch (error) {
       alert(error.message);
     }
@@ -124,10 +123,13 @@ export default function App({ Component, pageProps }) {
     set_collections(all_collections);
   };
 
-  const get_my_collections = async (signer) => { };
+  const get_my_collections = async (signer) => {
+    const collection = collection_contract_factory(signer);
+    const my_collections = await collection.getMyCollections();
+    return my_collections;
+  };
 
   useEffect(() => {
-    console.log("render");
     connectToWallet();
   }, []);
   return (
@@ -142,9 +144,12 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         create_token={create_token}
         create_collection={create_collection}
-        collections={collections}
+        collections={all_collections}
+        signer={signer}
         defaultCol={default_collection_address}
+        get_my_collections={get_my_collections}
         signer_address={signer_address}
+        rarx_collection={rarx_collection}
       />
       <Footer />
     </>
