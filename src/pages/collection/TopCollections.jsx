@@ -4,12 +4,12 @@ import testNFT from '../../../public/test.jpg'
 
 const TopCollections = () => {
     return (
-        <section class="relative py-24" id='pageBack'>
-            <picture class="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-                <img src="img/gradient_light.jpg" alt="gradient" class="h-full w-full" />
+        <section className="relative py-24" id='pageBack'>
+            <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+                <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" />
             </picture>
-            <div class="container">
-                <h1 class="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+            <div className="container">
+                <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                     Explore Collections
                 </h1>
 

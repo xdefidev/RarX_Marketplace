@@ -5,35 +5,35 @@ import testNFT from '../../public/test.jpg'
 
 const Marketplace = () => {
     return (
-        <section class="relative py-24" id='pageBack'>
-            <picture class="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-                <img src="img/gradient_light.jpg" alt="gradient" class="h-full w-full" />
+        <section className="relative py-24" id='pageBack'>
+            <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+                <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" />
             </picture>
-            <div class="container">
-                <h1 class="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+            <div className="container">
+                <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                     Explore NFTs
                 </h1>
 
                 {/* <!-- Filters --> */}
-                <div class="mb-8 flex flex-wrap items-center justify-between">
-                    <ul class="flex flex-wrap items-center">
-                        <li class="my-1 mr-2.5">
+                <div className="mb-8 flex flex-wrap items-center justify-between">
+                    <ul className="flex flex-wrap items-center">
+                        <li className="my-1 mr-2.5">
                             <a
                                 href="#"
-                                class="group flex h-9 items-center justify-center rounded-lg bg-jacarta-100 px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
+                                className="group flex h-9 items-center justify-center rounded-lg bg-jacarta-100 px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
                             >All</a>
                         </li>
-                        <li class="my-1 mr-2.5">
+                        <li className="my-1 mr-2.5">
                             <a
                                 href="#"
-                                class="group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-900 dark:text-white dark:hover:border-transparent dark:hover:bg-accent dark:hover:text-white"
+                                className="group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-900 dark:text-white dark:hover:border-transparent dark:hover:bg-accent dark:hover:text-white"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     width="24"
                                     height="24"
-                                    class="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
+                                    className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
                                 >
                                     <path fill="none" d="M0 0h24v24H0z" />
                                     <path
@@ -43,17 +43,17 @@ const Marketplace = () => {
                                 <span>Art</span>
                             </a>
                         </li>
-                        <li class="my-1 mr-2.5">
+                        <li className="my-1 mr-2.5">
                             <a
                                 href="#"
-                                class="group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-900 dark:text-white dark:hover:border-transparent dark:hover:bg-accent dark:hover:text-white"
+                                className="group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-900 dark:text-white dark:hover:border-transparent dark:hover:bg-accent dark:hover:text-white"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     width="24"
                                     height="24"
-                                    class="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
+                                    className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
                                 >
                                     <path fill="none" d="M0 0h24v24H0z" />
                                     <path
