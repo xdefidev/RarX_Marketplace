@@ -1,4 +1,5 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
@@ -12,7 +13,6 @@ import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/C
 
 export default function App({ Component, pageProps }) {
   const storage = new ThirdwebStorage();
-
   //SIGNER INFORMATION
   const [signer, setSigner] = useState();
   const [signer_address, set_signer_address] = useState("");
@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }) {
     "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
-    "0xD3943D5773aaeB4Df018347b6ef192651eac0D43";
+    "0xAc47ce481771ABbD52ca2B16784f462Dc9d8b9a5";
 
   const connectToWallet = async () => {
     if (window?.ethereum) {
@@ -77,8 +77,6 @@ export default function App({ Component, pageProps }) {
       signer
     );
 
-    console.log(default_collection_contract);
-
     return default_collection_contract;
   };
 
@@ -89,7 +87,6 @@ export default function App({ Component, pageProps }) {
       signer
     );
 
-    console.log(collection_factory);
     return collection_factory;
   };
 
@@ -124,18 +121,15 @@ export default function App({ Component, pageProps }) {
   const get_all_collections = async (signer) => {
     const collection = collection_contract_factory(signer);
     const all_collections = await collection.getAllCollections();
-    console.log({ all_collections });
-    console.log({ collections });
     set_collections(all_collections);
   };
 
   const get_my_collections = async (signer) => {};
 
   useEffect(() => {
+    console.log("render");
     connectToWallet();
   }, []);
-
-  useEffect(() => {}, [collections]);
   return (
     <>
       <Navbar
