@@ -124,7 +124,7 @@ export default function App({ Component, pageProps }) {
     set_collections(all_collections);
   };
 
-  const get_my_collections = async (signer) => {};
+  const get_my_collections = async (signer) => { };
 
   useEffect(() => {
     console.log("render");
@@ -144,6 +144,7 @@ export default function App({ Component, pageProps }) {
         create_collection={create_collection}
         collections={collections}
         defaultCol={default_collection_address}
+        signer_address={signer_address}
       />
       <Footer />
     </>
