@@ -65,7 +65,7 @@ contract CollectionFactory {
         }
         return collections;
     }
-
+    
     function getCollectionById(uint256 collection_id) public view returns (Collection memory) {
         return idToCollection[collection_id];
     }

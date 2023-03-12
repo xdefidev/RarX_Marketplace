@@ -22,7 +22,6 @@ const CreateNFTCollection = ({ create_collection }) => {
     set_loading(true);
     await create_collection(data);
     set_loading(false);
-    router.push("/");
   };
 
   return (
