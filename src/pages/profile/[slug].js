@@ -11,7 +11,7 @@ const Profile = () => {
         <>
             {/* <!-- Banner IMG--> */}
             <div className="relative mt-24">
-                <Image src={testNFT} alt="banner" className="h-[18.75rem] w-[100%] object-fit" />
+                <Image src={testNFT} alt="banner" className="h-[18.75rem] w-[100%] object-cover" />
             </div>
 
             {/* <!-- Profile Section --> */}
@@ -50,7 +50,6 @@ const Profile = () => {
 
                             <button
                                 className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200"
-                                data-tippy-content="Copy"
                             >
                                 <span>{slug}</span>
                             </button>
