@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import Loader from "@/components/Loader";
+
 const CreateNFT = ({ create_token, defaultCol }) => {
   const [loading, set_loading] = useState(false);
   const [propModel, setPropModel] = useState(false);
@@ -274,7 +275,7 @@ const CreateNFT = ({ create_token, defaultCol }) => {
                                 name="type"
                                 type="text"
                                 className="h-12 w-full border border-r-0 border-jacarta-100 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-black dark:placeholder-jacarta-300"
-                                placeholder="Character"
+                                placeholder="Type"
                               />
                             </div>
 
@@ -284,7 +285,7 @@ const CreateNFT = ({ create_token, defaultCol }) => {
                                 name="value"
                                 type="text"
                                 className="h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-black dark:placeholder-jacarta-300"
-                                placeholder="Male"
+                                placeholder="Value"
                               />
                             </div>
                           </div>
