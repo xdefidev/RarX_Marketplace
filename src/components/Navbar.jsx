@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ethers } from "ethers";
 
 const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
-  const user_address = async () => {};
+  const user_address = async () => { };
   return (
     <div className="overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900">
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
