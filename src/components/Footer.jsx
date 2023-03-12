@@ -126,9 +126,9 @@ const Footer = () => {
         </div>
         <div className="flex flex-col items-center justify-between space-y-2 py-8 sm:flex-row sm:space-y-0">
           <span className="text-sm dark:text-jacarta-400">
-            &copy; RarX — Built during{" "}
-            <a href="https://ethglobal.com" className="hover:text-accent">
-              Ethglobal Hackathon
+            &copy; 2023 RarX — Built during{" "}
+            <a href="https://ethglobal.com/events/scaling2023" target="_blank" className="text-accent">
+              Ethglobal Scaling ETH Hackathon
             </a>
           </span>
         </div>
