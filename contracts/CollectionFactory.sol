@@ -20,6 +20,7 @@ contract CollectionFactory {
         address owner;
         NFTCollection collection_address; 
     }
+    
 
     mapping(address => Collection[]) private userToCollections;
     mapping(uint256 => Collection) private idToCollection;

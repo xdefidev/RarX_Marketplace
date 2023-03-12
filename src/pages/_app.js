@@ -91,6 +91,7 @@ export default function App({ Component, pageProps }) {
   };
 
   const create_token = async (_tokenURI, collection_address) => {
+    console.log({ _tokenURI });
     try {
       const tokenURI = await storage.upload(_tokenURI);
       const rarx = rarx_collection(default_collection_address);

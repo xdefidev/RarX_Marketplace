@@ -46,7 +46,7 @@ const Profile = ({
     myCollections();
     fetch_nfts_from_user_wallet("0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD");
   }, [signer, signer_address]);
-  
+
   return (
     <>
       {/* <!-- Banner IMG--> */}
