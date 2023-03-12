@@ -3007,30 +3007,7 @@ input[type="search"]::-webkit-search-results-decoration {
 .swiper-3d .swiper-slide-shadow-right {
   border-radius: 1.25rem;
 }
-.tippy-box[data-theme~="xhibiter"] {
-  --tw-bg-opacity: 1;
-  background-color: rgba(19, 23, 64, var(--tw-bg-opacity));
-}
-.tippy-box[data-theme~="xhibiter"][data-placement^="top"]
-  > .tippy-arrow:before {
-  --tw-border-opacity: 1;
-  border-top-color: rgba(19, 23, 64, var(--tw-border-opacity));
-}
-.tippy-box[data-theme~="xhibiter"][data-placement^="bottom"]
-  > .tippy-arrow:before {
-  --tw-border-opacity: 1;
-  border-bottom-color: rgba(19, 23, 64, var(--tw-border-opacity));
-}
-.tippy-box[data-theme~="xhibiter"][data-placement^="left"]
-  > .tippy-arrow:before {
-  --tw-border-opacity: 1;
-  border-left-color: rgba(19, 23, 64, var(--tw-border-opacity));
-}
-.tippy-box[data-theme~="xhibiter"][data-placement^="right"]
-  > .tippy-arrow:before {
-  --tw-border-opacity: 1;
-  border-right-color: rgba(19, 23, 64, var(--tw-border-opacity));
-}
+
 .js-page-header--is-sticky {
   background-color: hsla(0, 0%, 100%, 0.5);
 }

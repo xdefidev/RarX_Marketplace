@@ -137,7 +137,7 @@ export default function Home() {
         </picture>
         <div className="container">
           <h2 className="mb-16 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-            What makes us unique ?
+            What Makes RarX Unique ?
           </h2>
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
@@ -147,14 +147,13 @@ export default function Home() {
                     className="h-5 w-5 fill-white">
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path
-                      d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z" />
+                      d="M17.409 19c-.776-2.399-2.277-3.885-4.266-5.602A10.954 10.954 0 0 1 20 11V3h1.008c.548 0 .992.445.992.993v16.014a1 1 0 0 1-.992.993H2.992A.993.993 0 0 1 2 20.007V3.993A1 1 0 0 1 2.992 3H6V1h2v4H4v7c5.22 0 9.662 2.462 11.313 7h2.096zM18 1v4h-8V3h6V1h2zm-1.5 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                   </svg>
                 </div>
               </div>
               <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">1. AI NFT Generation</h3>
               <p className="dark:text-jacarta-300">
-                Once you've set up your wallet of choice, connect it to OpenSeaby clicking the NFT Marketplacein the top
-                right corner.
+                You can create an AI generated NFT by entering a random text of a situation or conditions. This functionality works on the principles of stable difussion
               </p>
             </div>
             <div className="text-center">
@@ -169,8 +168,7 @@ export default function Home() {
               </div>
               <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">2. Cross Chain NFTs</h3>
               <p className="dark:text-jacarta-300">
-                Click Create and set up your collection. Add social links, a description, profile & banner images, and
-                set a secondary sales fee.
+                In one click you can tranfer any of you NFT from one chain to another chain. We are using connext and NFThashi to execute this functionality
               </p>
             </div>
             <div className="text-center">
@@ -180,14 +178,13 @@ export default function Home() {
                     className="h-5 w-5 fill-white">
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path
-                      d="M17.409 19c-.776-2.399-2.277-3.885-4.266-5.602A10.954 10.954 0 0 1 20 11V3h1.008c.548 0 .992.445.992.993v16.014a1 1 0 0 1-.992.993H2.992A.993.993 0 0 1 2 20.007V3.993A1 1 0 0 1 2.992 3H6V1h2v4H4v7c5.22 0 9.662 2.462 11.313 7h2.096zM18 1v4h-8V3h6V1h2zm-1.5 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                      d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z" />
                   </svg>
                 </div>
               </div>
               <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">3. On Chain Collections</h3>
               <p className="dark:text-jacarta-300">
-                Upload your work (image, video, audio, or 3D art), add a title and description, and customize your NFTs
-                with properties, stats.
+                Create your own on-chain NFT collection on RarX. By creating on-chain collections you can access your collections with their NFTs on any marketplace
               </p>
             </div>
             <div className="text-center">
@@ -203,8 +200,7 @@ export default function Home() {
               </div>
               <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">4. Chat With Artists</h3>
               <p className="dark:text-jacarta-300">
-                Choose between auctions, fixed-price listings, and declining-price listings. You choose how you want to
-                sell your NFTs!
+                Chat with any artists on RarX using push chat. Also, you can send monthly tips to your favourite artists (powered by superfluid streams)
               </p>
             </div>
           </div>
