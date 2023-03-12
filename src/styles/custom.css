@@ -1,3 +1,20 @@
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #835bfb;
+  /* border-radius: 5px; */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6c3ef2;
+}
+
 #heroBack {
   height: 100%;
   width: 100%;
