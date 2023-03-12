@@ -16,6 +16,7 @@ contract CollectionFactory {
         string name;
         string description;
         string image;
+        string logo;
         address owner;
         NFTCollection collection_address; 
     }
@@ -28,9 +29,10 @@ contract CollectionFactory {
     }
 
     function create_collection(
-        string memory collection_image,
         string memory collection_name,
         string memory collection_symbol,
+        string memory collection_image,
+        string memory collection_logo,
         string memory collection_description
     ) public {
         uint256 collectionCount = _collectionId.current();
@@ -44,6 +46,7 @@ contract CollectionFactory {
             collection_name,
             collection_description,
             collection_image,
+            collection_logo,
             msg.sender,
             new_nft_collection
         );

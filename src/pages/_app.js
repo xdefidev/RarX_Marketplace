@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
@@ -7,16 +7,26 @@ import { ethers } from "ethers";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollection.json";
+import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/CollectionFactory.json";
 
 export default function App({ Component, pageProps }) {
   const storage = new ThirdwebStorage();
+
+  //SIGNER INFORMATION
   const [signer, setSigner] = useState();
   const [signer_address, set_signer_address] = useState("");
   const [signer_bal, set_signer_bal] = useState(0);
+  const [format_signer_bal, set_format_signer_bal] = useState(0);
 
+  //COLLECTIONS INFORMATION
+  const [collections, set_collections] = useState([]);
+
+  //CONTRACT ADDRESSES
   const default_collection_address =
     "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
+  const collection_factory_address =
+    "0xD3943D5773aaeB4Df018347b6ef192651eac0D43";
 
   const connectToWallet = async () => {
     if (window?.ethereum) {
@@ -33,11 +43,16 @@ export default function App({ Component, pageProps }) {
       set_signer_address(user_address);
 
       const user_balance = await signer.getBalance();
-      set_signer_bal(ethers.utils.formatEther(user_balance.toString()));
+      const signerToStr = ethers.utils.formatEther(user_balance.toString());
+      set_signer_bal(signerToStr);
+
+      const formatBalance = parseFloat(signerToStr).toFixed(2);
+      set_format_signer_bal(formatBalance);
 
       console.log("wallet connected");
 
       const { chainId } = await provider.getNetwork();
+      get_all_collections(signer);
     } else {
       alert(
         "Please install Metamask, Intmax or any other web3 enabled browser"
@@ -66,26 +81,75 @@ export default function App({ Component, pageProps }) {
     return default_collection_contract;
   };
 
-  const create_token = async (_tokenURI, collection_address) => {
-    const tokenURI = await storage.upload(_tokenURI);
-    const rarx = rarx_collection(default_collection_address);
-    const txn = await rarx.createToken(tokenURI);
-    console.log(txn);
+  const collection_contract_factory = (signer) => {
+    const collection_factory = new ethers.Contract(
+      collection_factory_address,
+      CollectionFactory.abi,
+      signer
+    );
+
+    console.log(collection_factory);
+    return collection_factory;
   };
+
+  const create_token = async (_tokenURI, collection_address) => {
+    try {
+      const tokenURI = await storage.upload(_tokenURI);
+      const rarx = rarx_collection(default_collection_address);
+      const txn = await rarx.createToken(tokenURI);
+      console.log(txn);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const create_collection = async (data) => {
+    try {
+      const collection_logo = await storage.upload(data.logo);
+      const collection_image = await storage.upload(data.image);
+      const collection_factory = collection_contract_factory(signer);
+      const txn = await collection_factory.create_collection(
+        data.name,
+        data.symbol,
+        collection_image,
+        collection_logo,
+        data.description
+      );
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const get_all_collections = async (signer) => {
+    const collection = collection_contract_factory(signer);
+    const all_collections = await collection.getAllCollections();
+    console.log({ all_collections });
+    console.log({ collections });
+    set_collections(all_collections);
+  };
+
+  const get_my_collections = async (signer) => {};
 
   useEffect(() => {
     connectToWallet();
   }, []);
 
+  useEffect(() => {}, [collections]);
   return (
     <>
       <Navbar
         connectToWallet={connectToWallet}
         signer={signer}
-        signer_bal={signer_bal}
+        signer_bal={format_signer_bal}
         signer_address={signer_address}
       />
-      <Component {...pageProps} create_token={create_token} />
+      <Component
+        {...pageProps}
+        create_token={create_token}
+        create_collection={create_collection}
+        collections={collections}
+        defaultCol={default_collection_address}
+      />
       <Footer />
     </>
   );
