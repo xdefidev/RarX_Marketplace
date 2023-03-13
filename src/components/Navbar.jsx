@@ -71,18 +71,6 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                     data-bs-toggle="dropdown"
                   >
                     Explore
-                    <i className="lg:hidden">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="h-4 w-4 dark:fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                      </svg>
-                    </i>
                   </a>
                   <ul
                     className="dropdown-menu group-hover:visible lg:invisible left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2"
@@ -335,6 +323,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
               )}
             </div>
           </div>
+
 
           {/* mobile connect wallet */}
           <div className="ml-auto flex lg:hidden">

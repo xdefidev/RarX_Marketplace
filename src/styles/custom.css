@@ -29,3 +29,22 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+#pcMenu {
+  display: block;
+}
+#phoneMenu {
+  display: none;
+}
+
+@media only screen and (max-width: 500px) {
+  #pcMenu {
+    display: none;
+  }
+  #phoneMenu {
+    display: block;
+  }
+  #formDisplay {
+    display: none;
+  }
+}
