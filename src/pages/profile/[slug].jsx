@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import testNFT from "../../../public/test.jpg";
 import Image from "next/image";
-
+import axios from "axios";
 const Profile = ({
   get_my_collections,
   signer,
   rarx_collection,
   signer_address,
+  default_collection_address,
 }) => {
   const [share, setShare] = useState(false);
 
@@ -15,6 +16,7 @@ const Profile = ({
   const { slug } = router.query;
 
   const [my_collections, set_my_collections] = useState([]);
+  const [nfts, set_nfts] = useState([]);
 
   const myCollections = async () => {
     if (!signer) return;
@@ -26,16 +28,18 @@ const Profile = ({
   const fetch_nfts_from_user_wallet = async (collection_address) => {
     if (!signer_address) return;
     console.log({ signer_address });
-    const contract = rarx_collection(
-      "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD"
-    );
+    const contract = rarx_collection(collection_address);
     const balance = await contract.balanceOf(signer_address);
     let nfts = [];
     for (let i = 0; i < balance; i++) {
       const tokenURI = await contract.tokenURI(i);
-      nfts.push(tokenURI);
+      const res = await axios.get(
+        tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+      );
+      nfts.push(res.data);
     }
-    console.log({ nfts });
+    console.log(nfts);
+    set_nfts(nfts);
   };
 
   useEffect(() => {
@@ -43,6 +47,7 @@ const Profile = ({
     myCollections();
     fetch_nfts_from_user_wallet("0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD");
   }, [signer, signer_address]);
+
   return (
     <>
       {/* <!-- Banner IMG--> */}
@@ -226,7 +231,10 @@ const Profile = ({
                       <figure className="relative">
                         <a href="#">
                           <Image
-                            src={e.image}
+                            src={e.image.replace(
+                              "ipfs://",
+                              "https://gateway.ipfscdn.io/ipfs/"
+                            )}
                             height={100}
                             width={100}
                             alt="item 5"
