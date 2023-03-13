@@ -27,8 +27,8 @@ export default function App({ Component, pageProps }) {
     "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
-    "0xAc47ce481771ABbD52ca2B16784f462Dc9d8b9a5";
-
+    "0x0ff87D1475905DBF96508d15Ea5c080743E14BAD";
+  // 0x4A27bC64d2B2D74b6c6a1609d8f58483f308fF72
   const connectToWallet = async () => {
     if (window?.ethereum) {
       const provider = new ethers.providers.Web3Provider(
@@ -96,6 +96,7 @@ export default function App({ Component, pageProps }) {
       const tokenURI = await storage.upload(_tokenURI);
       const rarx = rarx_collection(default_collection_address);
       const txn = await rarx.createToken(tokenURI);
+      await txn.wait();
     } catch (error) {
       alert(error.message);
     }
@@ -127,6 +128,7 @@ export default function App({ Component, pageProps }) {
   const get_my_collections = async (signer) => {
     const collection = collection_contract_factory(signer);
     const my_collections = await collection.getMyCollections();
+    console.log({ my_collections });
     return my_collections;
   };
 

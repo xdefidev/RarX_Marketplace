@@ -20,8 +20,17 @@ contract CollectionFactory {
         address owner;
         NFTCollection collection_address; 
     }
-    
 
+    event CollectionCreated (
+        uint256 collectionId,
+        string name,
+        string description,
+        string image,
+        string logo,
+        address owner,
+        NFTCollection collection_address
+    );
+    
     mapping(address => Collection[]) private userToCollections;
     mapping(uint256 => Collection) private idToCollection;
 
@@ -55,6 +64,16 @@ contract CollectionFactory {
         userToCollections[msg.sender].push(newCollection);
         idToCollection[collectionCount] = newCollection;
         _collectionId.increment();
+
+        emit CollectionCreated(
+            collectionCount,
+            collection_name,
+            collection_description,
+            collection_image,
+            collection_logo,
+            msg.sender,
+            new_nft_collection
+            );
     }
 
     function getAllCollections() public view returns(Collection[] memory) {
@@ -83,8 +102,10 @@ contract CollectionFactory {
 
         Collection[] memory collections = new Collection[](my_collection_count);
         for(uint256 i = 0; i < my_collection_count; i++){
+            if(idToCollection[i].owner == msg.sender){
             Collection storage collection = idToCollection[i];
             collections[i] = collection;            
+            }
         }
         return collections;
     }
