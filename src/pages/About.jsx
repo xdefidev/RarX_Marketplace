@@ -41,7 +41,7 @@ const About = () => {
             </section>
 
             {/* <!-- YouTube Modal --> */}
-            <div
+            {/* <div
                 class=" fade video-lightbox js-video-lightbox"
                 tabindex="-1"
                 aria-label="Youtube Modal"
@@ -56,7 +56,7 @@ const About = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* <!-- Team --> */}
             <section class="py-24">
