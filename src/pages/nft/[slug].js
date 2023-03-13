@@ -140,17 +140,17 @@ const NFTPage = () => {
                                 >List For Sale</a>
                                 :
                                 <div>
-                                    <div class="modal-dialog max-w-2xl">
-                                        <div class="modal-content" style={{ backgroundColor: "#f5f5f5" }}>
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="placeBidLabel">List For Sale</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setListSale(false)}>
+                                    <div className="modal-dialog max-w-2xl">
+                                        <div className="modal-content" style={{ backgroundColor: "#f5f5f5" }}>
+                                            <div className="modal-header">
+                                                <h5 className="modal-title" id="placeBidLabel">List For Sale</h5>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setListSale(false)}>
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24"
                                                         width="24"
                                                         height="24"
-                                                        class="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                                                        className="h-6 w-6 fill-jacarta-700 dark:fill-white"
                                                     >
                                                         <path fill="none" d="M0 0h24v24H0z" />
                                                         <path
@@ -160,31 +160,31 @@ const NFTPage = () => {
                                                 </button>
                                             </div>
 
-                                            <div class="modal-body p-6">
-                                                <div class="mb-2 flex items-center justify-between">
-                                                    <span class="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
+                                            <div className="modal-body p-6">
+                                                <div className="mb-2 flex items-center justify-between">
+                                                    <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
                                                 </div>
 
                                                 <div
-                                                    class="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600"
+                                                    className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600"
                                                 >
-                                                    <div class="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
-                                                        <span class="font-display text-sm text-jacarta-700">ETH</span>
+                                                    <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
+                                                        <span className="font-display text-sm text-jacarta-700">ETH</span>
                                                     </div>
 
                                                     <input
                                                         type="text"
-                                                        class="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                                                        className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
                                                         placeholder="Amount"
                                                     />
                                                 </div>
                                             </div>
 
-                                            <div class="modal-footer">
-                                                <div class="flex items-center justify-center space-x-4">
+                                            <div className="modal-footer">
+                                                <div className="flex items-center justify-center space-x-4">
                                                     <button
                                                         type="button"
-                                                        class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                                     >
                                                         List Now
                                                     </button>

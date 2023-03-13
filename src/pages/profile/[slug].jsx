@@ -69,21 +69,6 @@ const Profile = ({
               alt="collection avatar"
               className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
             />
-            <div
-              className="absolute -right-3 bottom-0 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-              data-tippy-content="Verified Collection"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className="h-[.875rem] w-[.875rem] fill-white"
-              >
-                <path fill="none" d="M0 0h24v24H0z"></path>
-                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-              </svg>
-            </div>
           </figure>
         </div>
 
