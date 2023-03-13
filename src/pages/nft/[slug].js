@@ -30,7 +30,7 @@ const NFTPage = () => {
                         <div className="mb-3 flex">
                             {/* <!-- Collection --> */}
                             <div className="flex items-center">
-                                <a href="collection.html" className="mr-2 text-sm font-bold text-accent">Sample Collection</a>
+                                <a href="/collection/3737" className="mr-2 text-sm font-bold text-accent">Sample Collection</a>
                                 <span
                                     className="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
                                     data-tippy-content="Verified Collection"

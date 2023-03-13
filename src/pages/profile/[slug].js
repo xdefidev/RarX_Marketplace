@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import testNFT from "../../../public/test.jpg";
 import Image from "next/image";
 import axios from "axios";
+import NftCard from "@/components/cards/NftCard";
+import CollectionCard from "@/components/cards/CollectionCard";
 const Profile = ({
   get_my_collections,
   signer,
@@ -276,41 +278,7 @@ const Profile = ({
               >
                 <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
                   {/* loop the below div its a nft div*/}
-                  {my_collections.map((e) => (
-                    <div>
-                      <div className="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
-                        <figure className="relative">
-                          <a href="#">
-                            <Image
-                              src={e.image.replace(
-                                "ipfs://",
-                                "https://gateway.ipfscdn.io/ipfs/"
-                              )}
-                              height={100}
-                              width={100}
-                              alt="item 5"
-                              className="w-full rounded-[0.625rem]"
-                              loading="lazy"
-                            />
-                          </a>
-                        </figure>
-                        <div className="mt-7 flex items-center justify-between">
-                          <a href="#">
-                            <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
-                              {e.name}
-                            </span>
-                          </a>
-                        </div>
-                        <div className="mt-2 text-sm">
-                          <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">
-                            {e.collection_address.slice(0, 5) +
-                              "..." +
-                              e.collection_address.slice(38)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                  <NftCard ImageSrc={testNFT} Name="NFT #1" Description="NFT Description" Address="0x7899" />
                 </div>
               </div>
             </div>
@@ -318,7 +286,7 @@ const Profile = ({
         </section >
         :
         //fetch collections here
-        <section className="relative py-24 pt-20 bg-black" >
+        <section className="relative py-24 pt-20" >
           <div className="container">
             <div className="tab-content">
               <div
@@ -327,9 +295,9 @@ const Profile = ({
                 role="tabpanel"
                 aria-labelledby="on-sale-tab"
               >
-                <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+                <div class="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
                   {/* loop the below div its a nft div*/}
-                  {my_collections.map((e) => (
+                  {/* {my_collections.map((e) => (
                     <div>
                       <div className="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
                         <figure className="relative">
@@ -363,6 +331,10 @@ const Profile = ({
                         </div>
                       </div>
                     </div>
+                  ))} */}
+
+                  {my_collections?.map((e) => (
+                    <CollectionCard Cover={e.image} Name={e.name} OwnerAddress="" CollectionAddress={e.collection_address} />
                   ))}
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from "next/image";
 import testNFT from '../../public/test.jpg'
+import NftCard from '@/components/cards/NftCard';
 
 
 const Marketplace = () => {
@@ -66,28 +67,11 @@ const Marketplace = () => {
                     </ul>
                 </div>
 
-                {/* loop nfts here  */}
                 <div>
                     <div className="container">
                         <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                            <div>
-                                <div
-                                    className="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
-                                    <figure className="relative">
-                                        <a href="#">
-                                            <Image src={testNFT} height={100} width={100} alt="item 5" className="w-full rounded-[0.625rem]" loading="lazy" />
-                                        </a>
-                                    </figure>
-                                    <div className="mt-7 flex items-center justify-between">
-                                        <a href="#">
-                                            <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">Test #1</span>
-                                        </a>
-                                    </div>
-                                    <div className="mt-2 text-sm">
-                                        <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">Best NFT to buy</span>
-                                    </div>
-                                </div>
-                            </div>
+                            {/* loop nfts here  */}
+                            <NftCard ImageSrc={testNFT} Name="NFT #1" Description="NFT Description" Address="0x7899" />
                         </div>
                     </div>
                 </div>
