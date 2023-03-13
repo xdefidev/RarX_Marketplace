@@ -6,6 +6,8 @@ import gradient from "../../public/gradient.jpg";
 import heroImg from "../../public/hero.jpg";
 import Link from "next/link";
 import { useMemo } from "react";
+import NftCard from "@/components/cards/NftCard";
+import CollectionCard from "@/components/cards/CollectionCard";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home({ collections }) {
@@ -67,112 +69,25 @@ export default function Home({ collections }) {
       <div className="py-24">
         <div className="container">
           <h2 className="mb-8 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-            <span
-              className="mr-1 inline-block h-6 w-6 bg-contain bg-center text-xl"
-              style={{
-                backgroundImage:
-                  "url(https://cdn.jsdelivr.net/npm/emoji-datasource-apple@7.0.2/Image/apple/64/26a1.png)",
-              }}
-            ></span>
+            <span className="mr-1 inline-block h-6 w-6 bg-contain bg-center text-xl"></span>
             Newly Minted NFTs
           </h2>
 
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <div className="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
-                <figure className="relative">
-                  <a href="#">
-                    <Image
-                      src={testNFT}
-                      height={100}
-                      width={100}
-                      alt="item 5"
-                      className="w-full rounded-[0.625rem]"
-                      loading="lazy"
-                    />
-                  </a>
-                </figure>
-                <div className="mt-7 flex items-center justify-between">
-                  <a href="#">
-                    <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
-                      Test #1
-                    </span>
-                  </a>
-                </div>
-                <div className="mt-2 text-sm">
-                  <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">
-                    Best NFT to buy
-                  </span>
-                </div>
-              </div>
-            </div>
+            <NftCard ImageSrc={testNFT} Name="NFT #1" Description="NFT Description" Address="0x7899" />
           </div>
         </div>
       </div>
 
       {/* trending collections  */}
       <div className="relative py-24 dark:bg-jacarta-800">
-        <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-          <Image
-            src={gradient}
-            alt="gradient"
-            className="h-full w-full"
-            height={100}
-            width={100}
-          />
-        </picture>
         <div className="container">
           <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
             <h2 className="inline">Trending Collections </h2>
           </div>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-[1.875rem] lg:grid-cols-4">
-            {collections?.map((e, index) => (
-              <div
-                key={index}
-                className="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700"
-              >
-                <figure className="mr-4 shrink-0">
-                  <a href="#" className="relative block">
-                    <Image
-                      src={e.image.replace(
-                        "ipfs://",
-                        "https://gateway.ipfscdn.io/ipfs/"
-                      )}
-                      alt="avatar 1"
-                      className="rounded-2lg"
-                      loading="lazy"
-                      height={100}
-                      width={100}
-                    />
-                    <div
-                      className="absolute -left-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-                      data-tippy-content="Verified Collection"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="h-[.875rem] w-[.875rem] fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                      </svg>
-                    </div>
-                  </a>
-                </figure>
-                <div>
-                  <a href="#" className="block">
-                    <span className="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white">
-                      {e.name}
-                    </span>
-                  </a>
-                  <span className="text-sm dark:text-jacarta-300">
-                    {/* 7,080.95 ETH */}
-                    {e.owner.slice(0, 5) + "..." + e.owner.slice(38)}
-                  </span>
-                </div>
-              </div>
+          <div class="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+            {collections?.map((e) => (
+              <CollectionCard Cover={e.image} Name={e.name} OwnerAddress={e.owner} CollectionAddress={e.owner} />
             ))}
           </div>
 

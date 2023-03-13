@@ -153,27 +153,53 @@ const About = () => {
             {/* <!-- chains --> */}
             <div className="container">
                 <h2 className="mb-8 mt-8 text-center font-display text-3xl text-jacarta-700 dark:text-white">Supported Chains</h2>
-                <div className="grid grid-cols-2 py-8 sm:grid-cols-5">
-                    <a href="https://fvm.filecoin.io/" target="_blank"><Image src={filecoin} alt="filecoin" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://gnosischain.com" target="_blank"><Image src={gnosis} alt="gnosis" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://mantle.xyz" target="_blank"><Image src={mantle} alt="mantle" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://polygon.technology/" target="_blank"><Image src={polygon} alt="polygon" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://scroll.io/" target="_blank"><Image src={scroll} alt="scroll" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://taiko.xyz/" target="_blank"><Image src={taiko} alt="taiko" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
+                <div className="grid grid-cols-2 py-8 sm:grid-cols-5 text-center">
+                    <a href="https://fvm.filecoin.io/" target="_blank"><Image src={filecoin} alt="filecoin" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Filecoin</h3>
+                    </a>
+                    <a href="https://gnosischain.com" target="_blank"><Image src={gnosis} alt="gnosis" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Gnosis</h3>
+                    </a>
+                    <a href="https://mantle.xyz" target="_blank"><Image src={mantle} alt="mantle" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Mantle</h3>
+                    </a>
+                    <a href="https://polygon.technology/" target="_blank"><Image src={polygon} alt="polygon" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Polygon</h3>
+                    </a>
+                    <a href="https://scroll.io/" target="_blank"><Image src={scroll} alt="scroll" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Scroll</h3>
+                    </a>
+                    <a href="https://taiko.xyz/" target="_blank"><Image src={taiko} alt="taiko" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Taiko</h3>
+                    </a>
                 </div>
             </div>
 
             {/* <!-- tech --> */}
             <div className="container">
                 <h2 className="mb-6 mt-16 text-center font-display text-3xl text-jacarta-700 dark:text-white">Integrated Technologies</h2>
-                <div className="grid grid-cols-2 py-8 sm:grid-cols-5">
-                    <a href="https://www.connext.network/" target="_blank"><Image src={connext} alt="connext" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://intmaxwallet.io/" target="_blank"><Image src={intmax} alt="intmax" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://polybase.xyz/" target="_blank"><Image src={polybase} alt="polybase" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://push.org/" target="_blank"><Image src={push} alt="push" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://www.superfluid.finance/" target="_blank"><Image src={superfluid} alt="superfluid" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://thegraph.com/" target="_blank"><Image src={thegraph} alt="thegraph" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
-                    <a href="https://uma.xyz/" target="_blank"><Image src={uma} alt="uma" className='h-[150px] w-[auto] m-4 shadow-xl' /></a>
+                <div className="grid grid-cols-2 py-8 sm:grid-cols-5 text-center">
+                    <a href="https://www.connext.network/" target="_blank"><Image src={connext} alt="connext" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Connext</h3>
+                    </a>
+                    <a href="https://intmaxwallet.io/" target="_blank"><Image src={intmax} alt="intmax" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Intax</h3>
+                    </a>
+                    <a href="https://polybase.xyz/" target="_blank"><Image src={polybase} alt="polybase" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Polybase</h3>
+                    </a>
+                    <a href="https://push.org/" target="_blank"><Image src={push} alt="push" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Push Protocol</h3>
+                    </a>
+                    <a href="https://www.superfluid.finance/" target="_blank"><Image src={superfluid} alt="superfluid" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Superfluid</h3>
+                    </a>
+                    <a href="https://thegraph.com/" target="_blank"><Image src={thegraph} alt="thegraph" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">The Graph</h3>
+                    </a>
+                    <a href="https://uma.xyz/" target="_blank"><Image src={uma} alt="uma" className='h-[150px] w-[auto] m-4 shadow-xl' />
+                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">UMA</h3>
+                    </a>
                 </div>
             </div>
         </>
