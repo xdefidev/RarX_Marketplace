@@ -50,20 +50,6 @@ const About = () => {
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    height="24"
-                                    class="h-6 w-6 fill-jacarta-700"
-                                >
-                                    <path fill="none" d="M0 0h24v24H0z" />
-                                    <path
-                                        d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
-                                    />
-                                </svg>
-                            </button>
                             <div class="ratio ratio-16x9 before:bg-jacarta-900">
                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/U6LDMJ2pdvk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                             </div>

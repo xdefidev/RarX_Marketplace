@@ -177,12 +177,12 @@ export default function Home({ collections }) {
           </div>
 
           <div className="mt-10 text-center">
-            <a
-              href="#"
+            <Link
+              href="/collection/TopCollections"
               className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
             >
               Explore all collections
-            </a>
+            </Link>
           </div>
         </div>
       </div>
