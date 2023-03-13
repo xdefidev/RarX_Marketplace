@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import testNFT from '../../../public/test.jpg'
 import Image from 'next/image'
@@ -7,6 +7,9 @@ import Image from 'next/image'
 const NFTPage = () => {
     const router = useRouter()
     const { slug } = router.query
+
+    const [listSale, setListSale] = useState(false);
+    const [propShow, setPropShow] = useState(true);
     return (
         <section className="relative pt-12 pb-24 lg:py-24 mt-10">
             <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
@@ -18,7 +21,7 @@ const NFTPage = () => {
                         <Image
                             src={testNFT}
                             alt="item"
-                            className="cursor-pointer rounded-2.5xl h-[100%] w-[100%]"
+                            className="cursor-pointer rounded-2.5xl h-[auto] w-[100%]"
                         />
                     </div>
 
@@ -45,7 +48,7 @@ const NFTPage = () => {
                                 </span>
                             </div>
 
-                            {/* <!-- Likes / Actions --> */}
+                            {/*Likes*/}
                             <div className="ml-auto flex space-x-2">
                                 <div
                                     className="flex items-center space-x-1 rounded-xl border border-jacarta-100 bg-white py-2 px-4 dark:border-jacarta-600 dark:bg-jacarta-700"
@@ -74,13 +77,6 @@ const NFTPage = () => {
 
                         {/* nft title  */}
                         <h1 className="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">NFT #1</h1>
-
-                        {/* nft price , shravn add logo later */}
-                        <div className="mb-8 flex items-center space-x-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                                <span className="text-sm font-medium tracking-tight text-green">4.7 ETH</span>
-                            </div>
-                        </div>
 
 
                         {/* nnft desc  */}
@@ -120,28 +116,98 @@ const NFTPage = () => {
                             </div>
                         </div>
 
-                        {/* <!-- place Bid button design --> */}
-                        {/* <a
-                            href="#"
-                            data-bs-toggle="modal"
-                            data-bs-target="#placeBidModal"
-                            className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                        >Place Bid</a> */}
+                        {/* -------------------------- all action buttons start ------------------------  */}
 
+                        {/* <!-- place Bid button design --> */}
+                        {/* <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                            <a
+                                href="#"
+                                data-bs-toggle="modal"
+                                data-bs-target="#placeBidModal"
+                                className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                            >Place Bid</a>
+                        </div> */}
+
+                        {/* <!-- list nft --> */}
+                        <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                            {listSale == false ?
+                                <a
+                                    onClick={() => setListSale(true)}
+                                    href="#"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#placeBidModal"
+                                    className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                >List For Sale</a>
+                                :
+                                <div>
+                                    <div class="modal-dialog max-w-2xl">
+                                        <div class="modal-content" style={{ backgroundColor: "#f5f5f5" }}>
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="placeBidLabel">List For Sale</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setListSale(false)}>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        width="24"
+                                                        height="24"
+                                                        class="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                                                    >
+                                                        <path fill="none" d="M0 0h24v24H0z" />
+                                                        <path
+                                                            d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </div>
+
+                                            <div class="modal-body p-6">
+                                                <div class="mb-2 flex items-center justify-between">
+                                                    <span class="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
+                                                </div>
+
+                                                <div
+                                                    class="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600"
+                                                >
+                                                    <div class="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
+                                                        <span class="font-display text-sm text-jacarta-700">ETH</span>
+                                                    </div>
+
+                                                    <input
+                                                        type="text"
+                                                        class="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                                                        placeholder="Amount"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <div class="flex items-center justify-center space-x-4">
+                                                    <button
+                                                        type="button"
+                                                        class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                                    >
+                                                        List Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
 
                         {/* buy now section  */}
-                        <div className="rounded-2lg border border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                        {/* <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                             <div className="mb-8 sm:flex sm:flex-wrap">
                                 <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
                                     <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
-                                        <span className="text-sm text-jacarta-400 dark:text-jacarta-300">Listed for sale at </span>
+                                        <span className="text-sm text-jacarta-400 dark:text-jacarta-300">Price </span>
                                     </div>
                                     <div className="mt-3 flex">
                                         <div>
                                             <div className="flex items-center whitespace-nowrap">
                                                 <span className="text-lg font-medium leading-tight tracking-tight text-green">4.7 ETH</span>
                                             </div>
-                                            <span className="text-sm text-jacarta-400 dark:text-jacarta-300">~10,864.10</span>
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +219,20 @@ const NFTPage = () => {
                                 data-bs-target="#placeBidModal"
                                 className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                             >Buy Now</a>
-                        </div>
+                        </div> */}
+
+                        {/* <!-- cancel nft sale --> */}
+                        {/* <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                            <a
+                                href="#"
+                                data-bs-toggle="modal"
+                                data-bs-target="#placeBidModal"
+                                className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                            >Cancel Sale</a>
+                        </div> */}
+
+                        {/* -------------------------- all action buttons end ------------------------  */}
+
                     </div>
                 </div>
 
@@ -163,9 +242,9 @@ const NFTPage = () => {
                         {/* <!-- Tabs Nav --> */}
                         <ul className="nav nav-tabs flex items-center" role="tablist">
                             {/* <!-- Properties --> */}
-                            <li className="nav-item" role="presentation">
+                            <li className="nav-item" role="presentation" onClick={() => setPropShow(true)}>
                                 <button
-                                    className="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                                    className={`nav-link ${propShow && "active relative"} flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                                     id="properties-tab"
                                     data-bs-toggle="tab"
                                     data-bs-target="#properties"
@@ -191,9 +270,9 @@ const NFTPage = () => {
                             </li>
 
                             {/* <!-- Details --> */}
-                            <li className="nav-item" role="presentation">
+                            <li className="nav-item" role="presentation" onClick={() => setPropShow(false)}>
                                 <button
-                                    className="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white"
+                                    className={`nav-link ${!propShow && "active relative"} flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                                     id="details-tab"
                                     data-bs-toggle="tab"
                                     data-bs-target="#details"
@@ -221,112 +300,81 @@ const NFTPage = () => {
 
                         {/* <!-- Tab Content --> */}
                         <div className="tab-content">
-                            {/* <!-- Properties --> */}
-                            <div className="tab-pane fade" id="properties" role="tabpanel" aria-labelledby="properties-tab">
-                                <div
-                                    className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10"
-                                >
-                                    <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
-                                        <a
-                                            href="collection.html"
-                                            className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                                        >
-                                            <span className="text-sm uppercase text-accent">ACCESSORY</span>
-                                            <span className="text-base text-jacarta-700 dark:text-white">Metal headband</span>
-                                            <span className="text-sm text-jacarta-400">3% have this trait</span>
-                                        </a>
-                                        <a
-                                            href="collection.html"
-                                            className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                                        >
-                                            <span className="text-sm uppercase text-accent">SKIN</span>
-                                            <span className="text-base text-jacarta-700 dark:text-white">Dark Brown</span>
-                                            <span className="text-sm text-jacarta-400">8% have this trait</span>
-                                        </a>
-                                        <a
-                                            href="collection.html"
-                                            className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                                        >
-                                            <span className="text-sm uppercase text-accent">EYES</span>
-                                            <span className="text-base text-jacarta-700 dark:text-white">Cyborg</span>
-                                            <span className="text-sm text-jacarta-400">2% have this trait</span>
-                                        </a>
-                                        <a
-                                            href="collection.html"
-                                            className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                                        >
-                                            <span className="text-sm uppercase text-accent">CLOTH</span>
-                                            <span className="text-base text-jacarta-700 dark:text-white">Adidas</span>
-                                            <span className="text-sm text-jacarta-400">7% have this trait</span>
-                                        </a>
-                                        <a
-                                            href="collection.html"
-                                            className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                                        >
-                                            <span className="text-sm uppercase text-accent">HAIR</span>
-                                            <span className="text-base text-jacarta-700 dark:text-white">White Ash</span>
-                                            <span className="text-sm text-jacarta-400">7% have this trait</span>
-                                        </a>
-                                        <a
-                                            href="collection.html"
-                                            className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                                        >
-                                            <span className="text-sm uppercase text-accent">CHARACTER</span>
-                                            <span className="text-base text-jacarta-700 dark:text-white">TSAREVNA</span>
-                                            <span className="text-sm text-jacarta-400">1% have this trait</span>
-                                        </a>
-                                        <a
-                                            href="collection.html"
-                                            className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                                        >
-                                            <span className="text-sm uppercase text-accent">BACKGROUND</span>
-                                            <span className="text-base text-jacarta-700 dark:text-white">CyberPunk</span>
-                                            <span className="text-sm text-jacarta-400">9% have this trait</span>
-                                        </a>
-                                        <a
-                                            href="collection.html"
-                                            className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                                        >
-                                            <span className="text-sm uppercase text-accent">MOUTH</span>
-                                            <span className="text-base text-jacarta-700 dark:text-white">Flower</span>
-                                            <span className="text-sm text-jacarta-400">4% have this trait</span>
-                                        </a>
+                            {propShow ?
+                                <div >
+                                    <div
+                                        className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10"
+                                    >
+                                        <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
+                                            <a
+                                                href="collection.html"
+                                                className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
+                                            >
+                                                <span className="text-sm uppercase text-accent">ACCESSORY</span>
+                                                <span className="text-base text-jacarta-700 dark:text-white">Metal headband</span>
+                                                <span className="text-sm text-jacarta-400">3% have this trait</span>
+                                            </a>
+                                            <a
+                                                href="collection.html"
+                                                className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
+                                            >
+                                                <span className="text-sm uppercase text-accent">SKIN</span>
+                                                <span className="text-base text-jacarta-700 dark:text-white">Dark Brown</span>
+                                                <span className="text-sm text-jacarta-400">8% have this trait</span>
+                                            </a>
+                                            <a
+                                                href="collection.html"
+                                                className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
+                                            >
+                                                <span className="text-sm uppercase text-accent">EYES</span>
+                                                <span className="text-base text-jacarta-700 dark:text-white">Cyborg</span>
+                                                <span className="text-sm text-jacarta-400">2% have this trait</span>
+                                            </a>
+                                            <a
+                                                href="collection.html"
+                                                className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
+                                            >
+                                                <span className="text-sm uppercase text-accent">CLOTH</span>
+                                                <span className="text-base text-jacarta-700 dark:text-white">Adidas</span>
+                                                <span className="text-sm text-jacarta-400">7% have this trait</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            {/* <!-- Details --> */}
-                            <div className="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
-                                <div
-                                    className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10"
-                                >
-                                    <div className="mb-2 flex items-center">
-                                        <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">Contract Address:</span>
-                                        <a href="#" className="text-accent">0x1cBB182322Aee8ce9F4F1f98d7460173ee30Af1F</a>
-                                    </div>
-                                    <div className="mb-2 flex items-center">
-                                        <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">Token ID:</span>
-                                        <span
-                                            className="js-copy-clipboard cursor-pointer select-none text-jacarta-700 dark:text-white"
-                                            data-tippy-content="Copy"
-                                        >7714</span>
-                                    </div>
-                                    <div className="mb-2 flex items-center">
-                                        <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">Token Standard:</span>
-                                        <span className="text-jacarta-700 dark:text-white">ERC-721</span>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">Blockchain:</span>
-                                        <span className="text-jacarta-700 dark:text-white">Ethereum</span>
+                                :
+                                <div>
+                                    <div
+                                        className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10"
+                                    >
+                                        <div className="mb-2 flex items-center">
+                                            <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">Contract Address:</span>
+                                            <a href="#" className="text-accent">0x1cBB182322Aee8ce9F4F1f98d7460173ee30Af1F</a>
+                                        </div>
+                                        <div className="mb-2 flex items-center">
+                                            <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">Token ID:</span>
+                                            <span
+                                                className="js-copy-clipboard cursor-pointer select-none text-jacarta-700 dark:text-white"
+                                                data-tippy-content="Copy"
+                                            >7714</span>
+                                        </div>
+                                        <div className="mb-2 flex items-center">
+                                            <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">Token Standard:</span>
+                                            <span className="text-jacarta-700 dark:text-white">ERC-721</span>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">Blockchain:</span>
+                                            <span className="text-jacarta-700 dark:text-white">Ethereum</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
+
         </section>
     )
 }
 
-export default NFTPage
+export default NFTPage;

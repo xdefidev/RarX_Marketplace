@@ -15,6 +15,7 @@ const Profile = ({
   const router = useRouter();
   const { slug } = router.query;
 
+  const [myNFTsActive, setMyNFTSActive] = useState(true);
   const [my_collections, set_my_collections] = useState([]);
   const [nfts, set_nfts] = useState([]);
 
@@ -213,58 +214,178 @@ const Profile = ({
         </div>
       </section>
 
-      {/* wallet nfts fetch  */}
-      <section className="relative py-24 pt-20">
-        <div className="container">
-          <div className="tab-content">
-            <div
-              className="tab-pane fade show active"
-              id="on-sale"
-              role="tabpanel"
-              aria-labelledby="on-sale-tab"
+      {/* switch buttons  */}
+      <div className="container mt-6">
+        <ul
+          className="nav nav-tabs scrollbar-custom mb-12 flex items-center justify-start overflow-x-auto overflow-y-hidden border-jacarta-100 pb-px dark:border-jacarta-600 md:justify-center"
+          role="tablist"
+        >
+          {/* my nfts button  */}
+          <li className="nav-item" role="presentation" onClick={() => setMyNFTSActive(true)}>
+            <button
+              className={`nav-link ${myNFTsActive && "active relative"} flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              id="created-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#created"
+              type="button"
+              role="tab"
+              aria-controls="created"
+              aria-selected="false"
             >
-              <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                {/* loop the below div its a nft div*/}
-                {my_collections.map((e) => (
-                  <div>
-                    <div className="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
-                      <figure className="relative">
-                        <a href="#">
-                          <Image
-                            src={e.image.replace(
-                              "ipfs://",
-                              "https://gateway.ipfscdn.io/ipfs/"
-                            )}
-                            height={100}
-                            width={100}
-                            alt="item 5"
-                            className="w-full rounded-[0.625rem]"
-                            loading="lazy"
-                          />
-                        </a>
-                      </figure>
-                      <div className="mt-7 flex items-center justify-between">
-                        <a href="#">
-                          <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
-                            {e.name}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="mr-1 h-5 w-5 fill-current"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M5 5v3h14V5H5zM4 3h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 9h6a1 1 0 0 1 1 1v3h1v6h-4v-6h1v-2H5a1 1 0 0 1-1-1v-2h2v1zm11.732 1.732l1.768-1.768 1.768 1.768a2.5 2.5 0 1 1-3.536 0z"
+                />
+              </svg>
+              <span className="font-display text-base font-medium">My NFTs (5)</span>
+            </button>
+          </li>
+
+          {/* my collections button  */}
+          <li className="nav-item" role="presentation" onClick={() => setMyNFTSActive(false)}>
+            <button
+              className={`nav-link ${!myNFTsActive && "active relative"} flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              id="collections-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#collections"
+              type="button"
+              role="tab"
+              aria-controls="collections"
+              aria-selected="false"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="mr-1 h-5 w-5 fill-current"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z"
+                />
+              </svg>
+              <span className="font-display text-base font-medium">My Collections</span>
+            </button>
+          </li>
+        </ul>
+      </div >
+
+      {myNFTsActive == true ?
+        //fetch nfts
+        <section className="relative py-24 pt-20" >
+          <div className="container">
+            <div className="tab-content">
+              <div
+                className="tab-pane fade show active"
+                id="on-sale"
+                role="tabpanel"
+                aria-labelledby="on-sale-tab"
+              >
+                <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+                  {/* loop the below div its a nft div*/}
+                  {my_collections.map((e) => (
+                    <div>
+                      <div className="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
+                        <figure className="relative">
+                          <a href="#">
+                            <Image
+                              src={e.image.replace(
+                                "ipfs://",
+                                "https://gateway.ipfscdn.io/ipfs/"
+                              )}
+                              height={100}
+                              width={100}
+                              alt="item 5"
+                              className="w-full rounded-[0.625rem]"
+                              loading="lazy"
+                            />
+                          </a>
+                        </figure>
+                        <div className="mt-7 flex items-center justify-between">
+                          <a href="#">
+                            <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
+                              {e.name}
+                            </span>
+                          </a>
+                        </div>
+                        <div className="mt-2 text-sm">
+                          <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">
+                            {e.collection_address.slice(0, 5) +
+                              "..." +
+                              e.collection_address.slice(38)}
                           </span>
-                        </a>
-                      </div>
-                      <div className="mt-2 text-sm">
-                        <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">
-                          {e.collection_address.slice(0, 5) +
-                            "..." +
-                            e.collection_address.slice(38)}
-                        </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section >
+        :
+        //fetch collections here
+        <section className="relative py-24 pt-20 bg-black" >
+          <div className="container">
+            <div className="tab-content">
+              <div
+                className="tab-pane fade show active"
+                id="on-sale"
+                role="tabpanel"
+                aria-labelledby="on-sale-tab"
+              >
+                <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+                  {/* loop the below div its a nft div*/}
+                  {my_collections.map((e) => (
+                    <div>
+                      <div className="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
+                        <figure className="relative">
+                          <a href="#">
+                            <Image
+                              src={e.image.replace(
+                                "ipfs://",
+                                "https://gateway.ipfscdn.io/ipfs/"
+                              )}
+                              height={100}
+                              width={100}
+                              alt="item 5"
+                              className="w-full rounded-[0.625rem]"
+                              loading="lazy"
+                            />
+                          </a>
+                        </figure>
+                        <div className="mt-7 flex items-center justify-between">
+                          <a href="#">
+                            <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
+                              {e.name}
+                            </span>
+                          </a>
+                        </div>
+                        <div className="mt-2 text-sm">
+                          <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">
+                            {e.collection_address.slice(0, 5) +
+                              "..." +
+                              e.collection_address.slice(38)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section >
+      }
+
     </>
   );
 };

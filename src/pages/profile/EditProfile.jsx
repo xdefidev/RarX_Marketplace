@@ -6,78 +6,78 @@ const EditProfile = ({ signer_address }) => {
     return (
         <>
             {/* <!-- Banner --> */}
-            <div class="relative  mt-24">
-                <Image src={testNFT} alt="banner" class="h-[18.75rem] w-[100%] object-cover" />
-                <div class="container relative -translate-y-4">
+            <div className="relative  mt-24">
+                <Image src={testNFT} alt="banner" className="h-[18.75rem] w-[100%] object-cover" />
+                <div className="container relative -translate-y-4">
                     <div
-                        class="group absolute right-0 bottom-4 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent"
+                        className="group absolute right-0 bottom-4 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent"
                     >
-                        <input type="file" accept="image/*" class="absolute inset-0 cursor-pointer opacity-0" />
+                        <input type="file" accept="image/*" className="absolute inset-0 cursor-pointer opacity-0" />
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            class="mr-1 h-4 w-4 fill-jacarta-400 group-hover:fill-white"
+                            className="mr-1 h-4 w-4 fill-jacarta-400 group-hover:fill-white"
                         >
                             <path fill="none" d="M0 0h24v24H0z"></path>
                             <path
                                 d="M15.728 9.686l-1.414-1.414L5 17.586V19h1.414l9.314-9.314zm1.414-1.414l1.414-1.414-1.414-1.414-1.414 1.414 1.414 1.414zM7.242 21H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L7.243 21z"
                             ></path>
                         </svg>
-                        <span class="mt-0.5 block group-hover:text-white">Edit cover photo</span>
+                        <span className="mt-0.5 block group-hover:text-white">Edit cover photo</span>
                     </div>
                 </div>
             </div>
 
             {/* <!-- Edit Profile --> */}
-            <section class="relative py-16 dark:bg-jacarta-800">
+            <section className="relative py-16 dark:bg-jacarta-800">
 
-                <div class="container">
-                    <div class="mx-auto max-w-[48.125rem] md:flex">
-                        <div class="mb-12 md:w-1/2 md:pr-8">
-                            <div class="mb-6">
-                                <label for="profile-username" class="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
-                                >Username<span class="text-red">*</span></label>
+                <div className="container">
+                    <div className="mx-auto max-w-[48.125rem] md:flex">
+                        <div className="mb-12 md:w-1/2 md:pr-8">
+                            <div className="mb-6">
+                                <label for="profile-username" className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
+                                >Username<span className="text-red">*</span></label>
                                 <input
                                     type="text"
                                     id="profile-username"
-                                    class="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
+                                    className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
                                     placeholder="Enter username"
                                     required
                                 />
                             </div>
-                            <div class="mb-6">
-                                <label for="profile-bio" class="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
-                                >Bio<span class="text-red">*</span></label>
+                            <div className="mb-6">
+                                <label for="profile-bio" className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
+                                >Bio<span className="text-red">*</span></label>
                                 <textarea
                                     id="profile-bio"
-                                    class="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
+                                    className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
                                     required
                                     placeholder="Tell the world your story!"
                                 ></textarea>
                             </div>
-                            <div class="mb-6">
-                                <label for="profile-email" class="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
-                                >Email address<span class="text-red">*</span></label>
+                            <div className="mb-6">
+                                <label for="profile-email" className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
+                                >Email address<span className="text-red">*</span></label>
                                 <input
                                     type="text"
                                     id="profile-email"
-                                    class="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
+                                    className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
                                     placeholder="Enter email"
                                     required
                                 />
                             </div>
-                            <div class="mb-6">
-                                <label for="profile-twitter" class="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
-                                >Links<span class="text-red">*</span></label>
-                                <div class="relative">
+                            <div className="mb-6">
+                                <label for="profile-twitter" className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
+                                >Links<span className="text-red">*</span></label>
+                                <div className="relative">
                                     <svg
                                         aria-hidden="true"
                                         focusable="false"
                                         data-prefix="fab"
                                         data-icon="twitter"
-                                        class="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 fill-jacarta-300 dark:fill-jacarta-400"
+                                        className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 fill-jacarta-300 dark:fill-jacarta-400"
                                         role="img"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 512 512"
@@ -89,17 +89,17 @@ const EditProfile = ({ signer_address }) => {
                                     <input
                                         type="text"
                                         id="profile-twitter"
-                                        class="w-full rounded-t-lg border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
+                                        className="w-full rounded-t-lg border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
                                         placeholder="@twittername"
                                     />
                                 </div>
-                                <div class="relative">
+                                <div className="relative">
                                     <svg
                                         aria-hidden="true"
                                         focusable="false"
                                         data-prefix="fab"
                                         data-icon="instagram"
-                                        class="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 fill-jacarta-300 dark:fill-jacarta-400"
+                                        className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 fill-jacarta-300 dark:fill-jacarta-400"
                                         role="img"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 448 512"
@@ -111,17 +111,17 @@ const EditProfile = ({ signer_address }) => {
                                     <input
                                         type="text"
                                         id="profile-instagram"
-                                        class="-mt-px w-full border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
+                                        className="-mt-px w-full border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
                                         placeholder="instagramname"
                                     />
                                 </div>
-                                <div class="relative">
+                                <div className="relative">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
                                         width="24"
                                         height="24"
-                                        class="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 fill-jacarta-300 dark:fill-jacarta-400"
+                                        className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 fill-jacarta-300 dark:fill-jacarta-400"
                                     >
                                         <path fill="none" d="M0 0h24v24H0z" />
                                         <path
@@ -131,15 +131,15 @@ const EditProfile = ({ signer_address }) => {
                                     <input
                                         type="url"
                                         id="profile-website"
-                                        class="-mt-px w-full rounded-b-lg border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
+                                        className="-mt-px w-full rounded-b-lg border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
                                         placeholder="yoursitename.com"
                                     />
                                 </div>
                             </div>
-                            <div class="mb-6">
-                                <label class="mb-1 block font-display text-sm text-jacarta-700 dark:text-white">Wallet Address</label>
+                            <div className="mb-6">
+                                <label className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white">Wallet Address</label>
                                 <button
-                                    class="js-copy-clipboard flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300"
+                                    className="js-copy-clipboard flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300"
                                 >
                                     <span>{signer_address}</span>
                                     <svg
@@ -147,7 +147,7 @@ const EditProfile = ({ signer_address }) => {
                                         viewBox="0 0 24 24"
                                         width="24"
                                         height="24"
-                                        class="ml-auto mb-px h-4 w-4 fill-jacarta-500 dark:fill-jacarta-300"
+                                        className="ml-auto mb-px h-4 w-4 fill-jacarta-500 dark:fill-jacarta-300"
                                     >
                                         <path fill="none" d="M0 0h24v24H0z"></path>
                                         <path
@@ -158,32 +158,32 @@ const EditProfile = ({ signer_address }) => {
                             </div>
 
                             <button
-                                class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                             >
                                 Update Profile
                             </button>
                         </div>
 
 
-                        <div class="flex space-x-5 md:w-1/2 md:pl-8">
-                            <form class="shrink-0">
-                                <figure class="relative inline-block">
+                        <div className="flex space-x-5 md:w-1/2 md:pl-8">
+                            <form className="shrink-0">
+                                <figure className="relative inline-block">
                                     <Image
                                         src={testNFT}
                                         alt="collection avatar"
-                                        class="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+                                        className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
                                     />
                                     <div
-                                        class="group absolute -right-3 -bottom-2 h-8 w-8 overflow-hidden rounded-full border border-jacarta-100 bg-white text-center hover:border-transparent hover:bg-accent"
+                                        className="group absolute -right-3 -bottom-2 h-8 w-8 overflow-hidden rounded-full border border-jacarta-100 bg-white text-center hover:border-transparent hover:bg-accent"
                                     >
-                                        <input type="file" accept="image/*" class="absolute top-0 left-0 w-full cursor-pointer opacity-0" />
-                                        <div class="flex h-full items-center justify-center">
+                                        <input type="file" accept="image/*" className="absolute top-0 left-0 w-full cursor-pointer opacity-0" />
+                                        <div className="flex h-full items-center justify-center">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 24 24"
                                                 width="24"
                                                 height="24"
-                                                class="h-4 w-4 fill-jacarta-400 group-hover:fill-white"
+                                                className="h-4 w-4 fill-jacarta-400 group-hover:fill-white"
                                             >
                                                 <path fill="none" d="M0 0h24v24H0z" />
                                                 <path
@@ -194,9 +194,9 @@ const EditProfile = ({ signer_address }) => {
                                     </div>
                                 </figure>
                             </form>
-                            <div class="mt-4">
-                                <span class="mb-3 block font-display text-sm text-jacarta-700 dark:text-white">Profile Image</span>
-                                <p class="text-sm leading-normal dark:text-jacarta-300">
+                            <div className="mt-4">
+                                <span className="mb-3 block font-display text-sm text-jacarta-700 dark:text-white">Profile Image</span>
+                                <p className="text-sm leading-normal dark:text-jacarta-300">
                                     Upload an image or GIF. Max 5mb.
                                 </p>
                             </div>
