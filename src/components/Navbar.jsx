@@ -4,12 +4,13 @@ import rarxlogo from "../../public/rarxpng.png";
 import Link from "next/link";
 import { ethers } from "ethers";
 
-const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
+const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectToIntmax }) => {
   const user_address = async () => { };
   return (
     <div className="overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900">
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
         <div className="flex items-center px-6 py-6 xl:px-24">
+          {/* icon  */}
           <Link href="/" className="shrink-0">
             <Image
               src={rarxlogo}
@@ -44,58 +45,6 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
           </form>
 
           <div className="js-mobile-menu invisible lg:visible fixed inset-0 z-10 ml-auto items-center bg-white opacity-0 dark:bg-jacarta-800 lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent">
-            {/* mobile part start  */}
-            <div className="t-0 fixed left-0 z-10 flex w-full items-center justify-between bg-white p-6 dark:bg-jacarta-800 lg:hidden">
-              <Link href="/" className="shrink-0">
-                <Image
-                  src={rarxlogo}
-                  height={100}
-                  width={100}
-                  alt="RarX | NFT Marketplace"
-                />
-              </Link>
-
-              <button
-                className="js-mobile-close group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
-                aria-label="close mobile menu"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
-                >
-                  <path fill="none" d="M0 0h24v24H0z" />
-                  <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-                </svg>
-              </button>
-            </div>
-
-            <form
-              action="search"
-              className="relative mt-24 mb-8 w-full lg:hidden"
-            >
-              <input
-                type="search"
-                className="w-full rounded-2xl border border-jacarta-100 py-3 px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                placeholder="Search"
-              />
-              <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  className="h-4 w-4 fill-jacarta-500 dark:fill-white"
-                >
-                  <path fill="none" d="M0 0h24v24H0z" />
-                  <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
-                </svg>
-              </span>
-            </form>
-            {/* mobile part end  */}
-
             {/* menu links  */}
             <div className="navbar w-full">
               <ul className="flex flex-col lg:flex-row">
@@ -109,18 +58,6 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
                     data-bs-toggle="dropdown"
                   >
                     Home
-                    <i className="lg:hidden">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="h-4 w-4 dark:fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                      </svg>
-                    </i>
                   </Link>
                 </li>
 
@@ -173,6 +110,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
                         </span>
                       </Link>
                     </li>
+
                     <li>
                       <Link
                         href="/collection/TopCollections"
@@ -208,18 +146,6 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
                     data-bs-toggle="dropdown"
                   >
                     About
-                    <i className="lg:hidden">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="h-4 w-4 dark:fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                      </svg>
-                    </i>
                   </Link>
                 </li>
 
@@ -233,18 +159,6 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
                     data-bs-toggle="dropdown"
                   >
                     Create
-                    <i className="lg:hidden">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="h-4 w-4 dark:fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                      </svg>
-                    </i>
                   </a>
                   <ul
                     className="dropdown-menu group-hover:visible lg:invisible left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2"
@@ -285,19 +199,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
               </ul>
             </div>
 
-            {/* mobile connect wallet intmax start*/}
-            <div className="mt-10 w-full lg:hidden">
-              <a
-                href="#"
-                className="js-wallet block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                data-bs-toggle="modal"
-                data-bs-target="#walletModal"
-              >
-                Connect Wallet
-              </a>
-            </div>
-            {/* mobile connect wallet intmax end*/}
-
+            {/* pc connect wallet  */}
             <div className="ml-8 hidden lg:flex xl:ml-12">
               {!signer_address ? (
                 <a
@@ -321,6 +223,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
                 </a>
               ) : (
                 <div className="js-nav-dropdown group-dropdown relative">
+                  {/* profile icon */}
                   <button
                     className="dropdown-toggle group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
                     id="profileDropdown"
@@ -339,6 +242,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
                       <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
                     </svg>
                   </button>
+                  {/* profile dropdown  */}
                   <div
                     className="dropdown-menu group-dropdown-hover:visible lg:invisible !-right-4 !top-[85%] !left-auto z-10 hidden min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl"
                     aria-labelledby="profileDropdown"
@@ -432,40 +336,46 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal }) => {
             </div>
           </div>
 
-          {/* mobile profile  */}
+          {/* mobile connect wallet */}
           <div className="ml-auto flex lg:hidden">
-            <a
-              href="#"
-              className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
-              aria-label="profile"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+            {!signer_address ?
+              <a
+                href="#"
+                className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
+                aria-label="profile"
               >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
-              </svg>
-            </a>
-            {/* mobile menu toggle  */}
-            <button
-              className="js-mobile-toggle group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
-              aria-label="open mobile menu"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+                >
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
+                </svg>
+              </a>
+              :
+              <a
+                href="#"
+                onClick={connectToIntmax}
+                className="ml-4 js-wallet group flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
+                data-bs-toggle="modal"
+                data-bs-target="#walletModal"
+                aria-label="wallet"
               >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M18 18v2H6v-2h12zm3-7v2H3v-2h18zm-3-7v2H6V4h12z" />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+                >
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z" />
+                </svg>
+              </a>
+            }
           </div>
         </div>
       </div>

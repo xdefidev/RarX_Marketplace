@@ -10,6 +10,8 @@ import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollection.json";
 import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/CollectionFactory.json";
+import { IntmaxWalletSigner } from "webmax";
+
 
 export default function App({ Component, pageProps }) {
   const storage = new ThirdwebStorage();
@@ -29,6 +31,7 @@ export default function App({ Component, pageProps }) {
   const collection_factory_address =
     "0xAc47ce481771ABbD52ca2B16784f462Dc9d8b9a5";
 
+  // CONNECT WALLET METAMASK
   const connectToWallet = async () => {
     if (window?.ethereum) {
       const provider = new ethers.providers.Web3Provider(
@@ -61,6 +64,15 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // CONNECT WALLET INTMAX 
+  const connectToIntmax = async () => {
+    const signerIntmax = new IntmaxWalletSigner();
+    setSigner(signerIntmax);
+    const accountIntmax = await signerIntmax.connectToAccount();
+    set_signer_address(accountIntmax);
+  }
+
+  // marketplace 
   const marketplace = async () => {
     const marketplace_contract = new ethers.Contract(
       marketplace_address,
@@ -70,6 +82,7 @@ export default function App({ Component, pageProps }) {
     return marketplace_contract;
   };
 
+  // rarx collections 
   const rarx_collection = (collection_address) => {
     const default_collection_contract = new ethers.Contract(
       collection_address,
@@ -80,6 +93,7 @@ export default function App({ Component, pageProps }) {
     return default_collection_contract;
   };
 
+  // deploy collections 
   const collection_contract_factory = (signer) => {
     const collection_factory = new ethers.Contract(
       collection_factory_address,
@@ -90,6 +104,7 @@ export default function App({ Component, pageProps }) {
     return collection_factory;
   };
 
+  // create nft 
   const create_token = async (_tokenURI, collection_address) => {
     console.log({ _tokenURI });
     try {
@@ -101,6 +116,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // create collection 
   const create_collection = async (data) => {
     try {
       const collection_logo = await storage.upload(data.logo);
@@ -118,12 +134,14 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // get collections 
   const get_all_collections = async (signer) => {
     const collection = collection_contract_factory(signer);
     const all_collections = await collection.getAllCollections();
     set_collections(all_collections);
   };
 
+  // get specific user collections 
   const get_my_collections = async (signer) => {
     const collection = collection_contract_factory(signer);
     const my_collections = await collection.getMyCollections();
@@ -133,6 +151,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     connectToWallet();
   }, []);
+
   return (
     <>
       <Navbar
@@ -140,6 +159,7 @@ export default function App({ Component, pageProps }) {
         signer={signer}
         signer_bal={format_signer_bal}
         signer_address={signer_address}
+        connectToIntmax={connectToIntmax}
       />
       <Component
         {...pageProps}
