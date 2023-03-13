@@ -19,6 +19,7 @@ const Profile = ({
   const myCollections = async () => {
     if (!signer) return;
     const my_collections = await get_my_collections(signer);
+    console.log(my_collections)
     set_my_collections(my_collections);
   };
 

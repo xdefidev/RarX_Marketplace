@@ -108,6 +108,7 @@ const CreateNFT = ({ create_token, defaultCol }) => {
                       accept="image/*,video/*,audio/*,webgl/*,.glb,.gltf"
                       id="file-upload"
                       className="absolute inset-0 z-20 cursor-pointer opacity-0"
+                      required
                     />
                   </div>
                 )}

@@ -107,6 +107,7 @@ const CreateNFTCollection = ({ create_collection }) => {
                     accept="image/*,video/*"
                     id="file-upload"
                     className="absolute inset-0 z-20 cursor-pointer opacity-0"
+                    required
                   />
                 </div>
               </div>
@@ -159,6 +160,7 @@ const CreateNFTCollection = ({ create_collection }) => {
                     accept="image/*,video/*"
                     id="file-upload"
                     className="absolute inset-0 z-20 cursor-pointer opacity-0"
+                    required
                   />
                 </div>
               </div>
