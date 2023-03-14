@@ -45,29 +45,6 @@ const CreateNFTCollection = ({ create_collection }) => {
                   Drag or choose your file to upload
                 </p>
 
-                {/* old input  */}
-                {/* <input
-                  onChange={(e) => {
-                    if (!e.target.files[0]) return;
-                    set_preview({
-                      ...preview,
-                      logo: URL.createObjectURL(e.target.files[0]),
-                    });
-                    set_data({ ...data, logo: e.target.files[0] });
-                  }}
-                  type="file"
-                  name="logo"
-                  accept="image/*"
-                  id="file-upload"
-                />
-                <div className="py-2">
-                  <img
-                    src={preview.logo}
-                    alt=""
-                    className="h-44 rounded-lg border-0 border-gray-500 shadow-lg"
-                  />
-                </div> */}
-
                 {/* new input  */}
                 <div className="group relative flex max-w-sm max-h-[10px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
                   {preview.logo ? (

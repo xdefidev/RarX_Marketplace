@@ -16,11 +16,12 @@ import polygonLogo from "../../public/chains/polygon.png";
 import scrollLogo from "../../public/chains/scroll.png";
 import TaikoLogo from "../../public/chains/taiko.jpeg";
 
-const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectToIntmax, chainIdMain, setChainIdMain }) => {
+const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectToIntmax, chainIdMain, setChainIdMain, RARX_CHANNEL_ADDRESS }) => {
   const user_address = async () => { };
-  const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
+  // const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
   const [notificationData, setNotificationData] = useState();
 
+  const [nullNotification, setNullNotification] = useState(true);
   const [optedIn, setOptedIn] = useState(false);
   const [showNotifications, SetShowNotifications] = useState(false);
   const [showNetworkPopup, setShowNetworkPopup] = useState(false);
@@ -347,7 +348,11 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
         limit: 10,
       })
       .then((feeds) => {
+        console.log(feeds)
         setNotificationData(feeds);
+        if (feeds[0]?.app != "RarX Marketplace") {
+          setNullNotification(false);
+        }
       })
       .catch((err) => {
         console.error("failed to get user notifications: ", err);
@@ -657,6 +662,20 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
                         )}
+                        {chainIdMain == 5001 && (
+                          <>
+                            <Image
+                              src={mantleLogo}
+                              height={25}
+                              width={35}
+                              alt="mantlePng"
+                            />
+                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                              Mantle
+                            </p>
+                            <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
+                          </>
+                        )}
                         {chainIdMain == 5 && (
                           <>
                             <Image
@@ -854,7 +873,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                   {/* notifications  */}
                   <div className="relative mr-2 z-[100]">
                     <button
-                      onClick={() => (SetShowNotifications(!showNotifications), setShowNetworkPopup(false))}
+                      onClick={() => (getNotifications(), SetShowNotifications(!showNotifications), setShowNetworkPopup(false))}
                       className="hidden text-gray-400 mt-[5px] transition-colors duration-300 transform lg:block hover:text-gray-600 "
                     >
                       <svg
@@ -934,7 +953,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                             </a>
                           </div>
                         )}
-                        {notificationData.length === 0 && (
+                        {notificationData.length === 0 && nullNotification == true && (
                           <div className="h-[135px]">
                             <a
                               href="#"

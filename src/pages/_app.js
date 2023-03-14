@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
@@ -12,6 +11,9 @@ import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollec
 import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/CollectionFactory.json";
 import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
+import * as PushAPI from "@pushprotocol/restapi";
+
+
 export default function App({ Component, pageProps }) {
   const storage = new ThirdwebStorage();
   //SIGNER INFORMATION
@@ -23,6 +25,10 @@ export default function App({ Component, pageProps }) {
 
   //COLLECTIONS INFORMATION
   const [all_collections, set_collections] = useState([]);
+
+
+  // push channel address 
+  const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
 
   //CONTRACT ADDRESSES
   const default_collection_address = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
@@ -130,6 +136,7 @@ export default function App({ Component, pageProps }) {
         collection_logo,
         data.description
       );
+      sendStreamNoti({ collectionName: data.name });
     } catch (error) {
       alert(error.message);
     }
@@ -178,7 +185,38 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // sending collection verification notification 
+  const sendStreamNoti = async ({ collectionName }) => {
+    const signer = new ethers.Wallet(`${process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY}`);
+    try {
+      const apiResponse = await PushAPI.payloads.sendNotification({
+        signer,
+        type: 3,
+        identityType: 2,
+        notification: {
+          title: `Your new collection ${collectionName} on rarx is verified`,
+          body: `Congratulations, now you can sell your nfts via your ${collectionName} collection`,
+        },
+        payload: {
+          title: `Your new collections on rarx is verified`,
+          body: `Congratulations, now you can sell your nfts via your collection`,
+          cta: ``,
+        },
+        recipients: `eip155:8001:${signer_address}`,
+        channel: `eip155:5:${RARX_CHANNEL_ADDRESS}`,
+        env: "staging",
+      });
+    } catch (err) {
+      console.error("Error: ", err);
+    }
+  };
+
   useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    }
     connectToWallet();
   }, []);
 
@@ -192,6 +230,7 @@ export default function App({ Component, pageProps }) {
         connectToIntmax={connectToIntmax}
         chainIdMain={chainIdMain}
         setChainIdMain={setChainIdMain}
+        RARX_CHANNEL_ADDRESS={RARX_CHANNEL_ADDRESS}
       />
       <Component
         {...pageProps}
