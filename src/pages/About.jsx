@@ -7,7 +7,7 @@ import aniruddhaImage from "../../public/aniruddha.jpg";
 
 //chains
 import filecoin from "../../public/chains/filecoin.png";
-import gnosis from "../../public/chains/gnosis.jpeg";
+import gnosis from "../../public/chains/gnosis.png";
 import mantle from "../../public/chains/mantle.png";
 import polygon from "../../public/chains/polygon.png";
 import scroll from "../../public/chains/scroll.png";
@@ -193,7 +193,7 @@ const About = () => {
             <Image
               src={filecoin}
               alt="filecoin"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Filecoin
@@ -203,7 +203,7 @@ const About = () => {
             <Image
               src={gnosis}
               alt="gnosis"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Gnosis
@@ -213,7 +213,7 @@ const About = () => {
             <Image
               src={mantle}
               alt="mantle"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Mantle
@@ -223,7 +223,7 @@ const About = () => {
             <Image
               src={polygon}
               alt="polygon"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Polygon
@@ -233,7 +233,7 @@ const About = () => {
             <Image
               src={scroll}
               alt="scroll"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Scroll
@@ -243,7 +243,7 @@ const About = () => {
             <Image
               src={taiko}
               alt="taiko"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Taiko
@@ -262,7 +262,7 @@ const About = () => {
             <Image
               src={connext}
               alt="connext"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Connext
@@ -272,7 +272,7 @@ const About = () => {
             <Image
               src={intmax}
               alt="intmax"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Intax
@@ -282,7 +282,7 @@ const About = () => {
             <Image
               src={polybase}
               alt="polybase"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Polybase
@@ -292,7 +292,7 @@ const About = () => {
             <Image
               src={push}
               alt="push"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Push Protocol
@@ -302,7 +302,7 @@ const About = () => {
             <Image
               src={superfluid}
               alt="superfluid"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Superfluid
@@ -312,7 +312,7 @@ const About = () => {
             <Image
               src={thegraph}
               alt="thegraph"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               The Graph
@@ -322,7 +322,7 @@ const About = () => {
             <Image
               src={uma}
               alt="uma"
-              className="h-[150px] w-[auto] m-4 shadow-xl"
+              className="h-[150px] w-[auto] m-4"
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               UMA
