@@ -92,19 +92,21 @@ contract CollectionFactory {
 
     function getMyCollections() public view returns (Collection[] memory){
         uint256 collectionCount = _collectionId.current();
-        uint256 my_collection_count = 0;
+        uint256 itemCount = 0;
+        uint256 currentIndex = 0;
 
         for(uint256 i = 0; i< collectionCount; i++){
             if(idToCollection[i].owner == msg.sender){
-                my_collection_count++;
+                itemCount += 1;
             }
         }
 
-        Collection[] memory collections = new Collection[](my_collection_count);
-        for(uint256 i = 0; i < my_collection_count; i++){
+        Collection[] memory collections = new Collection[](itemCount);
+        for(uint256 i = 0; i < collectionCount; i++){
             if(idToCollection[i].owner == msg.sender){
-            Collection storage collection = idToCollection[i];
-            collections[i] = collection;            
+                Collection storage collection = idToCollection[i];
+                collections[currentIndex] = collection;     
+                currentIndex += 1;       
             }
         }
         return collections;

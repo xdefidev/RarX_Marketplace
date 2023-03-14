@@ -48,7 +48,6 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
         e.preventDefault();
         try {
             set_loading(true);
-            console.log(data)
             await create_token(data);
         } catch (error) {
             console.log(error);
@@ -86,7 +85,6 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
                 setError(prediction.detail);
                 return;
             }
-            console.log({ prediction });
             setPrediction(prediction);
             if (prediction.output) {
                 setPredictionOutput(prediction.output[prediction.output.length - 1]);
@@ -97,7 +95,6 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
     };
 
     useEffect(() => {
-        console.log("rerenders");
         set_data({ ...data, image: predictionOutput });
     }, [predictionOutput]);
 

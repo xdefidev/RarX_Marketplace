@@ -10,7 +10,7 @@ import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home({ collections }) {
+export default function Home({ all_collections }) {
   return (
     <>
       <Head>
@@ -74,7 +74,12 @@ export default function Home({ collections }) {
           </h2>
 
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-            <NftCard ImageSrc={testNFT} Name="NFT #1" Description="NFT Description" Address="0x7899" />
+            <NftCard
+              ImageSrc={testNFT}
+              Name="NFT #1"
+              Description="NFT Description"
+              Address="0x7899"
+            />
           </div>
         </div>
       </div>
@@ -85,10 +90,19 @@ export default function Home({ collections }) {
           <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
             <h2 className="inline">Trending Collections </h2>
           </div>
-          <div class="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
-            {collections?.map((e) => (
-              <CollectionCard Cover={e.image} Name={e.name} OwnerAddress={e.owner} CollectionAddress={e.owner} />
-            ))}
+          <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+            {all_collections?.map((e, index) => {
+              return (
+                <CollectionCard
+                  key={index}
+                  Cover={e.image}
+                  Name={e.name}
+                  OwnerAddress={e.owner}
+                  CollectionAddress={e.owner}
+                  collectionId={e.collectionId.toString()}
+                />
+              );
+            })}
           </div>
 
           <div className="mt-10 text-center">

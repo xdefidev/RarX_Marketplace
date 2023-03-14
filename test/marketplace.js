@@ -67,7 +67,6 @@ describe("Marketplace Contract", function () {
     await new_collection_contract.createToken("this is a new collection");
 
     const token_URI = await new_collection_contract.tokenURI(0);
-    console.log({ token_URI });
 
     await marketplace.ListToken(0, ethers.utils.parse)
   });
@@ -88,7 +87,6 @@ describe("Marketplace Contract", function () {
 
     const nft = await marketplace.getListedTokenById(0);
 
-    // console.log()
     let marketplace_balance = await default_collection.balanceOf(
       marketplace.address
     );
@@ -96,7 +94,6 @@ describe("Marketplace Contract", function () {
   });
 
   it("buyer buys the nft", async () => {
-    // console.log({ buyer: buyer.address });
     await marketplace
       .connect(buyer)
       .executeSale(0, default_collection.address, {
