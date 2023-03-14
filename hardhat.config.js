@@ -18,5 +18,49 @@ module.exports = {
       ],
       url: "https://explorer.public.zkevm-test.net",
     },
+    filecoin: {
+      url: "https://api.hyperspace.node.glif.io/rpc/v1",
+      chainId: 3141,
+      accounts: [
+        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
+      ],
+    },
+    mantle: {
+      url: "https://rpc.testnet.mantle.xyz",
+      chainId: 5001,
+      accounts: [
+        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
+      ],
+    },
+    scroll: {
+      url: "https://alpha-rpc.scroll.io/l2",
+      chainId: 534353,
+      accounts: [
+        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
+      ],
+    },
+    // to config 
+    taiko: {
+      url: "",
+      chainId: "",
+      accounts: [
+        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
+      ],
+    },
+    chiado: {
+      url: "https://rpc.chiadochain.net",
+      chainId: 10200,
+      accounts: [
+        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
+      ],
+    },
+    goerli: {
+      url:
+        "https://rpc.ankr.com/eth_goerli",
+      chainId: 5,
+      accounts: [
+        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
+      ],
+    },
   },
 };

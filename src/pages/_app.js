@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }) {
   const storage = new ThirdwebStorage();
   //SIGNER INFORMATION
   const [signer, setSigner] = useState();
+  const [chainIdMain, setChainIdMain] = useState();
   const [signer_address, set_signer_address] = useState("");
   const [signer_bal, set_signer_bal] = useState(0);
   const [format_signer_bal, set_format_signer_bal] = useState(0);
@@ -55,6 +56,7 @@ export default function App({ Component, pageProps }) {
       console.log("wallet connected");
 
       const { chainId } = await provider.getNetwork();
+      setChainIdMain(chainId)
       get_all_collections(signer);
     } else {
       alert(
@@ -161,6 +163,8 @@ export default function App({ Component, pageProps }) {
         signer_bal={format_signer_bal}
         signer_address={signer_address}
         connectToIntmax={connectToIntmax}
+        chainIdMain={chainIdMain}
+        setChainIdMain={setChainIdMain}
       />
       <Component
         {...pageProps}
