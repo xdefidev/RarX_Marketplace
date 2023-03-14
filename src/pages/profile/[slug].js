@@ -7,6 +7,8 @@ import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
 import Loader from "@/components/Loader";
 
+import { Chat } from "@pushprotocol/uiweb";
+
 const Profile = ({
   get_my_collections,
   signer,
@@ -18,10 +20,17 @@ const Profile = ({
 
   const router = useRouter();
   const { slug } = router.query;
+  console.log(slug)
 
   const [myNFTsActive, setMyNFTSActive] = useState(true);
   const [my_collections, set_my_collections] = useState([]);
   const [nfts, set_nfts] = useState([]);
+
+  const theme = {
+    btnColorPrimary: "#7348F2",
+    bgColorSecondary: "#7348F2",
+    moduleColor: "#f0f0f0",
+  };
 
   const myCollections = async () => {
     if (!signer) return;
@@ -41,7 +50,6 @@ const Profile = ({
   };
 
   useEffect(() => {
-    console.log("render");
     myCollections();
     if (!signer_address) return;
     get_nfts("0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD", signer_address);
@@ -329,6 +337,23 @@ const Profile = ({
             </div>
           </div>
         </section>
+      )}
+
+      {/* chat area  */}
+      {signer_address !== slug && (
+        <div>
+          {signer_address && (
+            <Chat
+              account={signer_address}
+              supportAddress={slug}
+              apiKey={process.env.NEXT_PUBLIC_PUSH_API_KEY}
+              env="staging"
+              // greetingMsg={`Myself ${data.fullName}, I am available to chat`}
+              // modalTitle={`chat with ${slug}`}
+              theme={theme}
+            />
+          )}
+        </div>
       )}
     </>
   );

@@ -4210,7 +4210,7 @@ html[dir="rtl"] .hover\:translate-x-1:hover {
     line-height: normal;
   }
 }
-@media (min-width: 850px) {
+@media (min-width: 950px) {
   .lg\:absolute {
     position: absolute;
   }

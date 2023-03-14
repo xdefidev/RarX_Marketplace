@@ -25,11 +25,9 @@ export default function App({ Component, pageProps }) {
   const [all_collections, set_collections] = useState([]);
 
   //CONTRACT ADDRESSES
-  const default_collection_address =
-    "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
+  const default_collection_address = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
-  const collection_factory_address =
-    "0x0C87d648646b5f76Ab0eB7BCD0230CAA41abC3E6";
+  const collection_factory_address = "0x0C87d648646b5f76Ab0eB7BCD0230CAA41abC3E6";
 
   const connectToWallet = async () => {
     if (window?.ethereum) {
@@ -106,7 +104,7 @@ export default function App({ Component, pageProps }) {
     );
     return collection_factory;
   };
-  
+
   // create nft
   const create_token = async (_tokenURI) => {
     try {
