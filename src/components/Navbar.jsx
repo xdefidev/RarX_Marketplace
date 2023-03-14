@@ -216,9 +216,9 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x82751" }],
+        params: [{ chainId: "0x28C5A" }],
       });
-      setChainIdMain("33333");
+      setChainIdMain("167002");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -228,19 +228,19 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
             method: "wallet_addEthereumChain",
             params: [
               {
-                chainId: "0x82751",
-                chainName: "Scroll Alpha Testnet",
+                chainId: "0x28C5A",
+                chainName: "Taiko Testnet",
                 nativeCurrency: {
-                  name: "Scroll",
+                  name: "Taiko",
                   symbol: "ETH",
                   decimals: 18,
                 },
                 blockExplorerUrls: ["https://blockscout.scroll.io/"],
-                rpcUrls: ["https://alpha-rpc.scroll.io/l2"],
+                rpcUrls: ["https://l2rpc.hackathon.taiko.xyz"],
               },
             ],
           });
-          setChainIdMain("33333");
+          setChainIdMain("167002");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -647,7 +647,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
                         )}
-                        {chainIdMain == 33333 && (
+                        {chainIdMain == 167002 && (
                           <>
                             <Image
                               src={TaikoLogo}
@@ -833,10 +833,10 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                             </p>
                           </div>
                         )}
-                        {chainIdMain != 33333 && (
+                        {chainIdMain != 167002 && (
                           <div
                             className="flex flex-row justify-center pt-2 pb-2 hover:bg-slate-100"
-                          // onClick={() => switchTaikoChain()}
+                            onClick={() => switchTaikoChain()}
                           >
                             <Image
                               src={TaikoLogo}
