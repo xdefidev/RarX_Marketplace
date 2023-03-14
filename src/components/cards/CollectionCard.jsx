@@ -14,7 +14,7 @@ const CollectionCard = ({
   return (
     <div className="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
       <Link
-        href={`/collection/${collectionId}/${CollectionAddress}`}
+        href={`/collection/${CollectionAddress}/${collectionId}`}
         className="relative flex space-x-[0.625rem]"
       >
         <span className="w-[100%]">
@@ -40,7 +40,7 @@ const CollectionCard = ({
       </Link>
 
       <Link
-        href={`/collection/${collectionId}/${CollectionAddress}`}
+        href={`/collection/${CollectionAddress}/${collectionId}`}
         className="mt-8 block font-display text-[22px] text-jacarta-700 hover:text-accent dark:text-white dark:hover:text-accent"
       >
         {Name}

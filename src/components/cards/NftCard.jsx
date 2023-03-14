@@ -2,11 +2,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const NftCard = ({ ImageSrc, Name, Description, Address }) => {
+const NftCard = ({ ImageSrc, Name, Description, Address, tokenId }) => {
   return (
     <div className="block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
       <div className="relative">
-        <Link href={`/nft/${Address}`}>
+        <Link href={`/nft/${Address}/${tokenId}`}>
           <Image
             src={ImageSrc}
             height={100}
@@ -18,7 +18,7 @@ const NftCard = ({ ImageSrc, Name, Description, Address }) => {
         </Link>
       </div>
       <div className="mt-7 flex items-center justify-between">
-        <Link href={`/nft/${Address}`}>
+        <Link href={`/nft/${Address}/${tokenId}`}>
           <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
             {Name}
           </span>

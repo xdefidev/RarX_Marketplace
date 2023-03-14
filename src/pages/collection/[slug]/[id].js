@@ -12,6 +12,7 @@ const Collection = ({
 }) => {
   const router = useRouter();
   const { id, slug } = router.query;
+  console.log({ id, slug });
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
@@ -25,7 +26,6 @@ const Collection = ({
 
   const get_nfts = async () => {
     if (!signer && !signer_address) return;
-    console.log({ slug });
     const nfts = await fetch_nfts_from_user_wallet(slug, signer_address);
     console.log({ nfts });
     set_nfts(nfts);
@@ -261,28 +261,34 @@ const Collection = ({
       </section>
 
       {/* nft section  */}
-      <section className="relative py-24 pt-20">
-        <div className="container">
-          <div className="tab-content">
-            <div
-              className="tab-pane fade show active"
-              id="on-sale"
-              role="tabpanel"
-              aria-labelledby="on-sale-tab"
-            >
-              <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                {/* loop the below div its a nft div*/}
-                <NftCard
-                  ImageSrc={testNFT}
-                  Name="NFT #1"
-                  Description="NFT Description"
-                  Address="0x7899"
-                />
+      {nfts?.map((e, index) => (
+        <section className="relative py-24 pt-20">
+          <div className="container">
+            <div className="tab-content">
+              <div
+                className="tab-pane fade show active"
+                id="on-sale"
+                role="tabpanel"
+                aria-labelledby="on-sale-tab"
+              >
+                <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+                  {/* loop the below div its a nft div*/}
+                  <NftCard
+                    ImageSrc={e.image.replace(
+                      "ipfs://",
+                      "https://ipfs.io/ipfs/"
+                    )}
+                    Name={e.name}
+                    Description={e.description}
+                    Address={e.collection}
+                    tokenId={index}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
     </>
   );
 };

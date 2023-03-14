@@ -104,10 +104,9 @@ export default function App({ Component, pageProps }) {
       CollectionFactory.abi,
       signer
     );
-
     return collection_factory;
   };
-
+  
   // create nft
   const create_token = async (_tokenURI) => {
     try {
