@@ -87,7 +87,8 @@ export default function App({ Component, pageProps }) {
   };
 
   // rarx collections
-  const rarx_collection = (collection_address) => {
+  const rarx_collection = (collection_address, signer) => {
+    if (!collection_address) return;
     const default_collection_contract = new ethers.Contract(
       collection_address,
       NFTCollection.abi,
@@ -106,7 +107,7 @@ export default function App({ Component, pageProps }) {
     );
     return collection_factory;
   };
-  
+
   // create nft
   const create_token = async (_tokenURI) => {
     try {
@@ -137,6 +138,19 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  const fetch_NFT_info = async (collection_address, tokenId, signer) => {
+    try {
+      const contract = rarx_collection(collection_address, signer);
+      const nft = await contract?.tokenURI(tokenId);
+
+      const replacedLink = nft?.replace("ipfs://", "https://ipfs.io/ipfs/");
+      if (!replacedLink) return;
+      const parsed_nft = await axios.get(replacedLink);
+      return parsed_nft.data;
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   // get collections
   const get_all_collections = async (signer) => {
     const collection = collection_contract_factory(signer);
@@ -160,11 +174,12 @@ export default function App({ Component, pageProps }) {
 
   const fetch_nfts_from_user_wallet = async (
     collection_address,
-    signer_address
+    signer_address,
+    signer
   ) => {
     try {
       if (!signer_address) return;
-      const contract = rarx_collection(collection_address);
+      const contract = rarx_collection(collection_address, signer);
       const balance = await contract.balanceOf(signer_address);
       let nfts = [];
       for (let i = 0; i < balance; i++) {
@@ -208,6 +223,7 @@ export default function App({ Component, pageProps }) {
         default_collection_address={default_collection_address}
         fetch_nfts_from_user_wallet={fetch_nfts_from_user_wallet}
         get_collection_by_id={get_collection_by_id}
+        fetch_NFT_info={fetch_NFT_info}
       />
       <Footer />
     </>

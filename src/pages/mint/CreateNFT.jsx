@@ -57,7 +57,7 @@ const CreateNFT = ({
     try {
       set_loading(true);
       console.log(data);
-      await create_token(data);
+      await create_token(data, signer);
     } catch (error) {
       console.log(error);
     }

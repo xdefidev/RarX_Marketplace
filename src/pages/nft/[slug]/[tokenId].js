@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import testNFT from "../../../../public/test.jpg";
 import Image from "next/image";
 
-const NFTPage = () => {
+const NFTPage = ({ fetch_NFT_info, signer }) => {
   const router = useRouter();
-  const { slug } = router.query;
+  const { slug, tokenId } = router.query;
 
   const [listSale, setListSale] = useState(false);
   const [propShow, setPropShow] = useState(true);
+
+  const [nft, set_nft_info] = useState({});
+
+  const get_nft = async (collectionAddress, tokenId, signer) => {
+    if (!tokenId && signer && !collectionAddress) return;
+    const nft = await fetch_NFT_info(collectionAddress, tokenId, signer);
+    console.log({ nft });
+    set_nft_info(nft);
+  };
+
+  useEffect(() => {
+    get_nft(slug, tokenId, signer);
+  }, [signer]);
   return (
     <section className="relative pt-12 pb-24 lg:py-24 mt-10">
       <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
@@ -22,7 +35,9 @@ const NFTPage = () => {
         <div className="md:flex md:flex-wrap">
           <div className="mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
             <Image
-              src={testNFT}
+              src={nft?.image?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+              width={100}
+              height={100}
               alt="item"
               className="cursor-pointer rounded-2.5xl h-[auto] w-[100%]"
             />
@@ -81,11 +96,11 @@ const NFTPage = () => {
 
             {/* nft title  */}
             <h1 className="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">
-              NFT #1
+              {nft?.name}
             </h1>
 
             {/* nnft desc  */}
-            <p className="mb-10 dark:text-jacarta-300">Test NFT Desc</p>
+            <p className="mb-10 dark:text-jacarta-300">{nft?.description}</p>
 
             {/* <!-- Owner --> */}
             <div className="mb-8 flex flex-wrap">
@@ -338,62 +353,24 @@ const NFTPage = () => {
                 <div>
                   <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
                     <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
-                      <a
-                        href="collection.html"
-                        className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                      >
-                        <span className="text-sm uppercase text-accent">
-                          ACCESSORY
-                        </span>
-                        <span className="text-base text-jacarta-700 dark:text-white">
-                          Metal headband
-                        </span>
-                        <span className="text-sm text-jacarta-400">
-                          3% have this trait
-                        </span>
-                      </a>
-                      <a
-                        href="collection.html"
-                        className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                      >
-                        <span className="text-sm uppercase text-accent">
-                          SKIN
-                        </span>
-                        <span className="text-base text-jacarta-700 dark:text-white">
-                          Dark Brown
-                        </span>
-                        <span className="text-sm text-jacarta-400">
-                          8% have this trait
-                        </span>
-                      </a>
-                      <a
-                        href="collection.html"
-                        className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                      >
-                        <span className="text-sm uppercase text-accent">
-                          EYES
-                        </span>
-                        <span className="text-base text-jacarta-700 dark:text-white">
-                          Cyborg
-                        </span>
-                        <span className="text-sm text-jacarta-400">
-                          2% have this trait
-                        </span>
-                      </a>
-                      <a
-                        href="collection.html"
-                        className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
-                      >
-                        <span className="text-sm uppercase text-accent">
-                          CLOTH
-                        </span>
-                        <span className="text-base text-jacarta-700 dark:text-white">
-                          Adidas
-                        </span>
-                        <span className="text-sm text-jacarta-400">
-                          7% have this trait
-                        </span>
-                      </a>
+                      {nft?.properties?.map((e) => {
+                        return (
+                          <a
+                            href="collection.html"
+                            className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
+                          >
+                            <span className="text-sm uppercase text-accent">
+                              {e.type}
+                            </span>
+                            <span className="text-base text-jacarta-700 dark:text-white">
+                              {e.value}
+                            </span>
+                            <span className="text-sm text-jacarta-400">
+                              3% have this trait
+                            </span>
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

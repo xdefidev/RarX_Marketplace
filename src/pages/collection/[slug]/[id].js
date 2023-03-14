@@ -26,7 +26,11 @@ const Collection = ({
 
   const get_nfts = async () => {
     if (!signer && !signer_address) return;
-    const nfts = await fetch_nfts_from_user_wallet(slug, signer_address);
+    const nfts = await fetch_nfts_from_user_wallet(
+      slug,
+      signer_address,
+      signer
+    );
     console.log({ nfts });
     set_nfts(nfts);
   };

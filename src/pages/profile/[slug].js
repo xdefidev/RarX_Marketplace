@@ -33,7 +33,8 @@ const Profile = ({
     set_loading(true);
     const nfts = await fetch_nfts_from_user_wallet(
       collection_address,
-      signer_address
+      signer_address,
+      signer
     );
     console.log({ nfts });
     set_nfts(nfts);
@@ -303,7 +304,6 @@ const Profile = ({
             </div>
           </div>
         </section>
-
       ) : (
         //fetch collections here
         <section className="relative py-24 pt-20">
