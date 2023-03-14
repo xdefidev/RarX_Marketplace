@@ -13,7 +13,6 @@ import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
 import * as PushAPI from "@pushprotocol/restapi";
 
-
 export default function App({ Component, pageProps }) {
   const storage = new ThirdwebStorage();
   //SIGNER INFORMATION
@@ -26,14 +25,15 @@ export default function App({ Component, pageProps }) {
   //COLLECTIONS INFORMATION
   const [all_collections, set_collections] = useState([]);
 
-
-  // push channel address 
+  // push channel address
   const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
 
   //CONTRACT ADDRESSES
-  const default_collection_address = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
+  const default_collection_address =
+    "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
-  const collection_factory_address = "0x0C87d648646b5f76Ab0eB7BCD0230CAA41abC3E6";
+  const collection_factory_address =
+    "0x0C87d648646b5f76Ab0eB7BCD0230CAA41abC3E6";
 
   const connectToWallet = async () => {
     if (window?.ethereum) {
@@ -111,10 +111,10 @@ export default function App({ Component, pageProps }) {
   };
 
   // create nft
-  const create_token = async (_tokenURI) => {
+  const create_token = async (_tokenURI, signer) => {
     try {
       const tokenURI = await storage.upload(_tokenURI);
-      const rarx = rarx_collection(_tokenURI.collection);
+      const rarx = rarx_collection(_tokenURI.collection, signer);
       const txn = await rarx.createToken(tokenURI);
       await txn.wait();
     } catch (error) {
@@ -198,9 +198,11 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-  // sending collection verification notification 
+  // sending collection verification notification
   const sendStreamNoti = async ({ collectionName }) => {
-    const signer = new ethers.Wallet(`${process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY}`);
+    const signer = new ethers.Wallet(
+      `${process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY}`
+    );
     try {
       const apiResponse = await PushAPI.payloads.sendNotification({
         signer,
