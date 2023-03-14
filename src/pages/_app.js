@@ -64,10 +64,14 @@ export default function App({ Component, pageProps }) {
 
   // CONNECT WALLET INTMAX
   const connectToIntmax = async () => {
-    const signerIntmax = new IntmaxWalletSigner();
-    setSigner(signerIntmax);
-    const accountIntmax = await signerIntmax.connectToAccount();
-    set_signer_address(accountIntmax);
+    try {
+      const signerIntmax = new IntmaxWalletSigner();
+      setSigner(signerIntmax);
+      const accountIntmax = await signerIntmax.connectToAccount();
+      set_signer_address(accountIntmax);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   // marketplace
@@ -134,10 +138,8 @@ export default function App({ Component, pageProps }) {
 
   // get collections
   const get_all_collections = async (signer) => {
-    console.log({ signer });
     const collection = collection_contract_factory(signer);
     const all_collections = await collection.getAllCollections();
-    console.log({ all_collections });
     set_collections(all_collections);
   };
 
@@ -145,7 +147,6 @@ export default function App({ Component, pageProps }) {
   const get_my_collections = async (signer) => {
     const collection = collection_contract_factory(signer);
     const my_collections = await collection.getMyCollections();
-    console.log({ my_collections });
     return my_collections;
   };
 

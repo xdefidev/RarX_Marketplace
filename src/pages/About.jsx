@@ -49,9 +49,9 @@ const About = () => {
         </div>
       </section>
 
-      {/* <!-- YouTube Modal --> */}
-      {/* <div
-                className=" fade video-lightbox js-video-lightbox"
+            {/* <!-- YouTube Modal --> */}
+            {/* <div
+                class=" fade video-lightbox js-video-lightbox"
                 tabindex="-1"
                 aria-label="Youtube Modal"
                 aria-hidden="true"

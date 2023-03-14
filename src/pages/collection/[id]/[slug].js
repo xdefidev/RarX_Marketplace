@@ -4,12 +4,19 @@ import testNFT from "../../../../public/test.jpg";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 
-const Collection = ({ get_collection_by_id, signer }) => {
+const Collection = ({
+  get_collection_by_id,
+  fetch_nfts_from_user_wallet,
+  signer,
+  signer_address,
+}) => {
   const router = useRouter();
   const { id, slug } = router.query;
+  console.log(slug);
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
+  const [nfts, set_nfts] = useState([]);
 
   const get_collection = async () => {
     if (!signer) return;
@@ -17,9 +24,18 @@ const Collection = ({ get_collection_by_id, signer }) => {
     set_collection(collection);
   };
 
+  const get_nfts = async () => {
+    if (!signer && !signer_address) return;
+    console.log({ signer_address });
+    const nfts = await fetch_nfts_from_user_wallet(slug, signer_address);
+    console.log({ nfts });
+    set_nfts(nfts);
+  };
+
   useEffect(() => {
     get_collection();
-  }, [signer]);
+    get_nfts();
+  }, [signer, signer_address]);
   return (
     <>
       {/* <!-- Banner IMG--> */}

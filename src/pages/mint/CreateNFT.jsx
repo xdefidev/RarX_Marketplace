@@ -1,11 +1,17 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 
-const CreateNFT = ({ create_token, defaultCol }) => {
+const CreateNFT = ({
+  create_token,
+  defaultCol,
+  get_my_collections,
+  signer,
+}) => {
   const [loading, set_loading] = useState(false);
   const [propModel, setPropModel] = useState(false);
   const [preview, set_preview] = useState("");
+  const [user_collections, set_user_collections] = useState([]);
 
   const [properties, set_properties] = useState([{ type: "", value: "" }]);
   const [data, set_data] = useState({
@@ -13,7 +19,7 @@ const CreateNFT = ({ create_token, defaultCol }) => {
     name: "",
     description: "",
     collection: "",
-    properties: properties,
+    properties: [{ type: "", value: "" }],
   });
 
   const handleChange = (e) => {
@@ -21,19 +27,28 @@ const CreateNFT = ({ create_token, defaultCol }) => {
   };
 
   const handle_change_input = (index, e) => {
-    const values = [...properties];
+    const values = [...data.properties];
     values[index][e.target.name] = e.target.value;
-    set_properties(values);
+    set_data({ ...data, properties: values });
   };
 
   const handle_add_field = () => {
-    set_properties([...properties, { type: "", value: "" }]);
+    set_data({
+      ...data,
+      properties: [...data.properties, { type: "", value: "" }],
+    });
   };
 
   const handle_remove_field = (index) => {
-    const values = [...properties];
+    const values = [...data.properties];
     values.splice(index, 1);
-    set_properties(values);
+    set_data({ ...data, properties: values });
+  };
+
+  const get_user_collections = async () => {
+    if (!signer) return;
+    const collections = await get_my_collections(signer);
+    set_user_collections(collections);
   };
 
   //Error message show is pe nding
@@ -41,6 +56,7 @@ const CreateNFT = ({ create_token, defaultCol }) => {
     e.preventDefault();
     try {
       set_loading(true);
+      console.log(data);
       await create_token(data);
     } catch (error) {
       console.log(error);
@@ -48,6 +64,9 @@ const CreateNFT = ({ create_token, defaultCol }) => {
     set_loading(false);
   };
 
+  useEffect(() => {
+    get_user_collections();
+  }, [signer]);
   return (
     <>
       {loading ? (
@@ -175,12 +194,16 @@ const CreateNFT = ({ create_token, defaultCol }) => {
                   </div>
                 </div>
                 <select
-                  name="select"
+                  name="collection"
+                  onChange={handleChange}
                   className="dropdown my-1 cursor-pointer w-[100%]"
                 >
                   <option value={defaultCol}>
                     RarX Marketplace Collection
                   </option>
+                  {user_collections.map((e) => (
+                    <option value={e.collection_address}>{e.name}</option>
+                  ))}
                   {/* create a loop of fetched nft collections of users  */}
                 </select>
               </div>
@@ -250,7 +273,7 @@ const CreateNFT = ({ create_token, defaultCol }) => {
                   <div className="max-w-2xl mb-4">
                     <div className="modal-content">
                       <div className="modal-body p-6">
-                        {properties.map((e, index) => (
+                        {data.properties.map((e, index) => (
                           <div className="relative my-3 flex items-center">
                             <button
                               type="button"
