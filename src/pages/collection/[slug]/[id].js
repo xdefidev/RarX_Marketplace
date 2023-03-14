@@ -12,7 +12,6 @@ const Collection = ({
 }) => {
   const router = useRouter();
   const { id, slug } = router.query;
-  console.log({ id, slug });
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
@@ -31,7 +30,7 @@ const Collection = ({
       signer_address,
       signer
     );
-    console.log({ nfts });
+    console.log({ nfts })
     set_nfts(nfts);
   };
 

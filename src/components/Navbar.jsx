@@ -348,7 +348,6 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
         limit: 10,
       })
       .then((feeds) => {
-        console.log(feeds)
         setNotificationData(feeds);
         if (feeds[0]?.app != "RarX Marketplace") {
           setNullNotification(false);

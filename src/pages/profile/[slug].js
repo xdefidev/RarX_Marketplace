@@ -45,7 +45,6 @@ const Profile = ({
       signer_address,
       signer
     );
-    console.log({ nfts });
     set_nfts(nfts);
     set_loading(false);
   };
