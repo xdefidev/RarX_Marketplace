@@ -12,7 +12,6 @@ const Collection = ({
 }) => {
   const router = useRouter();
   const { id, slug } = router.query;
-  console.log(slug);
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
@@ -26,7 +25,7 @@ const Collection = ({
 
   const get_nfts = async () => {
     if (!signer && !signer_address) return;
-    console.log({ signer_address });
+    console.log({ slug });
     const nfts = await fetch_nfts_from_user_wallet(slug, signer_address);
     console.log({ nfts });
     set_nfts(nfts);
@@ -36,6 +35,7 @@ const Collection = ({
     get_collection();
     get_nfts();
   }, [signer, signer_address]);
+
   return (
     <>
       {/* <!-- Banner IMG--> */}

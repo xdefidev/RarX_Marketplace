@@ -13,7 +13,7 @@ contract NFTCollection is ERC721URIStorage{
         string memory marketplace_symbol
         ) ERC721(marketplace_name, marketplace_symbol){}
 
-
+    
     function createToken(string memory tokenURI) public payable returns (uint256) {
         uint256 newTokenId = _tokenIds.current();
 

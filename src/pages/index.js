@@ -98,7 +98,7 @@ export default function Home({ all_collections }) {
                   Cover={e.image}
                   Name={e.name}
                   OwnerAddress={e.owner}
-                  CollectionAddress={e.owner}
+                  CollectionAddress={e.collection_address}
                   collectionId={e.collectionId.toString()}
                 />
               );

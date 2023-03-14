@@ -55,7 +55,7 @@ export default function App({ Component, pageProps }) {
       console.log("wallet connected");
 
       const { chainId } = await provider.getNetwork();
-      setChainIdMain(chainId)
+      setChainIdMain(chainId);
       get_all_collections(signer);
     } else {
       alert(
@@ -109,10 +109,10 @@ export default function App({ Component, pageProps }) {
   };
 
   // create nft
-  const create_token = async (_tokenURI, collection_address) => {
+  const create_token = async (_tokenURI) => {
     try {
       const tokenURI = await storage.upload(_tokenURI);
-      const rarx = rarx_collection(default_collection_address);
+      const rarx = rarx_collection(_tokenURI.collection);
       const txn = await rarx.createToken(tokenURI);
       await txn.wait();
     } catch (error) {
