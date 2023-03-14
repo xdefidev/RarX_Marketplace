@@ -42,15 +42,15 @@ const About = () => {
 
             {/* <!-- YouTube Modal --> */}
             {/* <div
-                class=" fade video-lightbox js-video-lightbox"
+                className=" fade video-lightbox js-video-lightbox"
                 tabindex="-1"
                 aria-label="Youtube Modal"
                 aria-hidden="true"
             >
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="ratio ratio-16x9 before:bg-jacarta-900">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <div className="ratio ratio-16x9 before:bg-jacarta-900">
                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/U6LDMJ2pdvk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                             </div>
                         </div>
@@ -59,25 +59,25 @@ const About = () => {
             </div> */}
 
             {/* <!-- Team --> */}
-            <section class="py-24">
-                <div class="container">
-                    <h2 class="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+            <section className="py-24">
+                <div className="container">
+                    <h2 className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
                         Team Behind RarX
                     </h2>
-                    <div class="flex flex-wrap justify-center align-middle">
-                        <div class="rounded-2lg border border-jacarta-100 bg-white p-8 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-700 m-4 w-[270px]">
-                            <Image src={shravanImage} class="mx-auto mb-6 h-[220px] w-[300px] rounded-2.5xl" alt="team" />
-                            <h3 class="font-display text-md text-jacarta-700 dark:text-white">Shravan Andoria</h3>
-                            <span class="text-2xs font-medium tracking-tight text-jacarta-400">Full Stack Developer</span>
+                    <div className="flex flex-wrap justify-center align-middle">
+                        <div className="rounded-2lg border border-jacarta-100 bg-white p-8 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-700 m-4 w-[270px]">
+                            <Image src={shravanImage} className="mx-auto mb-6 h-[220px] w-[300px] rounded-2.5xl" alt="team" />
+                            <h3 className="font-display text-md text-jacarta-700 dark:text-white">Shravan Andoria</h3>
+                            <span className="text-2xs font-medium tracking-tight text-jacarta-400">Full Stack Developer</span>
 
-                            <div class="mt-3 flex justify-center space-x-5">
-                                <a href="https://www.linkedin.com/in/shravan-andoria-728290170/?originalSubdomain=in" target="_blank" class="group">
+                            <div className="mt-3 flex justify-center space-x-5">
+                                <a href="https://www.linkedin.com/in/shravan-andoria-728290170/?originalSubdomain=in" target="_blank" className="group">
                                     <svg
                                         aria-hidden="true"
                                         focusable="false"
                                         data-prefix="fab"
                                         data-icon="linkedin"
-                                        class="h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
+                                        className="h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
                                         role="img"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 448 512"
@@ -87,13 +87,13 @@ const About = () => {
                                         ></path>
                                     </svg>
                                 </a>
-                                <a href="https://twitter.com/AndoriaShravan" target="_blank" class="group">
+                                <a href="https://twitter.com/AndoriaShravan" target="_blank" className="group">
                                     <svg
                                         aria-hidden="true"
                                         focusable="false"
                                         data-prefix="fab"
                                         data-icon="twitter"
-                                        class="h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
+                                        className="h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
                                         role="img"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 512 512"
@@ -106,19 +106,19 @@ const About = () => {
                             </div>
                         </div>
 
-                        <div class="rounded-2lg border border-jacarta-100 bg-white p-8 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-700 m-4 w-[270px]">
-                            <Image src={aniruddhaImage} class="mx-auto mb-6  h-[200px] w-[auto] m-4 shadow-xl  rounded-2.5xl" alt="team" />
-                            <h3 class="font-display text-md text-jacarta-700 dark:text-white">Aniruddha Vikharankar</h3>
-                            <span class="text-2xs font-medium tracking-tight text-jacarta-400">Full Stack Developer</span>
+                        <div className="rounded-2lg border border-jacarta-100 bg-white p-8 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-700 m-4 w-[270px]">
+                            <Image src={aniruddhaImage} className="mx-auto mb-6  h-[200px] w-[auto] m-4 shadow-xl  rounded-2.5xl" alt="team" />
+                            <h3 className="font-display text-md text-jacarta-700 dark:text-white">Aniruddha Vikharankar</h3>
+                            <span className="text-2xs font-medium tracking-tight text-jacarta-400">Full Stack Developer</span>
 
-                            <div class="mt-3 flex justify-center space-x-5">
-                                <a href="https://www.linkedin.com/in/aniruddha-vikharankar-374296208/" target="_blank" class="group">
+                            <div className="mt-3 flex justify-center space-x-5">
+                                <a href="https://www.linkedin.com/in/aniruddha-vikharankar-374296208/" target="_blank" className="group">
                                     <svg
                                         aria-hidden="true"
                                         focusable="false"
                                         data-prefix="fab"
                                         data-icon="linkedin"
-                                        class="h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
+                                        className="h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
                                         role="img"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 448 512"
@@ -128,13 +128,13 @@ const About = () => {
                                         ></path>
                                     </svg>
                                 </a>
-                                <a href="https://twitter.com/Aniruddha2000" target="_blank" class="group">
+                                <a href="https://twitter.com/Aniruddha2000" target="_blank" className="group">
                                     <svg
                                         aria-hidden="true"
                                         focusable="false"
                                         data-prefix="fab"
                                         data-icon="twitter"
-                                        class="h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
+                                        className="h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
                                         role="img"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 512 512"
@@ -155,22 +155,22 @@ const About = () => {
                 <h2 className="mb-8 mt-8 text-center font-display text-3xl text-jacarta-700 dark:text-white">Supported Chains</h2>
                 <div className="grid grid-cols-2 py-8 sm:grid-cols-5 text-center">
                     <a href="https://fvm.filecoin.io/" target="_blank"><Image src={filecoin} alt="filecoin" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Filecoin</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Filecoin</h3>
                     </a>
                     <a href="https://gnosischain.com" target="_blank"><Image src={gnosis} alt="gnosis" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Gnosis</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Gnosis</h3>
                     </a>
                     <a href="https://mantle.xyz" target="_blank"><Image src={mantle} alt="mantle" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Mantle</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Mantle</h3>
                     </a>
                     <a href="https://polygon.technology/" target="_blank"><Image src={polygon} alt="polygon" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Polygon</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Polygon</h3>
                     </a>
                     <a href="https://scroll.io/" target="_blank"><Image src={scroll} alt="scroll" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Scroll</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Scroll</h3>
                     </a>
                     <a href="https://taiko.xyz/" target="_blank"><Image src={taiko} alt="taiko" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Taiko</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Taiko</h3>
                     </a>
                 </div>
             </div>
@@ -180,25 +180,25 @@ const About = () => {
                 <h2 className="mb-6 mt-16 text-center font-display text-3xl text-jacarta-700 dark:text-white">Integrated Technologies</h2>
                 <div className="grid grid-cols-2 py-8 sm:grid-cols-5 text-center">
                     <a href="https://www.connext.network/" target="_blank"><Image src={connext} alt="connext" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Connext</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Connext</h3>
                     </a>
                     <a href="https://intmaxwallet.io/" target="_blank"><Image src={intmax} alt="intmax" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Intax</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Intax</h3>
                     </a>
                     <a href="https://polybase.xyz/" target="_blank"><Image src={polybase} alt="polybase" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Polybase</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Polybase</h3>
                     </a>
                     <a href="https://push.org/" target="_blank"><Image src={push} alt="push" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Push Protocol</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Push Protocol</h3>
                     </a>
                     <a href="https://www.superfluid.finance/" target="_blank"><Image src={superfluid} alt="superfluid" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">Superfluid</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">Superfluid</h3>
                     </a>
                     <a href="https://thegraph.com/" target="_blank"><Image src={thegraph} alt="thegraph" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">The Graph</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">The Graph</h3>
                     </a>
                     <a href="https://uma.xyz/" target="_blank"><Image src={uma} alt="uma" className='h-[150px] w-[auto] m-4 shadow-xl' />
-                        <h3 class="font-display text-md text-jacarta-700 dark:text-white">UMA</h3>
+                        <h3 className="font-display text-md text-jacarta-700 dark:text-white">UMA</h3>
                     </a>
                 </div>
             </div>

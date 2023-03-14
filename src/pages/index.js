@@ -85,7 +85,7 @@ export default function Home({ collections }) {
           <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
             <h2 className="inline">Trending Collections </h2>
           </div>
-          <div class="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
             {collections?.map((e) => (
               <CollectionCard Cover={e.image} Name={e.name} OwnerAddress={e.owner} CollectionAddress={e.owner} />
             ))}

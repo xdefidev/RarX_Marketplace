@@ -129,7 +129,6 @@ const Profile = () => {
                                 className="dropdown rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600"
                             >
                                 <a
-                                    href="#"
                                     className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
                                     role="button"
                                     id="collectionShare"
