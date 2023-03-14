@@ -54,6 +54,7 @@ const CreateNFT = ({
   //Error message show is pe nding
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!signer) return alert("Please provide a signer");
     try {
       set_loading(true);
       console.log(data);
