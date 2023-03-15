@@ -1,13 +1,17 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
+import { useRouter } from "next/router";
+
 
 const CreateNFT = ({
   create_token,
   defaultCol,
   get_my_collections,
   signer,
+  signer_address,
 }) => {
+  const router = useRouter();
   const [loading, set_loading] = useState(false);
   const [propModel, setPropModel] = useState(false);
   const [preview, set_preview] = useState("");
@@ -51,7 +55,6 @@ const CreateNFT = ({
     set_user_collections(collections);
   };
 
-  //Error message show is pe nding
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!signer) return alert("Please provide a signer");
@@ -59,6 +62,7 @@ const CreateNFT = ({
       set_loading(true);
       console.log(data);
       await create_token(data, signer);
+      router.push(`/profile/${signer_address}`);
     } catch (error) {
       console.log(error);
     }

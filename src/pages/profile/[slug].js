@@ -14,6 +14,7 @@ const Profile = ({
   signer,
   signer_address,
   fetch_nfts_from_user_wallet,
+  default_collection_address,
 }) => {
   const [loading, set_loading] = useState(false);
   const [share, setShare] = useState(false);
@@ -54,7 +55,7 @@ const Profile = ({
   useEffect(() => {
     myCollections();
     if (!signer_address) return;
-    get_nfts("0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD", slug);
+    get_nfts(default_collection_address, slug);
   }, [signer, signer_address]);
 
   return loading ? (
@@ -303,7 +304,7 @@ const Profile = ({
                           )}
                           Name={e.name}
                           Description={e.description}
-                          Address="0x7899"
+                          Address={default_collection_address}
                           tokenId={index}
                         />
                       )

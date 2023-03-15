@@ -70,16 +70,6 @@ const Collection = ({
               className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600"
 
             >
-              {/* <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className="h-[.875rem] w-[.875rem] fill-white"
-              >
-                <path fill="none" d="M0 0h24v24H0z"></path>
-                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-              </svg> */}
               <MdVerified style={{ color: "#4f87ff" }} size={30} />
             </div>
           </div>
@@ -270,17 +260,17 @@ const Collection = ({
       </section>
 
       {/* nft section  */}
-      {nfts?.map((e, index) => (
-        <section className="relative py-24 pt-20">
-          <div className="container">
-            <div className="tab-content">
-              <div
-                className="tab-pane fade show active"
-                id="on-sale"
-                role="tabpanel"
-                aria-labelledby="on-sale-tab"
-              >
-                <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+      <section className="relative py-24 pt-20">
+        <div className="container">
+          <div className="tab-content">
+            <div
+              className="tab-pane fade show active"
+              id="on-sale"
+              role="tabpanel"
+              aria-labelledby="on-sale-tab"
+            >
+              <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+                {nfts?.map((e, index) => (
                   <NftCard
                     ImageSrc={e.image.replace(
                       "ipfs://",
@@ -291,12 +281,12 @@ const Collection = ({
                     Address={e.collection}
                     tokenId={index}
                   />
-                </div>
+                ))}
               </div>
             </div>
           </div>
-        </section>
-      ))}
+        </div>
+      </section>
     </>
   );
 };

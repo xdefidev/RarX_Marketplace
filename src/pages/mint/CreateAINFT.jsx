@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Loader from "@/components/Loader";
+import { useRouter } from "next/router";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const CreateAINFT = ({ defaultCol, create_token }) => {
+const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, signer_address }) => {
+    const router = useRouter();
     const [prediction, setPrediction] = useState(null);
     const [predictionOutput, setPredictionOutput] = useState(null);
     const [predictionReady, setPredictionReady] = useState(false);
     const [error, setError] = useState(null);
+    const [user_collections, set_user_collections] = useState([]);
 
     const [showMintForm, setShowMintForm] = useState(false);
     const [loading, set_loading] = useState(false);
@@ -21,7 +24,7 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
         name: "",
         description: "",
         collection: "",
-        properties: properties,
+        properties: [{ type: "", value: "" }],
     });
 
     const handleChange = (e) => {
@@ -29,26 +32,38 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
     };
 
     const handle_change_input = (index, e) => {
-        const values = [...properties];
+        const values = [...data.properties];
         values[index][e.target.name] = e.target.value;
-        set_properties(values);
+        set_data({ ...data, properties: values });
     };
 
     const handle_add_field = () => {
-        set_properties([...properties, { type: "", value: "" }]);
+        set_data({
+            ...data,
+            properties: [...data.properties, { type: "", value: "" }],
+        });
     };
 
     const handle_remove_field = (index) => {
-        const values = [...properties];
+        const values = [...data.properties];
         values.splice(index, 1);
-        set_properties(values);
+        set_data({ ...data, properties: values });
+    };
+
+    const get_user_collections = async () => {
+        if (!signer) return;
+        const collections = await get_my_collections(signer);
+        set_user_collections(collections);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!signer) return alert("Please provide a signer");
         try {
             set_loading(true);
-            await create_token(data);
+            console.log(data);
+            await create_token(data, signer);
+            router.push(`/profile/${signer_address}`);
         } catch (error) {
             console.log(error);
         }
@@ -96,7 +111,8 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
 
     useEffect(() => {
         set_data({ ...data, image: predictionOutput });
-    }, [predictionOutput]);
+        get_user_collections();
+    }, [predictionOutput, signer]);
 
     return (
         <>
@@ -322,12 +338,16 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
                                             </div>
                                         </div>
                                         <select
-                                            name="select"
+                                            name="collection"
+                                            onChange={handleChange}
                                             className="dropdown my-1 cursor-pointer w-[100%]"
                                         >
                                             <option value={defaultCol}>
                                                 RarX Marketplace Collection
                                             </option>
+                                            {user_collections.map((e) => (
+                                                <option value={e.collection_address}>{e.name}</option>
+                                            ))}
                                             {/* create a loop of fetched nft collections of users  */}
                                         </select>
                                     </div>
@@ -397,7 +417,7 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
                                             <div className="max-w-2xl mb-4">
                                                 <div className="modal-content">
                                                     <div className="modal-body p-6">
-                                                        {properties.map((e, index) => (
+                                                        {data.properties.map((e, index) => (
                                                             <div className="relative my-3 flex items-center">
                                                                 <button
                                                                     type="button"
@@ -418,9 +438,7 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
 
                                                                 <div className="flex-1">
                                                                     <input
-                                                                        onChange={(e) =>
-                                                                            handle_change_input(index, e)
-                                                                        }
+                                                                        onChange={(e) => handle_change_input(index, e)}
                                                                         name="type"
                                                                         type="text"
                                                                         className="h-12 w-full border border-r-0 border-jacarta-100 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-black dark:placeholder-jacarta-300"
@@ -430,9 +448,7 @@ const CreateAINFT = ({ defaultCol, create_token }) => {
 
                                                                 <div className="flex-1">
                                                                     <input
-                                                                        onChange={(e) =>
-                                                                            handle_change_input(index, e)
-                                                                        }
+                                                                        onChange={(e) => handle_change_input(index, e)}
                                                                         name="value"
                                                                         type="text"
                                                                         className="h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-black dark:placeholder-jacarta-300"
