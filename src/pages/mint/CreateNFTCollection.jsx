@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
-const CreateNFTCollection = ({ create_collection }) => {
+
+const CreateNFTCollection = ({ create_collection, signer_address }) => {
   const router = useRouter();
   const [loading, set_loading] = useState(false);
   const [preview, set_preview] = useState({ logo: "", cover: "" });
@@ -21,6 +22,7 @@ const CreateNFTCollection = ({ create_collection }) => {
     e.preventDefault();
     set_loading(true);
     await create_collection(data);
+    router.push(`/profile/${signer_address}`);
     set_loading(false);
   };
 

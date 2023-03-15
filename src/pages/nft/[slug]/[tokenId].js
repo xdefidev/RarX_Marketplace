@@ -16,6 +16,7 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
     if (!tokenId && signer && !collectionAddress) return;
     const nft = await fetch_NFT_info(collectionAddress, tokenId, signer);
     set_nft_info(nft);
+    console.log(nft)
   };
 
   useEffect(() => {
@@ -355,7 +356,6 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
                       {nft?.properties?.map((e) => {
                         return (
                           <a
-                            href="collection.html"
                             className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
                           >
                             <span className="text-sm uppercase text-accent">
@@ -363,9 +363,6 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
                             </span>
                             <span className="text-base text-jacarta-700 dark:text-white">
                               {e.value}
-                            </span>
-                            <span className="text-sm text-jacarta-400">
-                              3% have this trait
                             </span>
                           </a>
                         );
@@ -380,8 +377,8 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
                       <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">
                         Contract Address:
                       </span>
-                      <a href="#" className="text-accent">
-                        0x1cBB182322Aee8ce9F4F1f98d7460173ee30Af1F
+                      <a href="" className="text-accent">
+                        {nft.collection}
                       </a>
                     </div>
                     <div className="mb-2 flex items-center">
@@ -392,7 +389,7 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
                         className="js-copy-clipboard cursor-pointer select-none text-jacarta-700 dark:text-white"
                         data-tippy-content="Copy"
                       >
-                        7714
+                        {tokenId}
                       </span>
                     </div>
                     <div className="mb-2 flex items-center">

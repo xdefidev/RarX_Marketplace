@@ -141,7 +141,8 @@ export default function App({ Component, pageProps }) {
         collection_logo,
         data.description
       );
-      sendStreamNoti({ collectionName: data.name });
+      await txn.wait();
+      sendCollectionNoti({ collectionName: data.name });
     } catch (error) {
       alert(error.message);
     }
@@ -218,7 +219,7 @@ export default function App({ Component, pageProps }) {
   };
 
   // sending collection verification notification
-  const sendStreamNoti = async ({ collectionName }) => {
+  const sendCollectionNoti = async ({ collectionName }) => {
     const signer = new ethers.Wallet(
       `${process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY}`
     );
