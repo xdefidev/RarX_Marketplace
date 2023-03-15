@@ -23,9 +23,11 @@ const TopCollections = ({ all_collections }) => {
           {all_collections?.map((e) => (
             <CollectionCard
               Cover={e.image}
+              Logo={e.logo}
               Name={e.name}
+              Description={e.description}
               OwnerAddress={e.owner}
-              CollectionAddress={e.owner}
+              CollectionAddress={e.collection_address}
               collectionId={e.collectionId}
             />
           ))}

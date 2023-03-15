@@ -96,7 +96,9 @@ export default function Home({ all_collections }) {
                 <CollectionCard
                   key={index}
                   Cover={e.image}
+                  Logo={e.logo}
                   Name={e.name}
+                  Description={e.description}
                   OwnerAddress={e.owner}
                   CollectionAddress={e.collection_address}
                   collectionId={e.collectionId.toString()}
