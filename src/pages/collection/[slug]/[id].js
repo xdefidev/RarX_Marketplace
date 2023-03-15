@@ -9,6 +9,7 @@ const Collection = ({
   fetch_nfts_from_user_wallet,
   signer,
   signer_address,
+  get_nfts_from_collection,
 }) => {
   const router = useRouter();
   const { id, slug } = router.query;
@@ -35,9 +36,16 @@ const Collection = ({
     set_nfts(nfts);
   };
 
+  const get_all_nfts = async () => {
+    if (!slug) return;
+    const nfts = await get_nfts_from_collection(slug);
+    console.log({ nfts });
+  };
+
   useEffect(() => {
     get_collection();
     get_nfts();
+    get_all_nfts();
   }, [signer, signer_address]);
 
   return (

@@ -177,6 +177,19 @@ export default function App({ Component, pageProps }) {
     return collection;
   };
 
+  const get_nfts_from_collection = async (collection_address) => {
+    const contract = new ethers.Contract(
+      collection_address,
+      NFTCollection.abi,
+      signer
+    );
+    console.log({ contract });
+    const balance = await contract.balanceOf(
+      "0xC0959C98C70647cF19F2aC48f58CDC3f8B657492"
+    );
+    console.log({ balance: balance.toString() });
+  };
+
   const fetch_nfts_from_user_wallet = async (
     collection_address,
     signer_address,
@@ -263,6 +276,7 @@ export default function App({ Component, pageProps }) {
         fetch_nfts_from_user_wallet={fetch_nfts_from_user_wallet}
         get_collection_by_id={get_collection_by_id}
         fetch_NFT_info={fetch_NFT_info}
+        get_nfts_from_collection={get_nfts_from_collection}
       />
       <Footer />
     </>
