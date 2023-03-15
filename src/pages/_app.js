@@ -12,6 +12,12 @@ import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/C
 import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
 import * as PushAPI from "@pushprotocol/restapi";
+import { Polybase } from "@polybase/client";
+
+const db = new Polybase({
+  defaultNamespace:
+    "pk/0x9e0b94816d36409ad92dce6ebefcab7db77e3feab6203ec3e2f07aaab334463b6ee759021cfeec4b305a263edd67358ebc4d8fe2ccee87b7b899622c45156dda",
+});
 
 export default function App({ Component, pageProps }) {
   const storage = new ThirdwebStorage();
