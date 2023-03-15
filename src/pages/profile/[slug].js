@@ -36,16 +36,17 @@ const Profile = ({
     if (!signer) return;
     const my_collections = await get_my_collections(signer);
     set_my_collections(my_collections);
+    console.log(my_collections)
   };
 
-  const get_nfts = async (collection_address, signer_address) => {
+  const get_nfts = async (collection_address, slug) => {
     set_loading(true);
     const nfts = await fetch_nfts_from_user_wallet(
       collection_address,
-      signer_address,
+      slug,
       signer
     );
-    console.log({ nfts });
+    console.log(nfts)
     set_nfts(nfts);
     set_loading(false);
   };
@@ -53,7 +54,7 @@ const Profile = ({
   useEffect(() => {
     myCollections();
     if (!signer_address) return;
-    get_nfts("0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD", signer_address);
+    get_nfts("0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD", slug);
   }, [signer, signer_address]);
 
   return loading ? (
@@ -292,7 +293,7 @@ const Profile = ({
                 aria-labelledby="on-sale-tab"
               >
                 <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
-                  {nfts?.map((e) => {
+                  {nfts?.map((e, index) => {
                     return (
                       e.name && (
                         <NftCard
@@ -303,6 +304,7 @@ const Profile = ({
                           Name={e.name}
                           Description={e.description}
                           Address="0x7899"
+                          tokenId={index}
                         />
                       )
                     );
@@ -324,12 +326,15 @@ const Profile = ({
                 aria-labelledby="on-sale-tab"
               >
                 <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
-                  {my_collections?.map((e) => (
+                  {my_collections?.map((e, index) => (
                     <CollectionCard
                       Cover={e.image}
+                      Logo={e.logo}
                       Name={e.name}
-                      OwnerAddress=""
+                      Description={e.description}
+                      OwnerAddress={e.owner}
                       CollectionAddress={e.collection_address}
+                      collectionId={e.collectionId}
                     />
                   ))}
                 </div>
@@ -348,7 +353,7 @@ const Profile = ({
               supportAddress={slug}
               apiKey={process.env.NEXT_PUBLIC_PUSH_API_KEY}
               env="staging"
-              // greetingMsg={`Myself ${data.fullName}, I am available to chat`}
+              greetingMsg={`Hey, I am available to chat`}
               // modalTitle={`chat with ${slug}`}
               theme={theme}
             />

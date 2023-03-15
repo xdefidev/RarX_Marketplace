@@ -9,7 +9,7 @@ import * as PushAPI from "@pushprotocol/restapi";
 import Image from "next/image";
 import rarxlogo from "../../public/rarxpng.png";
 import filecoinLogo from "../../public/chains/filecoin.png";
-import gnosisLogo from "../../public/chains/gnosis.jpeg";
+import gnosisLogo from "../../public/chains/gnosis.png";
 import goerliLogo from "../../public/chains/goerli.png";
 import mantleLogo from "../../public/chains/mantle.png";
 import polygonLogo from "../../public/chains/polygon.png";
@@ -216,9 +216,9 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x82751" }],
+        params: [{ chainId: "0x28C5A" }],
       });
-      setChainIdMain("33333");
+      setChainIdMain("167002");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -228,19 +228,19 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
             method: "wallet_addEthereumChain",
             params: [
               {
-                chainId: "0x82751",
-                chainName: "Scroll Alpha Testnet",
+                chainId: "0x28C5A",
+                chainName: "Taiko Testnet",
                 nativeCurrency: {
-                  name: "Scroll",
+                  name: "Taiko",
                   symbol: "ETH",
                   decimals: 18,
                 },
                 blockExplorerUrls: ["https://blockscout.scroll.io/"],
-                rpcUrls: ["https://alpha-rpc.scroll.io/l2"],
+                rpcUrls: ["https://l2rpc.hackathon.taiko.xyz"],
               },
             ],
           });
-          setChainIdMain("33333");
+          setChainIdMain("167002");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -348,7 +348,6 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
         limit: 10,
       })
       .then((feeds) => {
-        console.log(feeds)
         setNotificationData(feeds);
         if (feeds[0]?.app != "RarX Marketplace") {
           setNullNotification(false);
@@ -583,11 +582,11 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                             <Image
                               src={gnosisLogo}
                               height={25}
-                              width={35}
+                              width={30}
                               alt="gnosis"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
-                              Chiado
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
+                              Chiado Testnet
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
@@ -600,7 +599,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={30}
                               alt="maticPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Polygon Mumbai
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
@@ -614,7 +613,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={30}
                               alt="maticPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Polygon ZKEVM
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
@@ -628,8 +627,8 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={35}
                               alt="filPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
-                              Filecoin
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
+                              Filecoin Testnet
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
@@ -642,13 +641,13 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={35}
                               alt="filPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
-                              Scroll
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
+                              Scroll Testnet
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
                         )}
-                        {chainIdMain == 33333 && (
+                        {chainIdMain == 167002 && (
                           <>
                             <Image
                               src={TaikoLogo}
@@ -656,8 +655,8 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={35}
                               alt="filPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
-                              Taiko
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
+                              Taiko Testnet
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
@@ -670,8 +669,8 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={35}
                               alt="mantlePng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
-                              Mantle
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
+                              Mantle Testnet
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
@@ -684,7 +683,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={35}
                               alt="filPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Eth Goerli
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
@@ -694,7 +693,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                         {/* unsupported chains  */}
                         {chainIdMain == 1 && (
                           <>
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Unsupported Chain
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
@@ -702,7 +701,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                         )}
                         {chainIdMain == 56 && (
                           <>
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Unsupported Chain
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
@@ -710,7 +709,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                         )}
                         {chainIdMain == 137 && (
                           <>
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Unsupported Chain
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
@@ -718,7 +717,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                         )}
                         {chainIdMain == 43114 && (
                           <>
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Unsupported Chain
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
@@ -726,7 +725,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                         )}
                         {chainIdMain == 97 && (
                           <>
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Unsupported Chain
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
@@ -746,11 +745,11 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                             <Image
                               src={gnosisLogo}
                               height={25}
-                              width={35}
+                              width={30}
                               alt="gnosis"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
-                              Chiado
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
+                              Chiado Testnet
                             </p>
                           </div>
                         )}
@@ -765,7 +764,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={30}
                               alt="maticPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Polygon Mumbai
                             </p>
                           </div>
@@ -781,7 +780,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={30}
                               alt="maticPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
                               Polygon ZKEVM
                             </p>
                           </div>
@@ -797,8 +796,8 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={35}
                               alt="filPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold ">
-                              Filecoin
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
+                              Filecoin Testnet
                             </p>
                           </div>
                         )}
@@ -813,8 +812,8 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={30}
                               alt="maticPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold">
-                              Mantle
+                            <p className="pl-2 pr-2 mt-1 font-bold">
+                              Mantle Testnet
                             </p>
                           </div>
                         )}
@@ -829,15 +828,15 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={30}
                               alt="maticPng"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold">
-                              Scroll
+                            <p className="pl-2 pr-2 mt-1 font-bold">
+                              Scroll Testnet
                             </p>
                           </div>
                         )}
-                        {chainIdMain != 33333 && (
+                        {chainIdMain != 167002 && (
                           <div
                             className="flex flex-row justify-center pt-2 pb-2 hover:bg-slate-100"
-                          // onClick={() => switchTaikoChain()}
+                            onClick={() => switchTaikoChain()}
                           >
                             <Image
                               src={TaikoLogo}
@@ -845,8 +844,8 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={30}
                               alt="goerliLogo"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold">
-                              Taiko
+                            <p className="pl-2 pr-2 mt-1 font-bold">
+                              Taiko Testnet
                             </p>
                           </div>
                         )}
@@ -861,7 +860,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                               width={30}
                               alt="goerliLogo"
                             />
-                            <p className="pl-1 pr-2 mt-1 font-bold">
+                            <p className="pl-2 pr-2 mt-1 font-bold">
                               Eth Goerli
                             </p>
                           </div>

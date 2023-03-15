@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
+import { MdVerified } from "react-icons/md"
 
 const CollectionCard = ({
   Cover,
@@ -29,7 +30,7 @@ const CollectionCard = ({
         </span>
         <span className="absolute bottom-[-25px] right-20">
           <Image
-            src={Cover.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
+            src={Logo.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
             alt="Logo"
             className="h-[70px] w-[80px] rounded-[100%] "
             loading="lazy"
@@ -39,12 +40,17 @@ const CollectionCard = ({
         </span>
       </Link>
 
-      <Link
-        href={`/collection/${CollectionAddress}/${collectionId}`}
-        className="mt-8 block font-display text-[22px] text-jacarta-700 hover:text-accent dark:text-white dark:hover:text-accent"
-      >
-        {Name}
-      </Link>
+      <div className="flex">
+        <Link
+          href={`/collection/${CollectionAddress}/${collectionId}`}
+          className=" mt-8 font-display text-[22px] text-jacarta-700 hover:text-accent dark:text-white dark:hover:text-accent"
+          style={{ width: "180px", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}
+        >
+          {Name}
+        </Link>
+        <MdVerified style={{ color: "#4f87ff", marginLeft: "-4px", marginTop: "34px" }} size={25} />
+      </div>
+
 
       <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
         <div className="flex flex-wrap items-center">
@@ -61,7 +67,7 @@ const CollectionCard = ({
             </Link>
           )}
         </div>
-        <span className="text-sm dark:text-jacarta-300">3 NFT Items</span>
+        {/* <span className="text-sm dark:text-jacarta-300">3 NFT Items</span> */}
       </div>
     </div>
   );

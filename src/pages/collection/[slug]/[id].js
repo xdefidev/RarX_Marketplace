@@ -3,6 +3,9 @@ import { useRouter } from "next/router";
 import testNFT from "../../../../public/test.jpg";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
+import Link from "next/link";
+import { MdVerified } from "react-icons/md"
+
 
 const Collection = ({
   get_collection_by_id,
@@ -13,7 +16,6 @@ const Collection = ({
 }) => {
   const router = useRouter();
   const { id, slug } = router.query;
-  console.log({ id, slug });
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
@@ -32,7 +34,7 @@ const Collection = ({
       signer_address,
       signer
     );
-    console.log({ nfts });
+    // console.log({ nftsss: nfts.length })
     set_nfts(nfts);
   };
 
@@ -64,7 +66,7 @@ const Collection = ({
       {/* <!-- Collection Section --> */}
       <section className="relative bg-light-base pb-12 pt-28 dark:bg-jacarta-800">
         <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
-          <figure className="relative">
+          <div className="relative">
             <Image
               src={collection.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               width={100}
@@ -73,10 +75,10 @@ const Collection = ({
               className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
             />
             <div
-              className="absolute -right-3 bottom-0 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-              data-tippy-content="Verified Collection"
+              className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600"
+
             >
-              <svg
+              {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 width="24"
@@ -85,37 +87,44 @@ const Collection = ({
               >
                 <path fill="none" d="M0 0h24v24H0z"></path>
                 <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-              </svg>
+              </svg> */}
+              <MdVerified style={{ color: "#4f87ff" }} size={30} />
             </div>
-          </figure>
+          </div>
         </div>
 
         <div className="container">
           <div className="text-center">
-            <h2 className="mb-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-              {collection.name}
-            </h2>
-            <div className="mb-8 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
+            <div className="mb-6 mt-[-50px] inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
               <button className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
                 <span>{slug}</span>
               </button>
             </div>
-            <div className="mb-8">
-              <span className="text-sm font-bold text-jacarta-400">
+            <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+              {collection.name}
+            </h2>
+            <div className="mb-4">
+              {/* <span className="text-sm font-bold text-jacarta-400">
                 Created by{" "}
               </span>
-              <a href="user.html" className="text-sm font-bold text-accent">
+              <Link href={`/profile/${collection.owner}`} className="max-w-[10rem] text-sm font-bold text-accent overflow-hidden text-ellipsis whitespace-nowrap">
                 {collection.owner}
-              </a>
+              </Link> */}
             </div>
 
+            {/* desc  */}
+            <p className="mx-auto mb-14 max-w-xl text-lg dark:text-jacarta-300">
+              {collection.description}
+            </p>
+
+            {/* stats  */}
             <div className="mb-8 inline-flex flex-wrap items-center justify-center rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800">
               <a
                 href="#"
                 className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
               >
                 <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                  7.2K
+                  {nfts ? nfts?.length : "0"}
                 </div>
                 <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                   Items
@@ -126,7 +135,7 @@ const Collection = ({
                 className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
               >
                 <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                  5.3K
+                  {nfts ? nfts?.length : "0"}
                 </div>
                 <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                   Owners
@@ -137,7 +146,7 @@ const Collection = ({
                 className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
               >
                 <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                  <span className="font-bold">2.55</span>
+                  <span className="font-bold">0</span>
                 </div>
                 <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                   Floor Price
@@ -148,7 +157,7 @@ const Collection = ({
                 className="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32"
               >
                 <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                  <span className="font-bold">17.2K</span>
+                  <span className="font-bold">0</span>
                 </div>
                 <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                   Volume Traded
@@ -156,12 +165,9 @@ const Collection = ({
               </a>
             </div>
 
-            <p className="mx-auto mb-2 max-w-xl text-lg dark:text-jacarta-300">
-              {collection.description}
-            </p>
+
 
             <div className="mt-6 flex items-center justify-center space-x-2.5">
-              {/* love  */}
               <div className="rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
                 <div
                   className="js-likes relative inline-flex h-10 w-10 cursor-pointer items-center justify-center text-sm before:absolute before:h-4 before:w-4 before:bg-cover before:bg-center before:bg-no-repeat before:opacity-0"
@@ -186,7 +192,6 @@ const Collection = ({
                 className="dropdown rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600"
               >
                 <a
-                  href="#"
                   className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
                   role="button"
                   id="collectionShare"
@@ -284,7 +289,6 @@ const Collection = ({
                 aria-labelledby="on-sale-tab"
               >
                 <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                  {/* loop the below div its a nft div*/}
                   <NftCard
                     ImageSrc={e.image.replace(
                       "ipfs://",

@@ -56,8 +56,6 @@ export default function App({ Component, pageProps }) {
       const formatBalance = parseFloat(signerToStr).toFixed(2);
       set_format_signer_bal(formatBalance);
 
-      console.log("wallet connected");
-
       const { chainId } = await provider.getNetwork();
       setChainIdMain(chainId);
       get_all_collections(signer);

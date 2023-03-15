@@ -12,19 +12,19 @@ const NftCard = ({ ImageSrc, Name, Description, Address, tokenId }) => {
             height={100}
             width={100}
             alt="item 5"
-            className="w-full rounded-[0.625rem]"
+            className="h-[220px] w-full rounded-[0.625rem]"
             loading="lazy"
           />
         </Link>
       </div>
-      <div className="mt-7 flex items-center justify-between">
+      <div className="mt-7 flex items-center justify-between" style={{ width: "150px", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>
         <Link href={`/nft/${Address}/${tokenId}`}>
-          <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
+          <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white" >
             {Name}
           </span>
         </Link>
       </div>
-      <div className="mt-2 text-sm">
+      <div className="mt-2 text-sm" style={{ width: "220px", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>
         <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">
           {Description}
         </span>
