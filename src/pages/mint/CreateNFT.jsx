@@ -22,7 +22,7 @@ const CreateNFT = ({
     image: "",
     name: "",
     description: "",
-    collection: "",
+    collection: defaultCol,
     properties: [{ type: "", value: "" }],
   });
 
@@ -60,11 +60,12 @@ const CreateNFT = ({
     if (!signer) return alert("Please provide a signer");
     try {
       set_loading(true);
+      console.log(data);
 
       //MINTING THE NFT
       await create_token(data, signer);
 
-      // router.push(`/profile/${signer_address}`);
+      router.push(`/profile/${signer_address}`);
     } catch (error) {
       console.log(error);
     }
@@ -72,6 +73,7 @@ const CreateNFT = ({
   };
 
   useEffect(() => {
+    console.log("render");
     get_user_collections();
   }, [signer]);
   return (
@@ -202,15 +204,20 @@ const CreateNFT = ({
                 </div>
                 <select
                   name="collection"
+                  value={data.collection}
                   onChange={handleChange}
                   className="dropdown my-1 cursor-pointer w-[100%]"
                 >
                   <option value={defaultCol}>
                     RarX Marketplace Collection
                   </option>
-                  {user_collections.map((e) => (
-                    <option value={e.collection_address}>{e.name}</option>
-                  ))}
+                  {user_collections.map((e, index) => {
+                    return (
+                      <option key={index} value={e.collection_address}>
+                        {e.name}
+                      </option>
+                    );
+                  })}
                   {/* create a loop of fetched nft collections of users  */}
                 </select>
               </div>
@@ -281,7 +288,10 @@ const CreateNFT = ({
                     <div className="modal-content">
                       <div className="modal-body p-6">
                         {data.properties.map((e, index) => (
-                          <div className="relative my-3 flex items-center">
+                          <div
+                            key={index}
+                            className="relative my-3 flex items-center"
+                          >
                             <button
                               type="button"
                               onClick={() => handle_remove_field(index)}

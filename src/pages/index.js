@@ -8,9 +8,6 @@ import Link from "next/link";
 import { useMemo } from "react";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
-import Spline from '@splinetool/react-spline';
-
-
 
 export default function Home({ all_collections }) {
   return (
@@ -78,26 +75,34 @@ export default function Home({ all_collections }) {
         </div> */}
         <div className="h-full px-6 xl:px-20">
           <div className="grid h-full items-center gap-4 lg:grid-cols-12">
-            <div
-              className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]"
-            >
+            <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
               <div className="mb-10 w-full sm:flex sm:space-x-4">
                 <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-                  <span className="block font-display text-3xl text-[#8DD059]">43</span>
-                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">Collections</span>
+                  <span className="block font-display text-3xl text-[#8DD059]">
+                    43
+                  </span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">
+                    Collections
+                  </span>
                 </div>
                 <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-                  <span className="block font-display text-3xl text-[#737EF2]">13</span>
-                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">Sales</span>
+                  <span className="block font-display text-3xl text-[#737EF2]">
+                    13
+                  </span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">
+                    Sales
+                  </span>
                 </div>
                 <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-                  <span className="block font-display text-3xl text-[#F35BC7]">22</span>
-                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">Artists</span>
+                  <span className="block font-display text-3xl text-[#F35BC7]">
+                    22
+                  </span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">
+                    Artists
+                  </span>
                 </div>
               </div>
-              <h1
-                className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl"
-              >
+              <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
                 Buy and Sell Digital Art and NFT’s
               </h1>
               <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
@@ -125,9 +130,7 @@ export default function Home({ all_collections }) {
               <div className="md:flex md:space-x-6 xl:space-x-12">
                 <div className="mb-6 md:flex md:w-1/2 md:items-center ">
                   <div>
-                    <div
-                      className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
-                    >
+                    <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                       <div className="relative">
                         <Link href="item.html">
                           <Image
@@ -150,11 +153,13 @@ export default function Home({ all_collections }) {
                           </Link>
                           <div>
                             <a className="block">
-                              <span
-                                className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
-                              >King of the jungle launchpad #4</span>
+                              <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                King of the jungle launchpad #4
+                              </span>
                             </a>
-                            <Link href="#" className="text-2xs text-accent">By Shravan</Link>
+                            <Link href="#" className="text-2xs text-accent">
+                              By Shravan
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -164,9 +169,7 @@ export default function Home({ all_collections }) {
 
                 <div className="space-y-6 md:w-1/2 xl:space-y-12">
                   <div>
-                    <div
-                      className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
-                    >
+                    <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                       <div className="relative">
                         <Link href="item.html">
                           <Image
@@ -189,11 +192,13 @@ export default function Home({ all_collections }) {
                           </Link>
                           <div>
                             <a className="block">
-                              <span
-                                className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
-                              >The Universe</span>
+                              <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                The Universe
+                              </span>
                             </a>
-                            <Link href="#" className="text-2xs text-accent">By Aniruddha</Link>
+                            <Link href="#" className="text-2xs text-accent">
+                              By Aniruddha
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -202,9 +207,7 @@ export default function Home({ all_collections }) {
 
                   <div className="md:w-3/4">
                     <div>
-                      <div
-                        className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
-                      >
+                      <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                         <div className="relative">
                           <Link href="item.html">
                             <Image
@@ -227,11 +230,13 @@ export default function Home({ all_collections }) {
                             </Link>
                             <div>
                               <a className="block">
-                                <span
-                                  className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
-                                >Ethereum NFT</span>
+                                <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                  Ethereum NFT
+                                </span>
                               </a>
-                              <Link href="#" className="text-2xs text-accent">By Petkar</Link>
+                              <Link href="#" className="text-2xs text-accent">
+                                By Petkar
+                              </Link>
                             </div>
                           </div>
                         </div>

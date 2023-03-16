@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import testNFT from "../../../public/apex.jpg";
 import Image from "next/image";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
-
+import Loader from "@/components/Loader";
 const EditProfile = ({ signer_address, polybase }) => {
   const storage = new ThirdwebStorage();
   const [coverImg_preview, set_coverImg_preview] = useState("");
   const [profImg_preview, set_profImg_preview] = useState("");
+  const [loading, set_loading] = useState(true);
   const [data, set_data] = useState({
     username: "",
     bio: "",
@@ -16,7 +17,7 @@ const EditProfile = ({ signer_address, polybase }) => {
     coverImage: "",
     twitter: "",
     instagram: "",
-    customeLink: "",
+    customLink: "",
   });
 
   const handleChange = (e) => {
@@ -30,15 +31,17 @@ const EditProfile = ({ signer_address, polybase }) => {
     const profileImg = await storage.upload(data.profileImage);
 
     try {
-      const res = await db.collection("User").create([
-        data.walletAddress,
-        data.username,
-        data.email,
-        data.bio,
-        profileImg,
-        coverImg,
-        //   [data.twitter, data.instagram, data.customeLink],
-      ]);
+      const res = await db
+        .collection("User")
+        .create([
+          data.walletAddress,
+          data.username,
+          data.email,
+          data.bio,
+          profileImg,
+          coverImg,
+          [data.twitter, data.instagram, data.customLink],
+        ]);
     } catch (error) {
       console.log(error);
     }
@@ -47,9 +50,12 @@ const EditProfile = ({ signer_address, polybase }) => {
   const updateData = async (e) => {
     e.preventDefault();
     const db = polybase();
+    console.log("updateData called");
 
     let coverImg;
     let profileImg;
+
+    console.log(data);
 
     if (typeof data.coverImage === "object") {
       coverImg = await storage.upload(data.coverImage);
@@ -57,6 +63,7 @@ const EditProfile = ({ signer_address, polybase }) => {
     if (typeof data.profileImage === "object") {
       profileImg = await storage.upload(data.profileImage);
     }
+    console.log(data);
     const res = await db
       .collection("User")
       .record(signer_address)
@@ -66,27 +73,51 @@ const EditProfile = ({ signer_address, polybase }) => {
         data.bio,
         profileImg ? profileImg : data.profileImage,
         coverImg ? coverImg : data.coverImage,
+        [data.twitter, data.instagram, data.customLink],
       ]);
-    window.location.reload();
+    console.log("done calling");
+
+    // window.location.reload();
   };
 
   const getUserData = async () => {
+    set_loading(true);
     const db = polybase();
     const res = await db
       .collection("User")
       .record(signer_address)
       .get();
-    const { bio, coverImage, email, id, profileImage, username } = res.data;
-    set_data({ bio, coverImage, email, profileImage, username });
+    const {
+      bio,
+      coverImage,
+      email,
+      id,
+      profileImage,
+      username,
+      socials,
+    } = res.data;
+    set_data({
+      bio,
+      coverImage,
+      email,
+      profileImage,
+      username,
+      twitter: socials[0],
+      instagram: socials[1],
+      customLink: socials[2],
+    });
+    set_loading(false);
   };
 
   useEffect(() => {
     if (!signer_address) return;
-    set_data({ ...data, walletAddress: signer_address });
     getUserData();
+    set_data({ ...data, walletAddress: signer_address });
   }, [signer_address]);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <form onSubmit={data.username ? updateData : handleSubmit}>
       {/* <!-- Banner --> */}
       <div className="relative  mt-24">
@@ -213,6 +244,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                   <input
                     type="text"
                     name="twitter"
+                    value={data.twitter}
                     onChange={handleChange}
                     id="profile-twitter"
                     className="w-full rounded-t-lg border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
@@ -234,6 +266,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                   </svg>
                   <input
                     name="instagram"
+                    value={data.instagram}
                     type="text"
                     onChange={handleChange}
                     id="profile-instagram"
@@ -253,6 +286,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                     <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667zM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.905 15.905 0 0 0 13.97 13h-3.94zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13zM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11zm5.969 0h3.938A15.905 15.905 0 0 0 12 4.248 15.905 15.905 0 0 0 10.03 11zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667z" />
                   </svg>
                   <input
+                    value={data.customLink}
                     name="customLink"
                     onChange={handleChange}
                     type="url"

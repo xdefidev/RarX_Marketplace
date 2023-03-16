@@ -24,6 +24,7 @@ export default function App({ Component, pageProps }) {
   const storage = new ThirdwebStorage();
   //SIGNER INFORMATION
   const [signer, setSigner] = useState();
+  const [provider, set_provider] = useState();
   const [chainIdMain, setChainIdMain] = useState();
   const [signer_address, set_signer_address] = useState("");
   const [signer_bal, set_signer_bal] = useState(0);
@@ -48,7 +49,7 @@ export default function App({ Component, pageProps }) {
         window.ethereum,
         "any"
       );
-
+      set_provider(provider);
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
       setSigner(signer);
@@ -109,9 +110,9 @@ export default function App({ Component, pageProps }) {
 
   //ANIRUDH CROSSCHAIN
   const crosschain = () => {
-    const my_collection = rarx_collection(default_collection_address, signer)
-    my_collection.approve()
-  }
+    const my_collection = rarx_collection(default_collection_address, signer);
+    my_collection.approve();
+  };
 
   // deploy collections
   const collection_contract_factory = (signer) => {
@@ -125,17 +126,32 @@ export default function App({ Component, pageProps }) {
 
   // create nft
   const create_token = async (_tokenURI, signer) => {
+    console.log(_tokenURI);
     try {
-      // const tokenURI = await storage.upload(_tokenURI);
-      const tokenURI = "sample";
+      console.log(signer);
+      const tokenURI = await storage.upload(_tokenURI);
+      console.log({ tokenURI });
       const rarx = rarx_collection(_tokenURI.collection, signer);
-      // const txn = await rarx.createToken(tokenURI);
-      // await txn.wait();
+      console.log(rarx);
+      const txn = await rarx?.createToken(tokenURI);
+      await txn.wait();
+
+      const network = await provider.getNetwork();
+      console.log({ network: network.chainId });
 
       //SAVING ON POLYBASE
       const db = polybase();
-      const res = await db.collection("NFT").create(["8001", tokenURI]);
+      const res = await db
+        .collection("NFT")
+        .create([
+          txn.hash,
+          network.chainId.toString(),
+          tokenURI,
+          db.collection("User").record(signer_address),
+        ]);
       console.log({ res });
+
+      // console.log({ res });
     } catch (error) {
       alert(error);
     }
@@ -143,18 +159,23 @@ export default function App({ Component, pageProps }) {
 
   // create collection
   const create_collection = async (data) => {
+    console.log(data);
     try {
       const collection_logo = await storage.upload(data.logo);
       const collection_image = await storage.upload(data.image);
       const collection_factory = collection_contract_factory(signer);
-      const txn = await collection_factory.create_collection(
-        data.name,
-        data.symbol,
-        collection_image,
-        collection_logo,
-        data.description
-      );
-      await txn.wait();
+      // const txn = await collection_factory.create_collection(
+      //   data.name,
+      //   data.symbol,
+      //   collection_image,
+      //   collection_logo,
+      //   data.description
+      // );
+      // await txn.wait();
+      // const db = polybase();
+      const res = db.collection('NFTCollection').create([
+        
+      ])
       sendCollectionNoti({ collectionName: data.name });
     } catch (error) {
       alert(error.message);
