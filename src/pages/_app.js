@@ -121,6 +121,7 @@ export default function App({ Component, pageProps }) {
       CollectionFactory.abi,
       signer
     );
+
     return collection_factory;
   };
 
@@ -164,19 +165,23 @@ export default function App({ Component, pageProps }) {
       const collection_logo = await storage.upload(data.logo);
       const collection_image = await storage.upload(data.image);
       const collection_factory = collection_contract_factory(signer);
-      // const txn = await collection_factory.create_collection(
-      //   data.name,
-      //   data.symbol,
-      //   collection_image,
-      //   collection_logo,
-      //   data.description
-      // );
-      // await txn.wait();
+      const txn = await collection_factory.create_collection(
+        data.name,
+        data.symbol,
+        collection_image,
+        collection_logo,
+        data.description
+      );
+      await txn.wait();
+      console.log("txn hash ", txn.hash);
+      collection_factory.on("CollectionCreated", (arg1, arg2, listener) => {
+        console.log({ listener });
+      });
       // const db = polybase();
-      const res = db.collection('NFTCollection').create([
-        
-      ])
-      sendCollectionNoti({ collectionName: data.name });
+      // const res = db.collection('NFTCollection').create([
+
+      // ])
+      // sendCollectionNoti({ collectionName: data.name });
     } catch (error) {
       alert(error.message);
     }
