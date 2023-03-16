@@ -35,12 +35,15 @@ export default function App({ Component, pageProps }) {
   // push channel address
   const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
 
+  // xChain address 
+  const x_chain_polygon = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
+  const x_chain_goerli = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
+
+
   //CONTRACT ADDRESSES
-  const default_collection_address =
-    "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
+  const default_collection_address = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
-  const collection_factory_address =
-    "0x0C87d648646b5f76Ab0eB7BCD0230CAA41abC3E6";
+  const collection_factory_address = "0x0C87d648646b5f76Ab0eB7BCD0230CAA41abC3E6";
 
   const connectToWallet = async () => {
     if (window?.ethereum) {
@@ -107,10 +110,17 @@ export default function App({ Component, pageProps }) {
     return default_collection_contract;
   };
 
-  //ANIRUDH CROSSCHAIN
-  const crosschain = () => {
-    const my_collection = rarx_collection(default_collection_address, signer)
-    my_collection.approve()
+  //cross chain 
+  const xchain_NFT = async (AssetCollection, AssetTokenID, xChainContract, domainID) => {
+    try {
+      const collectionContract = rarx_collection(AssetCollection, signer);
+      const approveTxn = await collectionContract.approve(xChainContract, AssetTokenID);
+      await approveTxn.wait();
+
+      // first deploy crosschain contracts and write the code for xcall 
+    } catch (error) {
+      alert("Something went wrong!");
+    }
   }
 
   // deploy collections
@@ -312,6 +322,9 @@ export default function App({ Component, pageProps }) {
         chainIdMain={chainIdMain}
         connectToWallet={connectToWallet}
         setChainIdMain={setChainIdMain}
+        xchain_NFT={xchain_NFT}
+        x_chain_polygon={x_chain_polygon}
+        x_chain_goerli={x_chain_goerli}
       />
       <Footer />
     </>

@@ -340,7 +340,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
   };
 
   const getNotifications = () => {
-    console.log({ signer: signer_address })
+    // console.log({ signer: signer_address })
     PushAPI.user
       .getFeeds({
         user: `eip155:${chainIdMain}:${signer_address}`,
@@ -408,19 +408,6 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
             <div className="navbar w-full">
               <ul className="flex flex-col lg:flex-row">
                 <li className="js-nav-dropdown group relative">
-                  <Link
-                    href="/"
-                    className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
-                    id="navDropdown-1"
-                    aria-expanded="false"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                  >
-                    Home
-                  </Link>
-                </li>
-
-                <li className="js-nav-dropdown group relative">
                   <a
                     href="#"
                     className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
@@ -484,19 +471,6 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                 </li>
 
                 <li className="js-nav-dropdown group relative">
-                  <Link
-                    href="/About"
-                    className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
-                    id="navDropdown-1"
-                    aria-expanded="false"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                  >
-                    About
-                  </Link>
-                </li>
-
-                <li className="js-nav-dropdown group relative">
                   <a
                     href="#"
                     className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
@@ -543,6 +517,58 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                     </li>
                   </ul>
                 </li>
+
+                <li className="js-nav-dropdown group relative">
+                  <a
+                    href="#"
+                    className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
+                    id="navDropdown-4"
+                    aria-expanded="false"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                  >
+                    Bridge
+                  </a>
+                  <ul
+                    className="dropdown-menu group-hover:visible lg:invisible left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2"
+                    aria-labelledby="navDropdown-4"
+                  >
+                    <li>
+                      <Link
+                        href="/BridgeNFT"
+                        className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                      >
+                        <span className="font-display text-sm text-jacarta-700 dark:text-white">
+                          Bridge NFT
+                        </span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/"
+                        className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                      >
+                        <span className="font-display text-sm text-jacarta-700 dark:text-white">
+                          Bridge Tokens <sup>Coming Soon</sup>
+                        </span>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+
+                <li className="js-nav-dropdown group relative">
+                  <Link
+                    href="/About"
+                    className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
+                    id="navDropdown-1"
+                    aria-expanded="false"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                  >
+                    About
+                  </Link>
+                </li>
+
               </ul>
             </div>
 
