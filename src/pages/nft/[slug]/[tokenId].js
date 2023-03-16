@@ -16,7 +16,6 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
     if (!tokenId && signer && !collectionAddress) return;
     const nft = await fetch_NFT_info(collectionAddress, tokenId, signer);
     set_nft_info(nft);
-    console.log(nft)
   };
 
   useEffect(() => {

@@ -61,7 +61,6 @@ const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, sig
         if (!signer) return alert("Please provide a signer");
         try {
             set_loading(true);
-            console.log(data);
             await create_token(data, signer);
             router.push(`/profile/${signer_address}`);
         } catch (error) {

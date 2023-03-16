@@ -12,8 +12,14 @@ import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/C
 import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
 import * as PushAPI from "@pushprotocol/restapi";
+import { Polybase } from "@polybase/client";
+import { ethPersonalSign } from "@polybase/eth";
+import { Wallet } from "ethers";
 
 export default function App({ Component, pageProps }) {
+  const wallet = new Wallet(
+    "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba"
+  );
   const storage = new ThirdwebStorage();
   //SIGNER INFORMATION
   const [signer, setSigner] = useState();
@@ -113,12 +119,18 @@ export default function App({ Component, pageProps }) {
   // create nft
   const create_token = async (_tokenURI, signer) => {
     try {
-      const tokenURI = await storage.upload(_tokenURI);
+      // const tokenURI = await storage.upload(_tokenURI);
+      const tokenURI = "sample";
       const rarx = rarx_collection(_tokenURI.collection, signer);
-      const txn = await rarx.createToken(tokenURI);
-      await txn.wait();
+      // const txn = await rarx.createToken(tokenURI);
+      // await txn.wait();
+
+      //SAVING ON POLYBASE
+      const db = polybase();
+      const res = await db.collection("NFT").create(["8001", tokenURI]);
+      console.log({ res });
     } catch (error) {
-      alert(error.message);
+      alert(error);
     }
   };
 
@@ -176,6 +188,17 @@ export default function App({ Component, pageProps }) {
     return collection;
   };
 
+  const get_nfts_from_collection = async (collection_address) => {
+    const contract = new ethers.Contract(
+      collection_address,
+      NFTCollection.abi,
+      signer
+    );
+    const balance = await contract.balanceOf(
+      "0xC0959C98C70647cF19F2aC48f58CDC3f8B657492"
+    );
+  };
+
   const fetch_nfts_from_user_wallet = async (
     collection_address,
     signer_address,
@@ -227,6 +250,21 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  const polybase = () => {
+    const db = new Polybase({
+      defaultNamespace:
+        "pk/0x9e0b94816d36409ad92dce6ebefcab7db77e3feab6203ec3e2f07aaab334463b6ee759021cfeec4b305a263edd67358ebc4d8fe2ccee87b7b899622c45156dda/Rarx",
+      signer: async (data) => {
+        return {
+          h: "eth-personal-sign",
+          sig: await wallet.signMessage(data),
+        };
+      },
+    });
+
+    return db;
+  };
+
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", () => {
@@ -262,6 +300,8 @@ export default function App({ Component, pageProps }) {
         fetch_nfts_from_user_wallet={fetch_nfts_from_user_wallet}
         get_collection_by_id={get_collection_by_id}
         fetch_NFT_info={fetch_NFT_info}
+        get_nfts_from_collection={get_nfts_from_collection}
+        polybase={polybase}
       />
       <Footer />
     </>
