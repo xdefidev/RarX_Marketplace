@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
 
-
 const CreateNFT = ({
   create_token,
   defaultCol,
   get_my_collections,
   signer,
   signer_address,
+  polybase,
 }) => {
   const router = useRouter();
   const [loading, set_loading] = useState(false);
@@ -60,9 +60,11 @@ const CreateNFT = ({
     if (!signer) return alert("Please provide a signer");
     try {
       set_loading(true);
-      console.log(data);
+
+      //MINTING THE NFT
       await create_token(data, signer);
-      router.push(`/profile/${signer_address}`);
+
+      // router.push(`/profile/${signer_address}`);
     } catch (error) {
       console.log(error);
     }

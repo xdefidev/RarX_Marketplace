@@ -34,14 +34,12 @@ const Collection = ({
       signer_address,
       signer
     );
-    // console.log({ nftsss: nfts.length })
     set_nfts(nfts);
   };
 
   const get_all_nfts = async () => {
     if (!slug) return;
     const nfts = await get_nfts_from_collection(slug);
-    console.log({ nfts });
   };
 
   useEffect(() => {

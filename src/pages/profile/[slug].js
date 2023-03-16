@@ -21,7 +21,6 @@ const Profile = ({
 
   const router = useRouter();
   const { slug } = router.query;
-  console.log(slug)
 
   const [myNFTsActive, setMyNFTSActive] = useState(true);
   const [my_collections, set_my_collections] = useState([]);
@@ -37,7 +36,6 @@ const Profile = ({
     if (!signer) return;
     const my_collections = await get_my_collections(signer);
     set_my_collections(my_collections);
-    console.log(my_collections)
   };
 
   const get_nfts = async (collection_address, slug) => {
@@ -47,7 +45,6 @@ const Profile = ({
       slug,
       signer
     );
-    console.log(nfts)
     set_nfts(nfts);
     set_loading(false);
   };
