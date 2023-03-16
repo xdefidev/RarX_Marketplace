@@ -9,6 +9,9 @@ import { useMemo } from "react";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
 const inter = Inter({ subsets: ["latin"] });
+import Spline from '@splinetool/react-spline';
+
+
 
 export default function Home({ all_collections }) {
   return (
@@ -51,6 +54,7 @@ export default function Home({ all_collections }) {
               </div>
             </div>
 
+            {/* image hero  */}
             <div className="col-span-8 xl:col-span-8">
               <div className="relative">
                 <Image
@@ -61,6 +65,14 @@ export default function Home({ all_collections }) {
                 />
               </div>
             </div>
+
+            {/* splien com  */}
+            {/* <div className="col-span-8 xl:col-span-8 ml-56" id="splineStyleMax" >
+              <Spline scene="https://prod.spline.design/VbZkYW61RBUJEl-y/scene.splinecode" />
+            </div> */}
+
+
+
           </div>
         </div>
       </div>

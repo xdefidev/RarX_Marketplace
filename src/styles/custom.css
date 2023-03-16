@@ -54,3 +54,15 @@
     display: none;
   }
 }
+
+#splineStyleMax {
+  height: 700px;
+  width: 700px;
+}
+
+/* @media only screen and (max-width: 1270px) {
+  #splineStyleMax {
+    height: 100%;
+    width: 100%;
+  }
+} */
