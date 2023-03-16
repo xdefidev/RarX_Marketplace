@@ -18,8 +18,8 @@ const Footer = () => {
               />
             </Link>
             <p className="mb-6 dark:text-jacarta-300">
-              Create, sell and collect truly rare digital artworks. Powered by
-              blockchain technology.
+              Create, sell and collect NFTs on RarX. Powered by
+              various technologies.
             </p>
             <div className="flex space-x-5">
               <a href="#" className="group">
@@ -62,15 +62,23 @@ const Footer = () => {
                   href="/Marketplace"
                   className="hover:text-accent dark:hover:text-white"
                 >
-                  All NFTs
+                  Explore
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/CrossChain"
+                  href="/collection/TopCollections"
                   className="hover:text-accent dark:hover:text-white"
                 >
-                  Cross Transfer
+                  Top Collections
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/BridgeNFT"
+                  className="hover:text-accent dark:hover:text-white"
+                >
+                  Bridge NFT
                 </Link>
               </li>
               <li>
@@ -78,7 +86,7 @@ const Footer = () => {
                   href="/mint/CreateAINFT"
                   className="hover:text-accent dark:hover:text-white"
                 >
-                  AI Minting
+                  Generate AI NFT
                 </Link>
               </li>
             </ul>
@@ -94,7 +102,7 @@ const Footer = () => {
                   href="/profile"
                   className="hover:text-accent dark:hover:text-white"
                 >
-                  Profile
+                  My Profile
                 </Link>
               </li>
               <li>
@@ -107,20 +115,29 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/collection/TopCollections"
+                  href="/mint/CreateNFT"
                   className="hover:text-accent dark:hover:text-white"
                 >
-                  Collections
+                  Create NFT
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/Marketplace"
+                  href="/mint/CreateCollection"
                   className="hover:text-accent dark:hover:text-white"
                 >
-                  NFTs
+                  Create Collection
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/About"
+                  className="hover:text-accent dark:hover:text-white"
+                >
+                  About
+                </Link>
+              </li>
+
             </ul>
           </div>
         </div>

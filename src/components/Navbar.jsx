@@ -340,6 +340,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
   };
 
   const getNotifications = () => {
+    console.log({ signer: signer_address })
     PushAPI.user
       .getFeeds({
         user: `eip155:${chainIdMain}:${signer_address}`,

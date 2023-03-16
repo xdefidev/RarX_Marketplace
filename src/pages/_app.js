@@ -302,6 +302,9 @@ export default function App({ Component, pageProps }) {
         fetch_NFT_info={fetch_NFT_info}
         get_nfts_from_collection={get_nfts_from_collection}
         polybase={polybase}
+        chainIdMain={chainIdMain}
+        connectToWallet={connectToWallet}
+        setChainIdMain={setChainIdMain}
       />
       <Footer />
     </>
