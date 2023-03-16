@@ -295,6 +295,7 @@ const Profile = ({
                     return (
                       e.name && (
                         <NftCard
+                          key={index}
                           ImageSrc={e.image.replace(
                             "ipfs://",
                             "https://gateway.ipfscdn.io/ipfs/"
@@ -326,6 +327,7 @@ const Profile = ({
                 <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
                   {my_collections?.map((e, index) => (
                     <CollectionCard
+                      key={index}
                       Cover={e.image}
                       Logo={e.logo}
                       Name={e.name}

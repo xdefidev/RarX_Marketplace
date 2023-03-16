@@ -41,7 +41,7 @@ export default function App({ Component, pageProps }) {
     "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
-    "0x0C87d648646b5f76Ab0eB7BCD0230CAA41abC3E6";
+    "0x4f6a8D27866B0Bd395Cae155e563b8374ffc077b";
 
   const connectToWallet = async () => {
     if (window?.ethereum) {
@@ -173,14 +173,39 @@ export default function App({ Component, pageProps }) {
         data.description
       );
       await txn.wait();
-      console.log("txn hash ", txn.hash);
-      collection_factory.on("CollectionCreated", (arg1, arg2, listener) => {
-        console.log({ listener });
-      });
-      // const db = polybase();
-      // const res = db.collection('NFTCollection').create([
+      console.log("txn hash ", txn);
+      collection_factory.on(
+        "CollectionCreated",
+        (
+          collectionId,
+          name,
+          description,
+          image,
+          logo,
+          owner,
+          collection_address
+        ) => {
+          console.log(`New collection created! Collection ID: ${collectionId}`);
+          console.log(`Name: ${name}`);
+          console.log(`Description: ${description}`);
+          console.log(`Image: ${image}`);
+          console.log(`Logo: ${logo}`);
+          console.log(`Creator: ${owner}`);
+          console.log(`New NFT Collection Contract: ${collection_address}`);
 
-      // ])
+          const db = polybase();
+          const res = db
+            .collection("NFTCollection")
+            .create([
+              collection_address,
+              db.collection("User").record(signer_address),
+              image,
+              logo,
+              name,
+              sym,
+            ]);
+        }
+      );
       // sendCollectionNoti({ collectionName: data.name });
     } catch (error) {
       alert(error.message);

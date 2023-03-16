@@ -14,6 +14,7 @@ contract CollectionFactory {
     struct Collection{
         uint256 collectionId;
         string name;
+        string symbol;
         string description;
         string image;
         string logo;
@@ -24,6 +25,7 @@ contract CollectionFactory {
     event CollectionCreated (
         uint256 collectionId,
         string name,
+        string symbol,
         string description,
         string image,
         string logo,
@@ -54,6 +56,7 @@ contract CollectionFactory {
         Collection memory newCollection = Collection(
             collectionCount,
             collection_name,
+            collection_symbol,
             collection_description,
             collection_image,
             collection_logo,
@@ -68,6 +71,7 @@ contract CollectionFactory {
         emit CollectionCreated(
             collectionCount,
             collection_name,
+            collection_symbol,
             collection_description,
             collection_image,
             collection_logo,
