@@ -20,6 +20,7 @@ export default function App({ Component, pageProps }) {
   const wallet = new Wallet(
     "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba"
   );
+
   const storage = new ThirdwebStorage();
   //SIGNER INFORMATION
   const [signer, setSigner] = useState();
@@ -105,6 +106,12 @@ export default function App({ Component, pageProps }) {
 
     return default_collection_contract;
   };
+
+  //ANIRUDH CROSSCHAIN
+  const crosschain = () => {
+    const my_collection = rarx_collection(default_collection_address, signer)
+    my_collection.approve()
+  }
 
   // deploy collections
   const collection_contract_factory = (signer) => {
