@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
-import './NFTCollection.sol';
+import "./NFTCollection.sol";
 
 contract NFTMarketplace {
     using Counters for Counters.Counter;
@@ -11,7 +11,7 @@ contract NFTMarketplace {
     address payable owner;
     uint256 public listPrice = 0.01 ether;
 
-    struct ListedToken{
+    struct ListedToken {
         uint256 tokeId;
         address payable owner;
         address payable seller;
@@ -29,11 +29,15 @@ contract NFTMarketplace {
 
     mapping(uint256 => ListedToken) private idToListedToken;
 
-    constructor(){
+    constructor() {
         owner = payable(msg.sender);
     }
-    
-    function ListToken(uint256 tokenId, uint256 price, NFTCollection collection) public payable{
+
+    function ListToken(
+        uint256 tokenId,
+        uint256 price,
+        NFTCollection collection
+    ) public payable {
         require(msg.value == listPrice, "Please send the listing fees");
         require(price > 0, "Make sure the price isn't negative");
 
@@ -57,11 +61,16 @@ contract NFTMarketplace {
         );
     }
 
-    
-    function executeSale(uint256 tokenId, NFTCollection collection) public payable {
+    function executeSale(
+        uint256 tokenId,
+        NFTCollection collection
+    ) public payable {
         uint256 price = idToListedToken[tokenId].price;
         address seller = idToListedToken[tokenId].seller;
-        require(msg.value == price, "Please submit the asking price in order to complete the purchase");
+        require(
+            msg.value == price,
+            "Please submit the asking price in order to complete the purchase"
+        );
 
         //update the details of the token
         idToListedToken[tokenId].currentlyListed = false;
@@ -74,21 +83,23 @@ contract NFTMarketplace {
 
         //Transfer the listing fee to the marketplace creator
         payable(owner).transfer(listPrice);
-        payable(seller).transfer(msg.value);        
+        payable(seller).transfer(msg.value);
     }
 
-
-    function change_listing_fee(uint256 new_listing_fee) public{
-        require(msg.sender == owner, "Only platform owner can call this function");
+    function change_listing_fee(uint256 new_listing_fee) public {
+        require(
+            msg.sender == owner,
+            "Only platform owner can call this function"
+        );
         listPrice = new_listing_fee;
     }
 
-    function getAllNFTs() public view returns (ListedToken[] memory){
+    function getAllNFTs() public view returns (ListedToken[] memory) {
         uint256 nftCount = _tokenIds.current();
         ListedToken[] memory tokens = new ListedToken[](nftCount);
         uint256 currentIndex = 0;
 
-        for(uint256 i = 0; i < nftCount; i++){
+        for (uint256 i = 0; i < nftCount; i++) {
             uint256 currentId = i + 1;
             ListedToken storage currentItem = idToListedToken[currentId];
             tokens[currentIndex] = currentItem;
@@ -97,46 +108,55 @@ contract NFTMarketplace {
         return tokens;
     }
 
-    function getMyNFTs() public view returns (ListedToken[] memory){
+    function getMyNFTs() public view returns (ListedToken[] memory) {
         uint256 totalItemCount = _tokenIds.current();
         uint256 itemCount = 0;
         uint256 currentIndex = 0;
 
-        for(uint256 i = 0; i < totalItemCount ; i++){
-            if(idToListedToken[i+1].owner == msg.sender || idToListedToken[i+1].seller == msg.sender){
+        for (uint256 i = 0; i < totalItemCount; i++) {
+            if (
+                idToListedToken[i + 1].owner == msg.sender ||
+                idToListedToken[i + 1].seller == msg.sender
+            ) {
                 itemCount += 1;
             }
         }
 
         ListedToken[] memory items = new ListedToken[](itemCount);
-        for(uint256 i = 0; i < totalItemCount; i++){
-            if(idToListedToken[i+1].owner == msg.sender || idToListedToken[i+1].seller == msg.sender){
-                uint256 currentId = i+1;
+        for (uint256 i = 0; i < totalItemCount; i++) {
+            if (
+                idToListedToken[i + 1].owner == msg.sender ||
+                idToListedToken[i + 1].seller == msg.sender
+            ) {
+                uint256 currentId = i + 1;
                 ListedToken storage currentItem = idToListedToken[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex++;
             }
         }
         return items;
-
     }
-    
-    function getListPrice() public view returns (uint256){
+
+    function getListPrice() public view returns (uint256) {
         return listPrice;
     }
 
-    function getLatestIdToListedToken() public view returns (ListedToken memory){
+    function getLatestIdToListedToken()
+        public
+        view
+        returns (ListedToken memory)
+    {
         uint256 currentTokenId = _tokenIds.current();
         return idToListedToken[currentTokenId];
     }
 
-    function getListedTokenById(uint256 tokenId) public view returns(ListedToken memory){
+    function getListedTokenById(
+        uint256 tokenId
+    ) public view returns (ListedToken memory) {
         return idToListedToken[tokenId];
     }
 
-    function getCurrentToken() public view returns(uint256){
+    function getCurrentToken() public view returns (uint256) {
         return _tokenIds.current();
     }
-
-
 }

@@ -73,6 +73,9 @@ export default function Home({ all_collections }) {
 
       {/* <!-- Hero secondary --> */}
       <section className="relative py-20 md:pt-32" id="heroBack">
+        {/* <div className="absolute h-[100%] w-[100%]">
+          <Spline scene="https://prod.spline.design/VWR6TSEIzxLDjKMd/scene.splinecode" />
+        </div> */}
         <div className="h-full px-6 xl:px-20">
           <div className="grid h-full items-center gap-4 lg:grid-cols-12">
             <div
@@ -85,7 +88,7 @@ export default function Home({ all_collections }) {
                 </div>
                 <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                   <span className="block font-display text-3xl text-[#737EF2]">13</span>
-                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">Auctions</span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">Sales</span>
                 </div>
                 <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                   <span className="block font-display text-3xl text-[#F35BC7]">22</span>
