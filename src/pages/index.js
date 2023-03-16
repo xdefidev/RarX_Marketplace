@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useMemo } from "react";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
-const inter = Inter({ subsets: ["latin"] });
 import Spline from '@splinetool/react-spline';
 
 
@@ -26,8 +25,8 @@ export default function Home({ all_collections }) {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      {/* hero section  */}
-      <div className="relative pb-10 pt-20 md:pt-32 lg:h-[88vh]" id="heroBack">
+      {/* hero section old  */}
+      {/* <div className="relative pb-10 pt-20 md:pt-32 lg:h-[88vh]" id="heroBack">
         <div className="container h-full mt-10">
           <div className="grid h-full items-center gap-6 md:grid-cols-12">
             <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
@@ -54,7 +53,6 @@ export default function Home({ all_collections }) {
               </div>
             </div>
 
-            {/* image hero  */}
             <div className="col-span-8 xl:col-span-8">
               <div className="relative">
                 <Image
@@ -66,16 +64,183 @@ export default function Home({ all_collections }) {
               </div>
             </div>
 
-            {/* splien com  */}
-            {/* <div className="col-span-8 xl:col-span-8 ml-56" id="splineStyleMax" >
+            <div className="col-span-8 xl:col-span-8 ml-56" id="splineStyleMax" >
               <Spline scene="https://prod.spline.design/VbZkYW61RBUJEl-y/scene.splinecode" />
-            </div> */}
-
-
-
+            </div>
           </div>
         </div>
-      </div>
+      </div> */}
+
+      {/* <!-- Hero secondary --> */}
+      <section className="relative py-20 md:pt-32" id="heroBack">
+        <div className="h-full px-6 xl:px-20">
+          <div className="grid h-full items-center gap-4 lg:grid-cols-12">
+            <div
+              className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]"
+            >
+              <div className="mb-10 w-full sm:flex sm:space-x-4">
+                <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                  <span className="block font-display text-3xl text-[#8DD059]">43</span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">Collections</span>
+                </div>
+                <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                  <span className="block font-display text-3xl text-[#737EF2]">13</span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">Auctions</span>
+                </div>
+                <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                  <span className="block font-display text-3xl text-[#F35BC7]">22</span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">Artists</span>
+                </div>
+              </div>
+              <h1
+                className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl"
+              >
+                Buy and Sell Digital Art and NFT’s
+              </h1>
+              <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
+                First Cross-chain And Multi-chain Advanced NFT Marketplace With
+                AI NFT Generation
+              </p>
+              <div className="flex space-x-4">
+                <Link
+                  href="/mint/CreateNFT"
+                  className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                >
+                  Create
+                </Link>
+                <Link
+                  href="/Marketplace"
+                  className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                >
+                  Explore
+                </Link>
+              </div>
+            </div>
+
+            {/* <!-- Hero images --> */}
+            <div className="relative col-span-6 xl:col-span-6 xl:col-start-7">
+              <div className="md:flex md:space-x-6 xl:space-x-12">
+                <div className="mb-6 md:flex md:w-1/2 md:items-center ">
+                  <div>
+                    <div
+                      className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
+                    >
+                      <div className="relative">
+                        <Link href="item.html">
+                          <Image
+                            src={testNFT}
+                            alt="item 1"
+                            className="w-full object-cover"
+                            height="437"
+                            width="406"
+                          />
+                        </Link>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex">
+                          <Link href="user.html" className="shrink-0">
+                            <Image
+                              src={testNFT}
+                              alt="avatar"
+                              className="mr-4 h-10 w-10 rounded-full"
+                            />
+                          </Link>
+                          <div>
+                            <a className="block">
+                              <span
+                                className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
+                              >King of the jungle launchpad #4</span>
+                            </a>
+                            <Link href="#" className="text-2xs text-accent">By Shravan</Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-6 md:w-1/2 xl:space-y-12">
+                  <div>
+                    <div
+                      className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
+                    >
+                      <div className="relative">
+                        <Link href="item.html">
+                          <Image
+                            src={testNFT}
+                            alt="item 1"
+                            height="437"
+                            width="406"
+                            className="w-full object-cover"
+                          />
+                        </Link>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex">
+                          <Link href="user.html" className="shrink-0">
+                            <Image
+                              src={testNFT}
+                              alt="avatar"
+                              className="mr-4 h-10 w-10 rounded-full"
+                            />
+                          </Link>
+                          <div>
+                            <a className="block">
+                              <span
+                                className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
+                              >The Universe</span>
+                            </a>
+                            <Link href="#" className="text-2xs text-accent">By Aniruddha</Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="md:w-3/4">
+                    <div>
+                      <div
+                        className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700"
+                      >
+                        <div className="relative">
+                          <Link href="item.html">
+                            <Image
+                              src={testNFT}
+                              alt="item 1"
+                              className="w-full object-cover"
+                              height="300"
+                              width="300"
+                            />
+                          </Link>
+                        </div>
+                        <div className="p-6">
+                          <div className="flex">
+                            <Link href="user.html" className="shrink-0">
+                              <Image
+                                src={testNFT}
+                                alt="avatar"
+                                className="mr-4 h-10 w-10 rounded-full"
+                              />
+                            </Link>
+                            <div>
+                              <a className="block">
+                                <span
+                                  className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white"
+                                >Ethereum NFT</span>
+                              </a>
+                              <Link href="#" className="text-2xs text-accent">By Petkar</Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Newly minted  */}
       <div className="py-24">

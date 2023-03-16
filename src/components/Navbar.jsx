@@ -944,9 +944,9 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                                   No Notifications yet! click below button to susbcribe the rarx marketplace notification channel, ignore if already subscribed
                                 </a>
                                 {optedIn ?
-                                  <button type="button" class="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribed 🎉</button>
+                                  <button type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribed 🎉</button>
                                   :
-                                  <button onClick={() => optInToChannel()} type="button" class="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribe</button>
+                                  <button onClick={() => optInToChannel()} type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribe</button>
                                 }
                               </p>
                             </a>
@@ -968,9 +968,9 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                                   No Notifications yet! click below button to susbcribe the rarx marketplace notification channel, ignore if already subscribed
                                 </a>
                                 {optedIn ?
-                                  <button type="button" class="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribed 🎉</button>
+                                  <button type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribed 🎉</button>
                                   :
-                                  <button onClick={() => optInToChannel()} type="button" class="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribe</button>
+                                  <button onClick={() => optInToChannel()} type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribe</button>
                                 }
                               </p>
                             </a>
