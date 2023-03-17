@@ -8,7 +8,7 @@ import { ethers } from "ethers";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollection.json";
-import XChainPolygon from "../../artifacts/contracts/XChainPolygon.sol/XChainPolygon.json";
+import xChainPolygon from "../../artifacts/contracts/xChainPolygon.sol/xChainPolygon.json";
 import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/CollectionFactory.json";
 import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
@@ -132,7 +132,7 @@ export default function App({ Component, pageProps }) {
     if (!_xChainContract) return;
     const x_chain_contract = new ethers.Contract(
       _xChainContract,
-      XChainPolygon.abi,
+      xChainPolygon.abi,
       signer
     );
     return x_chain_contract;
