@@ -125,6 +125,9 @@ export default function App({ Component, pageProps }) {
       );
       await approveTxn.wait();
 
+      const hash = await approveTxn.hash;
+      console.log({ hash });
+
       // first deploy crosschain contracts and write the code for xcall
     } catch (error) {
       alert("Something went wrong!");
@@ -263,9 +266,13 @@ export default function App({ Component, pageProps }) {
 
   // get specific user collections
   const get_my_collections = async (signer) => {
-    const collection = collection_contract_factory(signer);
-    const my_collections = await collection.getMyCollections();
-    return my_collections;
+    try {
+      const collection = collection_contract_factory(signer);
+      const my_collections = await collection.getMyCollections();
+      return my_collections;
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   // get collection by ID
