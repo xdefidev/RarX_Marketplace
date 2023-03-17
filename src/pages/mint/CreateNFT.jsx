@@ -60,7 +60,6 @@ const CreateNFT = ({
     if (!signer) return alert("Please provide a signer");
     try {
       set_loading(true);
-      console.log(data);
 
       //MINTING THE NFT
       await create_token(data, signer);

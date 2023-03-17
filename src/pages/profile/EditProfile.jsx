@@ -8,6 +8,7 @@ const EditProfile = ({ signer_address, polybase }) => {
   const [coverImg_preview, set_coverImg_preview] = useState("");
   const [profImg_preview, set_profImg_preview] = useState("");
   const [loading, set_loading] = useState(true);
+  const [user_exists, set_user_exists] = useState(false);
   const [data, set_data] = useState({
     username: "",
     bio: "",
@@ -23,14 +24,15 @@ const EditProfile = ({ signer_address, polybase }) => {
   const handleChange = (e) => {
     set_data({ ...data, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const db = polybase();
-    const coverImg = await storage.upload(data.coverImage);
-    const profileImg = await storage.upload(data.profileImage);
 
+    set_loading(true);
+    console.log("new data created");
+    const db = polybase();
     try {
+      const coverImg = await storage.upload(data.coverImage);
+      const profileImg = await storage.upload(data.profileImage);
       const res = await db
         .collection("User")
         .create([
@@ -45,67 +47,80 @@ const EditProfile = ({ signer_address, polybase }) => {
     } catch (error) {
       console.log(error);
     }
+    set_loading(false);
   };
 
   const updateData = async (e) => {
     e.preventDefault();
-    const db = polybase();
-    console.log("updateData called");
+    set_loading(true);
+    try {
+      console.log("update data called");
+      const db = polybase();
+      console.log("updateData called");
 
-    let coverImg;
-    let profileImg;
+      let coverImg;
+      let profileImg;
 
-    console.log(data);
+      console.log(data);
 
-    if (typeof data.coverImage === "object") {
-      coverImg = await storage.upload(data.coverImage);
+      if (typeof data.coverImage === "object") {
+        coverImg = await storage.upload(data.coverImage);
+      }
+      if (typeof data.profileImage === "object") {
+        profileImg = await storage.upload(data.profileImage);
+      }
+      console.log(data);
+      const res = await db
+        .collection("User")
+        .record(signer_address)
+        .call("updateData", [
+          data.username,
+          data.email,
+          data.bio,
+          profileImg ? profileImg : data.profileImage,
+          coverImg ? coverImg : data.coverImage,
+          [data.twitter, data.instagram, data.customLink],
+        ]);
+      console.log("done calling");
+
+      // window.location.reload();
+    } catch (error) {
+      console.log(error.message);
     }
-    if (typeof data.profileImage === "object") {
-      profileImg = await storage.upload(data.profileImage);
-    }
-    console.log(data);
-    const res = await db
-      .collection("User")
-      .record(signer_address)
-      .call("updateData", [
-        data.username,
-        data.email,
-        data.bio,
-        profileImg ? profileImg : data.profileImage,
-        coverImg ? coverImg : data.coverImage,
-        [data.twitter, data.instagram, data.customLink],
-      ]);
-    console.log("done calling");
-
-    // window.location.reload();
+    set_loading(false);
   };
 
   const getUserData = async () => {
     set_loading(true);
-    const db = polybase();
-    const res = await db
-      .collection("User")
-      .record(signer_address)
-      .get();
-    const {
-      bio,
-      coverImage,
-      email,
-      id,
-      profileImage,
-      username,
-      socials,
-    } = res.data;
-    set_data({
-      bio,
-      coverImage,
-      email,
-      profileImage,
-      username,
-      twitter: socials[0],
-      instagram: socials[1],
-      customLink: socials[2],
-    });
+    try {
+      const db = polybase();
+      const res = await db
+        .collection("User")
+        .record(signer_address)
+        .get();
+      const {
+        bio,
+        coverImage,
+        email,
+        id,
+        profileImage,
+        username,
+        socials,
+      } = res.data;
+      set_data({
+        bio,
+        coverImage,
+        email,
+        profileImage,
+        username,
+        twitter: socials[0],
+        instagram: socials[1],
+        customLink: socials[2],
+      });
+      set_user_exists(true);
+    } catch (error) {
+      console.log(error.message);
+    }
     set_loading(false);
   };
 
@@ -118,7 +133,7 @@ const EditProfile = ({ signer_address, polybase }) => {
   return loading ? (
     <Loader />
   ) : (
-    <form onSubmit={data.username ? updateData : handleSubmit}>
+    <form onSubmit={user_exists ? updateData : handleSubmit}>
       {/* <!-- Banner --> */}
       <div className="relative  mt-24">
         <Image
