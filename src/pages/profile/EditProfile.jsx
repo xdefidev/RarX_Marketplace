@@ -24,31 +24,31 @@ const EditProfile = ({ signer_address, polybase }) => {
   const handleChange = (e) => {
     set_data({ ...data, [e.target.name]: e.target.value });
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    set_loading(true);
-    console.log("new data created");
-    const db = polybase();
-    try {
-      const coverImg = await storage.upload(data.coverImage);
-      const profileImg = await storage.upload(data.profileImage);
-      const res = await db
-        .collection("User")
-        .create([
-          data.walletAddress,
-          data.username,
-          data.email,
-          data.bio,
-          profileImg,
-          coverImg,
-          [data.twitter, data.instagram, data.customLink],
-        ]);
-    } catch (error) {
-      console.log(error);
-    }
-    set_loading(false);
-  };
+  //   set_loading(true);
+  //   console.log("new data created");
+  //   const db = polybase();
+  //   try {
+  //     const coverImg = await storage.upload(data.coverImage);
+  //     const profileImg = await storage.upload(data.profileImage);
+  //     const res = await db
+  //       .collection("User")
+  //       .create([
+  //         data.walletAddress,
+  //         data.username,
+  //         data.email,
+  //         data.bio,
+  //         profileImg,
+  //         coverImg,
+  //         [data.twitter, data.instagram, data.customLink],
+  //       ]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   set_loading(false);
+  // };
 
   const updateData = async (e) => {
     e.preventDefault();
@@ -133,7 +133,7 @@ const EditProfile = ({ signer_address, polybase }) => {
   return loading ? (
     <Loader />
   ) : (
-    <form onSubmit={user_exists ? updateData : handleSubmit}>
+    <form onSubmit={updateData}>
       {/* <!-- Banner --> */}
       <div className="relative  mt-24">
         <Image
