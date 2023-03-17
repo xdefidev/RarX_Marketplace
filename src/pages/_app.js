@@ -46,7 +46,7 @@ export default function App({ Component, pageProps }) {
 
   //CONTRACT ADDRESSES
   const default_collection_address =
-    "0x2432c4B02E1d5BC462e493A693f922866a17F3A3";
+    "0xe3b440a11E1E45B22A1AeEe311D1335c7C73C940";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
     "0x330E8af81F507A46D592CEB0a909fFCbE9Ef0Ad4";
@@ -162,7 +162,7 @@ export default function App({ Component, pageProps }) {
         );
         await approveTxn.wait();
 
-        // approve nfthashi polygon contract 
+        // approve nfthashi polygon contract
         if (domainID == "9991") {
           const approveHashiTxn = await collectionContract.setApprovalForAll(
             x_hashi_polygon,
@@ -170,7 +170,7 @@ export default function App({ Component, pageProps }) {
           );
           await approveHashiTxn.wait();
         }
-        // approve nfthashi goerli contract 
+        // approve nfthashi goerli contract
         if (domainID == "1735353714") {
           const approveHashiTxn = await collectionContract.setApprovalForAll(
             x_hashi_goerli,
@@ -178,7 +178,6 @@ export default function App({ Component, pageProps }) {
           );
           await approveHashiTxn.wait();
         }
-
       } catch (error) {
         console.log({ approveError: error });
       }
@@ -402,11 +401,13 @@ export default function App({ Component, pageProps }) {
         const res = await axios.get(
           tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
         );
+        console.log(res.data.name);
         nfts.push(res.data);
       }
+      console.log({ nfts });
       return nfts;
     } catch (error) {
-      alert(error.message);
+      console.log(error.message);
     }
   };
 
