@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }) {
 
   //CONTRACT ADDRESSES
   const default_collection_address =
-    "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
+    "0x5ee37Ff9C1Df8D11a8752a66B8E8669EB636Fb1F";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
     "0x433Db3c3747F5eCEc9E1f6f03a7958F435230BC4";
@@ -232,7 +232,7 @@ export default function App({ Component, pageProps }) {
       await txn.wait();
       console.log({ txn });
 
-      // sendCollectionNoti({ collectionName: data.name });
+      sendCollectionNoti({ collectionName: data.name });
     } catch (error) {
       alert(error.message);
     }

@@ -8,6 +8,11 @@ contract NFTCollection is ERC721URIStorage{
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
+    event TokenCreated(
+        string ipfsURL,
+        uint256 tokenId
+    );
+
     constructor(
         string memory marketplace_name,
         string memory marketplace_symbol
@@ -20,6 +25,11 @@ contract NFTCollection is ERC721URIStorage{
         _safeMint(msg.sender, newTokenId);
         _setTokenURI(newTokenId, tokenURI);
         _tokenIds.increment();
+
+        emit TokenCreated(
+            tokenURI,
+            newTokenId
+        );
         return newTokenId;
     }
 
