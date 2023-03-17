@@ -64,8 +64,7 @@ const CreateNFT = ({
 
       //MINTING THE NFT
       await create_token(data, signer);
-
-      router.push(`/profile/${signer_address}`);
+      // router.push(`/profile/${signer_address}`);
     } catch (error) {
       console.log(error);
     }
@@ -76,6 +75,7 @@ const CreateNFT = ({
     console.log("render");
     get_user_collections();
   }, [signer]);
+
   return (
     <>
       {loading ? (
