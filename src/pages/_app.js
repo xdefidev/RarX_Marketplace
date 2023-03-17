@@ -40,17 +40,16 @@ export default function App({ Component, pageProps }) {
   const x_chain_polygon_address = "0xC62404FcaD906f7b438e35DBb437404EaE99Ed11";
   const x_chain_goerli_address = "0x9CBe30e67Ac44f5f8911615e68E1463a26DcdA83";
 
-  // xchain official hashi contracts 
+  // xchain official hashi contracts
   const x_hashi_polygon = "0xd3F1A0782AFD768f8929343Fb44344A2a49fE343";
   const x_hashi_goerli = "0x8F5969b8Fa3727392385C5E74CF1AA91a4aC4b40";
-
 
   //CONTRACT ADDRESSES
   const default_collection_address =
     "0x2432c4B02E1d5BC462e493A693f922866a17F3A3";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
-    "0x433Db3c3747F5eCEc9E1f6f03a7958F435230BC4";
+    "0x330E8af81F507A46D592CEB0a909fFCbE9Ef0Ad4";
 
   const connectToWallet = async () => {
     if (window?.ethereum) {
@@ -65,6 +64,18 @@ export default function App({ Component, pageProps }) {
 
       const user_address = await signer.getAddress();
       set_signer_address(user_address);
+
+      const db = polybase();
+      const checkUser = await db
+        .collection("User")
+        .where("id", "==", user_address)
+        .get();
+      if (!checkUser.data.length) {
+        const res = await db
+          .collection("User")
+          .create([user_address, "", "", "", "", ""]);
+        console.log({ res });
+      }
 
       const user_balance = await signer.getBalance();
       const signerToStr = ethers.utils.formatEther(user_balance.toString());
@@ -135,11 +146,16 @@ export default function App({ Component, pageProps }) {
     domainID
   ) => {
     try {
-      console.log({ NFTcollectionAdd: AssetCollection, NFTtokenID: AssetTokenID, XChainCONT: xChainContract, domainID: domainID })
-      // approving contract 
+      console.log({
+        NFTcollectionAdd: AssetCollection,
+        NFTtokenID: AssetTokenID,
+        XChainCONT: xChainContract,
+        domainID: domainID,
+      });
+      // approving contract
       try {
         const collectionContract = rarx_collection(AssetCollection, signer);
-        // approve our xchain contract 
+        // approve our xchain contract
         const approveTxn = await collectionContract.setApprovalForAll(
           xChainContract,
           true
@@ -167,7 +183,7 @@ export default function App({ Component, pageProps }) {
         console.log({ approveError: error });
       }
 
-      // sending xchain call 
+      // sending xchain call
       try {
         const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
         const sendXChainPolygon = await crossChainPolygon.XChainCall(
@@ -184,10 +200,9 @@ export default function App({ Component, pageProps }) {
         console.log({ XCallError: error });
       }
 
-      // getting xchain call txn hash 
+      // getting xchain call txn hash
       const Txnhash = await sendXChainPolygon.hash;
       setBridgedHash(Txnhash);
-
     } catch (error) {
       console.log({ someCatchError: error });
     }
