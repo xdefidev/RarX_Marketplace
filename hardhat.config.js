@@ -39,13 +39,13 @@ module.exports = {
         "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
       ],
     },
-    taiko: {
-      url: "https://l2rpc.hackathon.taiko.xyz",
-      chainId: "167002",
-      accounts: [
-        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
-      ],
-    },
+    // taiko: {
+    //   url: "https://l2rpc.hackathon.taiko.xyz",
+    //   chainId: "167002",
+    //   accounts: [
+    //     "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
+    //   ],
+    // },
     chiado: {
       url: "https://rpc.chiadochain.net",
       chainId: 10200,

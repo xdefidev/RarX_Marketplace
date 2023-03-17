@@ -83,6 +83,7 @@ contract CollectionFactory {
     function getAllCollections() public view returns(Collection[] memory) {
         uint256 collectionCount = _collectionId.current();
         Collection[] memory collections = new Collection[](collectionCount);
+        require(collectionCount >= 0, "you have not created any collection");
         for(uint256 i = 0; i < collectionCount; i++){
             Collection storage current_collection = idToCollection[i];
             collections[i] = current_collection;

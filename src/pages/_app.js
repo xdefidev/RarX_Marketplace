@@ -41,7 +41,7 @@ export default function App({ Component, pageProps }) {
     "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
-    "0x4f6a8D27866B0Bd395Cae155e563b8374ffc077b";
+    "0x32598B1f66F1c74087475a5AC20DeC2fD30B93C8";
 
   const connectToWallet = async () => {
     if (window?.ethereum) {
@@ -157,10 +157,9 @@ export default function App({ Component, pageProps }) {
       alert(error);
     }
   };
-
+  
   // create collection
   const create_collection = async (data) => {
-    console.log(data);
     try {
       const collection_logo = await storage.upload(data.logo);
       const collection_image = await storage.upload(data.image);
@@ -179,6 +178,7 @@ export default function App({ Component, pageProps }) {
         (
           collectionId,
           name,
+          symbol,
           description,
           image,
           logo,
@@ -192,6 +192,7 @@ export default function App({ Component, pageProps }) {
           console.log(`Logo: ${logo}`);
           console.log(`Creator: ${owner}`);
           console.log(`New NFT Collection Contract: ${collection_address}`);
+          console.log(`collection symbol: ${symbol}`);
 
           const db = polybase();
           const res = db
@@ -202,8 +203,9 @@ export default function App({ Component, pageProps }) {
               image,
               logo,
               name,
-              sym,
+              symbol,
             ]);
+          console.log({ res });
         }
       );
       // sendCollectionNoti({ collectionName: data.name });
@@ -227,9 +229,13 @@ export default function App({ Component, pageProps }) {
   };
   // get collections
   const get_all_collections = async (signer) => {
-    const collection = collection_contract_factory(signer);
-    const all_collections = await collection.getAllCollections();
-    set_collections(all_collections);
+    try {
+      const collection = collection_contract_factory(signer);
+      const all_collections = await collection.getAllCollections();
+      set_collections(all_collections);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   // get specific user collections
