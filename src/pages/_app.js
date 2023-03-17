@@ -283,16 +283,6 @@ export default function App({ Component, pageProps }) {
           collection_address
         ) => {
           const db = polybase();
-          console.log({
-            collectionId,
-            name,
-            symbol,
-            description,
-            image,
-            logo,
-            owner,
-            collection_address,
-          });
           const res = await db
             .collection("NFTCollection")
             .create([
@@ -384,6 +374,20 @@ export default function App({ Component, pageProps }) {
     const balance = await contract.balanceOf(
       "0xC0959C98C70647cF19F2aC48f58CDC3f8B657492"
     );
+  };
+
+  const fetch_collection_data_from_polybase = async (collection_address) => {
+    try {
+      const db = polybase();
+      const res = await db
+        .collection("NFTCollection")
+        .where("id", "==", collection_address)
+        .get();
+      console.log({ res });
+      return res;
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   const fetch_nfts_from_user_wallet = async (
@@ -497,6 +501,9 @@ export default function App({ Component, pageProps }) {
         x_chain_polygon_address={x_chain_polygon_address}
         x_chain_goerli_address={x_chain_goerli_address}
         bridgedHash={bridgedHash}
+        fetch_collection_data_from_polybase={
+          fetch_collection_data_from_polybase
+        }
       />
       <Footer />
     </>

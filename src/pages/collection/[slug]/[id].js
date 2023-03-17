@@ -4,8 +4,7 @@ import testNFT from "../../../../public/test.jpg";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
-import { MdVerified } from "react-icons/md"
-
+import { MdVerified } from "react-icons/md";
 
 const Collection = ({
   get_collection_by_id,
@@ -13,6 +12,7 @@ const Collection = ({
   signer,
   signer_address,
   get_nfts_from_collection,
+  fetch_collection_data_from_polybase,
 }) => {
   const router = useRouter();
   const { id, slug } = router.query;
@@ -23,8 +23,10 @@ const Collection = ({
 
   const get_collection = async () => {
     if (!signer) return;
-    const collection = await get_collection_by_id(id, signer);
-    set_collection(collection);
+    const collection = await fetch_collection_data_from_polybase(slug);
+    console.log(collection.data[0].data);
+    // const collection = await get_collection_by_id(id, signer);
+    set_collection(collection.data[0].data);
   };
 
   const get_nfts = async () => {
@@ -53,7 +55,10 @@ const Collection = ({
       {/* <!-- Banner IMG--> */}
       <div className="relative mt-24">
         <Image
-          src={collection.image?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+          src={collection.coverImage?.replace(
+            "ipfs://",
+            "https://ipfs.io/ipfs/"
+          )}
           width={100}
           height={100}
           alt="banner"
@@ -72,10 +77,7 @@ const Collection = ({
               alt="collection avatar"
               className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
             />
-            <div
-              className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600"
-
-            >
+            <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
               <MdVerified style={{ color: "#4f87ff" }} size={30} />
             </div>
           </div>
@@ -152,8 +154,6 @@ const Collection = ({
                 </div>
               </a>
             </div>
-
-
 
             <div className="mt-6 flex items-center justify-center space-x-2.5">
               <div className="rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
