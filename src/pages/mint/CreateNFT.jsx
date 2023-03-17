@@ -210,7 +210,7 @@ const CreateNFT = ({
                   <option value={defaultCol}>
                     RarX Marketplace Collection
                   </option>
-                  {user_collections.map((e, index) => {
+                  {user_collections?.map((e, index) => {
                     return (
                       <option key={index} value={e.collection_address}>
                         {e.name}
