@@ -163,7 +163,7 @@ export default function App({ Component, pageProps }) {
         await approveTxn.wait();
 
         // approve nfthashi polygon contract
-        if (domainID == "9991") {
+        if (domainID == "1735353714") {
           const approveHashiTxn = await collectionContract.setApprovalForAll(
             x_hashi_polygon,
             true
@@ -171,7 +171,7 @@ export default function App({ Component, pageProps }) {
           await approveHashiTxn.wait();
         }
         // approve nfthashi goerli contract
-        if (domainID == "1735353714") {
+        if (domainID == "9991") {
           const approveHashiTxn = await collectionContract.setApprovalForAll(
             x_hashi_goerli,
             true
@@ -195,13 +195,12 @@ export default function App({ Component, pageProps }) {
           "true"
         );
         await sendXChainPolygon.wait();
+        const Txnhash = await sendXChainPolygon.hash;
+        setBridgedHash(Txnhash);
       } catch (error) {
         console.log({ XCallError: error });
       }
 
-      // getting xchain call txn hash
-      const Txnhash = await sendXChainPolygon.hash;
-      setBridgedHash(Txnhash);
     } catch (error) {
       console.log({ someCatchError: error });
     }
@@ -259,7 +258,7 @@ export default function App({ Component, pageProps }) {
       await txn.wait();
       console.log({ txn });
     } catch (error) {
-      alert(error.message);
+      console.log(error)
     }
   };
 

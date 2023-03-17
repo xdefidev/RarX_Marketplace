@@ -23,7 +23,7 @@ const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, sig
         image: "",
         name: "",
         description: "",
-        collection: "",
+        collection: defaultCol,
         properties: [{ type: "", value: "" }],
     });
 
@@ -338,16 +338,20 @@ const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, sig
                                         </div>
                                         <select
                                             name="collection"
+                                            value={data.collection}
                                             onChange={handleChange}
                                             className="dropdown my-1 cursor-pointer w-[100%]"
                                         >
                                             <option value={defaultCol}>
                                                 RarX Marketplace Collection
                                             </option>
-                                            {user_collections.map((e) => (
-                                                <option value={e.collection_address}>{e.name}</option>
-                                            ))}
-                                            {/* create a loop of fetched nft collections of users  */}
+                                            {user_collections?.map((e, index) => {
+                                                return (
+                                                    <option key={index} value={e.collection_address}>
+                                                        {e.name}
+                                                    </option>
+                                                );
+                                            })}
                                         </select>
                                     </div>
 

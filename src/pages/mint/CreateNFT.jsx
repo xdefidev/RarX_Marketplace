@@ -60,10 +60,9 @@ const CreateNFT = ({
     if (!signer) return alert("Please provide a signer");
     try {
       set_loading(true);
-
-      //MINTING THE NFT
+      console.log(data)
       await create_token(data, signer);
-      // router.push(`/profile/${signer_address}`);
+      router.push(`/profile/${signer_address}`);
     } catch (error) {
       console.log(error);
     }
@@ -217,7 +216,6 @@ const CreateNFT = ({
                       </option>
                     );
                   })}
-                  {/* create a loop of fetched nft collections of users  */}
                 </select>
               </div>
 

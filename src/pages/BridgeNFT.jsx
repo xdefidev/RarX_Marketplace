@@ -129,7 +129,7 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
         if (assetContract != "") {
             try {
                 const xChainBridgeTxn = await xchain_NFT(assetContract, assetTokenID, xChainContract, domainID);
-                await xChainBridgeTxn.wait();
+                // await xChainBridgeTxn.wait();
                 setIsNFTBriding(false);
                 SetIsNFTBridged(true);
             } catch (error) {
@@ -320,7 +320,7 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
                 </>
             }
             {isNFTBridged == true &&
-                <div className='flex flex-col justify-center w-full'>
+                <div className='flex flex-col justify-center w-full mt-44 mb-44'>
                     <p className="mb-2 mt-2 text-center text-xl font-medium text-jacarta-700">
                         You NFT is bridged successfully 🎉
                     </p>
