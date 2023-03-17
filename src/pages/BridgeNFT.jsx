@@ -289,6 +289,21 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
                                                                     );
                                                                 })}
                                                             </div>
+                                                            {nfts?.length == 0 &&
+                                                                <div className='flex flex-col justify-center w-full'>
+                                                                    <p className="mb-2 mt-2 text-center text-xl font-medium text-jacarta-700">
+                                                                        No NFTS Found!
+                                                                    </p>
+                                                                    <div className='flex justify-center'>
+                                                                        <Link
+                                                                            href="/mint/CreateNFT"
+                                                                            className="mt-6 w-40 align-middle rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                                                        >
+                                                                            Create NFT
+                                                                        </Link>
+                                                                    </div>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
