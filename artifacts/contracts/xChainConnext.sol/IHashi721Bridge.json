@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "IHashi721Bridge",
-  "sourceName": "contracts/CrossChain.sol",
+  "sourceName": "contracts/xChainConnext.sol",
   "abi": [
     {
       "inputs": [

@@ -36,16 +36,16 @@ export default function App({ Component, pageProps }) {
   // push channel address
   const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
 
-  // xChain address 
+  // xChain address
   const x_chain_polygon = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const x_chain_goerli = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
 
-
   //CONTRACT ADDRESSES
-  const default_collection_address = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
+  const default_collection_address =
+    "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
-    "0x32598B1f66F1c74087475a5AC20DeC2fD30B93C8";
+    "0x433Db3c3747F5eCEc9E1f6f03a7958F435230BC4";
 
   const connectToWallet = async () => {
     if (window?.ethereum) {
@@ -112,18 +112,26 @@ export default function App({ Component, pageProps }) {
     return default_collection_contract;
   };
 
-  //cross chain 
-  const xchain_NFT = async (AssetCollection, AssetTokenID, xChainContract, domainID) => {
+  //cross chain
+  const xchain_NFT = async (
+    AssetCollection,
+    AssetTokenID,
+    xChainContract,
+    domainID
+  ) => {
     try {
       const collectionContract = rarx_collection(AssetCollection, signer);
-      const approveTxn = await collectionContract.approve(xChainContract, AssetTokenID);
+      const approveTxn = await collectionContract.approve(
+        xChainContract,
+        AssetTokenID
+      );
       await approveTxn.wait();
 
-      // first deploy crosschain contracts and write the code for xcall 
+      // first deploy crosschain contracts and write the code for xcall
     } catch (error) {
       alert("Something went wrong!");
     }
-  }
+  };
 
   // deploy collections
   const collection_contract_factory = (signer) => {
@@ -168,25 +176,18 @@ export default function App({ Component, pageProps }) {
       alert(error);
     }
   };
-  
+
   // create collection
   const create_collection = async (data) => {
     try {
       const collection_logo = await storage.upload(data.logo);
       const collection_image = await storage.upload(data.image);
       const collection_factory = collection_contract_factory(signer);
-      const txn = await collection_factory.create_collection(
-        data.name,
-        data.symbol,
-        collection_image,
-        collection_logo,
-        data.description
-      );
-      await txn.wait();
-      console.log("txn hash ", txn);
+      let event_data = {};
+
       collection_factory.on(
         "CollectionCreated",
-        (
+        async (
           collectionId,
           name,
           symbol,
@@ -196,17 +197,18 @@ export default function App({ Component, pageProps }) {
           owner,
           collection_address
         ) => {
-          console.log(`New collection created! Collection ID: ${collectionId}`);
-          console.log(`Name: ${name}`);
-          console.log(`Description: ${description}`);
-          console.log(`Image: ${image}`);
-          console.log(`Logo: ${logo}`);
-          console.log(`Creator: ${owner}`);
-          console.log(`New NFT Collection Contract: ${collection_address}`);
-          console.log(`collection symbol: ${symbol}`);
-
           const db = polybase();
-          const res = db
+          console.log({
+            collectionId,
+            name,
+            symbol,
+            description,
+            image,
+            logo,
+            owner,
+            collection_address,
+          });
+          const res = await db
             .collection("NFTCollection")
             .create([
               collection_address,
@@ -215,10 +217,21 @@ export default function App({ Component, pageProps }) {
               logo,
               name,
               symbol,
+              description,
             ]);
           console.log({ res });
         }
       );
+      const txn = await collection_factory.create_collection(
+        data.name,
+        data.symbol,
+        collection_image,
+        collection_logo,
+        data.description
+      );
+      await txn.wait();
+      console.log({ txn });
+
       // sendCollectionNoti({ collectionName: data.name });
     } catch (error) {
       alert(error.message);
