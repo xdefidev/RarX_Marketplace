@@ -35,8 +35,8 @@ export default function App({ Component, pageProps }) {
   const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
 
   // xChain address
-  const x_chain_polygon = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
-  const x_chain_goerli = "0x00957c664760Ca2f0Ed2e77f456083Fc6DcC48aD";
+  const x_chain_polygon = "0xC62404FcaD906f7b438e35DBb437404EaE99Ed11";
+  const x_chain_goerli = "0x9CBe30e67Ac44f5f8911615e68E1463a26DcdA83";
 
   //CONTRACT ADDRESSES
   const default_collection_address =

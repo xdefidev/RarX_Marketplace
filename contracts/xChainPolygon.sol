@@ -13,7 +13,7 @@ interface IHashi721Bridge {
     ) external payable returns (bytes32);
 }
 
-contract xChainConnext {
+contract xChainPolygon {
     address nftHashiBridgeContract;
 
     constructor(address _nftHashiBridgeContract) {
