@@ -8,7 +8,7 @@ import { ethers } from "ethers";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollection.json";
-import XChainContractABI from "../../artifacts/contracts/XChainPolygon.sol/XChainPolygon.json";
+import XChainPolygon from "../../artifacts/contracts/XChainPolygon.sol/XChainPolygon.json";
 import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/CollectionFactory.json";
 import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
@@ -121,7 +121,7 @@ export default function App({ Component, pageProps }) {
     if (!_xChainContract) return;
     const x_chain_contract = new ethers.Contract(
       _xChainContract,
-      XChainContractABI.abi,
+      XChainPolygon.abi,
       signer
     );
     return x_chain_contract;
@@ -146,12 +146,23 @@ export default function App({ Component, pageProps }) {
         );
         await approveTxn.wait();
 
-        // approve nfthashi contract 
-        const approveHashiTxn = await collectionContract.setApprovalForAll(
-          x_hashi_polygon,
-          true
-        );
-        await approveHashiTxn.wait();
+        // approve nfthashi polygon contract 
+        if (domainID == "9991") {
+          const approveHashiTxn = await collectionContract.setApprovalForAll(
+            x_hashi_polygon,
+            true
+          );
+          await approveHashiTxn.wait();
+        }
+        // approve nfthashi goerli contract 
+        if (domainID == "1735353714") {
+          const approveHashiTxn = await collectionContract.setApprovalForAll(
+            x_hashi_goerli,
+            true
+          );
+          await approveHashiTxn.wait();
+        }
+
       } catch (error) {
         console.log({ approveError: error });
       }
