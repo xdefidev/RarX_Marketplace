@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }) {
 
   //CONTRACT ADDRESSES
   const default_collection_address =
-    "0x5ee37Ff9C1Df8D11a8752a66B8E8669EB636Fb1F";
+    "0x2432c4B02E1d5BC462e493A693f922866a17F3A3";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
     "0x433Db3c3747F5eCEc9E1f6f03a7958F435230BC4";
@@ -103,13 +103,13 @@ export default function App({ Component, pageProps }) {
   // rarx collections
   const rarx_collection = (collection_address, signer) => {
     if (!collection_address) return;
-    const default_collection_contract = new ethers.Contract(
+    const collection_contract = new ethers.Contract(
       collection_address,
       NFTCollection.abi,
       signer
     );
 
-    return default_collection_contract;
+    return collection_contract;
   };
 
   //cross chain
@@ -146,30 +146,32 @@ export default function App({ Component, pageProps }) {
 
   // create nft
   const create_token = async (_tokenURI, signer) => {
-    console.log(_tokenURI);
     try {
-      console.log(signer);
       const tokenURI = await storage.upload(_tokenURI);
-      console.log({ tokenURI });
       const rarx = rarx_collection(_tokenURI.collection, signer);
-      console.log(rarx);
-      const txn = await rarx?.createToken(tokenURI);
-      await txn.wait();
-
       const network = await provider.getNetwork();
-      console.log({ network: network.chainId });
+
+      rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
+        console.log({ ipfsURL, tokenId });
+        const db = polybase();
+        const res = await db
+          .collection("NFT")
+          .create([
+            txn.hash,
+            tokenId.toString(),
+            _tokenURI.collection,
+            network.chainId.toString(),
+            tokenURI,
+            db.collection("User").record(signer_address),
+          ]);
+        console.log({ res });
+      });
+
+      const txn = await rarx.createToken(tokenURI);
+      await txn.wait();
+      console.log({ txn });
 
       //SAVING ON POLYBASE
-      const db = polybase();
-      const res = await db
-        .collection("NFT")
-        .create([
-          txn.hash,
-          network.chainId.toString(),
-          tokenURI,
-          db.collection("User").record(signer_address),
-        ]);
-      console.log({ res });
 
       // console.log({ res });
     } catch (error) {
@@ -183,7 +185,6 @@ export default function App({ Component, pageProps }) {
       const collection_logo = await storage.upload(data.logo);
       const collection_image = await storage.upload(data.image);
       const collection_factory = collection_contract_factory(signer);
-      let event_data = {};
 
       collection_factory.on(
         "CollectionCreated",
