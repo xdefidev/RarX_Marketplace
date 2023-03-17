@@ -329,9 +329,19 @@ export default function App({ Component, pageProps }) {
   // get collections
   const get_all_collections = async (signer) => {
     try {
-      const collection = collection_contract_factory(signer);
-      const all_collections = await collection.getAllCollections();
-      set_collections(all_collections);
+      //BLOCKCHAIN
+      // const collection = collection_contract_factory(signer);
+      // const all_collections = await collection.getAllCollections();
+      // console.log({ onChainCollections: all_collections });
+
+      const db = polybase();
+      const collections = await db.collection("NFTCollection").get();
+      const allCollections = [];
+      collections.data.map((e) => {
+        const { data } = e;
+        allCollections.push(data);
+      });
+      set_collections(allCollections);
     } catch (error) {
       console.log(error.message);
     }

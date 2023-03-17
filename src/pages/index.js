@@ -10,6 +10,7 @@ import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
 
 export default function Home({ all_collections }) {
+  console.log({ all_collections });
   return (
     <>
       <Head>
@@ -280,13 +281,13 @@ export default function Home({ all_collections }) {
               return (
                 <CollectionCard
                   key={index}
-                  Cover={e.image}
+                  Cover={e.coverImage}
                   Logo={e.logo}
                   Name={e.name}
                   Description={e.description}
-                  OwnerAddress={e.owner}
-                  CollectionAddress={e.collection_address}
-                  collectionId={e.collectionId.toString()}
+                  OwnerAddress={e.owner.id}
+                  CollectionAddress={e.id}
+                  collectionId={e.id}
                 />
               );
             })}
