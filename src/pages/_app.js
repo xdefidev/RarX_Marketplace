@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollection.json";
+import XChainContractABI from "../../artifacts/contracts/XChainPolygon.sol/XChainPolygon.json";
 import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/CollectionFactory.json";
 import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }) {
   const [signer_address, set_signer_address] = useState("");
   const [signer_bal, set_signer_bal] = useState(0);
   const [format_signer_bal, set_format_signer_bal] = useState(0);
+  const [bridgedHash, setBridgedHash] = useState("");
 
   //COLLECTIONS INFORMATION
   const [all_collections, set_collections] = useState([]);
@@ -35,8 +37,13 @@ export default function App({ Component, pageProps }) {
   const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
 
   // xChain address
-  const x_chain_polygon = "0xC62404FcaD906f7b438e35DBb437404EaE99Ed11";
-  const x_chain_goerli = "0x9CBe30e67Ac44f5f8911615e68E1463a26DcdA83";
+  const x_chain_polygon_address = "0xC62404FcaD906f7b438e35DBb437404EaE99Ed11";
+  const x_chain_goerli_address = "0x9CBe30e67Ac44f5f8911615e68E1463a26DcdA83";
+
+  // xchain official hashi contracts 
+  const x_hashi_polygon = "0xd3F1A0782AFD768f8929343Fb44344A2a49fE343";
+  const x_hashi_goerli = "0x8F5969b8Fa3727392385C5E74CF1AA91a4aC4b40";
+
 
   //CONTRACT ADDRESSES
   const default_collection_address =
@@ -106,8 +113,18 @@ export default function App({ Component, pageProps }) {
       NFTCollection.abi,
       signer
     );
-
     return collection_contract;
+  };
+
+  // cross chain call main function
+  const xChain_Contract_Call = (_xChainContract, signer) => {
+    if (!_xChainContract) return;
+    const x_chain_contract = new ethers.Contract(
+      _xChainContract,
+      XChainContractABI.abi,
+      signer
+    );
+    return x_chain_contract;
   };
 
   //cross chain
@@ -118,19 +135,50 @@ export default function App({ Component, pageProps }) {
     domainID
   ) => {
     try {
-      const collectionContract = rarx_collection(AssetCollection, signer);
-      const approveTxn = await collectionContract.approve(
-        xChainContract,
-        AssetTokenID
-      );
-      await approveTxn.wait();
+      console.log({ NFTcollectionAdd: AssetCollection, NFTtokenID: AssetTokenID, XChainCONT: xChainContract, domainID: domainID })
+      // approving contract 
+      try {
+        const collectionContract = rarx_collection(AssetCollection, signer);
+        // approve our xchain contract 
+        const approveTxn = await collectionContract.setApprovalForAll(
+          xChainContract,
+          true
+        );
+        await approveTxn.wait();
 
-      const hash = await approveTxn.hash;
-      console.log({ hash });
+        // approve nfthashi contract 
+        const approveHashiTxn = await collectionContract.setApprovalForAll(
+          x_hashi_polygon,
+          true
+        );
+        await approveHashiTxn.wait();
+      } catch (error) {
+        console.log({ approveError: error });
+      }
 
-      // first deploy crosschain contracts and write the code for xcall
+      // sending xchain call 
+      try {
+        const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
+        const sendXChainPolygon = await crossChainPolygon.XChainCall(
+          domainID,
+          "0",
+          "500",
+          AssetCollection,
+          signer_address,
+          AssetTokenID,
+          "true"
+        );
+        await sendXChainPolygon.wait();
+      } catch (error) {
+        console.log({ XCallError: error });
+      }
+
+      // getting xchain call txn hash 
+      const Txnhash = await sendXChainPolygon.hash;
+      setBridgedHash(Txnhash);
+
     } catch (error) {
-      alert("Something went wrong!");
+      console.log({ someCatchError: error });
     }
   };
 
@@ -399,8 +447,9 @@ export default function App({ Component, pageProps }) {
         connectToWallet={connectToWallet}
         setChainIdMain={setChainIdMain}
         xchain_NFT={xchain_NFT}
-        x_chain_polygon={x_chain_polygon}
-        x_chain_goerli={x_chain_goerli}
+        x_chain_polygon_address={x_chain_polygon_address}
+        x_chain_goerli_address={x_chain_goerli_address}
+        bridgedHash={bridgedHash}
       />
       <Footer />
     </>

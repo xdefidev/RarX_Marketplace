@@ -5,7 +5,8 @@ import NftCard from '@/components/cards/NftCard';
 import Loader from '@/components/Loader';
 
 
-const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_from_user_wallet, default_collection_address, signer_address, signer, xchain_NFT, x_chain_goerli, x_chain_polygon }) => {
+const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_from_user_wallet, default_collection_address, signer_address, signer, xchain_NFT, x_chain_polygon_address, x_chain_goerli_address, bridgedHash }) => {
+
     const [domainID, setDomainID] = useState("9991");
     const [assetContract, setAssesContract] = useState("");
     const [assetTokenID, setAssetTokenID] = useState();
@@ -114,12 +115,12 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
         if (defaultDomain == true && chainIdMain == "80001") {
             setShowSelectNFT(true);
             get_nfts(default_collection_address, signer_address);
-            setxChainContract(x_chain_polygon);
+            setxChainContract(x_chain_polygon_address);
         }
         if (defaultDomain == false && chainIdMain == "5") {
             setShowSelectNFT(true);
             get_nfts(default_collection_address, signer_address);
-            setxChainContract(x_chain_goerli);
+            setxChainContract(x_chain_goerli_address);
         }
     }
 
@@ -130,9 +131,10 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
                 const xChainBridgeTxn = await xchain_NFT(assetContract, assetTokenID, xChainContract, domainID);
                 await xChainBridgeTxn.wait();
                 setIsNFTBriding(false);
+                SetIsNFTBridged(true);
             } catch (error) {
-                alert("Transaction failed, please try again later!");
                 setIsNFTBriding(false);
+                console.log({ someXChainDridgeTxnError: error });
             }
         }
         else {
@@ -144,10 +146,10 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
     useEffect(() => {
         connectToWallet();
         if (chainIdMain == "5") {
-            setDomainID("1735353714");
+            setDomainID("9991");
         }
         if (chainIdMain == "80001") {
-            setDomainID("9991");
+            setDomainID("1735353714");
         }
     }, [showSelectNFT, chainIdMain]);
 
@@ -317,7 +319,25 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
                     }
                 </>
             }
-            {isNFTBridged == true && "Bridged successfully"}
+            {isNFTBridged == true &&
+                <div className='flex flex-col justify-center w-full'>
+                    <p className="mb-2 mt-2 text-center text-xl font-medium text-jacarta-700">
+                        You NFT is bridged successfully 🎉
+                    </p>
+                    <p className="mb-2 mt-2 text-center text-sm font-sans text-jacarta-700">
+                        You shall see the NFT in your wallet in few mins..
+                    </p>
+                    <div className='flex justify-center'>
+                        <a
+                            href={bridgedHash}
+                            target="_blank"
+                            className="mt-6 w-70 align-middle rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
+                            View Transaction
+                        </a>
+                    </div>
+                </div>
+            }
         </>
     )
 }
