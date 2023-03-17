@@ -129,7 +129,7 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
         if (assetContract != "") {
             try {
                 const xChainBridgeTxn = await xchain_NFT(assetContract, assetTokenID, xChainContract, domainID);
-                // await xChainBridgeTxn.wait();
+                xChainBridgeTxn.wait();
                 setIsNFTBriding(false);
                 SetIsNFTBridged(true);
             } catch (error) {

@@ -16,6 +16,7 @@ import * as PushAPI from "@pushprotocol/restapi";
 import { Polybase } from "@polybase/client";
 import { ethPersonalSign } from "@polybase/eth";
 import { Wallet } from "ethers";
+// import { create } from "@connext/sdk";
 
 export default function App({ Component, pageProps }) {
   const wallet = new Wallet(process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY);
@@ -51,6 +52,7 @@ export default function App({ Component, pageProps }) {
   const collection_factory_address =
     "0x330E8af81F507A46D592CEB0a909fFCbE9Ef0Ad4";
 
+  // connect wallet metamask 
   const connectToWallet = async () => {
     if (window?.ethereum) {
       const provider = new ethers.providers.Web3Provider(
@@ -127,6 +129,22 @@ export default function App({ Component, pageProps }) {
     return collection_contract;
   };
 
+  // connext sdk config 
+  // const SdkConfig = {
+  //   signerAddress: signer_address,
+  //   network: "testnet",
+  //   environment: "staging",
+  //   chains: {
+  //     1735353714: {
+  //       providers: ["https://rpc.ankr.com/eth_goerli"],
+  //     },
+  //     9991: {
+  //       providers: ["https://matic-mumbai.chainstacklabs.com"],
+  //     },
+  //   },
+  // };
+
+
   // cross chain call main function
   const xChain_Contract_Call = (_xChainContract, signer) => {
     if (!_xChainContract) return;
@@ -146,12 +164,16 @@ export default function App({ Component, pageProps }) {
     domainID
   ) => {
     try {
-      console.log({
-        NFTcollectionAdd: AssetCollection,
-        NFTtokenID: AssetTokenID,
-        XChainCONT: xChainContract,
-        domainID: domainID,
-      });
+      // getting relayer fee 
+      // const polygonDomain = "9991";
+      // const { sdkBase } = await create(SdkConfig);
+      // const relayerFee = (
+      //   await sdkBase.estimateRelayerFee({
+      //     polygonDomain,
+      //     domainID
+      //   })
+      // )
+
       // approving contract
       try {
         const collectionContract = rarx_collection(AssetCollection, signer);
@@ -188,7 +210,7 @@ export default function App({ Component, pageProps }) {
         const sendXChainPolygon = await crossChainPolygon.XChainCall(
           domainID,
           "0",
-          "500",
+          "5000",
           AssetCollection,
           signer_address,
           AssetTokenID,
