@@ -17,9 +17,7 @@ import { ethPersonalSign } from "@polybase/eth";
 import { Wallet } from "ethers";
 
 export default function App({ Component, pageProps }) {
-  const wallet = new Wallet(
-    "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba"
-  );
+  const wallet = new Wallet(process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY);
 
   const storage = new ThirdwebStorage();
   //SIGNER INFORMATION
@@ -341,8 +339,7 @@ export default function App({ Component, pageProps }) {
 
   const polybase = () => {
     const db = new Polybase({
-      defaultNamespace:
-        "pk/0x9e0b94816d36409ad92dce6ebefcab7db77e3feab6203ec3e2f07aaab334463b6ee759021cfeec4b305a263edd67358ebc4d8fe2ccee87b7b899622c45156dda/Rarx",
+      defaultNamespace: process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE,
       signer: async (data) => {
         return {
           h: "eth-personal-sign",
