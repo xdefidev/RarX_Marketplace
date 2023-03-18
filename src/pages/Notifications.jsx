@@ -21,7 +21,6 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
             })
             .then((feeds) => {
                 setNotificationData(feeds);
-                console.log(feeds)
             })
             .catch((err) => {
                 console.error("failed to get user notifications: ", err);

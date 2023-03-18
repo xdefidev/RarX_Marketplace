@@ -47,10 +47,10 @@ export default function App({ Component, pageProps }) {
 
   //CONTRACT ADDRESSES
   const default_collection_address =
-    "0xe3b440a11E1E45B22A1AeEe311D1335c7C73C940";
+    "0x55fe3A40d5417C416499bF3d3F1dC261D9e8F964";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
-    "0x330E8af81F507A46D592CEB0a909fFCbE9Ef0Ad4";
+    "0x454e433fBd6E4a6fD695061c17A2b0F6f18275ea";
 
   // connect wallet metamask
   const connectToWallet = async () => {
@@ -410,7 +410,6 @@ export default function App({ Component, pageProps }) {
           db.collection("nftCollection").record(collection_address)
         )
         .get();
-      console.log({ thisNFTs: res.data });
       return res;
     } catch (error) {
       console.log(error.message);

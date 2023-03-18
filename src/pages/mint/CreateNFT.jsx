@@ -60,7 +60,6 @@ const CreateNFT = ({
     if (!signer) return alert("Please provide a signer");
     try {
       set_loading(true);
-      console.log(data)
       await create_token(data, signer);
       router.push(`/profile/${signer_address}`);
     } catch (error) {
@@ -70,7 +69,6 @@ const CreateNFT = ({
   };
 
   useEffect(() => {
-    console.log("render");
     get_user_collections();
   }, [signer]);
 

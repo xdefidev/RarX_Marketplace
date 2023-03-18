@@ -54,14 +54,11 @@ const EditProfile = ({ signer_address, polybase }) => {
     e.preventDefault();
     set_loading(true);
     try {
-      console.log("update data called");
       const db = polybase();
-      console.log("updateData called");
 
       let coverImg;
       let profileImg;
 
-      console.log(data);
 
       if (typeof data.coverImage === "object") {
         coverImg = await storage.upload(data.coverImage);
@@ -69,7 +66,6 @@ const EditProfile = ({ signer_address, polybase }) => {
       if (typeof data.profileImage === "object") {
         profileImg = await storage.upload(data.profileImage);
       }
-      console.log(data);
       const res = await db
         .collection("User")
         .record(signer_address)
@@ -81,8 +77,6 @@ const EditProfile = ({ signer_address, polybase }) => {
           coverImg ? coverImg : data.coverImage,
           [data.twitter, data.instagram, data.customLink],
         ]);
-      console.log("done calling");
-
       // window.location.reload();
     } catch (error) {
       console.log(error.message);

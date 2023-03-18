@@ -16,7 +16,6 @@ export default function Home({
   const [nfts, set_nfts] = useState([]);
   const get_nfts = async () => {
     const res = await fetch_all_nfts_from_polybase();
-    console.log({ res });
     if (res) {
       set_nfts(res);
     }
