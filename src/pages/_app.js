@@ -493,6 +493,35 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // sending nft minted notification
+  const sendNFTMintNoti = async ({ NFTName }) => {
+    const signer = new ethers.Wallet(
+      `${process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY}`
+    );
+    try {
+      const apiResponse = await PushAPI.payloads.sendNotification({
+        signer,
+        type: 3,
+        identityType: 2,
+        notification: {
+          title: `Your new NFT ${NFTName} is created on-chain via RarX Marketplace`,
+          body: `Congratulations, now you can list your newly minted NFT on Rarx`,
+        },
+        payload: {
+          title: `Your new NFT ${NFTName} is created on-chain via RarX Marketplace`,
+          body: `Congratulations, now you can list your newly minted NFT on Rarx`,
+          cta: ``,
+        },
+        recipients: `eip155:8001:${signer_address}`,
+        channel: `eip155:5:${RARX_CHANNEL_ADDRESS}`,
+        env: "staging",
+      });
+    } catch (err) {
+      console.error("Error: ", err);
+    }
+  };
+
+  // polybase db connect 
   const polybase = () => {
     const db = new Polybase({
       defaultNamespace: process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE,
