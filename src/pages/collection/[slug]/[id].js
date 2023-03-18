@@ -13,6 +13,7 @@ const Collection = ({
   signer_address,
   get_nfts_from_collection,
   fetch_collection_data_from_polybase,
+  fetch_nfts_from_collection,
 }) => {
   const router = useRouter();
   const { id, slug } = router.query;
@@ -24,19 +25,18 @@ const Collection = ({
   const get_collection = async () => {
     if (!signer) return;
     const collection = await fetch_collection_data_from_polybase(slug);
-    console.log(collection.data[0].data);
-    // const collection = await get_collection_by_id(id, signer);
     set_collection(collection.data[0].data);
   };
 
   const get_nfts = async () => {
     if (!signer && !signer_address) return;
-    const nfts = await fetch_nfts_from_user_wallet(
-      slug,
-      signer_address,
-      signer
-    );
-    set_nfts(nfts);
+    // const nfts = await fetch_nfts_from_user_wallet(
+    //   slug,
+    //   signer_address,
+    //   signer
+    // );
+    const res = await fetch_nfts_from_collection(slug);
+    // set_nfts(nfts);
   };
 
   const get_all_nfts = async () => {

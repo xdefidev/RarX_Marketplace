@@ -54,7 +54,7 @@ const CreateNFT = ({
     const collections = await get_my_collections(signer);
     set_user_collections(collections);
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!signer) return alert("Please provide a signer");
