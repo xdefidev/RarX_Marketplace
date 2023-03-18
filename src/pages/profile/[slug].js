@@ -40,20 +40,20 @@ const Profile = ({
 
   const get_nfts = async (collection_address, slug) => {
     set_loading(true);
-    const nfts = await fetch_nfts_from_user_wallet(
-      collection_address,
-      slug,
-      signer
-    );
+    const nfts = await fetch_nfts_from_user_wallet(signer_address);
     set_nfts(nfts);
     set_loading(false);
   };
 
   useEffect(() => {
-    myCollections();
-    if (!signer_address) return;
-    get_nfts(default_collection_address, slug);
-  }, [signer, signer_address]);
+    const fetchData = async () => {
+      myCollections();
+      if (!signer_address) return;
+      get_nfts(default_collection_address, slug);
+    };
+    fetchData();
+    console.log("render");
+  }, [signer]);
 
   return loading ? (
     <Loader />
@@ -297,19 +297,17 @@ const Profile = ({
                 <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
                   {nfts?.map((e, index) => {
                     return (
-                      e.name && (
-                        <NftCard
-                          key={index}
-                          ImageSrc={e.image.replace(
-                            "ipfs://",
-                            "https://gateway.ipfscdn.io/ipfs/"
-                          )}
-                          Name={e.name}
-                          Description={e.description}
-                          Address={default_collection_address}
-                          tokenId={index}
-                        />
-                      )
+                      <NftCard
+                        key={index}
+                        ImageSrc={e.ipfsData.image.replace(
+                          "ipfs://",
+                          "https://gateway.ipfscdn.io/ipfs/"
+                        )}
+                        Name={e.ipfsData.name}
+                        Description={e.ipfsData.description}
+                        Address={e.ipfsData.collection}
+                        tokenId={e.tokenId}
+                      />
                     );
                   })}
                 </div>

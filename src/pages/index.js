@@ -9,21 +9,7 @@ import { useEffect, useState } from "react";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
 
-export default function Home({
-  all_collections,
-  fetch_all_nfts_from_polybase,
-}) {
-  const [nfts, set_nfts] = useState([]);
-  const get_nfts = async () => {
-    const res = await fetch_all_nfts_from_polybase();
-    if (res) {
-      set_nfts(res);
-    }
-  };
-
-  useEffect(() => {
-    get_nfts();
-  }, []);
+export default function Home({ all_collections, nfts }) {
   return (
     <>
       <Head>
@@ -281,13 +267,14 @@ export default function Home({
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
             {nfts.map((e) => (
               <NftCard
-                ImageSrc={e.image.replace(
+                ImageSrc={e.ipfsData.image.replace(
                   "ipfs://",
                   "https://gateway.ipfscdn.io/ipfs/"
                 )}
-                Name={e.name}
-                Description={e.description}
-                Address={e.collection}
+                Name={e.ipfsData.name}
+                Description={e.ipfsData.description}
+                Address={e.ipfsData.collection}
+                tokenId={e.tokenId}
               />
             ))}
           </div>
@@ -331,9 +318,13 @@ export default function Home({
       {/* create and sell div*/}
       <div className="relative py-24 dark:bg-jacarta-800">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-          <Image src={gradient} alt="gradient" className="h-full w-full" 
-                height={100}
-                width={100}/>
+          <Image
+            src={gradient}
+            alt="gradient"
+            className="h-full w-full"
+            height={100}
+            width={100}
+          />
         </picture>
         <div className="container">
           <h2 className="mb-16 text-center font-display text-3xl text-jacarta-700 dark:text-white">

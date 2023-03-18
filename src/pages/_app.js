@@ -30,6 +30,7 @@ export default function App({ Component, pageProps }) {
   const [signer_bal, set_signer_bal] = useState(0);
   const [format_signer_bal, set_format_signer_bal] = useState(0);
   const [bridgedHash, setBridgedHash] = useState("");
+  const [nfts, set_nfts] = useState([]);
 
   //COLLECTIONS INFORMATION
   const [all_collections, set_collections] = useState([]);
@@ -88,6 +89,7 @@ export default function App({ Component, pageProps }) {
       const { chainId } = await provider.getNetwork();
       setChainIdMain(chainId);
       get_all_collections(signer);
+      fetch_all_nfts_from_polybase();
     } else {
       alert(
         "Please install Metamask, Intmax or any other web3 enabled browser"
@@ -338,11 +340,6 @@ export default function App({ Component, pageProps }) {
   // get collections
   const get_all_collections = async (signer) => {
     try {
-      //BLOCKCHAIN
-      // const collection = collection_contract_factory(signer);
-      // const all_collections = await collection.getAllCollections();
-      // console.log({ onChainCollections: all_collections });
-
       const db = polybase();
       const collections = await db.collection("NFTCollection").get();
       const allCollections = [];
@@ -435,46 +432,54 @@ export default function App({ Component, pageProps }) {
       const db = polybase();
       const res = await db.collection("NFT").get();
       let nfts = [];
-      res.data.map(async (e) => {
+      for (const e of res.data) {
+        let obj = {};
+        obj.chainId = e.data.chainId;
+        obj.tokenId = e.data.tokenId;
+        obj.isListed = e.data.isListed;
         const url = e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
         );
-        const nft = await axios.get(url);
-        nfts.push(nft.data);
-      });
+        const { data } = await axios.get(url);
+        obj.ipfsData = data;
+        nfts.push(obj);
+      }
+      set_nfts(nfts);
       return nfts;
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const fetch_nfts_from_user_wallet = async (
-    collection_address,
-    signer_address,
-    signer
-  ) => {
+  const fetch_nfts_from_user_wallet = async (signer_address) => {
     try {
       if (!signer_address) return;
+      let nfts = [];
       const db = polybase();
       const res = await db
         .collection("NFT")
-        .where("owner", "==", db.collection("User").record(signer_address))
+        .where("owner", "==", {
+          collectionId:
+            "pk/0x9e0b94816d36409ad92dce6ebefcab7db77e3feab6203ec3e2f07aaab334463b6ee759021cfeec4b305a263edd67358ebc4d8fe2ccee87b7b899622c45156dda/rarxv3/User",
+          id: signer_address,
+        })
         .get();
-      console.log(res.data);
-      // const contract = rarx_collection(collection_address, signer);
-      // const balance = await contract.balanceOf(signer_address);
-      // let nfts = [];
-      // for (let i = 0; i < balance; i++) {
-      //   const tokenURI = await contract.tokenURI(i);
-      //   const res = await axios.get(
-      //     tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
-      //   );
-      //   console.log(res.data.name);
-      //   nfts.push(res.data);
-      // }
-      // console.log({ nfts });
-      // return nfts;
+
+      for (const e of res.data) {
+        let obj = {};
+        obj.chainId = e.data.chainId;
+        obj.tokenId = e.data.tokenId;
+        obj.isListed = e.data.isListed;
+        const url = e.data.ipfsURL.replace(
+          "ipfs://",
+          "https://gateway.ipfscdn.io/ipfs/"
+        );
+        const { data } = await axios.get(url);
+        obj.ipfsData = data;
+        nfts.push(obj);
+      }
+      return nfts;
     } catch (error) {
       console.log(error.message);
     }
@@ -571,6 +576,7 @@ export default function App({ Component, pageProps }) {
         }
         fetch_nfts_from_collection={fetch_nfts_from_collection}
         fetch_all_nfts_from_polybase={fetch_all_nfts_from_polybase}
+        nfts={nfts}
       />
       <Footer />
     </>

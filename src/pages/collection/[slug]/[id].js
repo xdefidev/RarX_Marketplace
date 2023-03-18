@@ -33,7 +33,6 @@ const Collection = ({
       get_nfts();
     };
     fetchData();
-    console.log("renders");
   }, [slug]);
 
   return (
