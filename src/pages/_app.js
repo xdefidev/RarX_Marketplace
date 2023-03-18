@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }) {
 
   //CONTRACT ADDRESSES
   const default_collection_address =
-    "0x55fe3A40d5417C416499bF3d3F1dC261D9e8F964";
+    "0x5dB263090Cd6341e7Af4133380A8bfB07117B674";
   const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
   const collection_factory_address =
     "0x454e433fBd6E4a6fD695061c17A2b0F6f18275ea";
@@ -232,7 +232,6 @@ export default function App({ Component, pageProps }) {
       CollectionFactory.abi,
       signer
     );
-
     return collection_factory;
   };
 
@@ -253,7 +252,7 @@ export default function App({ Component, pageProps }) {
               network.chainId.toString(),
               tokenURI,
               db.collection("User").record(signer_address),
-              db.collection("NFTCollection").record("rarx"),
+              db.collection("NFTCollection").record(default_collection_address),
             ]);
         } else {
           const res = await db
