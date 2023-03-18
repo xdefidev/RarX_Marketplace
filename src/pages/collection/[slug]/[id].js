@@ -7,11 +7,6 @@ import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 
 const Collection = ({
-  get_collection_by_id,
-  fetch_nfts_from_user_wallet,
-  signer,
-  signer_address,
-  get_nfts_from_collection,
   fetch_collection_data_from_polybase,
   fetch_nfts_from_collection,
 }) => {
@@ -23,32 +18,22 @@ const Collection = ({
   const [nfts, set_nfts] = useState([]);
 
   const get_collection = async () => {
-    if (!signer) return;
     const collection = await fetch_collection_data_from_polybase(slug);
     set_collection(collection.data[0].data);
   };
 
   const get_nfts = async () => {
-    if (!signer && !signer_address) return;
-    // const nfts = await fetch_nfts_from_user_wallet(
-    //   slug,
-    //   signer_address,
-    //   signer
-    // );
     const res = await fetch_nfts_from_collection(slug);
-    // set_nfts(nfts);
-  };
-
-  const get_all_nfts = async () => {
-    if (!slug) return;
-    const nfts = await get_nfts_from_collection(slug);
+    set_nfts(res);
   };
 
   useEffect(() => {
-    get_collection();
-    get_nfts();
-    get_all_nfts();
-  }, [signer, signer_address]);
+    const fetchData = async () => {
+      get_collection();
+      get_nfts();
+    };
+    fetchData();
+  }, [slug]);
 
   return (
     <>
@@ -276,18 +261,21 @@ const Collection = ({
               aria-labelledby="on-sale-tab"
             >
               <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                {nfts?.map((e, index) => (
-                  <NftCard
-                    ImageSrc={e.image.replace(
-                      "ipfs://",
-                      "https://ipfs.io/ipfs/"
-                    )}
-                    Name={e.name}
-                    Description={e.description}
-                    Address={e.collection}
-                    tokenId={index}
-                  />
-                ))}
+                {nfts?.map((e, index) => {
+                  return (
+                    <NftCard
+                      key={index}
+                      ImageSrc={e.ipfsData.image.replace(
+                        "ipfs://",
+                        "https://ipfs.io/ipfs/"
+                      )}
+                      Name={e.ipfsData.name}
+                      Description={e.ipfsData.description}
+                      Address={e.ipfsData.collection}
+                      tokenId={e.tokenId}
+                    />
+                  );
+                })}
               </div>
             </div>
           </div>
