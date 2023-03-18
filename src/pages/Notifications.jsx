@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import * as PushAPI from "@pushprotocol/restapi";
 import Image from "next/image";
+import PushSvg from "../../public/download.svg"
 
 
 
@@ -41,7 +42,9 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
             <div class="container">
                 <h1 class="mt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">Notifications</h1>
                 <p className="mb-16 mt-2 text-[18px] text-center leading-normal dark:text-jacarta-300">
-                    All the notifications are realtime and powered by push protocol
+                    <div className="flex justify-center align-middle mt-4">
+                        <Image src={PushSvg} height={170} width={170} />
+                    </div>
                 </p>
 
                 <div className="scrollbar-custom overflow-x-auto rounded-lg">
