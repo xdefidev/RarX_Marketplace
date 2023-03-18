@@ -403,12 +403,24 @@ export default function App({ Component, pageProps }) {
       const db = polybase();
       const res = await db
         .collection("NFT")
-        .where(
-          "nftCollection",
-          "==",
-          db.collection("nftCollection").record(collection_address)
-        )
+        .where("nftCollection", "==", {
+          collectionId:
+            "pk/0x9e0b94816d36409ad92dce6ebefcab7db77e3feab6203ec3e2f07aaab334463b6ee759021cfeec4b305a263edd67358ebc4d8fe2ccee87b7b899622c45156dda/rarxv3/NFTCollection",
+          id: collection_address,
+        })
         .get();
+
+      // const res = await db
+      //   .collection("NFT")
+      //   .where(
+      //     "nftCollection",
+      //     "==",
+      //     db
+      //       .collection("NFTCollection")
+      //       .record("0x5dB263090Cd6341e7Af4133380A8bfB07117B674")
+      //   )
+      //   .get();
+      console.log({ col_nfts: res.data });
       return res;
     } catch (error) {
       console.log(error.message);
@@ -514,7 +526,6 @@ export default function App({ Component, pageProps }) {
       });
     }
     connectToWallet();
-    fetch_nfts_from_collection();
   }, []);
 
   return (
