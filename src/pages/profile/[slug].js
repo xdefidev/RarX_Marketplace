@@ -106,7 +106,7 @@ const Profile = ({
       switchGoerliChain();
     }
     try {
-      // set_loading(true);
+      set_loading(true);
       const { chainId } = await provider.getNetwork();
       const sf = await Framework.create({
         chainId,
@@ -131,14 +131,15 @@ const Profile = ({
       }, 8000);
 
     } catch (err) {
-      console.log({ streamError: err })
       set_loading(false);
+      console.log({ CreateStreamError: err });
+      alert("Something went wrong! Please try again");
     }
   };
 
   const handleDeleteStream = async () => {
     try {
-      // set_loading(true);
+      set_loading(true);
       const { chainId } = await provider.getNetwork();
       const sf = await Framework.create({
         chainId,
@@ -160,6 +161,7 @@ const Profile = ({
       }, 8000);
     } catch (err) {
       set_loading(false);
+      console.log({ DeleteStreamError: err })
       alert("Something went wrong! Please try again");
     }
   };
@@ -181,12 +183,11 @@ const Profile = ({
         receiver: slug,
         providerOrSigner: provider,
       });
-      console.log({ res })
       SetUserStreamData(res);
     }
   };
-
   // superfluid config end
+
 
   const [loading, set_loading] = useState(false);
   const [membershipVisible, setMembershipVisible] = useState(false);
@@ -218,6 +219,7 @@ const Profile = ({
   };
 
   useEffect(() => {
+    if (!signer_address) return;
     const fetchData = async () => {
       myCollections();
       if (!signer_address) return;
@@ -298,35 +300,39 @@ const Profile = ({
             {/* membership on click buttons */}
             {!membershipVisible &&
               <div className="flex justify-center align-middle mb-10 mt-10">
-                {calculateFlowRate(userStreamData?.flowRate) > 0 &&
-                  <button type="button" onClick={() => setMembershipVisible(true)}
-                    class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
-                    View Membership
-                  </button>
-                }
-                {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
-                  <button type="button" onClick={() => setMembershipVisible(true)}
-                    class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
-                    Become Member
-                  </button>
+                {signer_address != slug &&
+                  <>
+                    {calculateFlowRate(userStreamData?.flowRate) > 0 &&
+                      <button type="button" onClick={() => setMembershipVisible(true)}
+                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                        View Membership
+                      </button>
+                    }
+                    {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
+                      <button type="button" onClick={() => setMembershipVisible(true)}
+                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                        Become Member
+                      </button>
+                    }
+                  </>
                 }
               </div>
             }
             {/* membership division main  */}
             {membershipVisible &&
               <div>
-                <div class="modal-dialog max-w-2xl">
-                  <div class="modal-content">
-                    <div class="modal-header">
+                <div className="modal-dialog max-w-2xl">
+                  <div className="modal-content">
+                    <div className="modal-header">
                       {calculateFlowRate(userStreamData?.flowRate) > 0 &&
-                        <h5 class="modal-title" id="placeBidLabel">Your Membership Info</h5>
+                        <h5 className="modal-title" id="placeBidLabel">Your Membership Info</h5>
                       }
                       {!calculateFlowRate(userStreamData?.flowRate) <= 0 &&
-                        <h5 class="modal-title" id="placeBidLabel">Become A Member</h5>
+                        <h5 className="modal-title" id="placeBidLabel">Become A Member</h5>
                       }
-                      <button type="button" onClick={() => setMembershipVisible(false)} class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                      <button type="button" onClick={() => setMembershipVisible(false)} className="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                          class="h-6 w-6 fill-jacarta-700 dark:fill-white">
+                          className="h-6 w-6 fill-jacarta-700 dark:fill-white">
                           <path fill="none" d="M0 0h24v24H0z" />
                           <path
                             d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
@@ -334,9 +340,9 @@ const Profile = ({
                       </button>
                     </div>
                     {calculateFlowRate(userStreamData?.flowRate) > 0 &&
-                      <div class="modal-body p-6">
-                        <div class="mb-2 flex items-center justify-between">
-                          <span class="font-display text-sm font-semibold text-jacarta-700 dark:text-white">On Going Membership Streams </span>
+                      <div className="modal-body p-6">
+                        <div className="mb-2 flex items-center justify-between">
+                          <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">On Going Membership Streams </span>
                           <div className="flex items-center justify-center space-x-2 mr-6">
                             <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                             <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
@@ -345,60 +351,60 @@ const Profile = ({
                         </div>
 
                         <div
-                          class="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
-                          <div class="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
-                            <span class="font-display text-sm text-jacarta-700">fDAIx </span>
+                          className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                          <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
+                            <span className="font-display text-sm text-jacarta-700">fDAIx </span>
                           </div>
 
-                          <input type="text" class="h-12 w-full flex-[3] border-0 bg-jacarta-50"
+                          <input type="text" className="h-12 w-full flex-[3] border-0 bg-jacarta-50"
                             placeholder="Amount" value={calculateFlowRate(userStreamData.flowRate)} readOnly />
 
-                          <div class="flex flex-1 justify-center self-stretch border-l border-jacarta-100 bg-jacarta-50">
-                            <span class="self-center px-2 text-sm">/ Month</span>
+                          <div className="flex flex-1 justify-center self-stretch border-l border-jacarta-100 bg-jacarta-50">
+                            <span className="self-center px-2 text-sm">/ Month</span>
                           </div>
                         </div>
 
-                        <div class="mt-4 flex items-center space-x-2 flex-col">
-                          <label htmlFor="terms" class="text-sm dark:text-jacarta-200">You are eligible to avail all the perks from the artist</label>
+                        <div className="mt-4 flex items-center space-x-2 flex-col">
+                          <label htmlFor="terms" className="text-sm dark:text-jacarta-200">You are eligible to avail all the perks from the artist</label>
                           <div className="mt-4 ">
-                            <label htmlFor="terms" class="text-sm dark:text-jacarta-200">If you cancel your membership you will no longer be eligible for the membership perks </label>
+                            <label htmlFor="terms" className="text-sm dark:text-jacarta-200">If you cancel your membership you will no longer be eligible for the membership perks </label>
                           </div>
                         </div>
                       </div>
                     }
 
                     {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
-                      <div class="modal-body p-6">
-                        <div class="mb-2 flex items-center justify-between">
-                          <span class="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
+                      <div className="modal-body p-6">
+                        <div className="mb-2 flex items-center justify-between">
+                          <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
                         </div>
 
                         <div
-                          class="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
-                          <div class="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
+                          className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                          <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
 
-                            <span class="font-display text-sm text-jacarta-700">fDAIx</span>
+                            <span className="font-display text-sm text-jacarta-700">fDAIx</span>
                           </div>
 
-                          <input type="text" class="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                          <input type="text" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
                             placeholder="Amount" value="0.05" />
 
-                          <div class="flex flex-1 justify-center self-stretch border-l border-jacarta-100 bg-jacarta-50">
-                            <span class="self-center px-2 text-sm">/ Month</span>
+                          <div className="flex flex-1 justify-center self-stretch border-l border-jacarta-100 bg-jacarta-50">
+                            <span className="self-center px-2 text-sm">/ Month</span>
                           </div>
                         </div>
 
-                        <div class="text-right">
-                          <span class="text-sm dark:text-jacarta-400">Balance: 0.00 fDAIx</span>
+                        <div className="text-right">
+                          <span className="text-sm dark:text-jacarta-400">Balance: 0.00 fDAIx</span>
                         </div>
 
-                        <div class="mt-4 flex items-center space-x-2 flex-col">
-                          <label htmlFor="terms" class="text-sm dark:text-jacarta-200">After joining membership, 0.05 fDAIx tokens will be streamed from your account to the respective artists account and you will be eligible  for all the membership perks from the artist</label>
+                        <div className="mt-4 flex items-center space-x-2 flex-col">
+                          <label htmlFor="terms" className="text-sm dark:text-jacarta-200">After joining membership, 0.05 fDAIx tokens will be streamed from your account to the respective artists account and you will be eligible  for all the membership perks from the artist</label>
                           <div className="mt-4 ">
                             <input type="checkbox" id="terms" defaultChecked
-                              class="h-5 w-5 self-start rounded border-jacarta-200 text-accent checked:bg-accent focus:ring-accent/20 focus:ring-offset-0 dark:border-jacarta-500 dark:bg-jacarta-600" />
+                              className="h-5 w-5 self-start rounded border-jacarta-200 text-accent checked:bg-accent focus:ring-accent/20 focus:ring-offset-0 dark:border-jacarta-500 dark:bg-jacarta-600" />
                             {"  "}
-                            <label htmlFor="terms" class="text-sm dark:text-jacarta-200">I Accept And Understand The Terms </label>
+                            <label htmlFor="terms" className="text-sm dark:text-jacarta-200">I Accept And Understand The Terms </label>
                           </div>
                         </div>
                       </div>
@@ -406,19 +412,19 @@ const Profile = ({
 
 
                     {/* action area of membership  */}
-                    <div class="modal-footer">
+                    <div className="modal-footer">
                       {calculateFlowRate(userStreamData?.flowRate) > 0 &&
-                        <div class="flex items-center justify-center space-x-4">
+                        <div className="flex items-center justify-center space-x-4">
                           <button type="button" onClick={() => (handleDeleteStream())}
-                            class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                             Cancel Memebership
                           </button>
                         </div>
                       }
                       {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
-                        <div class="flex items-center justify-center space-x-4">
+                        <div className="flex items-center justify-center space-x-4">
                           <button type="button" onClick={() => handleCreateStream(streamInput)}
-                            class="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                             Join Membership
                           </button>
                         </div>

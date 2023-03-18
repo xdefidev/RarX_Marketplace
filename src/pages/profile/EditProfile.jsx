@@ -130,20 +130,30 @@ const EditProfile = ({ signer_address, polybase }) => {
     <form onSubmit={updateData}>
       {/* <!-- Banner --> */}
       <div className="relative  mt-24">
-        <Image
-          src={
-            typeof data.coverImage == "string"
-              ? data.coverImage.replace(
-                "ipfs://",
-                "https://gateway.ipfscdn.io/ipfs/"
-              )
-              : coverImg_preview
-          }
-          alt="banner"
-          width={100}
-          height={100}
-          className="h-[18.75rem] w-[100%] object-cover"
-        />
+        {data.coverImage == "" && coverImg_preview == "" ?
+          <Image
+            src="../../../rarxlogo.png"
+            alt="banner"
+            width={100}
+            height={100}
+            className="h-[18.75rem] w-[100%] object-cover"
+          />
+          :
+          <Image
+            src={
+              typeof data.coverImage == "string"
+                ? data.coverImage.replace(
+                  "ipfs://",
+                  "https://gateway.ipfscdn.io/ipfs/"
+                )
+                : coverImg_preview
+            }
+            alt="banner"
+            width={100}
+            height={100}
+            className="h-[18.75rem] w-[100%] object-cover"
+          />
+        }
         <div className="container relative -translate-y-4">
           <div className="group absolute right-0 bottom-4 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
             <input
@@ -335,20 +345,30 @@ const EditProfile = ({ signer_address, polybase }) => {
             <div className="flex space-x-5 md:w-1/2 md:pl-8">
               <div className="shrink-0">
                 <figure className="relative inline-block">
-                  <Image
-                    src={
-                      typeof data.profileImage == "string"
-                        ? data.profileImage.replace(
-                          "ipfs://",
-                          "https://gateway.ipfscdn.io/ipfs/"
-                        )
-                        : profImg_preview
-                    }
-                    width={100}
-                    height={100}
-                    alt="collection avatar"
-                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
-                  />
+                  {data.profileImage == "" && profImg_preview == "" ?
+                    <Image
+                      src="../../../rarxlogo.png"
+                      alt="logo"
+                      width={100}
+                      height={100}
+                      className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+                    />
+                    :
+                    <Image
+                      src={
+                        typeof data.profileImage == "string"
+                          ? data.profileImage.replace(
+                            "ipfs://",
+                            "https://gateway.ipfscdn.io/ipfs/"
+                          )
+                          : profImg_preview
+                      }
+                      width={100}
+                      height={100}
+                      alt="logo"
+                      className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+                    />
+                  }
                   <div className="group absolute -right-3 -bottom-2 h-8 w-8 overflow-hidden rounded-full border border-jacarta-100 bg-white text-center hover:border-transparent hover:bg-accent">
                     <input
                       onChange={(e) => {
