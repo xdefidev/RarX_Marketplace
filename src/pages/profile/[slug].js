@@ -64,6 +64,8 @@ const Profile = ({
         <Image
           src={testNFT}
           alt="banner"
+          height={100}
+          width={100}
           className="h-[18.75rem] w-[100%] object-cover"
         />
       </div>
@@ -75,6 +77,8 @@ const Profile = ({
             <Image
               src={testNFT}
               alt="collection avatar"
+              height={100}
+              width={100}
               className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
             />
           </figure>

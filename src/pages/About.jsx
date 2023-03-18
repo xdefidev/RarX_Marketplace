@@ -79,6 +79,8 @@ const About = () => {
                 src={shravanImage}
                 className="mx-auto mb-6 h-[220px] w-[300px] rounded-2.5xl"
                 alt="team"
+                height={100}
+                width={100}
               />
               <h3 className="font-display text-md text-jacarta-700 dark:text-white">
                 Shravan Andoria
@@ -132,6 +134,8 @@ const About = () => {
                 src={aniruddhaImage}
                 className="mx-auto mb-6  h-[200px] w-[auto] m-4 shadow-xl  rounded-2.5xl"
                 alt="team"
+                height={100}
+                width={100}
               />
               <h3 className="font-display text-md text-jacarta-700 dark:text-white">
                 Aniruddha Vikharankar
@@ -194,6 +198,8 @@ const About = () => {
               src={filecoin}
               alt="filecoin"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Filecoin
@@ -204,6 +210,8 @@ const About = () => {
               src={gnosis}
               alt="gnosis"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Gnosis
@@ -214,6 +222,8 @@ const About = () => {
               src={mantle}
               alt="mantle"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Mantle
@@ -224,6 +234,8 @@ const About = () => {
               src={polygon}
               alt="polygon"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Polygon
@@ -234,6 +246,8 @@ const About = () => {
               src={scroll}
               alt="scroll"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Scroll
@@ -244,6 +258,8 @@ const About = () => {
               src={taiko}
               alt="taiko"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Taiko
@@ -263,6 +279,8 @@ const About = () => {
               src={connext}
               alt="connext"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Connext
@@ -273,6 +291,8 @@ const About = () => {
               src={intmax}
               alt="intmax"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Intax
@@ -283,6 +303,8 @@ const About = () => {
               src={polybase}
               alt="polybase"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Polybase
@@ -293,6 +315,8 @@ const About = () => {
               src={push}
               alt="push"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Push Protocol
@@ -303,6 +327,8 @@ const About = () => {
               src={superfluid}
               alt="superfluid"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Superfluid
@@ -313,6 +339,8 @@ const About = () => {
               src={thegraph}
               alt="thegraph"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               The Graph
@@ -323,6 +351,8 @@ const About = () => {
               src={uma}
               alt="uma"
               className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               UMA

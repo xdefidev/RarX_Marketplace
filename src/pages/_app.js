@@ -409,18 +409,6 @@ export default function App({ Component, pageProps }) {
           id: collection_address,
         })
         .get();
-
-      // const res = await db
-      //   .collection("NFT")
-      //   .where(
-      //     "nftCollection",
-      //     "==",
-      //     db
-      //       .collection("NFTCollection")
-      //       .record("0x5dB263090Cd6341e7Af4133380A8bfB07117B674")
-      //   )
-      //   .get();
-      console.log({ col_nfts: res.data });
       return res;
     } catch (error) {
       console.log(error.message);

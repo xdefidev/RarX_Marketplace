@@ -163,6 +163,8 @@ export default function Home({
                               src={testNFT}
                               alt="avatar"
                               className="mr-4 h-10 w-10 rounded-full"
+                              height={100}
+                              width={100}
                             />
                           </Link>
                           <div>
@@ -202,6 +204,8 @@ export default function Home({
                               src={testNFT}
                               alt="avatar"
                               className="mr-4 h-10 w-10 rounded-full"
+                              height={100}
+                              width={100}
                             />
                           </Link>
                           <div>
@@ -240,6 +244,8 @@ export default function Home({
                                 src={testNFT}
                                 alt="avatar"
                                 className="mr-4 h-10 w-10 rounded-full"
+                                height={100}
+                                width={100}
                               />
                             </Link>
                             <div>
@@ -325,7 +331,9 @@ export default function Home({
       {/* create and sell div*/}
       <div className="relative py-24 dark:bg-jacarta-800">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-          <Image src={gradient} alt="gradient" className="h-full w-full" />
+          <Image src={gradient} alt="gradient" className="h-full w-full" 
+                height={100}
+                width={100}/>
         </picture>
         <div className="container">
           <h2 className="mb-16 text-center font-display text-3xl text-jacarta-700 dark:text-white">
