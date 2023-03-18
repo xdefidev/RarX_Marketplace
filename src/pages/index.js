@@ -5,12 +5,26 @@ import testNFT from "../../public/test.jpg";
 import gradient from "../../public/gradient.jpg";
 import heroImg from "../../public/hero.jpg";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
 
-export default function Home({ all_collections }) {
-  console.log({ all_collections });
+export default function Home({
+  all_collections,
+  fetch_all_nfts_from_polybase,
+}) {
+  const [nfts, set_nfts] = useState([]);
+  const get_nfts = async () => {
+    const res = await fetch_all_nfts_from_polybase();
+    console.log({ res });
+    if (res) {
+      set_nfts(res);
+    }
+  };
+
+  useEffect(() => {
+    get_nfts();
+  }, []);
   return (
     <>
       <Head>
@@ -260,12 +274,17 @@ export default function Home({ all_collections }) {
           </h2>
 
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-            <NftCard
-              ImageSrc={testNFT}
-              Name="NFT #1"
-              Description="NFT Description"
-              Address="0x7899"
-            />
+            {nfts.map((e) => (
+              <NftCard
+                ImageSrc={e.image.replace(
+                  "ipfs://",
+                  "https://gateway.ipfscdn.io/ipfs/"
+                )}
+                Name={e.name}
+                Description={e.description}
+                Address={e.collection}
+              />
+            ))}
           </div>
         </div>
       </div>
