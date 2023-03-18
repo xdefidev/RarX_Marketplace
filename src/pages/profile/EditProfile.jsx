@@ -140,9 +140,9 @@ const EditProfile = ({ signer_address, polybase }) => {
           src={
             typeof data.coverImage == "string"
               ? data.coverImage.replace(
-                  "ipfs://",
-                  "https://gateway.ipfscdn.io/ipfs/"
-                )
+                "ipfs://",
+                "https://gateway.ipfscdn.io/ipfs/"
+              )
               : coverImg_preview
           }
           alt="banner"
@@ -315,7 +315,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                 <label className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white">
                   Wallet Address
                 </label>
-                <button className="js-copy-clipboard flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300">
+                <button type="button" className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-default">
                   <span>{signer_address}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -345,9 +345,9 @@ const EditProfile = ({ signer_address, polybase }) => {
                     src={
                       typeof data.profileImage == "string"
                         ? data.profileImage.replace(
-                            "ipfs://",
-                            "https://gateway.ipfscdn.io/ipfs/"
-                          )
+                          "ipfs://",
+                          "https://gateway.ipfscdn.io/ipfs/"
+                        )
                         : profImg_preview
                     }
                     width={100}

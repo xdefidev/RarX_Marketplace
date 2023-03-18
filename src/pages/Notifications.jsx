@@ -35,12 +35,12 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
 
     return (
         // < !--Activity -- >
-        <section class="relative py-24">
-            <picture class="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-                <img src="img/gradient_light.jpg" alt="gradient" class="h-full w-full" />
+        <section className="relative py-24">
+            <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+                <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" />
             </picture>
-            <div class="container">
-                <h1 class="mt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">Notifications</h1>
+            <div className="container">
+                <h1 className="mt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">Notifications</h1>
                 <p className="mb-16 mt-2 text-[18px] text-center leading-normal dark:text-jacarta-300">
                     <div className="flex justify-center align-middle mt-4">
                         <Image src={PushSvg} height={170} width={170} />
@@ -121,28 +121,28 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
                             {propShow ? (
                                 <div>
                                     <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
-                                        <div class="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
+                                        <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
                                             {notificationData?.map((e) => {
                                                 return (
                                                     e.app === "RarX Marketplace" && (
                                                         <div key={e.sid}>
                                                             <a
                                                                 href={e.cta}
-                                                                class="relative flex items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
+                                                                className="relative flex items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                                                             >
-                                                                <div class="mr-5 self-start">
-                                                                    <Image src={e.icon} alt="avatar 2" class="rounded-2lg" loading="lazy" height={100} width={100} />
+                                                                <div className="mr-5 self-start">
+                                                                    <Image src={e.icon} alt="avatar 2" className="rounded-2lg" loading="lazy" height={100} width={100} />
                                                                 </div>
 
                                                                 <div>
-                                                                    <h3 class="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
+                                                                    <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
                                                                         {e.notification.title}
                                                                     </h3>
-                                                                    <span class="mb-3 block text-sm text-jacarta-500 dark:text-jacarta-200">{e.notification.body}</span>
-                                                                    <span class="block text-xs text-jacarta-300">Via : {e.app} {" "} | {" "} Chain : {e.blockchain} </span>
+                                                                    <span className="mb-3 block text-sm text-jacarta-500 dark:text-jacarta-200">{e.notification.body}</span>
+                                                                    <span className="block text-xs text-jacarta-300">Via : {e.app} {" "} | {" "} Chain : {e.blockchain} </span>
                                                                 </div>
 
-                                                                <div class="ml-auto rounded-full font-bold border border-jacarta-100 p-3 dark:border-jacarta-600">
+                                                                <div className="ml-auto rounded-full font-bold border border-jacarta-100 p-3 dark:border-jacarta-600">
                                                                     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
                                                                 </div>
                                                             </a>
@@ -151,7 +151,7 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
                                                 );
                                             })}
                                             {notificationData?.length == 0 && (
-                                                <h3 class="mb-1 text-[26px] text-center font-semibold text-jacarta-700 dark:text-white">
+                                                <h3 className="mb-1 text-[26px] text-center font-semibold text-jacarta-700 dark:text-white">
                                                     No Notifications
                                                 </h3>
                                             )}
@@ -161,28 +161,28 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
                             ) : (
                                 <div>
                                     <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
-                                        <div class="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
+                                        <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
                                             {notificationData?.map((e) => {
                                                 return (
                                                     (
                                                         <div key={e.sid}>
                                                             <a
                                                                 href={e.cta}
-                                                                class="relative flex items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
+                                                                className="relative flex items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
                                                             >
-                                                                <div class="mr-5 self-start">
-                                                                    <Image src={e.icon} alt="avatar 2" class="rounded-2lg" loading="lazy" height={100} width={100} />
+                                                                <div className="mr-5 self-start">
+                                                                    <Image src={e.icon} alt="avatar 2" className="rounded-2lg" loading="lazy" height={100} width={100} />
                                                                 </div>
 
                                                                 <div>
-                                                                    <h3 class="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
+                                                                    <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
                                                                         {e.notification.title}
                                                                     </h3>
-                                                                    <span class="mb-3 block text-sm text-jacarta-500 dark:text-jacarta-200">{e.notification.body}</span>
-                                                                    <span class="block text-xs text-jacarta-300">Via : {e.app}</span>
+                                                                    <span className="mb-3 block text-sm text-jacarta-500 dark:text-jacarta-200">{e.notification.body}</span>
+                                                                    <span className="block text-xs text-jacarta-300">Via : {e.app}</span>
                                                                 </div>
 
-                                                                <div class="ml-auto rounded-full font-bold border border-jacarta-100 p-3 dark:border-jacarta-600">
+                                                                <div className="ml-auto rounded-full font-bold border border-jacarta-100 p-3 dark:border-jacarta-600">
                                                                     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
                                                                 </div>
                                                             </a>
@@ -191,7 +191,7 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
                                                 );
                                             })}
                                             {notificationData?.length == 0 && (
-                                                <h3 class="mb-1 text-[26px] text-center font-semibold text-jacarta-700 dark:text-white">
+                                                <h3 className="mb-1 text-[26px] text-center font-semibold text-jacarta-700 dark:text-white">
                                                     No Notifications
                                                 </h3>
                                             )}

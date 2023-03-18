@@ -67,7 +67,7 @@
   }
 } */
 
-.pyramid-loader {
+/* .pyramid-loader {
   position: relative;
   width: 300px;
   height: 300px;
@@ -93,8 +93,6 @@
 .pyramid-loader .wrapper .side {
   width: 70px;
   height: 70px;
-  /* you can choose any gradient or color you want */
-  /* background: radial-gradient( #2F2585 10%, #F028FD 70%, #2BDEAC 120%); */
   position: absolute;
   top: 0;
   left: 0;
@@ -137,4 +135,4 @@
   margin: auto;
   transform: rotateX(90deg) translateZ(-40px);
   filter: blur(12px);
-}
+} */
