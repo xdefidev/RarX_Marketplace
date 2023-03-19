@@ -40,8 +40,9 @@ contract NFTMarketplace {
     ) public payable {
         require(msg.value == listPrice, "Please send the listing fees");
         require(price > 0, "Make sure the price isn't negative");
+        uint256 nftId = _tokenIds.current();
 
-        idToListedToken[tokenId] = ListedToken(
+        idToListedToken[nftId] = ListedToken(
             tokenId,
             payable(address(this)),
             payable(msg.sender),
@@ -49,7 +50,6 @@ contract NFTMarketplace {
             true
         );
 
-        // collection.approve(address(this), tokenId);
         collection.transferFrom(msg.sender, address(this), tokenId);
 
         emit TokenListedSuccess(
@@ -59,6 +59,7 @@ contract NFTMarketplace {
             price,
             true
         );
+        _tokenIds.increment();
     }
 
     function executeSale(
@@ -100,8 +101,7 @@ contract NFTMarketplace {
         uint256 currentIndex = 0;
 
         for (uint256 i = 0; i < nftCount; i++) {
-            uint256 currentId = i + 1;
-            ListedToken storage currentItem = idToListedToken[currentId];
+            ListedToken storage currentItem = idToListedToken[i];
             tokens[currentIndex] = currentItem;
             currentIndex++;
         }
@@ -115,8 +115,8 @@ contract NFTMarketplace {
 
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (
-                idToListedToken[i + 1].owner == msg.sender ||
-                idToListedToken[i + 1].seller == msg.sender
+                idToListedToken[i].owner == msg.sender ||
+                idToListedToken[i].seller == msg.sender
             ) {
                 itemCount += 1;
             }
@@ -125,10 +125,10 @@ contract NFTMarketplace {
         ListedToken[] memory items = new ListedToken[](itemCount);
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (
-                idToListedToken[i + 1].owner == msg.sender ||
-                idToListedToken[i + 1].seller == msg.sender
+                idToListedToken[i].owner == msg.sender ||
+                idToListedToken[i].seller == msg.sender
             ) {
-                uint256 currentId = i + 1;
+                uint256 currentId = i;
                 ListedToken storage currentItem = idToListedToken[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex++;

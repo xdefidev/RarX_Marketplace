@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }) {
   //CONTRACT ADDRESSES
   const default_collection_address =
     "0x5dB263090Cd6341e7Af4133380A8bfB07117B674";
-  const marketplace_address = "0x790755B6fdaE1cb63Ea550302576Ade89b6A382F";
+  const marketplace_address = "0x54188DD0d873bE8bD22aF98B2167709596E3854d";
   const collection_factory_address =
     "0x454e433fBd6E4a6fD695061c17A2b0F6f18275ea";
 
@@ -110,13 +110,38 @@ export default function App({ Component, pageProps }) {
   };
 
   // marketplace
-  const marketplace = async () => {
+  const marketplace = () => {
     const marketplace_contract = new ethers.Contract(
       marketplace_address,
       NFTMarketplace.abi,
       signer
     );
     return marketplace_contract;
+  };
+
+  const list_nft = async (tokenId, price, collection_address, signer) => {
+    console.log("listing token");
+    console.log({ tokenId, price, collection_address });
+    const collection_contract = rarx_collection(collection_address, signer);
+    await collection_contract.setApprovalForAll(
+      "0x54188DD0d873bE8bD22aF98B2167709596E3854d",
+      true
+    );
+
+    try {
+      const contract = marketplace();
+      const txn = await contract.ListToken(
+        tokenId,
+        ethers.utils.parseEther(price),
+        collection_address,
+        {
+          value: ethers.utils.parseEther("0.01"),
+        }
+      );
+      console.log({ res: res.data });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   // rarx collections
@@ -128,6 +153,16 @@ export default function App({ Component, pageProps }) {
       signer
     );
     return collection_contract;
+  };
+
+  const fetch_nfts_from_marketplace = async () => {
+    try {
+      const contract = marketplace();
+      const res = await contract.getAllNFTs();
+      console.log({ marketpalce_nfts: res });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   // connext sdk config
@@ -276,7 +311,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-  // create collection
+  // CREATE COLLECTION
   const create_collection = async (data) => {
     try {
       const collection_logo = await storage.upload(data.logo);
@@ -324,6 +359,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  //FETCHES SINGLE NFT INFO
   const fetch_NFT_info = async (collection_address, tokenId, signer) => {
     try {
       const contract = rarx_collection(collection_address, signer);
@@ -337,7 +373,8 @@ export default function App({ Component, pageProps }) {
       alert(error.message);
     }
   };
-  // get collections
+
+  // GETS ALL COLLECTIONS FROM POLYBASE
   const get_all_collections = async (signer) => {
     try {
       const db = polybase();
@@ -364,24 +401,6 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-  // get collection by ID
-  const get_collection_by_id = async (collection_id, signer) => {
-    const contract = collection_contract_factory(signer);
-    const collection = await contract.getCollectionById(collection_id);
-    return collection;
-  };
-
-  const get_nfts_from_collection = async (collection_address) => {
-    const contract = new ethers.Contract(
-      collection_address,
-      NFTCollection.abi,
-      signer
-    );
-    const balance = await contract.balanceOf(
-      "0xC0959C98C70647cF19F2aC48f58CDC3f8B657492"
-    );
-  };
-
   const fetch_collection_data_from_polybase = async (collection_address) => {
     try {
       const db = polybase();
@@ -395,6 +414,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // FETCHES NFT FROM COLLECTION
   const fetch_nfts_from_collection = async (collection_address) => {
     try {
       const db = polybase();
@@ -427,6 +447,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  //FETCHES ALL THE NFTS FROM POLYBASE
   const fetch_all_nfts_from_polybase = async () => {
     try {
       const db = polybase();
@@ -452,6 +473,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  //FETCHES NFTS BY USER FROM POLYBASE
   const fetch_nfts_from_user_wallet = async (signer_address) => {
     try {
       if (!signer_address) return;
@@ -513,6 +535,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  //HELPS OTHER FUNCTIONS TO INTERACT WITH POLYBASE
   const polybase = () => {
     const db = new Polybase({
       defaultNamespace: process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE,
@@ -534,6 +557,7 @@ export default function App({ Component, pageProps }) {
       });
     }
     connectToWallet();
+    fetch_nfts_from_marketplace();
   }, []);
 
   return (
@@ -560,9 +584,7 @@ export default function App({ Component, pageProps }) {
         rarx_collection={rarx_collection}
         default_collection_address={default_collection_address}
         fetch_nfts_from_user_wallet={fetch_nfts_from_user_wallet}
-        get_collection_by_id={get_collection_by_id}
         fetch_NFT_info={fetch_NFT_info}
-        get_nfts_from_collection={get_nfts_from_collection}
         polybase={polybase}
         chainIdMain={chainIdMain}
         connectToWallet={connectToWallet}
@@ -577,6 +599,7 @@ export default function App({ Component, pageProps }) {
         fetch_nfts_from_collection={fetch_nfts_from_collection}
         fetch_all_nfts_from_polybase={fetch_all_nfts_from_polybase}
         nfts={nfts}
+        list_nft={list_nft}
       />
       <Footer />
     </>

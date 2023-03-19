@@ -38,9 +38,10 @@ const Profile = ({
     set_my_collections(my_collections);
   };
 
-  const get_nfts = async (collection_address, slug) => {
+  const get_nfts = async () => {
     set_loading(true);
     const nfts = await fetch_nfts_from_user_wallet(signer_address);
+    console.log({ nfts });
     set_nfts(nfts);
     set_loading(false);
   };
@@ -49,7 +50,7 @@ const Profile = ({
     const fetchData = async () => {
       myCollections();
       if (!signer_address) return;
-      get_nfts(default_collection_address, slug);
+      get_nfts();
     };
     fetchData();
     console.log("render");

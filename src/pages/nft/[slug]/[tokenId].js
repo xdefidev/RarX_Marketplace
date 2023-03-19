@@ -2,25 +2,32 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import testNFT from "../../../../public/test.jpg";
 import Image from "next/image";
-
-const NFTPage = ({ fetch_NFT_info, signer }) => {
+import { ethers } from "ethers";
+const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
   const router = useRouter();
   const { slug, tokenId } = router.query;
 
   const [listSale, setListSale] = useState(false);
   const [propShow, setPropShow] = useState(true);
-
+  const [listingPrice, set_listing_price] = useState(0);
   const [nft, set_nft_info] = useState({});
 
   const get_nft = async (collectionAddress, tokenId, signer) => {
     if (!tokenId && signer && !collectionAddress) return;
     const nft = await fetch_NFT_info(collectionAddress, tokenId, signer);
+
     set_nft_info(nft);
+  };
+
+  const list_token = async (e) => {
+    e.preventDefault();
+    console.log(listingPrice);
+    const res = await list_nft(tokenId, listingPrice, slug, signer);
   };
 
   useEffect(() => {
     get_nft(slug, tokenId, signer);
-  }, [signer]);
+  }, [signer_address]);
   return (
     <section className="relative pt-12 pb-24 lg:py-24 mt-10">
       <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
@@ -157,7 +164,7 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
             {/* <!-- list nft --> */}
             <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
               {listSale == false ? (
-                <a
+                <button
                   onClick={() => setListSale(true)}
                   href="#"
                   data-bs-toggle="modal"
@@ -165,10 +172,13 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
                   className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                 >
                   List For Sale
-                </a>
+                </button>
               ) : (
                 <div>
-                  <div className="modal-dialog max-w-2xl">
+                  <form
+                    onSubmit={list_token}
+                    className="modal-dialog max-w-2xl"
+                  >
                     <div
                       className="modal-content"
                       style={{ backgroundColor: "#f5f5f5" }}
@@ -213,6 +223,7 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
 
                           <input
                             type="text"
+                            onChange={(e) => set_listing_price(e.target.value)}
                             className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
                             placeholder="Amount"
                           />
@@ -222,7 +233,7 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
                       <div className="modal-footer">
                         <div className="flex items-center justify-center space-x-4">
                           <button
-                            type="button"
+                            type="submit"
                             className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                           >
                             List Now
@@ -230,7 +241,7 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
               )}
             </div>
@@ -352,9 +363,10 @@ const NFTPage = ({ fetch_NFT_info, signer }) => {
                 <div>
                   <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
                     <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
-                      {nft?.properties?.map((e) => {
+                      {nft?.properties?.map((e, index) => {
                         return (
                           <a
+                            key={index}
                             className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
                           >
                             <span className="text-sm uppercase text-accent">

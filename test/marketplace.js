@@ -51,10 +51,11 @@ describe("Marketplace Contract", function () {
     const txn = collection.deployed();
 
     await collection.create_collection(
-      "coll_img",
-      "shravans collections",
+      "shrava_collection",
       "SHRVN",
-      "A collection of cool looking NFTs"
+      "my_image",
+      "my_logo",
+      "lorem",
     );
 
     const collection_by_id = await collection.getCollectionById(0);
