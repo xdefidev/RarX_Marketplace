@@ -542,7 +542,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                     </li>
                     <li>
                       <Link
-                        href="/"
+                        href="/BridgeTokens"
                         className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                       >
                         <span className="font-display text-sm text-jacarta-700 dark:text-white">

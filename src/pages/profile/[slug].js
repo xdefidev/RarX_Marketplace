@@ -328,7 +328,7 @@ const Profile = ({
                       {calculateFlowRate(userStreamData?.flowRate) > 0 &&
                         <h5 className="modal-title" id="placeBidLabel">Your Membership Info</h5>
                       }
-                      {!calculateFlowRate(userStreamData?.flowRate) <= 0 &&
+                      {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
                         <h5 className="modal-title" id="placeBidLabel">Become A Member</h5>
                       }
                       <button type="button" onClick={() => setMembershipVisible(false)} className="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -387,8 +387,8 @@ const Profile = ({
                             <span className="font-display text-sm text-jacarta-700">fDAIx</span>
                           </div>
 
-                          <input type="text" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
-                            placeholder="Amount" value="0.05" />
+                          <input type="text" className="h-12 w-full flex-[3] border-0 bg-jacarta-50"
+                            placeholder="Amount" value="0.05" readOnly />
 
                           <div className="flex flex-1 justify-center self-stretch border-l border-jacarta-100 bg-jacarta-50">
                             <span className="self-center px-2 text-sm">/ Month</span>
@@ -400,7 +400,7 @@ const Profile = ({
                         </div>
 
                         <div className="mt-4 flex items-center space-x-2 flex-col">
-                          <label htmlFor="terms" className="text-sm dark:text-jacarta-200">After joining membership, 0.05 fDAIx tokens will be streamed from your account to the respective artists account and you will be eligible  for all the membership perks from the artist</label>
+                          <label htmlFor="terms" className="text-sm dark:text-jacarta-200">After joining membership, 0.05 fDAIx tokens will be streamed from your account to the respective artists account and you will be eligible to avail all the membership perks from the artist</label>
                           <div className="mt-4 ">
                             <input type="checkbox" id="terms" defaultChecked
                               className="h-5 w-5 self-start rounded border-jacarta-200 text-accent checked:bg-accent focus:ring-accent/20 focus:ring-offset-0 dark:border-jacarta-500 dark:bg-jacarta-600" />

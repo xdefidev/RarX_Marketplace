@@ -34,8 +34,7 @@ const About = () => {
               About RarX
             </h1>
             <p className="text-lg leading-normal dark:text-jacarta-300">
-              First Cross-chain And Multi-chain Advanced NFT Marketplace With AI
-              NFT Generation Build By A Team Of 2 Passionate Developers During
+              Rarx is a multi-chain and cross-chain advanced NFT marketplace with features like AI NFT Generation, Cross-chain NFTs, On-chain Collections, Realtime Notifications, Chat with artists, Membership subscriptions for artists, etc. Build By A Team Of 2 Passionate Developers During
               Scaling Ethereum 2023 Hackathon Organised by Ethglobal. Below is
               the introduction video of RarX Marketplace.
             </p>

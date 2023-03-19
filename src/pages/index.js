@@ -108,24 +108,23 @@ export default function Home({ all_collections, nfts }) {
                 </div>
               </div>
               <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
-                Buy and Sell Digital Art and NFT’s
+                create, buy, sell and collect NFT’s
               </h1>
               <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                First Cross-chain And Multi-chain Advanced NFT Marketplace With
-                AI NFT Generation
+                Cross-chain And Multi-chain NFT Marketplace with features like AI NFT Generation, Cross-chain NFTs, On-chain Collections, Realtime Notifications, Chat with artists, Membership subscriptions for artists, etc.
               </p>
               <div className="flex space-x-4">
                 <Link
-                  href="/mint/CreateNFT"
-                  className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  href="/mint/CreateAINFT"
+                  className="w-45 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                 >
-                  Create
+                  Create AI NFT
                 </Link>
                 <Link
                   href="/Marketplace"
-                  className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                  className="w-45 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                 >
-                  Explore
+                  Explore NFTs
                 </Link>
               </div>
               <div className="flex space-x-4">

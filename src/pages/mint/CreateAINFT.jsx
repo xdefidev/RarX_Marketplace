@@ -2,10 +2,27 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
+import sample from "lodash/sample";
+
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, signer_address }) => {
+
+    const randomAIText = [
+        "highly detailed wide portrait young woman anime, by atey ghailan, by greg rutkowski, by greg tocchini, by james gilleard, by joe fenton, by kaethe butcher, gradient light blue, brown, blonde cream and white color scheme, grunge aesthetic, 8 k, optimistic",
+        "Dystopian World: In this futuristic scenario, the world has been taken over by machines and humans are forced to live in underground cities to avoid detection. The surface of the planet is barren and lifeless, with machines patrolling the landscape to prevent any human uprising. The underground cities are dark and cramped, with only artificial light to guide the way. People are constantly living in fear of being discovered by the machines and are forced to work in mines or factories to maintain the machines' functionality.",
+        "A dystopian world where machines have taken over and humans are forced to live in underground cities",
+        "A utopian society where humans have achieved immortality and can travel to other planets at will",
+        "Utopian Society: In this futuristic scenario, humanity has achieved immortality and can travel to other planets at will. People are free to explore the galaxy and live their lives without fear of death. There are no more wars or conflicts, and society has evolved to a state of true harmony. The visual for this scenario would be a bright and colorful universe, with humans traveling to different planets and experiencing new cultures. The atmosphere would be joyful and peaceful, with a sense of wonder and curiosity permeating the scene.",
+        "hyperrealism photography hyperrealism concept art of highly detailed farm and traditional ghibli house with highly detailed futuristic ( cyberpunk ) windmills towers aircrafts by wes anderson and hasui kawase and scott listfield sci - fi style hyperrealism rendered in blender and octane render volumetric natural light",
+        "Cyberpunk Cityscape: In this futuristic scenario, crime is rampant and corporations hold all the power. The cityscape is dominated by skyscrapers and neon lights, with the streets patrolled by corporate security forces. The underground economy is thriving, with hackers and criminals using advanced technology to carry out their schemes. The visual for this scenario would be a dark and moody cityscape, with neon lights and advanced technology filling the scene. The atmosphere would be tense and dangerous, with a feeling of constant surveillance and control",
+        "In this futuristic scenario, humans have developed advanced technology to manipulate time and space, causing reality to constantly shift and change. The world is a dizzying array of shapes and colors, with people able to alter their surroundings at will. The visual for this scenario would be a trippy and surreal landscape, with constantly shifting colors and shapes. The atmosphere would be dreamlike and otherworldly, with a sense of unpredictability and wonder permeating the scene"
+    ]
+
+    const [randomPrompt, setRandomPrompt] = useState(sample(randomAIText));
+    const [randomShow, setRandomShow] = useState(false);
+
     const router = useRouter();
     const [prediction, setPrediction] = useState(null);
     const [predictionOutput, setPredictionOutput] = useState(null);
@@ -111,7 +128,7 @@ const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, sig
     useEffect(() => {
         set_data({ ...data, image: predictionOutput });
         get_user_collections();
-    }, [predictionOutput, signer]);
+    }, [predictionOutput, signer, randomPrompt]);
 
     return (
         <>
@@ -134,7 +151,7 @@ const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, sig
                                         {/* nft prediction response here  */}
                                         {predictionOutput ? (
                                             <>
-                                                <div className="ml-20 flex items-center justify-center">
+                                                <div className="flex items-center justify-center">
                                                     <img
                                                         src={predictionOutput}
                                                         alt="predictionOutput"
@@ -173,14 +190,31 @@ const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, sig
                                     </div>
                                     {/* nft prediction text  */}
                                     <div className="mb-6">
-                                        <textarea
-                                            name="prompt"
-                                            id="prompt"
-                                            className="w-[28.125rem] rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-black dark:placeholder:text-jacarta-300"
-                                            rows="4"
-                                            required
-                                            placeholder="Provide a short description of a NFT Image you want to generate"
-                                        ></textarea>
+                                        {randomShow ?
+                                            <textarea
+                                                defaultValue={randomPrompt}
+                                                name="prompt"
+                                                id="prompt"
+                                                className="w-[28.125rem] rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-black dark:placeholder:text-jacarta-300"
+                                                rows="4"
+                                                required
+                                                placeholder="Provide a detailed description of a NFT Image you want to generate, the more you detail the more high quaility image you get"
+                                            ></textarea>
+                                            :
+                                            <textarea
+                                                name="prompt"
+                                                id="prompt"
+                                                className="w-[28.125rem] rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-black dark:placeholder:text-jacarta-300"
+                                                rows="4"
+                                                required
+                                                placeholder="Provide a detailed description of a NFT Image you want to generate, the more you detail the more high quaility image you get"
+                                            ></textarea>
+                                        }
+                                        {loadingPrediction == false &&
+                                            <button onClick={() => (setRandomPrompt(sample(randomAIText)), setRandomShow(!randomShow))} type="button" className="absolute ml-2 mt-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" /></svg>
+                                            </button>
+                                        }
                                     </div>
                                     <div className="flex justify-center">
                                         {loadingPrediction == true ? (
