@@ -6,8 +6,10 @@ import axios from "axios";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
 import Loader from "@/components/Loader";
-
 import { Chat } from "@pushprotocol/uiweb";
+import { Framework } from "@superfluid-finance/sdk-core";
+import { Wallet, providers, ethers } from "ethers";
+
 
 const Profile = ({
   get_my_collections,
@@ -15,9 +17,180 @@ const Profile = ({
   signer_address,
   fetch_nfts_from_user_wallet,
   default_collection_address,
+  setChainIdMain,
+  chainIdMain
 }) => {
+
+  // superfluid config start
+  const tokens = [
+    {
+      name: "fDAIx",
+      symbol: "fDAIx",
+      address: "0xf2d68898557ccb2cf4c10c3ef2b034b2a69dad00",
+      icon:
+        "https://raw.githubusercontent.com/superfluid-finance/assets/master/public//tokens/dai/icon.svg",
+    },
+  ];
+  const [provider, setProvider] = useState(null);
+  const [superfluidSdk, setSuperfluidSdk] = useState(null);
+  const [userStreamData, SetUserStreamData] = useState([]);
+
+  const [streamInput, setStreamInput] = useState({
+    token: tokens[0].address,
+    flowRate: 1,
+  });
+
+  const connectSF = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+    await provider.send("eth_requestAccounts", []);
+    setProvider(provider);
+  };
+
+  const calculateFlowRate = (amount) => {
+    if (amount) {
+      return (ethers.utils.formatEther(amount) * 60 * 60 * 24 * 30).toFixed(2);
+    }
+    return 0;
+  };
+
+  const calculateFlowRateInWeiPerSecond = (amount) => {
+    const flowRateInWeiPerSecond = ethers.utils
+      .parseEther(amount.toString())
+      .div(2592000)
+      .toString();
+    return flowRateInWeiPerSecond;
+  };
+
+  const switchGoerliChain = async () => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x5" }],
+      });
+      setChainIdMain("5");
+    } catch (error) {
+      if (error.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0x5",
+                chainName: "Goerli Testnet",
+                nativeCurrency: {
+                  name: "Goerli Testnet",
+                  symbol: "ETH",
+                  decimals: 18,
+                },
+                blockExplorerUrls: ["https://goerli.etherscan.io/"],
+                rpcUrls: ["https://rpc.ankr.com/eth_goerli"],
+              },
+            ],
+          });
+          setChainIdMain("5");
+        } catch (addError) {
+          console.error(addError);
+        }
+      }
+    }
+  };
+
+  const handleCreateStream = async ({
+    token,
+    sender = signer_address,
+    receiver = slug,
+    flowRate,
+  }) => {
+    if (chainIdMain != 5) {
+      alert("Please switch to goerli chain to join memberships");
+      switchGoerliChain();
+    }
+    try {
+      set_loading(true);
+      const { chainId } = await provider.getNetwork();
+      const sf = await Framework.create({
+        chainId,
+        provider,
+      });
+      setSuperfluidSdk(sf);
+      const superToken = await superfluidSdk.loadSuperToken(token);
+      const flowRateInWeiPerSecond = calculateFlowRateInWeiPerSecond(flowRate);
+
+      let flowOp = superToken.createFlow({
+        sender,
+        receiver,
+        flowRate: flowRateInWeiPerSecond,
+      });
+      await flowOp.exec(provider.getSigner());
+
+      setTimeout(() => {
+        alert(
+          "Stream created successfully"
+        );
+        set_loading(false);
+      }, 8000);
+
+    } catch (err) {
+      set_loading(false);
+      console.log({ CreateStreamError: err });
+      alert("Something went wrong! Please try again");
+    }
+  };
+
+  const handleDeleteStream = async () => {
+    try {
+      set_loading(true);
+      const { chainId } = await provider.getNetwork();
+      const sf = await Framework.create({
+        chainId,
+        provider,
+      });
+      setSuperfluidSdk(sf);
+
+      const superToken = await superfluidSdk.loadSuperToken("fDAIx");
+      let flowOp = superToken.deleteFlow({
+        sender: signer_address,
+        receiver: slug,
+      });
+      await flowOp.exec(provider.getSigner());
+      setTimeout(() => {
+        alert(
+          "Stream deleted Successfully"
+        );
+        set_loading(false);
+      }, 8000);
+    } catch (err) {
+      set_loading(false);
+      console.log({ DeleteStreamError: err })
+      alert("Something went wrong! Please try again");
+    }
+  };
+
+  const fetchStreams = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+    await provider.send("eth_requestAccounts", []);
+    setProvider(provider);
+    const { chainId } = await provider.getNetwork();
+    if (chainId == 5) {
+      const sf = await Framework.create({
+        chainId,
+        provider,
+      });
+      const daix = await sf.loadSuperToken("fDAIx");
+
+      const res = await daix.getFlow({
+        sender: signer_address,
+        receiver: slug,
+        providerOrSigner: provider,
+      });
+      SetUserStreamData(res);
+    }
+  };
+  // superfluid config end
+
+
   const [loading, set_loading] = useState(false);
-  const [share, setShare] = useState(false);
+  const [membershipVisible, setMembershipVisible] = useState(false);
 
   const router = useRouter();
   const { slug } = router.query;
@@ -47,14 +220,17 @@ const Profile = ({
   };
 
   useEffect(() => {
+    if (!signer_address) return;
     const fetchData = async () => {
       myCollections();
       if (!signer_address) return;
       get_nfts();
     };
     fetchData();
-    console.log("render");
+    connectSF();
+    fetchStreams();
   }, [signer]);
+
 
   return loading ? (
     <Loader />
@@ -72,7 +248,7 @@ const Profile = ({
       </div>
 
       {/* <!-- Profile Section --> */}
-      <section className="relative bg-light-base pb-12 pt-28 dark:bg-jacarta-800">
+      <section className="relative bg-light-base pb-6 pt-28 dark:bg-jacarta-800">
         <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <figure className="relative">
             <Image
@@ -86,8 +262,30 @@ const Profile = ({
         </div>
 
         <div className="container">
+          {/* follow  */}
+          {/* <div className="mt-[-27px] mb-6 flex items-center justify-center space-x-2.5">
+            <div className="rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
+              <div
+                className="js-likes relative inline-flex h-10 w-10 cursor-pointer items-center justify-center text-sm before:absolute before:h-4 before:w-4 before:bg-cover before:bg-center before:bg-no-repeat before:opacity-0"
+                role="button"
+                data-tippy-content="Favorite"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  className="h-4 w-4 fill-jacarta-500 dark:fill-jacarta-200"
+                >
+                  <path fill="none" d="M0 0H24V24H0z" />
+                  <path d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z" />
+                </svg>
+              </div>
+            </div>
+          </div> */}
+
           <div className="text-center">
-            <h2 className="mb-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+            <h2 className="mt-[-20px] mb-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
               Aniruddha{" "}
             </h2>
             <div className="mb-8 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
@@ -100,113 +298,144 @@ const Profile = ({
               I make bakwas arts, please buy them
             </p>
 
-            <div className="mt-6 flex items-center justify-center space-x-2.5">
-              {/* love  */}
-              <div className="rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
-                <div
-                  className="js-likes relative inline-flex h-10 w-10 cursor-pointer items-center justify-center text-sm before:absolute before:h-4 before:w-4 before:bg-cover before:bg-center before:bg-no-repeat before:opacity-0"
-                  role="button"
-                  data-tippy-content="Favorite"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="h-4 w-4 fill-jacarta-500 dark:fill-jacarta-200"
-                  >
-                    <path fill="none" d="M0 0H24V24H0z" />
-                    <path d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z" />
-                  </svg>
+            {/* membership on click buttons */}
+            {!membershipVisible &&
+              <div className="flex justify-center align-middle mb-10 mt-10">
+                {signer_address != slug &&
+                  <>
+                    {calculateFlowRate(userStreamData?.flowRate) > 0 &&
+                      <button type="button" onClick={() => setMembershipVisible(true)}
+                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                        View Membership
+                      </button>
+                    }
+                    {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
+                      <button type="button" onClick={() => setMembershipVisible(true)}
+                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                        Become Member
+                      </button>
+                    }
+                  </>
+                }
+              </div>
+            }
+            {/* membership division main  */}
+            {membershipVisible &&
+              <div>
+                <div className="modal-dialog max-w-2xl">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      {calculateFlowRate(userStreamData?.flowRate) > 0 &&
+                        <h5 className="modal-title" id="placeBidLabel">Your Membership Info</h5>
+                      }
+                      {!calculateFlowRate(userStreamData?.flowRate) <= 0 &&
+                        <h5 className="modal-title" id="placeBidLabel">Become A Member</h5>
+                      }
+                      <button type="button" onClick={() => setMembershipVisible(false)} className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                          className="h-6 w-6 fill-jacarta-700 dark:fill-white">
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path
+                            d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                        </svg>
+                      </button>
+                    </div>
+                    {calculateFlowRate(userStreamData?.flowRate) > 0 &&
+                      <div className="modal-body p-6">
+                        <div className="mb-2 flex items-center justify-between">
+                          <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">On Going Membership Streams </span>
+                          <div className="flex items-center justify-center space-x-2 mr-6">
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          </div>
+                        </div>
+
+                        <div
+                          className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                          <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
+                            <span className="font-display text-sm text-jacarta-700">fDAIx </span>
+                          </div>
+
+                          <input type="text" className="h-12 w-full flex-[3] border-0 bg-jacarta-50"
+                            placeholder="Amount" value={calculateFlowRate(userStreamData.flowRate)} readOnly />
+
+                          <div className="flex flex-1 justify-center self-stretch border-l border-jacarta-100 bg-jacarta-50">
+                            <span className="self-center px-2 text-sm">/ Month</span>
+                          </div>
+                        </div>
+
+                        <div className="mt-4 flex items-center space-x-2 flex-col">
+                          <label htmlFor="terms" className="text-sm dark:text-jacarta-200">You are eligible to avail all the perks from the artist</label>
+                          <div className="mt-4 ">
+                            <label htmlFor="terms" className="text-sm dark:text-jacarta-200">If you cancel your membership you will no longer be eligible for the membership perks </label>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
+                      <div className="modal-body p-6">
+                        <div className="mb-2 flex items-center justify-between">
+                          <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
+                        </div>
+
+                        <div
+                          className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                          <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
+
+                            <span className="font-display text-sm text-jacarta-700">fDAIx</span>
+                          </div>
+
+                          <input type="text" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                            placeholder="Amount" value="0.05" />
+
+                          <div className="flex flex-1 justify-center self-stretch border-l border-jacarta-100 bg-jacarta-50">
+                            <span className="self-center px-2 text-sm">/ Month</span>
+                          </div>
+                        </div>
+
+                        <div className="text-right">
+                          <span className="text-sm dark:text-jacarta-400">Balance: 0.00 fDAIx</span>
+                        </div>
+
+                        <div className="mt-4 flex items-center space-x-2 flex-col">
+                          <label htmlFor="terms" className="text-sm dark:text-jacarta-200">After joining membership, 0.05 fDAIx tokens will be streamed from your account to the respective artists account and you will be eligible  for all the membership perks from the artist</label>
+                          <div className="mt-4 ">
+                            <input type="checkbox" id="terms" defaultChecked
+                              className="h-5 w-5 self-start rounded border-jacarta-200 text-accent checked:bg-accent focus:ring-accent/20 focus:ring-offset-0 dark:border-jacarta-500 dark:bg-jacarta-600" />
+                            {"  "}
+                            <label htmlFor="terms" className="text-sm dark:text-jacarta-200">I Accept And Understand The Terms </label>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+
+                    {/* action area of membership  */}
+                    <div className="modal-footer">
+                      {calculateFlowRate(userStreamData?.flowRate) > 0 &&
+                        <div className="flex items-center justify-center space-x-4">
+                          <button type="button" onClick={() => (handleDeleteStream())}
+                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                            Cancel Memebership
+                          </button>
+                        </div>
+                      }
+                      {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
+                        <div className="flex items-center justify-center space-x-4">
+                          <button type="button" onClick={() => handleCreateStream(streamInput)}
+                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                            Join Membership
+                          </button>
+                        </div>
+                      }
+                    </div>
+                  </div>
                 </div>
               </div>
-              {/* Share  */}
-              <div
-                onClick={() => setShare(!share)}
-                className="dropdown rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600"
-              >
-                <a
-                  className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
-                  role="button"
-                  id="collectionShare"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  data-tippy-content="Share"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="h-4 w-4 fill-jacarta-500 dark:fill-jacarta-200"
-                  >
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z" />
-                  </svg>
-                </a>
+            }
 
-                {share && (
-                  <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                    <a
-                      href="https://twitter.com/home"
-                      target="_blank"
-                      className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        focusable="false"
-                        data-prefix="fab"
-                        data-icon="twitter"
-                        className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
-                        role="img"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 512 512"
-                      >
-                        <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
-                      </svg>
-                      <span className="mt-1 inline-block text-black">
-                        Twitter
-                      </span>
-                    </a>
-                    <a
-                      href="https://gmail.com"
-                      target="_blank"
-                      className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm9.06 8.683L5.648 6.238 4.353 7.762l7.72 6.555 7.581-6.56-1.308-1.513-6.285 5.439z" />
-                      </svg>
-                      <span className="mt-1 inline-block text-black">
-                        Email
-                      </span>
-                    </a>
-                    <a
-                      href="#"
-                      className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M18.364 15.536L16.95 14.12l1.414-1.414a5 5 0 1 0-7.071-7.071L9.879 7.05 8.464 5.636 9.88 4.222a7 7 0 0 1 9.9 9.9l-1.415 1.414zm-2.828 2.828l-1.415 1.414a7 7 0 0 1-9.9-9.9l1.415-1.414L7.05 9.88l-1.414 1.414a5 5 0 1 0 7.071 7.071l1.414-1.414 1.415 1.414zm-.708-10.607l1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z" />
-                      </svg>
-                      <span className="mt-1 inline-block text-black">Copy</span>
-                    </a>
-                  </div>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </section>
