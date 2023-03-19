@@ -9,6 +9,14 @@ import { useEffect, useState } from "react";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
 
+//chains
+import filecoin from "../../public/chains/filecoin.png";
+import gnosis from "../../public/chains/gnosis.png";
+import mantle from "../../public/chains/mantle.png";
+import polygon from "../../public/chains/polygon.png";
+import scroll from "../../public/chains/scroll.png";
+import taiko from "../../public/chains/taiko.png";
+
 export default function Home({ all_collections, nfts }) {
   return (
     <>
@@ -70,9 +78,6 @@ export default function Home({ all_collections, nfts }) {
 
       {/* <!-- Hero secondary --> */}
       <section className="relative py-20 md:pt-32" id="heroBack">
-        {/* <div className="absolute h-[100%] w-[100%]">
-          <Spline scene="https://prod.spline.design/VWR6TSEIzxLDjKMd/scene.splinecode" />
-        </div> */}
         <div className="h-full px-6 xl:px-20">
           <div className="grid h-full items-center gap-4 lg:grid-cols-12">
             <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
@@ -122,6 +127,50 @@ export default function Home({ all_collections, nfts }) {
                 >
                   Explore
                 </Link>
+              </div>
+              <div className="flex space-x-4">
+                <Image
+                  src={polygon}
+                  alt="chainImg"
+                  className="h-[27px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={gnosis}
+                  alt="chainImg"
+                  className="h-[27px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={mantle}
+                  alt="chainImg"
+                  className="h-[27px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={taiko}
+                  alt="chainImg"
+                  className="h-[29px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={filecoin}
+                  alt="chainImg"
+                  className="h-[27px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={scroll}
+                  alt="chainImg"
+                  className="h-[23px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
               </div>
             </div>
 

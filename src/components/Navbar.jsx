@@ -12,7 +12,7 @@ import goerliLogo from "../../public/chains/goerli.png";
 import mantleLogo from "../../public/chains/mantle.png";
 import polygonLogo from "../../public/chains/polygon.png";
 import scrollLogo from "../../public/chains/scroll.png";
-import TaikoLogo from "../../public/chains/taiko.jpeg";
+import TaikoLogo from "../../public/chains/taiko.png";
 
 const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectToIntmax, chainIdMain, setChainIdMain, RARX_CHANNEL_ADDRESS }) => {
   const user_address = async () => { };

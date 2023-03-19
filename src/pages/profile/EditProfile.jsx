@@ -326,16 +326,16 @@ const EditProfile = ({ signer_address, polybase }) => {
 
             {/* right tab  */}
             <div className="flex flex-col lg:ml-20">
-              <div className="flex space-x-5">
+              <div className="flex space-x-5 flex-wrap">
                 <div className="shrink-0">
-                  <figure className="relative inline-block">
+                  <div className="relative inline-block">
                     {data.profileImage == "" && profImg_preview == "" ?
                       <Image
                         src="../../../rarxlogo.png"
                         alt="logo"
                         width={100}
                         height={100}
-                        className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+                        className="rounded-xl border-[1px] border-gray-500 dark:border-jacarta-600 h-[130px] w-[auto]"
                       />
                       :
                       <Image
@@ -378,7 +378,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                         </svg>
                       </div>
                     </div>
-                  </figure>
+                  </div>
                 </div>
                 <div className="mt-4">
                   <span className="mb-3 block font-display text-sm text-jacarta-700 dark:text-white">
