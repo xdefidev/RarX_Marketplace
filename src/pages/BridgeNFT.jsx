@@ -5,7 +5,7 @@ import NftCard from '@/components/cards/NftCard';
 import Loader from '@/components/Loader';
 
 
-const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_from_user_wallet, default_collection_address, signer_address, signer, xchain_NFT, x_chain_polygon_address, x_chain_goerli_address, bridgedHash }) => {
+const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_from_user_wallet, signer_address, xchain_NFT, x_chain_polygon_address, x_chain_goerli_address, bridgedHash }) => {
 
     const [domainID, setDomainID] = useState("9991");
     const [assetContract, setAssesContract] = useState("");
@@ -20,13 +20,10 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
     const [loading, set_loading] = useState(false);
     const [nfts, set_nfts] = useState([]);
 
-    const get_nfts = async (collection_address, slug) => {
+    const get_nfts = async () => {
         set_loading(true);
-        const nfts = await fetch_nfts_from_user_wallet(
-            collection_address,
-            slug,
-            signer
-        );
+        const nfts = await fetch_nfts_from_user_wallet(signer_address);
+        console.log(nfts)
         set_nfts(nfts);
         set_loading(false);
     };
@@ -114,12 +111,12 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
 
         if (defaultDomain == true && chainIdMain == "80001") {
             setShowSelectNFT(true);
-            get_nfts(default_collection_address, signer_address);
+            get_nfts(signer_address);
             setxChainContract(x_chain_polygon_address);
         }
         if (defaultDomain == false && chainIdMain == "5") {
             setShowSelectNFT(true);
-            get_nfts(default_collection_address, signer_address);
+            get_nfts(signer_address);
             setxChainContract(x_chain_goerli_address);
         }
     }
@@ -273,17 +270,18 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
                                                             <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
                                                                 {nfts?.map((e, index) => {
                                                                     return (
-                                                                        e.name && (
-                                                                            <div onClick={() => (setAssesContract(default_collection_address), setAssetTokenID(index), handleSubmitSelectNFT())}>
+                                                                        e.isListed == false && (
+                                                                            <div onClick={() => (setAssesContract(e.ipfsData.collection), setAssetTokenID(e.tokenId), handleSubmitSelectNFT())}>
                                                                                 <NftCard
-                                                                                    ImageSrc={e.image.replace(
+                                                                                    key={index}
+                                                                                    ImageSrc={e.ipfsData.image?.replace(
                                                                                         "ipfs://",
                                                                                         "https://gateway.ipfscdn.io/ipfs/"
                                                                                     )}
-                                                                                    Name={e.name}
-                                                                                    Description={e.description}
-                                                                                    Address={default_collection_address}
-                                                                                    tokenId={index}
+                                                                                    Name={e.ipfsData.name}
+                                                                                    Description={e.ipfsData.description}
+                                                                                    Address={e.ipfsData.collection}
+                                                                                    tokenId={e.tokenId}
                                                                                     onClickOpen={false}
                                                                                 />
                                                                             </div>
