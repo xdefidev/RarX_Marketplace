@@ -9,6 +9,8 @@ import Loader from "@/components/Loader";
 import { Chat } from "@pushprotocol/uiweb";
 import { Framework } from "@superfluid-finance/sdk-core";
 import { Wallet, providers, ethers } from "ethers";
+import * as PushAPI from "@pushprotocol/restapi";
+
 
 
 const Profile = ({
@@ -16,7 +18,7 @@ const Profile = ({
   signer,
   signer_address,
   fetch_nfts_from_user_wallet,
-  default_collection_address,
+  RARX_CHANNEL_ADDRESS,
   setChainIdMain,
   chainIdMain
 }) => {
@@ -32,7 +34,6 @@ const Profile = ({
     },
   ];
   const [provider, setProvider] = useState(null);
-  const [superfluidSdk, setSuperfluidSdk] = useState(null);
   const [userStreamData, SetUserStreamData] = useState([]);
 
   const [streamInput, setStreamInput] = useState({
@@ -112,8 +113,7 @@ const Profile = ({
         chainId,
         provider,
       });
-      setSuperfluidSdk(sf);
-      const superToken = await superfluidSdk.loadSuperToken(token);
+      const superToken = await sf.loadSuperToken(token);
       const flowRateInWeiPerSecond = calculateFlowRateInWeiPerSecond(flowRate);
 
       let flowOp = superToken.createFlow({
@@ -122,7 +122,8 @@ const Profile = ({
         flowRate: flowRateInWeiPerSecond,
       });
       await flowOp.exec(provider.getSigner());
-
+      sendMemberCreatedNoti({ to: sender, title: `You are now a member of ${receiver} artist`, body: `Congratulations for becoming a member of ${receiver}, now you can access all the membership perks of the artist` });
+      sendMemberCreatedNoti({ to: receiver, title: `You have recieved a subscription from ${sender}`, body: `Congratulations for getting your first subscription from ${sender}, make sure you deliver your perks..` });
       setTimeout(() => {
         alert(
           "Stream created successfully"
@@ -145,14 +146,13 @@ const Profile = ({
         chainId,
         provider,
       });
-      setSuperfluidSdk(sf);
-
-      const superToken = await superfluidSdk.loadSuperToken("fDAIx");
+      const superToken = await sf.loadSuperToken("fDAIx");
       let flowOp = superToken.deleteFlow({
         sender: signer_address,
         receiver: slug,
       });
       await flowOp.exec(provider.getSigner());
+      sendMemberCancelNoti({ to: receiver });
       setTimeout(() => {
         alert(
           "Stream deleted Successfully"
@@ -183,11 +183,66 @@ const Profile = ({
         receiver: slug,
         providerOrSigner: provider,
       });
+      console.log({ userStreams: res })
       SetUserStreamData(res);
     }
   };
   // superfluid config end
 
+  // sending membership stream created push notification
+  const sendMemberCreatedNoti = async ({ to, title, body }) => {
+    const signer = new ethers.Wallet(
+      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    );
+    try {
+      const apiResponse = await PushAPI.payloads.sendNotification({
+        signer,
+        type: 3,
+        identityType: 2,
+        notification: {
+          title: `${title}`,
+          body: `${body}`,
+        },
+        payload: {
+          title: `${title}`,
+          body: `${body}`,
+        },
+        recipients: `eip155:8001:${to}`,
+        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+        env: "staging",
+      });
+    } catch (err) {
+      console.error("Error: ", err);
+    }
+  };
+
+  // sending membership cancelation push notification 
+  const sendMemberCancelNoti = async ({ to }) => {
+    const signer = new ethers.Wallet(
+      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    );
+    try {
+      const apiResponse = await PushAPI.payloads.sendNotification({
+        signer,
+        type: 3,
+        identityType: 2,
+        notification: {
+          title: `You have cancelled your membership of artist ${to}`,
+          body: `As you have cancelled the membership, you are no longer eligible for the membership perks`,
+        },
+        payload: {
+          title: `You have cancelled your membership of artist ${to}`,
+          body: `As you have cancelled the membership, you are no longer eligible for the membership perks`,
+          cta: ``,
+        },
+        recipients: `eip155:8001:${signer_address}`,
+        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+        env: "staging",
+      });
+    } catch (err) {
+      console.error("Error: ", err);
+    }
+  };
 
   const [loading, set_loading] = useState(false);
   const [membershipVisible, setMembershipVisible] = useState(false);
@@ -304,13 +359,13 @@ const Profile = ({
                 {signer_address != slug &&
                   <>
                     {calculateFlowRate(userStreamData?.flowRate) > 0 &&
-                      <button type="button" onClick={() => setMembershipVisible(true)}
+                      <button type="button" onClick={() => (setMembershipVisible(true))}
                         className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                         View Membership
                       </button>
                     }
                     {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
-                      <button type="button" onClick={() => setMembershipVisible(true)}
+                      <button type="button" onClick={() => (setMembershipVisible(true))}
                         className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                         Become Member
                       </button>
