@@ -288,7 +288,7 @@ const About = () => {
               width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
-              Intax
+              IntMax
             </h3>
           </a>
           <a href="https://polybase.xyz/" target="_blank">

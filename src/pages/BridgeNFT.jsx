@@ -131,7 +131,7 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
                 SetIsNFTBridged(true);
             } catch (error) {
                 setIsNFTBriding(false);
-                console.log({ someXChainDridgeTxnError: error });
+                console.log({ someXChainBridgeTxnError: error });
             }
         }
         else {
@@ -142,6 +142,7 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
 
     useEffect(() => {
         connectToWallet();
+        // setting domain id of xchain destination
         if (chainIdMain == "5") {
             setDomainID("9991");
         }
