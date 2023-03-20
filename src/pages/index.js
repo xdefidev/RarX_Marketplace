@@ -9,6 +9,14 @@ import { useEffect, useState } from "react";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
 
+//chains
+import filecoin from "../../public/chains/filecoin.png";
+import gnosis from "../../public/chains/gnosis.png";
+import mantle from "../../public/chains/mantle.png";
+import polygon from "../../public/chains/polygon.png";
+import scroll from "../../public/chains/scroll.png";
+import taiko from "../../public/chains/taiko.png";
+
 export default function Home({ all_collections, nfts }) {
   return (
     <>
@@ -70,9 +78,6 @@ export default function Home({ all_collections, nfts }) {
 
       {/* <!-- Hero secondary --> */}
       <section className="relative py-20 md:pt-32" id="heroBack">
-        {/* <div className="absolute h-[100%] w-[100%]">
-          <Spline scene="https://prod.spline.design/VWR6TSEIzxLDjKMd/scene.splinecode" />
-        </div> */}
         <div className="h-full px-6 xl:px-20">
           <div className="grid h-full items-center gap-4 lg:grid-cols-12">
             <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
@@ -103,25 +108,68 @@ export default function Home({ all_collections, nfts }) {
                 </div>
               </div>
               <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
-                Buy and Sell Digital Art and NFT’s
+                create, buy, sell and collect NFT’s
               </h1>
               <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                First Cross-chain And Multi-chain Advanced NFT Marketplace With
-                AI NFT Generation
+                Cross-chain And Multi-chain NFT Marketplace with features like AI NFT Generation, Cross-chain NFTs, On-chain Collections, Realtime Notifications, Chat with artists, Membership subscriptions for artists, etc.
               </p>
               <div className="flex space-x-4">
                 <Link
-                  href="/mint/CreateNFT"
-                  className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  href="/mint/CreateAINFT"
+                  className="w-45 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                 >
-                  Create
+                  Create AI NFT
                 </Link>
                 <Link
                   href="/Marketplace"
-                  className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                  className="w-45 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                 >
-                  Explore
+                  Explore NFTs
                 </Link>
+              </div>
+              <div className="flex space-x-4">
+                <Image
+                  src={polygon}
+                  alt="chainImg"
+                  className="h-[27px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={gnosis}
+                  alt="chainImg"
+                  className="h-[27px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={mantle}
+                  alt="chainImg"
+                  className="h-[27px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={taiko}
+                  alt="chainImg"
+                  className="h-[29px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={filecoin}
+                  alt="chainImg"
+                  className="h-[27px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
+                <Image
+                  src={scroll}
+                  alt="chainImg"
+                  className="h-[23px] w-[auto] my-8"
+                  height={100}
+                  width={100}
+                />
               </div>
             </div>
 

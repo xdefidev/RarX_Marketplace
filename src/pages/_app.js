@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
 import "@/styles/tailwind.css";
 import "@/styles/custom.css";
-import { ethers } from "ethers";
+import { ethers, Wallet } from "ethers";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollection.json";
@@ -15,7 +15,6 @@ import axios from "axios";
 import * as PushAPI from "@pushprotocol/restapi";
 import { Polybase } from "@polybase/client";
 import { ethPersonalSign } from "@polybase/eth";
-import { Wallet } from "ethers";
 // import { create } from "@connext/sdk";
 
 export default function App({ Component, pageProps }) {
@@ -359,6 +358,7 @@ export default function App({ Component, pageProps }) {
       });
       const txn = await rarx.createToken(tokenURI);
       await txn.wait();
+      sendNFTMintNoti();
     } catch (error) {
       console.log(error);
     }
@@ -581,7 +581,7 @@ export default function App({ Component, pageProps }) {
   // sending collection verification notification
   const sendCollectionNoti = async ({ collectionName }) => {
     const signer = new ethers.Wallet(
-      `${process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY}`
+      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
     );
     try {
       const apiResponse = await PushAPI.payloads.sendNotification({
@@ -593,12 +593,11 @@ export default function App({ Component, pageProps }) {
           body: `Congratulations, now you can sell your nfts via your ${collectionName} collection`,
         },
         payload: {
-          title: `Your new collections on rarx is verified`,
+          title: `Your new collection on rarx is verified`,
           body: `Congratulations, now you can sell your nfts via your collection`,
-          cta: ``,
         },
-        recipients: `eip155:8001:${signer_address}`,
-        channel: `eip155:5:${RARX_CHANNEL_ADDRESS}`,
+        recipients: `eip155:80001:${signer_address}`,
+        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
         env: "staging",
       });
     } catch (err) {
@@ -607,9 +606,9 @@ export default function App({ Component, pageProps }) {
   };
 
   // sending nft minted notification
-  const sendNFTMintNoti = async ({ NFTName }) => {
+  const sendNFTMintNoti = async () => {
     const signer = new ethers.Wallet(
-      `${process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY}`
+      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
     );
     try {
       const apiResponse = await PushAPI.payloads.sendNotification({
@@ -617,16 +616,16 @@ export default function App({ Component, pageProps }) {
         type: 3,
         identityType: 2,
         notification: {
-          title: `Your new NFT ${NFTName} is created on-chain via RarX Marketplace`,
+          title: `Your new NFT is created on-chain via RarX Marketplace`,
           body: `Congratulations, now you can list your newly minted NFT on Rarx`,
         },
         payload: {
-          title: `Your new NFT ${NFTName} is created on-chain via RarX Marketplace`,
+          title: `Your new NFT is created on-chain via RarX Marketplace`,
           body: `Congratulations, now you can list your newly minted NFT on Rarx`,
           cta: ``,
         },
         recipients: `eip155:8001:${signer_address}`,
-        channel: `eip155:5:${RARX_CHANNEL_ADDRESS}`,
+        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
         env: "staging",
       });
     } catch (err) {
@@ -699,6 +698,7 @@ export default function App({ Component, pageProps }) {
         nfts={nfts}
         list_nft={list_nft}
         fetch_listed_nfts={fetch_listed_nfts}
+        RARX_CHANNEL_ADDRESS={RARX_CHANNEL_ADDRESS}
       />
       <Footer />
     </>

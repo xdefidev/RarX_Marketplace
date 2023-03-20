@@ -12,7 +12,7 @@ import goerliLogo from "../../public/chains/goerli.png";
 import mantleLogo from "../../public/chains/mantle.png";
 import polygonLogo from "../../public/chains/polygon.png";
 import scrollLogo from "../../public/chains/scroll.png";
-import TaikoLogo from "../../public/chains/taiko.jpeg";
+import TaikoLogo from "../../public/chains/taiko.png";
 
 const Navbar = ({
   connectToWallet,
@@ -551,7 +551,7 @@ const Navbar = ({
                     </li>
                     <li>
                       <Link
-                        href="/"
+                        href="/BridgeTokens"
                         className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                       >
                         <span className="font-display text-sm text-jacarta-700 dark:text-white">

@@ -11,7 +11,7 @@ import gnosis from "../../public/chains/gnosis.png";
 import mantle from "../../public/chains/mantle.png";
 import polygon from "../../public/chains/polygon.png";
 import scroll from "../../public/chains/scroll.png";
-import taiko from "../../public/chains/taiko.jpeg";
+import taiko from "../../public/chains/taiko.png";
 
 //tech
 import connext from "../../public/tech/connext.png";
@@ -21,6 +21,7 @@ import push from "../../public/tech/push.jpeg";
 import superfluid from "../../public/tech/superfluid.png";
 import thegraph from "../../public/tech/thegraph.jpeg";
 import uma from "../../public/tech/uma.jpeg";
+import ipfsLogo from "../../public/tech/ipfs.png";
 
 const About = () => {
   return (
@@ -33,8 +34,7 @@ const About = () => {
               About RarX
             </h1>
             <p className="text-lg leading-normal dark:text-jacarta-300">
-              First Cross-chain And Multi-chain Advanced NFT Marketplace With AI
-              NFT Generation Build By A Team Of 2 Passionate Developers During
+              Rarx is a multi-chain and cross-chain advanced NFT marketplace with features like AI NFT Generation, Cross-chain NFTs, On-chain Collections, Realtime Notifications, Chat with artists, Membership subscriptions for artists, etc. Build By A Team Of 2 Passionate Developers During
               Scaling Ethereum 2023 Hackathon Organised by Ethglobal. Below is
               the introduction video of RarX Marketplace.
             </p>
@@ -288,7 +288,7 @@ const About = () => {
               width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
-              Intax
+              IntMax
             </h3>
           </a>
           <a href="https://polybase.xyz/" target="_blank">
@@ -327,7 +327,7 @@ const About = () => {
               Superfluid
             </h3>
           </a>
-          <a href="https://thegraph.com/" target="_blank">
+          {/* <a href="https://thegraph.com/" target="_blank">
             <Image
               src={thegraph}
               alt="thegraph"
@@ -338,8 +338,8 @@ const About = () => {
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               The Graph
             </h3>
-          </a>
-          <a href="https://uma.xyz/" target="_blank">
+          </a> */}
+          <a href="https://uma.xyz/" target="_blank" className=" mt-4">
             <Image
               src={uma}
               alt="uma"
@@ -349,6 +349,18 @@ const About = () => {
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               UMA
+            </h3>
+          </a>
+          <a href="https://ipfs.tech" target="_blank" className=" mt-4">
+            <Image
+              src={ipfsLogo}
+              alt="ipfs"
+              className="h-[150px] w-[auto] m-4"
+              height={100}
+              width={100}
+            />
+            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
+              IPFS
             </h3>
           </a>
         </div>
