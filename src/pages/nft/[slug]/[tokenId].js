@@ -17,6 +17,7 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
   const get_nft = async (collectionAddress, tokenId) => {
     if (!tokenId && signer && !collectionAddress) return;
     const nft = await fetch_NFT_info(collectionAddress, tokenId);
+    console.log({ nft });
     set_nft_info(nft);
   };
 
@@ -167,14 +168,19 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
               {/* -------------------------- all action buttons start ------------------------  */}
 
               {/* <!-- place Bid button design --> */}
-              {/* <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
-                            <a
-                                href="#"
-                                data-bs-toggle="modal"
-                                data-bs-target="#placeBidModal"
-                                className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                            >Place Bid</a>
-                        </div> */}
+              {nft?.isListed && nft.seller !== signer_address && (
+                <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                  <a
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#placeBidModal"
+                    className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    Place Bid {ethers.utils.formatEther(nft?.listingPrice)}{" "}
+                    matic
+                  </a>
+                </div>
+              )}
 
               {/* <!-- list nft --> */}
               <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
@@ -240,7 +246,9 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
 
                             <input
                               type="text"
-                              onChange={(e) => set_listing_price(e.target.value)}
+                              onChange={(e) =>
+                                set_listing_price(e.target.value)
+                              }
                               className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
                               placeholder="Amount"
                             />

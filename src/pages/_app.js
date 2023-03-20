@@ -95,7 +95,7 @@ export default function App({ Component, pageProps }) {
       // alert(
       //   "Please install Metamask, Intmax or any other web3 enabled browser"
       // );
-      console.log("No wallet detected")
+      console.log("No wallet detected");
     }
   };
 
@@ -185,6 +185,7 @@ export default function App({ Component, pageProps }) {
 
   const list_nft = async (tokenId, price, collection_address, signer) => {
     console.log("listing token");
+    const user_address = await signer.getAddress();
 
     const collection_contract = rarx_collection(collection_address, signer);
     try {
@@ -210,20 +211,24 @@ export default function App({ Component, pageProps }) {
         const res = await db
           .collection("NFT")
           .record(`${collection_address}/${tokenId}`)
-          .call("setNewOwner", [
-            db.collection("User").record(marketplace_address),
-          ]);
-        console.log({ res });
-
-        const res2 = await db
-          .collection("NFT")
-          .record(`${collection_address}/${tokenId}`)
           .call("listNFT", [
             ethers.utils.parseEther(price).toString(),
             chainIdMain.toString(),
+            db.collection("User").record(marketplace_address),
           ]);
-        console.log({ res2 });
+        console.log({ res });
       }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const executeSale = async (tokenId, collection_address) => {
+    try {
+      const contract = marketplace();
+      const txn = await contract.executeSale(tokenId, collection_address);
+      await txn.wait();
+      console.log({ txn });
     } catch (error) {
       console.log(error.message);
     }
@@ -350,31 +355,31 @@ export default function App({ Component, pageProps }) {
   // create nft
   const create_token = async (_tokenURI, signer) => {
     console.log(_tokenURI);
-    // try {
-    //   const tokenURI = await storage.upload(_tokenURI);
-    //   const rarx = rarx_collection(_tokenURI.collection, signer);
-    //   const network = await provider.getNetwork();
-    //   rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
-    //     const db = polybase();
-    //     const res = await db
-    //       .collection("NFT")
-    //       .create([
-    //         `${_tokenURI.collection}/${tokenId.toString()}`,
-    //         tokenId.toString(),
-    //         network.chainId.toString(),
-    //         tokenURI,
-    //         db.collection("User").record(signer_address),
-    //         db.collection("NFTCollection").record(_tokenURI.collection),
-    //       ]);
+    try {
+      const tokenURI = await storage.upload(_tokenURI);
+      const rarx = rarx_collection(_tokenURI.collection, signer);
+      const network = await provider.getNetwork();
+      rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
+        const db = polybase();
+        const res = await db
+          .collection("NFT")
+          .create([
+            `${_tokenURI.collection}/${tokenId.toString()}`,
+            tokenId.toString(),
+            network.chainId.toString(),
+            tokenURI,
+            db.collection("User").record(signer_address),
+            db.collection("NFTCollection").record(_tokenURI.collection),
+          ]);
 
-    //     console.log({ res });
-    //   });
-    //   const txn = await rarx.createToken(tokenURI);
-    //   await txn.wait();
-    //   sendNFTMintNoti();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+        console.log({ res });
+      });
+      const txn = await rarx.createToken(tokenURI);
+      await txn.wait();
+      sendNFTMintNoti();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // CREATE COLLECTION
@@ -435,10 +440,13 @@ export default function App({ Component, pageProps }) {
         .collection("NFT")
         .record(`${collection_address}/${tokenId}`)
         .get();
+      console.log({ res });
       const collectionInfo = await db
         .collection("NFTCollection")
         .record(collection_address)
         .get();
+      console.log({ collectionInfo });
+
       obj.collectionLogo = collectionInfo.data.logo;
       const ownerInfo = await db
         .collection("User")
@@ -447,7 +455,8 @@ export default function App({ Component, pageProps }) {
       obj.ownerImage = ownerInfo.data.profileImage;
       obj.chainId = res.data.chainId;
       obj.isListed = res.data.isListed;
-      // obj.listingPrice = res.data.listingPrice;
+      obj.seller = res.data.seller?.id;
+      obj.listingPrice = res.data.listingPrice;
       obj.owner = res.data.owner.id;
       const parsed_nft = await axios.get(
         res.data.ipfsURL.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
@@ -503,6 +512,7 @@ export default function App({ Component, pageProps }) {
   const fetch_nfts_from_collection = async (collection_address) => {
     try {
       const db = polybase();
+
       let nfts = [];
       const res = await db
         .collection("NFT")
@@ -517,6 +527,7 @@ export default function App({ Component, pageProps }) {
         obj.chainId = e.data.chainId;
         obj.tokenId = e.data.tokenId;
         obj.isListed = e.data.isListed;
+
         const url = await e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
@@ -712,6 +723,7 @@ export default function App({ Component, pageProps }) {
         list_nft={list_nft}
         fetch_listed_nfts={fetch_listed_nfts}
         RARX_CHANNEL_ADDRESS={RARX_CHANNEL_ADDRESS}
+        executeSale={executeSale}
       />
       <Footer />
     </>
