@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import Head from "next/head";
 
 //team
 import shravanImage from "../../public/shravan.jpeg";
@@ -26,6 +27,16 @@ import ipfsLogo from "../../public/tech/ipfs.png";
 const About = () => {
   return (
     <>
+      <Head>
+        <title>About - RarX Marketplace</title>
+        <meta
+          name="description"
+          content="About rarx marketplace"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
+
       {/* <!-- title --> */}
       <section className="relative pt-24">
         <div className="container">

@@ -5,6 +5,7 @@ import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
+import Head from "next/head";
 
 const Collection = ({
   fetch_collection_data_from_polybase,
@@ -37,6 +38,12 @@ const Collection = ({
 
   return (
     <>
+      <Head>
+        <title>Collection - RarX Marketplace</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
+
       {/* <!-- Banner IMG--> */}
       <div className="relative mt-24">
         <Image

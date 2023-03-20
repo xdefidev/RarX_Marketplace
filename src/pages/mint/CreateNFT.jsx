@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const CreateNFT = ({
   create_token,
@@ -54,7 +55,7 @@ const CreateNFT = ({
     const collections = await get_my_collections(signer);
     set_user_collections(collections);
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!signer) return alert("Please provide a signer");
@@ -74,6 +75,11 @@ const CreateNFT = ({
 
   return (
     <>
+      <Head>
+        <title>Create NFT - RarX Marketplace</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
       {loading ? (
         <Loader />
       ) : (

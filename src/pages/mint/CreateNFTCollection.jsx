@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const CreateNFTCollection = ({ create_collection, signer_address }) => {
   const router = useRouter();
@@ -28,6 +29,12 @@ const CreateNFTCollection = ({ create_collection, signer_address }) => {
 
   return (
     <>
+      <Head>
+        <title>Create NFT Collection - RarX Marketplace</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
+
       {loading ? (
         <Loader />
       ) : (
