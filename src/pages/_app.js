@@ -49,10 +49,10 @@ export default function App({ Component, pageProps }) {
 
   //CONTRACT ADDRESSES
   const default_collection_address =
-    "0x5dB263090Cd6341e7Af4133380A8bfB07117B674";
-  const marketplace_address = "0xA3D4aB22d6E215A9aBF8f479804Ea52906aB716A";
+    "0x1158a75120a12EDf8912a72E90877B55485FCd71";
+  const marketplace_address = "0x6D19F5c5907B70C72a1F71cfF7CDE6DF248e85a7";
   const collection_factory_address =
-    "0x454e433fBd6E4a6fD695061c17A2b0F6f18275ea";
+    "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C";
 
   // connect wallet metamask
   const connectToWallet = async () => {
@@ -101,13 +101,18 @@ export default function App({ Component, pageProps }) {
   // const deleteDataPolybase = async () => {
   //   const db = polybase();
   //   const res = db
-  //     .collection("NFT")
-  //     .record(
-  //       "0xfcef217b2c143f4ccd4b55662cf56abb0c2ef5ff15e981f2527dce1a61833f7f"
-  //     )
+  //     .collection("NFTCollection")
+  //     .record("0x5dB263090Cd6341e7Af4133380A8bfB07117B674")
   //     .call("del");
+  //   // const res2 = db
+  //   //   .collection("NFTCollection")
+  //   //   .record(
+  //   //     "0xfcef217b2c143f4ccd4b55662cf56abb0c2ef5ff15e981f2527dce1a61833f7f"
+  //   //   )
+  //   //   .call("del");
   //   console.log("done");
   //   console.log({ res });
+  //   // console.log({ res2 });
   // };
   // CONNECT WALLET INTMAX
   const connectToIntmax = async () => {
@@ -333,29 +338,18 @@ export default function App({ Component, pageProps }) {
       const network = await provider.getNetwork();
       rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
         const db = polybase();
-        if (_tokenURI.collection == default_collection_address) {
-          const res = await db
-            .collection("NFT")
-            .create([
-              `${default_collection_address}/${tokenId.toString()}`,
-              tokenId.toString(),
-              network.chainId.toString(),
-              tokenURI,
-              db.collection("User").record(signer_address),
-              db.collection("NFTCollection").record(default_collection_address),
-            ]);
-        } else {
-          const res = await db
-            .collection("NFT")
-            .create([
-              `${default_collection_address}/${tokenId.toString()}`,
-              tokenId.toString(),
-              network.chainId.toString(),
-              tokenURI,
-              db.collection("User").record(signer_address),
-              db.collection("NFTCollection").record(_tokenURI.collection),
-            ]);
-        }
+        const res = await db
+          .collection("NFT")
+          .create([
+            `${_tokenURI.collection}/${tokenId.toString()}`,
+            tokenId.toString(),
+            network.chainId.toString(),
+            tokenURI,
+            db.collection("User").record(signer_address),
+            db.collection("NFTCollection").record(_tokenURI.collection),
+          ]);
+
+        console.log({ res });
       });
       const txn = await rarx.createToken(tokenURI);
       await txn.wait();
