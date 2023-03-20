@@ -348,31 +348,32 @@ export default function App({ Component, pageProps }) {
 
   // create nft
   const create_token = async (_tokenURI, signer) => {
-    try {
-      const tokenURI = await storage.upload(_tokenURI);
-      const rarx = rarx_collection(_tokenURI.collection, signer);
-      const network = await provider.getNetwork();
-      rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
-        const db = polybase();
-        const res = await db
-          .collection("NFT")
-          .create([
-            `${_tokenURI.collection}/${tokenId.toString()}`,
-            tokenId.toString(),
-            network.chainId.toString(),
-            tokenURI,
-            db.collection("User").record(signer_address),
-            db.collection("NFTCollection").record(_tokenURI.collection),
-          ]);
+    console.log(_tokenURI);
+    // try {
+    //   const tokenURI = await storage.upload(_tokenURI);
+    //   const rarx = rarx_collection(_tokenURI.collection, signer);
+    //   const network = await provider.getNetwork();
+    //   rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
+    //     const db = polybase();
+    //     const res = await db
+    //       .collection("NFT")
+    //       .create([
+    //         `${_tokenURI.collection}/${tokenId.toString()}`,
+    //         tokenId.toString(),
+    //         network.chainId.toString(),
+    //         tokenURI,
+    //         db.collection("User").record(signer_address),
+    //         db.collection("NFTCollection").record(_tokenURI.collection),
+    //       ]);
 
-        console.log({ res });
-      });
-      const txn = await rarx.createToken(tokenURI);
-      await txn.wait();
-      sendNFTMintNoti();
-    } catch (error) {
-      console.log(error);
-    }
+    //     console.log({ res });
+    //   });
+    //   const txn = await rarx.createToken(tokenURI);
+    //   await txn.wait();
+    //   sendNFTMintNoti();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   // CREATE COLLECTION
@@ -467,7 +468,6 @@ export default function App({ Component, pageProps }) {
         const { data } = e;
         allCollections.push(data);
       });
-      console.log({ allCollections });
       set_collections(allCollections);
     } catch (error) {
       console.log(error.message);
@@ -666,6 +666,7 @@ export default function App({ Component, pageProps }) {
       });
     }
     connectToWallet();
+    console.log("app rerender");
   }, []);
 
   return (
