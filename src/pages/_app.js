@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }) {
 
   //CONTRACT ADDRESSES
   const default_collection_address =
-    "0x1158a75120a12EDf8912a72E90877B55485FCd71";
+    "0xE6aD85168620973A542368609133986B31e64cF3";
   const marketplace_address = "0x6D19F5c5907B70C72a1F71cfF7CDE6DF248e85a7";
   const collection_factory_address =
     "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C";
@@ -91,6 +91,7 @@ export default function App({ Component, pageProps }) {
       setChainIdMain(chainId);
       get_all_collections(signer);
       fetch_all_nfts_from_polybase();
+      deleteDataPolybase();
     } else {
       alert(
         "Please install Metamask, Intmax or any other web3 enabled browser"
@@ -98,22 +99,27 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-  // const deleteDataPolybase = async () => {
-  //   const db = polybase();
-  //   const res = db
-  //     .collection("NFTCollection")
-  //     .record("0x5dB263090Cd6341e7Af4133380A8bfB07117B674")
-  //     .call("del");
-  //   // const res2 = db
-  //   //   .collection("NFTCollection")
-  //   //   .record(
-  //   //     "0xfcef217b2c143f4ccd4b55662cf56abb0c2ef5ff15e981f2527dce1a61833f7f"
-  //   //   )
-  //   //   .call("del");
-  //   console.log("done");
-  //   console.log({ res });
-  //   // console.log({ res2 });
-  // };
+  const deleteDataPolybase = async () => {
+    const db = polybase();
+    const res = await db
+      .collection("NFTCollection")
+      .create([
+        default_collection_address,
+        db.collection("User").record(default_collection_address),
+        "rarx cover image",
+        "rarx logo image",
+        "Rarx Collection",
+        "rarx",
+        "This is a default rarx marketplace collection",
+      ]);
+    // const res = await db.collection("NFTCollection").create([
+    //   default_collection_address,
+    //   default_collection_address
+    // ])
+    console.log("done");
+    console.log({ res });
+    // console.log({ res2 });
+  };
   // CONNECT WALLET INTMAX
   const connectToIntmax = async () => {
     try {
@@ -489,8 +495,7 @@ export default function App({ Component, pageProps }) {
       const res = await db
         .collection("NFT")
         .where("nftCollection", "==", {
-          collectionId:
-            "pk/0x9e0b94816d36409ad92dce6ebefcab7db77e3feab6203ec3e2f07aaab334463b6ee759021cfeec4b305a263edd67358ebc4d8fe2ccee87b7b899622c45156dda/rarxv3/NFTCollection",
+          collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/NFTCollection`,
           id: collection_address,
         })
         .get();
@@ -549,8 +554,7 @@ export default function App({ Component, pageProps }) {
       const res = await db
         .collection("NFT")
         .where("owner", "==", {
-          collectionId:
-            "pk/0x9e0b94816d36409ad92dce6ebefcab7db77e3feab6203ec3e2f07aaab334463b6ee759021cfeec4b305a263edd67358ebc4d8fe2ccee87b7b899622c45156dda/rarxv3/User",
+          collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
           id: signer_address,
         })
         .get();
