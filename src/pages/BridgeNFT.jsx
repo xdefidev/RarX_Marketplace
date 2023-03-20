@@ -3,6 +3,8 @@ import Link from "next/link";
 import { TbArrowsUpDown } from "react-icons/tb"
 import NftCard from '@/components/cards/NftCard';
 import Loader from '@/components/Loader';
+import Head from "next/head";
+
 
 
 const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_from_user_wallet, signer_address, xchain_NFT, x_chain_polygon_address, x_chain_goerli_address, bridgedHash }) => {
@@ -153,6 +155,16 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
 
     return (
         <>
+            <Head>
+                <title>Bridge NFT - RarX Marketplace</title>
+                <meta
+                    name="description"
+                    content="Bridge NFT"
+                />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/favicon.png" />
+            </Head>
+
             {isNFTBridged == false &&
                 <>
                     {showSelectNFT == false &&

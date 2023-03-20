@@ -10,7 +10,7 @@ import { Chat } from "@pushprotocol/uiweb";
 import { Framework } from "@superfluid-finance/sdk-core";
 import { Wallet, providers, ethers } from "ethers";
 import * as PushAPI from "@pushprotocol/restapi";
-
+import Head from "next/head";
 
 
 const Profile = ({
@@ -291,6 +291,11 @@ const Profile = ({
     <Loader />
   ) : (
     <>
+      <Head>
+        <title>Profile - RarX Marketplace</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
       {/* <!-- Banner IMG--> */}
       <div className="relative mt-24">
         <Image

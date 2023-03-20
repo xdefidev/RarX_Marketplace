@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const CreateNFT = ({
   create_token,
@@ -75,6 +76,11 @@ const CreateNFT = ({
 
   return (
     <>
+      <Head>
+        <title>Create NFT - RarX Marketplace</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.png" />
+      </Head>
       {loading ? (
         <Loader />
       ) : (

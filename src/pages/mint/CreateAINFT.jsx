@@ -3,6 +3,7 @@ import Link from "next/link";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
 import sample from "lodash/sample";
+import Head from "next/head";
 
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -132,6 +133,12 @@ const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, sig
 
     return (
         <>
+            <Head>
+                <title>Create AI NFT - RarX Marketplace</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/favicon.png" />
+            </Head>
+
             {loading ? (
                 <Loader />
             ) : (
