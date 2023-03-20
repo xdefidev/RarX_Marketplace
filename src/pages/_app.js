@@ -92,9 +92,10 @@ export default function App({ Component, pageProps }) {
       fetch_all_nfts_from_polybase();
       // deleteDataPolybase();
     } else {
-      alert(
-        "Please install Metamask, Intmax or any other web3 enabled browser"
-      );
+      // alert(
+      //   "Please install Metamask, Intmax or any other web3 enabled browser"
+      // );
+      console.log("No wallet detected")
     }
   };
 
