@@ -24,7 +24,7 @@ const Navbar = ({
   setChainIdMain,
   RARX_CHANNEL_ADDRESS,
 }) => {
-  const user_address = async () => {};
+  const user_address = async () => { };
   // const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
   const [notificationData, setNotificationData] = useState();
 
@@ -415,7 +415,7 @@ const Navbar = ({
               <ul className="flex flex-col lg:flex-row">
                 <li className="js-nav-dropdown group relative">
                   <Link
-                    href="/marketplace"
+                    href="#"
                     className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
                     id="navDropdown-4"
                     aria-expanded="false"
@@ -430,7 +430,7 @@ const Navbar = ({
                   >
                     <li>
                       <Link
-                        href="/Marketplace"
+                        href="/marketplace"
                         className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                       >
                         <span className="mr-3 rounded-xl bg-light-base p-[0.375rem]">

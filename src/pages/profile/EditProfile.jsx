@@ -143,9 +143,9 @@ const EditProfile = ({ signer_address, polybase }) => {
             src={
               typeof data.coverImage == "string"
                 ? data.coverImage.replace(
-                    "ipfs://",
-                    "https://gateway.ipfscdn.io/ipfs/"
-                  )
+                  "ipfs://",
+                  "https://gateway.ipfscdn.io/ipfs/"
+                )
                 : coverImg_preview
             }
             alt="banner"
@@ -463,98 +463,6 @@ const EditProfile = ({ signer_address, polybase }) => {
                     placeholder="yoursitename.com"
                   />
                 </div>
-              </div>
-              <div className="mb-6">
-                <label className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white">
-                  Wallet Address
-                </label>
-                <button
-                  type="button"
-                  className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-default"
-                >
-                  <span>{signer_address}</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="ml-auto mb-px h-4 w-4 fill-jacarta-500 dark:fill-jacarta-300"
-                  >
-                    <path fill="none" d="M0 0h24v24H0z"></path>
-                    <path d="M7 7V3a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-4v3.993c0 .556-.449 1.007-1.007 1.007H3.007A1.006 1.006 0 0 1 2 20.993l.003-12.986C2.003 7.451 2.452 7 3.01 7H7zm2 0h6.993C16.549 7 17 7.449 17 8.007V15h3V4H9v3zM4.003 9L4 20h11V9H4.003z"></path>
-                  </svg>
-                </button>
-              </div>
-
-              <button
-                type="submit"
-                className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-              >
-                Update Profile
-              </button>
-            </div>
-
-            <div className="flex space-x-5 md:w-1/2 md:pl-8">
-              <div className="shrink-0">
-                <figure className="relative inline-block">
-                  {data.profileImage == "" && profImg_preview == "" ? (
-                    <Image
-                      src="../../../rarxlogo.png"
-                      alt="logo"
-                      width={100}
-                      height={100}
-                      className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
-                    />
-                  ) : (
-                    <Image
-                      src={
-                        typeof data.profileImage == "string"
-                          ? data.profileImage.replace(
-                              "ipfs://",
-                              "https://gateway.ipfscdn.io/ipfs/"
-                            )
-                          : profImg_preview
-                      }
-                      width={100}
-                      height={100}
-                      alt="logo"
-                      className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
-                    />
-                  )}
-                  <div className="group absolute -right-3 -bottom-2 h-8 w-8 overflow-hidden rounded-full border border-jacarta-100 bg-white text-center hover:border-transparent hover:bg-accent">
-                    <input
-                      onChange={(e) => {
-                        set_profImg_preview(
-                          URL.createObjectURL(e.target.files[0])
-                        );
-                        set_data({ ...data, profileImage: e.target.files[0] });
-                      }}
-                      type="file"
-                      accept="image/*"
-                      className="absolute top-0 left-0 w-full cursor-pointer opacity-0"
-                    />
-                    <div className="flex h-full items-center justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="h-4 w-4 fill-jacarta-400 group-hover:fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M15.728 9.686l-1.414-1.414L5 17.586V19h1.414l9.314-9.314zm1.414-1.414l1.414-1.414-1.414-1.414-1.414 1.414 1.414 1.414zM7.242 21H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L7.243 21z" />
-                      </svg>
-                    </div>
-                  </div>
-                </figure>
-              </div>
-              <div className="mt-4">
-                <span className="mb-3 block font-display text-sm text-jacarta-700 dark:text-white">
-                  Profile Image
-                </span>
-                <p className="text-sm leading-normal dark:text-jacarta-300">
-                  Upload an image or GIF. Max 5mb.
-                </p>
               </div>
             </div>
           </div>
