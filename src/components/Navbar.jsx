@@ -23,6 +23,7 @@ const Navbar = ({
   chainIdMain,
   setChainIdMain,
   RARX_CHANNEL_ADDRESS,
+  symbol
 }) => {
   const user_address = async () => { };
   // const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
@@ -931,9 +932,9 @@ const Navbar = ({
 
                     {showNotifications && (
                       <div className="absolute right-[-50px] z-20 w-64 mt-6 overflow-hidden origin-top-right bg-white rounded-md shadow-xl sm:w-80 dark:bg-gray-800">
-                        {notificationData?.map((e) => {
+                        {notificationData?.map((e, i) => {
                           return (
-                            e.app === "RarX Marketplace" && (
+                            i < 6 && e.app === "RarX Marketplace" && (
                               <div key={e.sid}>
                                 <a
                                   href={e.cta}
@@ -1099,7 +1100,7 @@ const Navbar = ({
                         </span>
                         <div className="flex items-center">
                           <span className="text-lg font-bold text-green">
-                            {signer_bal} ETH
+                            {signer_bal} {"  "} {symbol}
                           </span>
                         </div>
                       </div>

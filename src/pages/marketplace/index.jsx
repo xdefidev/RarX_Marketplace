@@ -4,7 +4,7 @@ import testNFT from "../../../public/test.jpg";
 import NftCard from "@/components/cards/NftCard";
 import Head from "next/head";
 
-const Marketplace = ({ fetch_listed_nfts }) => {
+const Marketplace = ({ fetch_listed_nfts, chainImg }) => {
   const [nfts, set_nfts] = useState([]);
   const get_nfts = async () => {
     console.log("get nfts called");
@@ -23,13 +23,6 @@ const Marketplace = ({ fetch_listed_nfts }) => {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <section className="relative py-24" id="pageBack">
-        <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-          <img
-            src="img/gradient_light.jpg"
-            alt="gradient"
-            className="h-full w-full"
-          />
-        </picture>
         <div className="container">
           <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
             Explore NFTs
@@ -99,6 +92,7 @@ const Marketplace = ({ fetch_listed_nfts }) => {
                     Description={e.ipfsData.description}
                     Address={e.ipfsData.collection}
                     tokenId={e.tokenId}
+                    chainImg={chainImg}
                   />
                 ))}
               </div>

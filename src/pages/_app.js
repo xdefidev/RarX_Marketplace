@@ -17,15 +17,6 @@ import { Polybase } from "@polybase/client";
 import { ethPersonalSign } from "@polybase/eth";
 // import { create } from "@connext/sdk";
 
-// images 
-import filecoinLogo from "../../public/chains/filecoin.png";
-import gnosisLogo from "../../public/chains/gnosis.png";
-import goerliLogo from "../../public/chains/goerli.png";
-import mantleLogo from "../../public/chains/mantle.png";
-import polygonLogo from "../../public/chains/polygon.png";
-import scrollLogo from "../../public/chains/scroll.png";
-import TaikoLogo from "../../public/chains/taiko.png";
-
 export default function App({ Component, pageProps }) {
   const wallet = new Wallet(process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY);
 
@@ -55,7 +46,7 @@ export default function App({ Component, pageProps }) {
   const x_hashi_polygon = "0xd3F1A0782AFD768f8929343Fb44344A2a49fE343";
   const x_hashi_goerli = "0x8F5969b8Fa3727392385C5E74CF1AA91a4aC4b40";
 
-  //CONTRACT ADDRESSES
+  //declaring contract address
   let default_collection_address = "";
   let marketplace_address = "";
   let collection_factory_address = "";
@@ -63,6 +54,16 @@ export default function App({ Component, pageProps }) {
   // chain configs 
   const [chainImg, setChainImg] = useState("");
   const [blockURL, setBlockURL] = useState("");
+  const [symbol, setSymbol] = useState("");
+
+  // declaring images 
+  const filecoinLogo = "chains/filecoin.png";
+  const gnosisLogo = "chains/gnosis.png";
+  const goerliLogo = "chains/goerli.png";
+  const mantleLogo = "chains/mantle.png";
+  const polygonLogo = "chains/polygon.png";
+  const scrollLogo = "chains/scroll.png";
+  const TaikoLogo = "chains/taiko.png";
 
   // connect wallet metamask
   const connectToWallet = async () => {
@@ -105,6 +106,7 @@ export default function App({ Component, pageProps }) {
         marketplace_address = "";
         collection_factory_address = "";
         setChainImg(polygonLogo);
+        setSymbol("ETH");
         setBlockURL("https://mumbai.polygonscan.com/address/");
       }
       else if (chainId == 3141) {
@@ -113,6 +115,7 @@ export default function App({ Component, pageProps }) {
         marketplace_address = "";
         collection_factory_address = "";
         setChainImg(filecoinLogo);
+        setSymbol("TFIL");
         setBlockURL("https://hyperspace.filfox.info/en/address/");
       }
       else if (chainId == 5001) {
@@ -121,6 +124,7 @@ export default function App({ Component, pageProps }) {
         marketplace_address = "";
         collection_factory_address = "";
         setChainImg(mantleLogo);
+        setSymbol("BIT");
         setBlockURL("https://explorer.testnet.mantle.xyz/address/");
       }
       else if (chainId == 534353) {
@@ -129,6 +133,7 @@ export default function App({ Component, pageProps }) {
         marketplace_address = "";
         collection_factory_address = "";
         setChainImg(scrollLogo);
+        setSymbol("ETH");
         setBlockURL("https://blockscout.scroll.io/address/");
       }
       else if (chainId == 167002) {
@@ -137,6 +142,7 @@ export default function App({ Component, pageProps }) {
         marketplace_address = "";
         collection_factory_address = "";
         setChainImg(TaikoLogo);
+        setSymbol("ETH");
         setBlockURL("https://l2explorer.hackathon.taiko.xyz/address/");
       }
       else if (chainId == 10200) {
@@ -145,6 +151,7 @@ export default function App({ Component, pageProps }) {
         marketplace_address = "";
         collection_factory_address = "";
         setChainImg(gnosisLogo);
+        setSymbol("XDAI");
         setBlockURL("https://blockscout.com/gnosis/chiado/address/");
       }
       else if (chainId == 5) {
@@ -153,6 +160,7 @@ export default function App({ Component, pageProps }) {
         marketplace_address = "";
         collection_factory_address = "";
         setChainImg(goerliLogo);
+        setSymbol("ETH");
         setBlockURL("https://goerli.etherscan.io/address/");
       }
       else {
@@ -160,6 +168,7 @@ export default function App({ Component, pageProps }) {
         marketplace_address = "0x6D19F5c5907B70C72a1F71cfF7CDE6DF248e85a7";
         collection_factory_address = "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C";
         setChainImg(polygonLogo);
+        setSymbol("MATIC");
         setBlockURL("https://mumbai.polygonscan.com/address/");
       }
 
@@ -722,6 +731,9 @@ export default function App({ Component, pageProps }) {
         chainIdMain={chainIdMain}
         setChainIdMain={setChainIdMain}
         RARX_CHANNEL_ADDRESS={RARX_CHANNEL_ADDRESS}
+        chainImg={chainImg}
+        blockURL={blockURL}
+        symbol={symbol}
       />
       <Component
         {...pageProps}
