@@ -90,7 +90,7 @@ export default function App({ Component, pageProps }) {
       setChainIdMain(chainId);
       get_all_collections(signer);
       fetch_all_nfts_from_polybase();
-      deleteDataPolybase();
+      // deleteDataPolybase();
     } else {
       alert(
         "Please install Metamask, Intmax or any other web3 enabled browser"
@@ -99,6 +99,7 @@ export default function App({ Component, pageProps }) {
   };
 
   const deleteDataPolybase = async () => {
+    // collection code 
     const db = polybase();
     const res = await db
       .collection("NFTCollection")
@@ -111,14 +112,23 @@ export default function App({ Component, pageProps }) {
         "rarx",
         "This is a default rarx marketplace collection",
       ]);
-    // const res = await db.collection("NFTCollection").create([
-    //   default_collection_address,
-    //   default_collection_address
-    // ])
-    console.log("done");
-    console.log({ res });
-    // console.log({ res2 });
+
+    // user code 
+    // const db = polybase();
+    // const res = await db
+    //   .collection("User")
+    //   .create([
+    //     default_collection_address,
+    //     "Rarx",
+    //     "rarx@gmail.com",
+    //     "rarx is a marketplace",
+    //     "rarx prof image",
+    //     "rarx cover image",
+    //   ]);
+    // console.log("done");
+    // console.log({ res });
   };
+
   // CONNECT WALLET INTMAX
   const connectToIntmax = async () => {
     try {
