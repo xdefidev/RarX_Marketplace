@@ -111,7 +111,10 @@ export default function Home({ all_collections, nfts }) {
                 create, buy, sell and collect NFT’s
               </h1>
               <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                Cross-chain And Multi-chain NFT Marketplace with features like AI NFT Generation, Cross-chain NFTs, On-chain Collections, Realtime Notifications, Chat with artists, Membership subscriptions for artists, etc.
+                Cross-chain And Multi-chain NFT Marketplace with features like
+                AI NFT Generation, Cross-chain NFTs, On-chain Collections,
+                Realtime Notifications, Chat with artists, Membership
+                subscriptions for artists, etc.
               </p>
               <div className="flex space-x-4">
                 <Link
@@ -313,18 +316,21 @@ export default function Home({ all_collections, nfts }) {
           </h2>
 
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-            {nfts.map((e) => (
-              <NftCard
-                ImageSrc={e.ipfsData.image.replace(
-                  "ipfs://",
-                  "https://gateway.ipfscdn.io/ipfs/"
-                )}
-                Name={e.ipfsData.name}
-                Description={e.ipfsData.description}
-                Address={e.ipfsData.collection}
-                tokenId={e.tokenId}
-              />
-            ))}
+            {nfts.map(
+              (e, index) =>
+                index < 8 && (
+                  <NftCard
+                    ImageSrc={e.ipfsData.image.replace(
+                      "ipfs://",
+                      "https://gateway.ipfscdn.io/ipfs/"
+                    )}
+                    Name={e.ipfsData.name}
+                    Description={e.ipfsData.description}
+                    Address={e.ipfsData.collection}
+                    tokenId={e.tokenId}
+                  />
+                )
+            )}
           </div>
         </div>
       </div>
@@ -337,7 +343,7 @@ export default function Home({ all_collections, nfts }) {
           </div>
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
             {all_collections?.map((e, index) => {
-              return (
+              index < 8 && (
                 <CollectionCard
                   key={index}
                   Cover={e.coverImage}

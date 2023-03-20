@@ -99,20 +99,21 @@ export default function App({ Component, pageProps }) {
   };
 
   const deleteDataPolybase = async () => {
-    // collection code 
+    // collection code
     const db = polybase();
     const res = await db
       .collection("User")
       .create([
-        default_collection_address,
+        marketplace_address,
         "Rarx",
         "rarx@gmail.com",
         "rarx is a marketplace",
         "rarx prof image",
         "rarx cover image",
       ]);
+    console.log({ res });
 
-    // user code 
+    // user code
     // const db = polybase();
     // const res = await db
     //   .collection("User")
@@ -174,6 +175,7 @@ export default function App({ Component, pageProps }) {
         obj.ipfsData = data;
         nfts.push(obj);
       }
+      console.log({ nfts });
       return nfts;
     } catch (error) {
       console.log(error.message);
@@ -449,7 +451,6 @@ export default function App({ Component, pageProps }) {
         res.data.ipfsURL.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
       );
       obj.ipfsData = parsed_nft.data;
-      console.log({ obj });
       return obj;
     } catch (error) {
       console.log(error.message);
@@ -466,6 +467,7 @@ export default function App({ Component, pageProps }) {
         const { data } = e;
         allCollections.push(data);
       });
+      console.log({ allCollections });
       set_collections(allCollections);
     } catch (error) {
       console.log(error.message);
