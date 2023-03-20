@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import testNFT from "../../../../public/test.jpg";
+import testNFT from "../../../public/test.jpg";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
@@ -12,7 +12,7 @@ const Collection = ({
   fetch_nfts_from_collection,
 }) => {
   const router = useRouter();
-  const { id, slug } = router.query;
+  const { slug } = router.query;
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});

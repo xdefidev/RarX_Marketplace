@@ -100,21 +100,21 @@ export default function App({ Component, pageProps }) {
   };
 
   const deleteDataPolybase = async () => {
-    // collection code 
+    // collection code
     const db = polybase();
     const res = await db
-      .collection("NFTCollection")
+      .collection("User")
       .create([
-        default_collection_address,
-        db.collection("User").record(default_collection_address),
+        marketplace_address,
+        "Rarx",
+        "rarx@gmail.com",
+        "rarx is a marketplace",
+        "rarx prof image",
         "rarx cover image",
-        "rarx logo image",
-        "Rarx Collection",
-        "rarx",
-        "This is a default rarx marketplace collection",
       ]);
+    console.log({ res });
 
-    // user code 
+    // user code
     // const db = polybase();
     // const res = await db
     //   .collection("User")
@@ -176,6 +176,7 @@ export default function App({ Component, pageProps }) {
         obj.ipfsData = data;
         nfts.push(obj);
       }
+      console.log({ nfts });
       return nfts;
     } catch (error) {
       console.log(error.message);
@@ -348,31 +349,32 @@ export default function App({ Component, pageProps }) {
 
   // create nft
   const create_token = async (_tokenURI, signer) => {
-    try {
-      const tokenURI = await storage.upload(_tokenURI);
-      const rarx = rarx_collection(_tokenURI.collection, signer);
-      const network = await provider.getNetwork();
-      rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
-        const db = polybase();
-        const res = await db
-          .collection("NFT")
-          .create([
-            `${_tokenURI.collection}/${tokenId.toString()}`,
-            tokenId.toString(),
-            network.chainId.toString(),
-            tokenURI,
-            db.collection("User").record(signer_address),
-            db.collection("NFTCollection").record(_tokenURI.collection),
-          ]);
+    console.log(_tokenURI);
+    // try {
+    //   const tokenURI = await storage.upload(_tokenURI);
+    //   const rarx = rarx_collection(_tokenURI.collection, signer);
+    //   const network = await provider.getNetwork();
+    //   rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
+    //     const db = polybase();
+    //     const res = await db
+    //       .collection("NFT")
+    //       .create([
+    //         `${_tokenURI.collection}/${tokenId.toString()}`,
+    //         tokenId.toString(),
+    //         network.chainId.toString(),
+    //         tokenURI,
+    //         db.collection("User").record(signer_address),
+    //         db.collection("NFTCollection").record(_tokenURI.collection),
+    //       ]);
 
-        console.log({ res });
-      });
-      const txn = await rarx.createToken(tokenURI);
-      await txn.wait();
-      sendNFTMintNoti();
-    } catch (error) {
-      console.log(error);
-    }
+    //     console.log({ res });
+    //   });
+    //   const txn = await rarx.createToken(tokenURI);
+    //   await txn.wait();
+    //   sendNFTMintNoti();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   // CREATE COLLECTION
@@ -451,7 +453,6 @@ export default function App({ Component, pageProps }) {
         res.data.ipfsURL.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
       );
       obj.ipfsData = parsed_nft.data;
-      console.log({ obj });
       return obj;
     } catch (error) {
       console.log(error.message);
@@ -666,6 +667,7 @@ export default function App({ Component, pageProps }) {
       });
     }
     connectToWallet();
+    console.log("app rerender");
   }, []);
 
   return (

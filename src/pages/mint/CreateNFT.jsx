@@ -48,6 +48,7 @@ const CreateNFT = ({
     const values = [...data.properties];
     values.splice(index, 1);
     set_data({ ...data, properties: values });
+    console.log(data.properties);
   };
 
   const get_user_collections = async () => {
@@ -60,13 +61,13 @@ const CreateNFT = ({
     e.preventDefault();
     if (!signer) return alert("Please provide a signer");
     try {
-      set_loading(true);
+      // set_loading(true);
       await create_token(data, signer);
-      router.push(`/profile/${signer_address}`);
+      // router.push(`/profile/${signer_address}`);
     } catch (error) {
       console.log(error);
     }
-    set_loading(false);
+    // set_loading(false);
   };
 
   useEffect(() => {
