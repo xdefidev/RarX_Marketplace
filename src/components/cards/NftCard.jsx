@@ -9,7 +9,8 @@ const NftCard = ({
   Address,
   tokenId,
   onClickOpen = true,
-  chainImg = "chains/polygon.png"
+  chainImg = "chains/polygon.png",
+  chainImgPre = ""
 }) => {
   return (
     <div className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
@@ -76,7 +77,7 @@ const NftCard = ({
       </div>
       <div>
         <Image
-          src={`${chainImg}`}
+          src={`${chainImgPre}${chainImg}`}
           height={100}
           width={100}
           alt="item 5"

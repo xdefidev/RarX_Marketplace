@@ -597,6 +597,7 @@ const Profile = ({
                         Description={e.ipfsData.description}
                         Address={e.ipfsData.collection}
                         tokenId={e.tokenId}
+                        chainImgPre={"../"}
                       />
                     );
                   })}
