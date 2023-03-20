@@ -27,7 +27,7 @@ const TopCollections = ({ all_collections }) => {
               Name={e.name}
               Description={e.description}
               OwnerAddress={e.owner.id}
-              CollectionAddress={e.collection_address}
+              CollectionAddress={e.id}
               collectionId={e.collectionId}
             />
           ))}
