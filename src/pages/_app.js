@@ -101,15 +101,14 @@ export default function App({ Component, pageProps }) {
   const deleteDataPolybase = async () => {
     const db = polybase();
     const res = await db
-      .collection("NFTCollection")
+      .collection("User")
       .create([
         default_collection_address,
-        db.collection("User").record(default_collection_address),
+        "Rarx",
+        "rarx@gmail.com",
+        "rarx is a marketplace",
+        "rarx prof image",
         "rarx cover image",
-        "rarx logo image",
-        "Rarx Collection",
-        "rarx",
-        "This is a default rarx marketplace collection",
       ]);
     // const res = await db.collection("NFTCollection").create([
     //   default_collection_address,
