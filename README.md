@@ -13,6 +13,8 @@ We have integrated a lot of technologies to make our marketplace stand out and m
 
 
 # RarX_Marketplace Chains
+Also as our marketplace is a multi-chain marketplace, we have deployed it on 6 different chains :
+
 1) Gnosis chain: Gnosis Chain is a highly decentralized EVM blockchain designed for fast and inexpensive transactions, scalability, community, and sustainable growth.
 2) Polygon chain: Polygon zkEVM is the first zero-knowledge scaling solution that is fully equivalent to an EVM.
 3) Scroll chain: Scroll is a zero-knowledge roll-up built to scale Ethereum.
