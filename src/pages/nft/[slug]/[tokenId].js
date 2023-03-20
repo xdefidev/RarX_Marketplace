@@ -53,7 +53,7 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
               <Image
                 src={nft?.ipfsData?.image?.replace(
                   "ipfs://",
-                  "https://ipfs.io/ipfs/"
+                  "https://gateway.ipfscdn.io/ipfs/"
                 )}
                 width={100}
                 height={100}
