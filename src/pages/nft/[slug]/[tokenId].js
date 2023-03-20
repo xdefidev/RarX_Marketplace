@@ -12,9 +12,10 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
   const [listingPrice, set_listing_price] = useState(0);
   const [nft, set_nft_info] = useState({});
 
-  const get_nft = async (collectionAddress, tokenId, signer) => {
+  const get_nft = async (collectionAddress, tokenId) => {
     if (!tokenId && signer && !collectionAddress) return;
-    const nft = await fetch_NFT_info(collectionAddress, tokenId, signer);
+    const nft = await fetch_NFT_info(collectionAddress, tokenId);
+    console.log({ nft });
 
     set_nft_info(nft);
   };
@@ -31,7 +32,9 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
   return (
     <section className="relative pt-12 pb-24 lg:py-24 mt-10">
       <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-        <img
+        <Image
+          height={100}
+          width={100}
           src="img/gradient_light.jpg"
           alt="gradient"
           className="h-full w-full"
@@ -41,7 +44,10 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
         <div className="md:flex md:flex-wrap">
           <div className="mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
             <Image
-              src={nft?.image?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+              src={nft?.ipfsData?.image?.replace(
+                "ipfs://",
+                "https://ipfs.io/ipfs/"
+              )}
               width={100}
               height={100}
               alt="item"
@@ -102,11 +108,13 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
 
             {/* nft title  */}
             <h1 className="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">
-              {nft?.name}
+              {nft?.ipfsData?.name}
             </h1>
 
             {/* nnft desc  */}
-            <p className="mb-10 dark:text-jacarta-300">{nft?.description}</p>
+            <p className="mb-10 dark:text-jacarta-300">
+              {nft?.ipfsData?.description}
+            </p>
 
             {/* <!-- Owner --> */}
             <div className="mb-8 flex flex-wrap">
@@ -114,7 +122,7 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
                 <figure className="mr-4 shrink-0">
                   <a href="user.html" className="relative block">
                     <Image
-                      src={testNFT}
+                      src={nft?.ownerImage ? nft?.ownerImage : testNFT}
                       height={40}
                       width={40}
                       alt="avatar 1"
@@ -164,15 +172,17 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
             {/* <!-- list nft --> */}
             <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
               {listSale == false ? (
-                <button
-                  onClick={() => setListSale(true)}
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#placeBidModal"
-                  className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                >
-                  List For Sale
-                </button>
+                nft?.owner === signer_address && (
+                  <button
+                    onClick={() => setListSale(true)}
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#placeBidModal"
+                    className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    List For Sale
+                  </button>
+                )
               ) : (
                 <div>
                   <form

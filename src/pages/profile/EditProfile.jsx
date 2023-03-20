@@ -36,13 +36,13 @@ const EditProfile = ({ signer_address, polybase }) => {
   //     const res = await db
   //       .collection("User")
   //       .create([
-  //         data.walletAddress,
-  //         data.username,
-  //         data.email,
-  //         data.bio,
-  //         profileImg,
-  //         coverImg,
-  //         [data.twitter, data.instagram, data.customLink],
+  //         "0xA3D4aB22d6E215A9aBF8f479804Ea52906aB716A",
+  //         "RARX",
+  //         "RARX_MAIL@GMAIL.COM",
+  //         "OFFICIAL RARX",
+  //         "IMAGE",
+  //         "COVER_IMAGE",
+  //         ["TWITTER", "INSTAGRAM", "RARX.COM"],
   //       ]);
   //   } catch (error) {
   //     console.log(error);
@@ -58,7 +58,6 @@ const EditProfile = ({ signer_address, polybase }) => {
 
       let coverImg;
       let profileImg;
-
 
       if (typeof data.coverImage === "object") {
         coverImg = await storage.upload(data.coverImage);
@@ -130,7 +129,7 @@ const EditProfile = ({ signer_address, polybase }) => {
     <form onSubmit={updateData}>
       {/* <!-- Banner --> */}
       <div className="relative  mt-24">
-        {data.coverImage == "" && coverImg_preview == "" ?
+        {data.coverImage == "" && coverImg_preview == "" ? (
           <Image
             src="../../../rarxlogo.png"
             alt="banner"
@@ -138,14 +137,14 @@ const EditProfile = ({ signer_address, polybase }) => {
             height={100}
             className="h-[18.75rem] w-[100%] object-cover"
           />
-          :
+        ) : (
           <Image
             src={
               typeof data.coverImage == "string"
                 ? data.coverImage.replace(
-                  "ipfs://",
-                  "https://gateway.ipfscdn.io/ipfs/"
-                )
+                    "ipfs://",
+                    "https://gateway.ipfscdn.io/ipfs/"
+                  )
                 : coverImg_preview
             }
             alt="banner"
@@ -153,7 +152,7 @@ const EditProfile = ({ signer_address, polybase }) => {
             height={100}
             className="h-[18.75rem] w-[100%] object-cover"
           />
-        }
+        )}
         <div className="container relative -translate-y-4">
           <div className="group absolute right-0 bottom-4 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
             <input
@@ -319,7 +318,10 @@ const EditProfile = ({ signer_address, polybase }) => {
                 <label className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white">
                   Wallet Address
                 </label>
-                <button type="button" className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-default">
+                <button
+                  type="button"
+                  className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-default"
+                >
                   <span>{signer_address}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -345,7 +347,7 @@ const EditProfile = ({ signer_address, polybase }) => {
             <div className="flex space-x-5 md:w-1/2 md:pl-8">
               <div className="shrink-0">
                 <figure className="relative inline-block">
-                  {data.profileImage == "" && profImg_preview == "" ?
+                  {data.profileImage == "" && profImg_preview == "" ? (
                     <Image
                       src="../../../rarxlogo.png"
                       alt="logo"
@@ -353,14 +355,14 @@ const EditProfile = ({ signer_address, polybase }) => {
                       height={100}
                       className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
                     />
-                    :
+                  ) : (
                     <Image
                       src={
                         typeof data.profileImage == "string"
                           ? data.profileImage.replace(
-                            "ipfs://",
-                            "https://gateway.ipfscdn.io/ipfs/"
-                          )
+                              "ipfs://",
+                              "https://gateway.ipfscdn.io/ipfs/"
+                            )
                           : profImg_preview
                       }
                       width={100}
@@ -368,7 +370,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                       alt="logo"
                       className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
                     />
-                  }
+                  )}
                   <div className="group absolute -right-3 -bottom-2 h-8 w-8 overflow-hidden rounded-full border border-jacarta-100 bg-white text-center hover:border-transparent hover:bg-accent">
                     <input
                       onChange={(e) => {

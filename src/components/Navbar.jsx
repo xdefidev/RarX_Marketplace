@@ -14,8 +14,17 @@ import polygonLogo from "../../public/chains/polygon.png";
 import scrollLogo from "../../public/chains/scroll.png";
 import TaikoLogo from "../../public/chains/taiko.jpeg";
 
-const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectToIntmax, chainIdMain, setChainIdMain, RARX_CHANNEL_ADDRESS }) => {
-  const user_address = async () => { };
+const Navbar = ({
+  connectToWallet,
+  signer,
+  signer_address,
+  signer_bal,
+  connectToIntmax,
+  chainIdMain,
+  setChainIdMain,
+  RARX_CHANNEL_ADDRESS,
+}) => {
+  const user_address = async () => {};
   // const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
   const [notificationData, setNotificationData] = useState();
 
@@ -24,7 +33,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
   const [showNotifications, SetShowNotifications] = useState(false);
   const [showNetworkPopup, setShowNetworkPopup] = useState(false);
 
-  // switch chain area 
+  // switch chain area
   const switchPolygonChain = async () => {
     try {
       await window.ethereum.request({
@@ -321,7 +330,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
     }
   };
 
-  // push functions 
+  // push functions
   const optInToChannel = async () => {
     await PushAPI.channels.subscribe({
       env: "staging",
@@ -405,8 +414,8 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
             <div className="navbar w-full">
               <ul className="flex flex-col lg:flex-row">
                 <li className="js-nav-dropdown group relative">
-                  <a
-                    href="#"
+                  <Link
+                    href="/marketplace"
                     className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
                     id="navDropdown-4"
                     aria-expanded="false"
@@ -414,7 +423,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                     data-bs-toggle="dropdown"
                   >
                     Explore
-                  </a>
+                  </Link>
                   <ul
                     className="dropdown-menu group-hover:visible lg:invisible left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2"
                     aria-labelledby="navDropdown-4"
@@ -565,10 +574,8 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                     About
                   </Link>
                 </li>
-
               </ul>
             </div>
-
 
             {/* pc connect wallet  */}
             <div className="ml-8 hidden lg:flex xl:ml-12">
@@ -597,7 +604,10 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                   {/* network nav div  */}
                   <div className="relative mr-32 ml-16 z-[100]">
                     <button
-                      onClick={() => (setShowNetworkPopup(!showNetworkPopup), SetShowNotifications(false))}
+                      onClick={() => (
+                        setShowNetworkPopup(!showNetworkPopup),
+                        SetShowNotifications(false)
+                      )}
                       className="relative hidden sm:block"
                     >
                       <div className="flex flex-row justify-center align-middle w-[200px] ">
@@ -896,7 +906,11 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                   {/* notifications  */}
                   <div className="relative mr-2 z-[100]">
                     <button
-                      onClick={() => (getNotifications(), SetShowNotifications(!showNotifications), setShowNetworkPopup(false))}
+                      onClick={() => (
+                        getNotifications(),
+                        SetShowNotifications(!showNotifications),
+                        setShowNetworkPopup(false)
+                      )}
                       className="hidden text-gray-400 mt-[5px] transition-colors duration-300 transform lg:block hover:text-gray-600 "
                     >
                       <svg
@@ -965,41 +979,72 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                                   href="#"
                                   rel="noreferrer"
                                 >
-                                  No Notifications yet! click below button to susbcribe the rarx marketplace notification channel, ignore if already subscribed
+                                  No Notifications yet! click below button to
+                                  susbcribe the rarx marketplace notification
+                                  channel, ignore if already subscribed
                                 </a>
-                                {optedIn ?
-                                  <button type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribed 🎉</button>
-                                  :
-                                  <button onClick={() => optInToChannel()} type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribe</button>
-                                }
+                                {optedIn ? (
+                                  <button
+                                    type="button"
+                                    className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4"
+                                    style={{ backgroundColor: "#6D3EEE" }}
+                                  >
+                                    Subscribed 🎉
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => optInToChannel()}
+                                    type="button"
+                                    className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4"
+                                    style={{ backgroundColor: "#6D3EEE" }}
+                                  >
+                                    Subscribe
+                                  </button>
+                                )}
                               </p>
                             </a>
                           </div>
                         )}
-                        {notificationData.length === 0 && nullNotification == true && (
-                          <div className="h-[135px]">
-                            <a
-                              href="#"
-                              rel="noreferrer"
-                              className="flex items-center px-4 py-3 transition-colors duration-300 transform border-gray-100"
-                            >
-                              <p className="mx-2 text-sm text-black flex flex-col">
-                                <a
-                                  className="font-bold text-[12px]"
-                                  href="#"
-                                  rel="noreferrer"
-                                >
-                                  No Notifications yet! click below button to susbcribe the rarx marketplace notification channel, ignore if already subscribed
-                                </a>
-                                {optedIn ?
-                                  <button type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribed 🎉</button>
-                                  :
-                                  <button onClick={() => optInToChannel()} type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4" style={{ backgroundColor: "#6D3EEE" }}>Subscribe</button>
-                                }
-                              </p>
-                            </a>
-                          </div>
-                        )}
+                        {notificationData.length === 0 &&
+                          nullNotification == true && (
+                            <div className="h-[135px]">
+                              <a
+                                href="#"
+                                rel="noreferrer"
+                                className="flex items-center px-4 py-3 transition-colors duration-300 transform border-gray-100"
+                              >
+                                <p className="mx-2 text-sm text-black flex flex-col">
+                                  <a
+                                    className="font-bold text-[12px]"
+                                    href="#"
+                                    rel="noreferrer"
+                                  >
+                                    No Notifications yet! click below button to
+                                    susbcribe the rarx marketplace notification
+                                    channel, ignore if already subscribed
+                                  </a>
+                                  {optedIn ? (
+                                    <button
+                                      type="button"
+                                      className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4"
+                                      style={{ backgroundColor: "#6D3EEE" }}
+                                    >
+                                      Subscribed 🎉
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() => optInToChannel()}
+                                      type="button"
+                                      className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4"
+                                      style={{ backgroundColor: "#6D3EEE" }}
+                                    >
+                                      Subscribe
+                                    </button>
+                                  )}
+                                </p>
+                              </a>
+                            </div>
+                          )}
                       </div>
                     )}
                   </div>
@@ -1104,10 +1149,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
                         >
-                          <path
-                            d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9"
-
-                          />
+                          <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" />
                         </svg>
                         <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
                           Notifications
@@ -1138,10 +1180,9 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
             </div>
           </div>
 
-
           {/* mobile connect wallet */}
           <div className="ml-auto flex lg:hidden">
-            {!signer_address ?
+            {!signer_address ? (
               <a
                 href="#"
                 className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
@@ -1158,7 +1199,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                   <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
                 </svg>
               </a>
-              :
+            ) : (
               <a
                 href="#"
                 onClick={connectToIntmax}
@@ -1178,7 +1219,7 @@ const Navbar = ({ connectToWallet, signer, signer_address, signer_bal, connectTo
                   <path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z" />
                 </svg>
               </a>
-            }
+            )}
           </div>
         </div>
       </div>
