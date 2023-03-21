@@ -104,7 +104,7 @@ const Profile = ({
   }) => {
     if (chainIdMain != 5) {
       alert("Please switch to goerli chain to join memberships");
-      switchGoerliChain();
+      await switchGoerliChain();
     }
     try {
       set_loading(true);
@@ -134,7 +134,7 @@ const Profile = ({
     } catch (err) {
       set_loading(false);
       console.log({ CreateStreamError: err });
-      alert("Something went wrong! Please try again");
+      alert("Failed to join membership! User rejected transaction or low ETH balance");
     }
   };
 
@@ -162,7 +162,7 @@ const Profile = ({
     } catch (err) {
       set_loading(false);
       console.log({ DeleteStreamError: err })
-      alert("Something went wrong! Please try again");
+      alert("Failed to cancel membership! User rejected transaction or low ETH balance");
     }
   };
 
@@ -207,7 +207,7 @@ const Profile = ({
           title: `${title}`,
           body: `${body}`,
         },
-        recipients: `eip155:8001:${to}`,
+        recipients: `eip155:80001:${to}`,
         channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
         env: "staging",
       });
@@ -235,7 +235,7 @@ const Profile = ({
           body: `As you have cancelled the membership, you are no longer eligible for the membership perks`,
           cta: ``,
         },
-        recipients: `eip155:8001:${signer_address}`,
+        recipients: `eip155:80001:${signer_address}`,
         channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
         env: "staging",
       });
@@ -598,6 +598,7 @@ const Profile = ({
                         Address={e.ipfsData.collection}
                         tokenId={e.tokenId}
                         chainImgPre={"../"}
+                        listedBool={e.isListed}
                       />
                     );
                   })}

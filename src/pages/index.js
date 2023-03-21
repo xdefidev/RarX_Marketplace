@@ -329,6 +329,7 @@ export default function Home({ all_collections, nfts }) {
                     Address={e.ipfsData.collection}
                     tokenId={e.tokenId}
                     chainID={e.chainId}
+                    listedBool={e.isListed}
                   />
                 )
             )}

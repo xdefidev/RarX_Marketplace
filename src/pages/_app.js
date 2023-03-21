@@ -601,6 +601,7 @@ export default function App({ Component, pageProps }) {
         nfts.push(obj);
       }
       set_nfts(nfts);
+      console.log(nfts);
       return nfts;
     } catch (error) {
       console.log(error.message);
