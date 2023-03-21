@@ -58,14 +58,14 @@ const CreateNFT = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!signer) return alert("Please provide a signer");
-    try {
-      // set_loading(true);
-      await create_token(data, signer);
-      // router.push(`/profile/${signer_address}`);
-    } catch (error) {
-      console.log(error);
-    }
+    // if (!signer) return alert("Please provide a signer");
+    // try {
+    //   set_loading(true);
+    await create_token(data, signer);
+    //   router.push(`/profile/${signer_address}`);
+    // } catch (error) {
+    //   console.log(error);
+    // }
     // set_loading(false);
   };
 
@@ -313,6 +313,7 @@ const CreateNFT = ({
                             <div className="flex-1">
                               <input
                                 onChange={(e) => handle_change_input(index, e)}
+                                value={data.properties[index].type}
                                 name="type"
                                 type="text"
                                 className="h-12 w-full border border-r-0 border-jacarta-100 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-black dark:placeholder-jacarta-300"
@@ -323,6 +324,7 @@ const CreateNFT = ({
                             <div className="flex-1">
                               <input
                                 onChange={(e) => handle_change_input(index, e)}
+                                value={data.properties[index].value}
                                 name="value"
                                 type="text"
                                 className="h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-black dark:placeholder-jacarta-300"
