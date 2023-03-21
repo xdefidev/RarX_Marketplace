@@ -124,7 +124,7 @@ export default function Home({ all_collections, nfts }) {
                   Create AI NFT
                 </Link>
                 <Link
-                  href="/Marketplace"
+                  href="/marketplace"
                   className="w-45 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                 >
                   Explore NFTs

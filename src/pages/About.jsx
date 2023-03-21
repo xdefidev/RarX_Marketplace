@@ -197,7 +197,7 @@ const About = () => {
           Supported Chains
         </h2>
         <div className="grid grid-cols-2 py-8 sm:grid-cols-5 text-center">
-          <a href="https://fvm.filecoin.io/" target="_blank">
+          <a href="https://fvm.filecoin.io/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={filecoin}
               alt="filecoin"
@@ -209,11 +209,11 @@ const About = () => {
               Filecoin
             </h3>
           </a>
-          <a href="https://gnosischain.com" target="_blank">
+          <a href="https://gnosischain.com" target="_blank" className="flex flex-col justify-center">
             <Image
               src={gnosis}
               alt="gnosis"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px] w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -221,11 +221,11 @@ const About = () => {
               Gnosis
             </h3>
           </a>
-          <a href="https://mantle.xyz" target="_blank">
+          <a href="https://mantle.xyz" target="_blank" className="flex flex-col justify-center">
             <Image
               src={mantle}
               alt="mantle"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px] w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -233,11 +233,11 @@ const About = () => {
               Mantle
             </h3>
           </a>
-          <a href="https://polygon.technology/" target="_blank">
+          <a href="https://polygon.technology/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={polygon}
               alt="polygon"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px] w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -245,11 +245,11 @@ const About = () => {
               Polygon
             </h3>
           </a>
-          <a href="https://scroll.io/" target="_blank">
+          <a href="https://scroll.io/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={scroll}
               alt="scroll"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px]  w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -257,11 +257,11 @@ const About = () => {
               Scroll
             </h3>
           </a>
-          <a href="https://taiko.xyz/" target="_blank">
+          <a href="https://taiko.xyz/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={taiko}
               alt="taiko"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px] w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -278,11 +278,11 @@ const About = () => {
           Integrated Technologies
         </h2>
         <div className="grid grid-cols-2 py-8 sm:grid-cols-5 text-center">
-          <a href="https://www.connext.network/" target="_blank">
+          <a href="https://www.connext.network/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={connext}
               alt="connext"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px] w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -290,11 +290,11 @@ const About = () => {
               Connext
             </h3>
           </a>
-          <a href="https://intmaxwallet.io/" target="_blank">
+          <a href="https://intmaxwallet.io/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={intmax}
               alt="intmax"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px] w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -302,11 +302,11 @@ const About = () => {
               IntMax
             </h3>
           </a>
-          <a href="https://polybase.xyz/" target="_blank">
+          <a href="https://polybase.xyz/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={polybase}
               alt="polybase"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px]  w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -314,11 +314,11 @@ const About = () => {
               Polybase
             </h3>
           </a>
-          <a href="https://push.org/" target="_blank">
+          <a href="https://push.org/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={push}
               alt="push"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px]  w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -326,11 +326,11 @@ const About = () => {
               Push Protocol
             </h3>
           </a>
-          <a href="https://www.superfluid.finance/" target="_blank">
+          <a href="https://www.superfluid.finance/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={superfluid}
               alt="superfluid"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px] w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -338,11 +338,11 @@ const About = () => {
               Superfluid
             </h3>
           </a>
-          {/* <a href="https://thegraph.com/" target="_blank">
+          {/* <a href="https://thegraph.com/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={thegraph}
               alt="thegraph"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px]  w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -350,11 +350,11 @@ const About = () => {
               The Graph
             </h3>
           </a> */}
-          <a href="https://uma.xyz/" target="_blank" className=" mt-4">
+          <a href="https://uma.xyz/" target="_blank" className="flex flex-col justify-center mt-4">
             <Image
               src={uma}
               alt="uma"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px]  w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
@@ -362,11 +362,11 @@ const About = () => {
               UMA
             </h3>
           </a>
-          <a href="https://ipfs.tech" target="_blank" className=" mt-4">
+          <a href="https://ipfs.tech" target="_blank" className="flex flex-col justify-center mt-4">
             <Image
               src={ipfsLogo}
               alt="ipfs"
-              className="h-[150px] w-[auto] m-4"
+              className="h-[150px] w-[150px] m-4 self-center"
               height={100}
               width={100}
             />
