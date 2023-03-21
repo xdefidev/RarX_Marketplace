@@ -26,9 +26,10 @@ const Navbar = ({
   symbol
 }) => {
   const user_address = async () => { };
-  // const RARX_CHANNEL_ADDRESS = "0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861";
   const [notificationData, setNotificationData] = useState();
 
+  const [profileDrop, setProfileDrop] = useState(false);
+  const [mobieProfileDrop, setMobieProfileDrop] = useState(false);
   const [nullNotification, setNullNotification] = useState(true);
   const [optedIn, setOptedIn] = useState(false);
   const [showNotifications, SetShowNotifications] = useState(false);
@@ -607,7 +608,8 @@ const Navbar = ({
                     <button
                       onClick={() => (
                         setShowNetworkPopup(!showNetworkPopup),
-                        SetShowNotifications(false)
+                        SetShowNotifications(false),
+                        setProfileDrop(false)
                       )}
                       className="relative hidden sm:block"
                     >
@@ -910,7 +912,8 @@ const Navbar = ({
                       onClick={() => (
                         getNotifications(),
                         SetShowNotifications(!showNotifications),
-                        setShowNetworkPopup(false)
+                        setShowNetworkPopup(false),
+                        setProfileDrop(false)
                       )}
                       className="hidden text-gray-400 mt-[5px] transition-colors duration-300 transform lg:block hover:text-gray-600 "
                     >
@@ -1050,14 +1053,11 @@ const Navbar = ({
                     )}
                   </div>
 
-                  <div className="js-nav-dropdown group-dropdown relative">
+                  <div className="relative">
                     {/* profile icon */}
                     <button
-                      className="dropdown-toggle group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
-                      id="profileDropdown"
-                      aria-expanded="false"
-                      data-bs-toggle="dropdown"
-                      aria-label="profile"
+                      className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
+                      onClick={() => (setProfileDrop(!profileDrop), SetShowNotifications(false), setShowNetworkPopup(false))}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1070,111 +1070,113 @@ const Navbar = ({
                         <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
                       </svg>
                     </button>
-                    {/* profile dropdown  */}
-                    <div
-                      className="dropdown-menu group-dropdown-hover:visible lg:invisible !-right-4 !top-[85%] !left-auto z-10 hidden min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl"
-                      aria-labelledby="profileDropdown"
-                    >
-                      <button
-                        className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white"
-                        data-tippy-content="Copy"
-                      >
-                        <span className="max-w-[10rem] overflow-hidden text-ellipsis">
-                          {signer_address}
-                        </span>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="ml-1 mb-px h-4 w-4 fill-jacarta-500 dark:fill-jacarta-300"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M7 7V3a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-4v3.993c0 .556-.449 1.007-1.007 1.007H3.007A1.006 1.006 0 0 1 2 20.993l.003-12.986C2.003 7.451 2.452 7 3.01 7H7zm2 0h6.993C16.549 7 17 7.449 17 8.007V15h3V4H9v3zM4.003 9L4 20h11V9H4.003z" />
-                        </svg>
-                      </button>
 
-                      <div className="mx-5 mb-6 rounded-lg border border-jacarta-100 p-4 dark:border-jacarta-600">
-                        <span className="text-sm font-medium tracking-tight dark:text-jacarta-200">
-                          Balance
-                        </span>
-                        <div className="flex items-center">
-                          <span className="text-lg font-bold text-green">
-                            {signer_bal} {"  "} {symbol}
+                    {/* profile dropdown  */}
+                    {profileDrop &&
+                      <div
+                        className="!-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl"
+                      >
+                        <button
+                          className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white"
+                          data-tippy-content="Copy"
+                        >
+                          <span className="max-w-[10rem] overflow-hidden text-ellipsis">
+                            {signer_address}
                           </span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="ml-1 mb-px h-4 w-4 fill-jacarta-500 dark:fill-jacarta-300"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M7 7V3a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-4v3.993c0 .556-.449 1.007-1.007 1.007H3.007A1.006 1.006 0 0 1 2 20.993l.003-12.986C2.003 7.451 2.452 7 3.01 7H7zm2 0h6.993C16.549 7 17 7.449 17 8.007V15h3V4H9v3zM4.003 9L4 20h11V9H4.003z" />
+                          </svg>
+                        </button>
+
+                        <div className="mx-5 mb-6 rounded-lg border border-jacarta-100 p-4 dark:border-jacarta-600">
+                          <span className="text-sm font-medium tracking-tight dark:text-jacarta-200">
+                            Balance
+                          </span>
+                          <div className="flex items-center">
+                            <span className="text-lg font-bold text-green">
+                              {signer_bal} {"  "} {symbol}
+                            </span>
+                          </div>
                         </div>
+                        <Link
+                          href={`/profile/${signer_address}`}
+                          className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z"></path>
+                          </svg>
+                          <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                            My Profile
+                          </span>
+                        </Link>
+                        <Link
+                          href="/profile/EditProfile"
+                          className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M9.954 2.21a9.99 9.99 0 0 1 4.091-.002A3.993 3.993 0 0 0 16 5.07a3.993 3.993 0 0 0 3.457.261A9.99 9.99 0 0 1 21.5 8.876 3.993 3.993 0 0 0 20 12c0 1.264.586 2.391 1.502 3.124a10.043 10.043 0 0 1-2.046 3.543 3.993 3.993 0 0 0-3.456.261 3.993 3.993 0 0 0-1.954 2.86 9.99 9.99 0 0 1-4.091.004A3.993 3.993 0 0 0 8 18.927a3.993 3.993 0 0 0-3.457-.26A9.99 9.99 0 0 1 2.5 15.121 3.993 3.993 0 0 0 4 11.999a3.993 3.993 0 0 0-1.502-3.124 10.043 10.043 0 0 1 2.046-3.543A3.993 3.993 0 0 0 8 5.071a3.993 3.993 0 0 0 1.954-2.86zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                          </svg>
+                          <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                            Edit Profile
+                          </span>
+                        </Link>
+                        <Link
+                          href="/Notifications"
+                          className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                        >
+                          <svg
+                            className="h-5 w-5 fill-jacarta-700"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" />
+                          </svg>
+                          <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                            Notifications
+                          </span>
+                        </Link>
+                        <a
+                          href="#"
+                          className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
+                          </svg>
+                          <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                            Sign out
+                          </span>
+                        </a>
                       </div>
-                      <Link
-                        href={`/profile/${signer_address}`}
-                        className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z"></path>
-                        </svg>
-                        <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                          My Profile
-                        </span>
-                      </Link>
-                      <Link
-                        href="/profile/EditProfile"
-                        className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M9.954 2.21a9.99 9.99 0 0 1 4.091-.002A3.993 3.993 0 0 0 16 5.07a3.993 3.993 0 0 0 3.457.261A9.99 9.99 0 0 1 21.5 8.876 3.993 3.993 0 0 0 20 12c0 1.264.586 2.391 1.502 3.124a10.043 10.043 0 0 1-2.046 3.543 3.993 3.993 0 0 0-3.456.261 3.993 3.993 0 0 0-1.954 2.86 9.99 9.99 0 0 1-4.091.004A3.993 3.993 0 0 0 8 18.927a3.993 3.993 0 0 0-3.457-.26A9.99 9.99 0 0 1 2.5 15.121 3.993 3.993 0 0 0 4 11.999a3.993 3.993 0 0 0-1.502-3.124 10.043 10.043 0 0 1 2.046-3.543A3.993 3.993 0 0 0 8 5.071a3.993 3.993 0 0 0 1.954-2.86zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                        </svg>
-                        <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                          Edit Profile
-                        </span>
-                      </Link>
-                      <Link
-                        href="/Notifications"
-                        className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                      >
-                        <svg
-                          className="h-5 w-5 fill-jacarta-700"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" />
-                        </svg>
-                        <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                          Notifications
-                        </span>
-                      </Link>
-                      <a
-                        href="#"
-                        className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
-                        </svg>
-                        <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                          Sign out
-                        </span>
-                      </a>
-                    </div>
+                    }
                   </div>
                 </>
               )}
@@ -1204,25 +1206,133 @@ const Navbar = ({
                 </svg>
               </a>
             ) : (
-              <a
-                href="#"
-                className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
-                aria-label="profile"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+              <div className="relative">
+                {/* profile icon */}
+                <button
+                  className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
+                  onClick={() => setMobieProfileDrop(!mobieProfileDrop)}
                 >
-                  <path fill="none" d="M0 0h24v24H0z" />
-                  <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
-                </svg>
-              </a>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
+                  </svg>
+                </button>
+              </div>
             )}
           </div>
         </div>
+        {/* profile dropdown  */}
+        {mobieProfileDrop &&
+          <div
+            className="!-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl py-6"
+          >
+            <button
+              className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white"
+              data-tippy-content="Copy"
+            >
+              <span className="max-w-[10rem] overflow-hidden text-ellipsis">
+                {signer_address}
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="ml-1 mb-px h-4 w-4 fill-jacarta-500 dark:fill-jacarta-300"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M7 7V3a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-4v3.993c0 .556-.449 1.007-1.007 1.007H3.007A1.006 1.006 0 0 1 2 20.993l.003-12.986C2.003 7.451 2.452 7 3.01 7H7zm2 0h6.993C16.549 7 17 7.449 17 8.007V15h3V4H9v3zM4.003 9L4 20h11V9H4.003z" />
+              </svg>
+            </button>
+
+            <div className="mx-5 mb-6 rounded-lg border border-jacarta-100 p-4 dark:border-jacarta-600">
+              <span className="text-sm font-medium tracking-tight dark:text-jacarta-200">
+                Balance
+              </span>
+              <div className="flex items-center">
+                <span className="text-lg font-bold text-green">
+                  {signer_bal ? signer_bal : "0.00"} {"  "} {symbol ? symbol : "ETH"}
+                </span>
+              </div>
+            </div>
+            <Link
+              href={`/profile/${signer_address}`}
+              className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white"
+              >
+                <path fill="none" d="M0 0h24v24H0z"></path>
+                <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z"></path>
+              </svg>
+              <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                My Profile
+              </span>
+            </Link>
+            <Link
+              href="/profile/EditProfile"
+              className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M9.954 2.21a9.99 9.99 0 0 1 4.091-.002A3.993 3.993 0 0 0 16 5.07a3.993 3.993 0 0 0 3.457.261A9.99 9.99 0 0 1 21.5 8.876 3.993 3.993 0 0 0 20 12c0 1.264.586 2.391 1.502 3.124a10.043 10.043 0 0 1-2.046 3.543 3.993 3.993 0 0 0-3.456.261 3.993 3.993 0 0 0-1.954 2.86 9.99 9.99 0 0 1-4.091.004A3.993 3.993 0 0 0 8 18.927a3.993 3.993 0 0 0-3.457-.26A9.99 9.99 0 0 1 2.5 15.121 3.993 3.993 0 0 0 4 11.999a3.993 3.993 0 0 0-1.502-3.124 10.043 10.043 0 0 1 2.046-3.543A3.993 3.993 0 0 0 8 5.071a3.993 3.993 0 0 0 1.954-2.86zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+              </svg>
+              <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                Edit Profile
+              </span>
+            </Link>
+            <Link
+              href="/Notifications"
+              className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+            >
+              <svg
+                className="h-5 w-5 fill-jacarta-700"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" />
+              </svg>
+              <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                Notifications
+              </span>
+            </Link>
+            <a
+              href="#"
+              className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
+              </svg>
+              <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                Sign out
+              </span>
+            </a>
+          </div>
+        }
       </div>
     </div>
   );
