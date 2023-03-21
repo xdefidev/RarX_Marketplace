@@ -915,7 +915,7 @@ const Navbar = ({
                         setShowNetworkPopup(false),
                         setProfileDrop(false)
                       )}
-                      className="hidden text-gray-400 mt-[5px] transition-colors duration-300 transform lg:block hover:text-gray-600 "
+                      className="hidden text-gray-400 mt-[5px] transition-colors duration-300 transform lg:block hover:text-gray-600  text-base text-jacarta-700"
                     >
                       <svg
                         className="w-6 h-6"
@@ -1157,6 +1157,15 @@ const Navbar = ({
                             Notifications
                           </span>
                         </Link>
+                        <Link
+                          href="/Transactions"
+                          className="flex items-center space-x-2 rounded-xl px-6 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" /></svg>
+                          <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                            Transactions
+                          </span>
+                        </Link>
                         <a
                           href="#"
                           className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
@@ -1311,6 +1320,15 @@ const Navbar = ({
               </svg>
               <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
                 Notifications
+              </span>
+            </Link>
+            <Link
+              href="/Transactions"
+              className="flex items-center space-x-2 rounded-xl px-6 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" /></svg>
+              <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                Transactions
               </span>
             </Link>
             <a
