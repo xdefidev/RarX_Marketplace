@@ -5,7 +5,13 @@ import Image from "next/image";
 import { ethers } from "ethers";
 import Head from "next/head";
 
-const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
+const NFTPage = ({
+  fetch_NFT_info,
+  signer,
+  signer_address,
+  list_nft,
+  executeSale,
+}) => {
   const router = useRouter();
   const { slug, tokenId } = router.query;
 
@@ -25,6 +31,10 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
     e.preventDefault();
     console.log(listingPrice);
     const res = await list_nft(tokenId, listingPrice, slug, signer);
+  };
+
+  const buyNFT = async (tokenId, collection_address, listing_price) => {
+    const res = await executeSale(tokenId, collection_address, listing_price);
   };
 
   useEffect(() => {
@@ -168,7 +178,7 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
               {/* -------------------------- all action buttons start ------------------------  */}
 
               {/* <!-- place Bid button design --> */}
-              {nft?.isListed && nft.seller !== signer_address && (
+              {/* {
                 <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                   <a
                     href="#"
@@ -176,11 +186,10 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
                     data-bs-target="#placeBidModal"
                     className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                   >
-                    Place Bid {ethers.utils.formatEther(nft?.listingPrice)}{" "}
-                    matic
+                    Place Bid
                   </a>
                 </div>
-              )}
+              } */}
 
               {/* <!-- list nft --> */}
               <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
@@ -272,39 +281,53 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
               </div>
 
               {/* buy now section  */}
-              {/* <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
-                            <div className="mb-8 sm:flex sm:flex-wrap">
-                                <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
-                                    <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
-                                        <span className="text-sm text-jacarta-400 dark:text-jacarta-300">Price </span>
-                                    </div>
-                                    <div className="mt-3 flex">
-                                        <div>
-                                            <div className="flex items-center whitespace-nowrap">
-                                                <span className="text-lg font-medium leading-tight tracking-tight text-green">4.7 ETH</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+              {nft?.isListed && nft.seller !== signer_address && (
+                <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                  <div className="mb-8 sm:flex sm:flex-wrap">
+                    <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
+                      <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
+                        <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                          Price
+                        </span>
+                      </div>
+                      <div className="mt-3 flex">
+                        <div>
+                          <div className="flex items-center whitespace-nowrap">
+                            <span className="text-lg font-medium leading-tight tracking-tight text-green">
+                              {ethers.utils.formatEther(nft?.listingPrice)}{" "}
+                              matic
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                            <a
-                                href="#"
-                                data-bs-toggle="modal"
-                                data-bs-target="#placeBidModal"
-                                className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                            >Buy Now</a>
-                        </div> */}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      buyNFT(tokenId, signer_address, nft?.listingPrice)
+                    }
+                    data-bs-toggle="modal"
+                    data-bs-target="#placeBidModal"
+                    className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    Buy Now
+                  </button>
+                </div>
+              )}
 
               {/* <!-- cancel nft sale --> */}
               {/* <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
-                            <a
-                                href="#"
-                                data-bs-toggle="modal"
-                                data-bs-target="#placeBidModal"
-                                className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                            >Cancel Sale</a>
-                        </div> */}
+                <a
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#placeBidModal"
+                  className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                >
+                  Cancel Sale
+                </a>
+              </div> */}
 
               {/* -------------------------- all action buttons end ------------------------  */}
             </div>

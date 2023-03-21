@@ -55,6 +55,7 @@ export default function App({ Component, pageProps }) {
 
   // connect wallet metamask
   const connectToWallet = async () => {
+    const db = polybase();
     if (window?.ethereum) {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -68,15 +69,16 @@ export default function App({ Component, pageProps }) {
       const user_address = await signer.getAddress();
       set_signer_address(user_address);
 
-      const db = polybase();
       const checkUser = await db
         .collection("User")
         .where("id", "==", user_address)
         .get();
-      if (!checkUser.data.length) {
+      console.log({ checkUser });
+      if (checkUser.data.length === 0) {
         const res = await db
           .collection("User")
           .create([user_address, "", "", "", "", ""]);
+        console.log({ res });
       }
 
       const user_balance = await signer.getBalance();
@@ -223,12 +225,22 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-  const executeSale = async (tokenId, collection_address) => {
+  const executeSale = async (tokenId, collection_address, listing_price) => {
+    console.log({ tokenId, collection_address, listing_price });
     try {
       const contract = marketplace();
-      const txn = await contract.executeSale(tokenId, collection_address);
-      await txn.wait();
-      console.log({ txn });
+      const txn = await contract.getListedTokenById(tokenId);
+      const price = ethers.utils.formatEther(txn.price.toString());
+      console.log({ price });
+      // const txn = await contract.executeSale(
+      //   tokenId,
+      //   default_collection_address,
+      //   {
+      //     value: ethers.utils.parseEther("0.0001"),
+      //   }
+      // );
+      // await txn.wait();
+      // console.log({ txn });
     } catch (error) {
       console.log(error.message);
     }

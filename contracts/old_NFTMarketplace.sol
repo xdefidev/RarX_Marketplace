@@ -4,16 +4,15 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./NFTCollection.sol";
 
-contract NFTMarketplace {
+contract old_NFTMarketplace {
     using Counters for Counters.Counter;
-    Counters.Counter private _nftId;
+    Counters.Counter private _tokenIds;
     Counters.Counter private _itemsSold;
     address payable owner;
     uint256 public listPrice = 0.01 ether;
 
     struct ListedToken {
-        uint256 nftId;
-        uint256 tokenId;
+        uint256 tokeId;
         address payable owner;
         address payable seller;
         uint256 price;
@@ -21,16 +20,14 @@ contract NFTMarketplace {
     }
 
     event TokenListedSuccess(
-        uint256 nftId,
-        uint256 tokenId,
+        uint256 tokeId,
         address payable owner,
         address payable seller,
         uint256 price,
         bool currentlyListed
     );
 
-    mapping(NFTCollection => mapping(uint256 => ListedToken)) public nft_record;
-    mapping(uint256 => ListedToken) public id_listed_token;
+    mapping(uint256 => ListedToken) private idToListedToken;
 
     constructor() {
         owner = payable(msg.sender);
@@ -43,47 +40,42 @@ contract NFTMarketplace {
     ) public payable {
         require(msg.value == listPrice, "Please send the listing fees");
         require(price > 0, "Make sure the price isn't negative");
-        uint256 nftId = _nftId.current();
-        
-        nft_record[collection][tokenId] = ListedToken(
-            nftId,
+        uint256 nftId = _tokenIds.current();
+
+        idToListedToken[nftId] = ListedToken(
             tokenId,
             payable(address(this)),
             payable(msg.sender),
             price,
             true
         );
-
-        id_listed_token[nftId] = nft_record[collection][tokenId];
 
         collection.transferFrom(msg.sender, address(this), tokenId);
 
         emit TokenListedSuccess(
-            nftId,
             tokenId,
             payable(address(this)),
             payable(msg.sender),
             price,
             true
         );
-        _nftId.increment();
+        _tokenIds.increment();
     }
 
     function executeSale(
         uint256 tokenId,
         NFTCollection collection
     ) public payable {
-        ListedToken storage nft = nft_record[collection][tokenId];
-        uint256 price = nft.price;
-        address seller = nft.seller;
+        uint256 price = idToListedToken[tokenId].price;
+        address seller = idToListedToken[tokenId].seller;
         require(
             msg.value == price,
             "Please submit the asking price in order to complete the purchase"
         );
 
         //update the details of the token
-        nft.currentlyListed = false;
-        nft.seller = payable(msg.sender);
+        idToListedToken[tokenId].currentlyListed = false;
+        idToListedToken[tokenId].seller = payable(msg.sender);
         _itemsSold.increment();
 
         //Actually transfer the token to the new owner
@@ -104,28 +96,27 @@ contract NFTMarketplace {
     }
 
     function getAllNFTs() public view returns (ListedToken[] memory) {
-        uint256 nftCount = _nftId.current();
-        ListedToken[] memory nfts = new ListedToken[](nftCount);
+        uint256 nftCount = _tokenIds.current();
+        ListedToken[] memory tokens = new ListedToken[](nftCount);
         uint256 currentIndex = 0;
-        for(uint256 i = 0; i < nftCount; i++){
-            if(id_listed_token[i].owner != address(0)){
-                ListedToken memory currentToken = id_listed_token[i];
-                nfts[currentIndex] = currentToken;
-                currentIndex++;
-            }
+
+        for (uint256 i = 0; i < nftCount; i++) {
+            ListedToken storage currentItem = idToListedToken[i];
+            tokens[currentIndex] = currentItem;
+            currentIndex++;
         }
-        return nfts;
+        return tokens;
     }
 
     function getMyNFTs() public view returns (ListedToken[] memory) {
-        uint256 totalItemCount = _nftId.current();
+        uint256 totalItemCount = _tokenIds.current();
         uint256 itemCount = 0;
         uint256 currentIndex = 0;
 
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (
-                id_listed_token[i].owner == msg.sender ||
-                id_listed_token[i].seller == msg.sender
+                idToListedToken[i].owner == msg.sender ||
+                idToListedToken[i].seller == msg.sender
             ) {
                 itemCount += 1;
             }
@@ -134,11 +125,11 @@ contract NFTMarketplace {
         ListedToken[] memory items = new ListedToken[](itemCount);
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (
-                id_listed_token[i].owner == msg.sender ||
-                id_listed_token[i].seller == msg.sender
+                idToListedToken[i].owner == msg.sender ||
+                idToListedToken[i].seller == msg.sender
             ) {
                 uint256 currentId = i;
-                ListedToken storage currentItem = id_listed_token[currentId];
+                ListedToken storage currentItem = idToListedToken[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex++;
             }
@@ -155,18 +146,17 @@ contract NFTMarketplace {
         view
         returns (ListedToken memory)
     {
-        uint256 currentTokenId = _nftId.current();
-        return id_listed_token[currentTokenId];
+        uint256 currentTokenId = _tokenIds.current();
+        return idToListedToken[currentTokenId];
     }
 
     function getListedTokenById(
-        uint256 tokenId,
-        NFTCollection collection
+        uint256 tokenId
     ) public view returns (ListedToken memory) {
-        return nft_record[collection][tokenId];
+        return idToListedToken[tokenId];
     }
 
     function getCurrentToken() public view returns (uint256) {
-        return _nftId.current();
+        return _tokenIds.current();
     }
 }
