@@ -24,6 +24,7 @@ import thegraph from "../../public/tech/thegraph.jpeg";
 import uma from "../../public/tech/uma.jpeg";
 import ipfsLogo from "../../public/tech/ipfs.png";
 import infuraIPFS from "../../public/tech/infura.png";
+import moralisIMG from "../../public/tech/moralis.webp";
 
 const About = () => {
   return (
@@ -363,7 +364,7 @@ const About = () => {
               UMA
             </h3>
           </a>
-          <a href="https://ipfs.tech" target="_blank" className="flex flex-col justify-center mt-4">
+          <a href="https://www.infura.io/" target="_blank" className="flex flex-col justify-center mt-4">
             <Image
               src={infuraIPFS}
               alt="ipfs"
@@ -373,6 +374,18 @@ const About = () => {
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Infura IPFS
+            </h3>
+          </a>
+          <a href="https://moralis.io/" target="_blank" className="flex flex-col justify-center mt-4">
+            <Image
+              src={moralisIMG}
+              alt="ipfs"
+              className="h-[140px] w-[140px] m-4 self-center"
+              height={100}
+              width={100}
+            />
+            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
+              Moralis
             </h3>
           </a>
         </div>
