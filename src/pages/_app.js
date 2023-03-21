@@ -349,6 +349,8 @@ export default function App({ Component, pageProps }) {
       // approving contract
       try {
         const collectionContract = rarx_collection(AssetCollection, signer);
+        let fromChainID = 0;
+        let xChainID = 0;
         // approve our xchain contract
         const approveTxn = await collectionContract.setApprovalForAll(
           xChainContract,
@@ -362,6 +364,8 @@ export default function App({ Component, pageProps }) {
             x_hashi_polygon,
             true
           );
+          fromChainID = 80001;
+          xChainID = 5;
           await approveHashiTxn.wait();
         }
         // approve nfthashi goerli contract
@@ -370,6 +374,8 @@ export default function App({ Component, pageProps }) {
             x_hashi_goerli,
             true
           );
+          fromChainID = 5;
+          xChainID = 80001;
           await approveHashiTxn.wait();
         }
       } catch (error) {
@@ -391,6 +397,14 @@ export default function App({ Component, pageProps }) {
         await sendXChainPolygon.wait();
         const Txnhash = await sendXChainPolygon.hash;
         setBridgedHash(Txnhash);
+
+
+        // shravan write code here 
+        // save Txnhash and fromChainID in polybase user transactions named schema
+        // ex :- transactions[{trasaction_hash: "", chainId: ""}] --- user schema
+        
+        // update xChainID of NFT in polybase NFT schema 
+
       } catch (error) {
         console.log({ XCallError: error });
       }
