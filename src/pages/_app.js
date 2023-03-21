@@ -16,8 +16,9 @@ import * as PushAPI from "@pushprotocol/restapi";
 import { Polybase } from "@polybase/client";
 import { ethPersonalSign } from "@polybase/eth";
 // import { create } from "@connext/sdk";
-
+import { useRouter } from "next/router";
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
   const wallet = new Wallet(process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY);
 
   const storage = new ThirdwebStorage();
@@ -89,7 +90,6 @@ export default function App({ Component, pageProps }) {
         const res = await db
           .collection("User")
           .create([user_address, "", "", "", "", ""]);
-        console.log({ res });
       }
 
       const user_balance = await signer.getBalance();
@@ -249,7 +249,6 @@ export default function App({ Component, pageProps }) {
       await txn.wait();
 
       const nftRec = await contract.nft_record(collection_address, tokenId);
-
       if (txn.hash) {
         const db = polybase();
         const res = await db
@@ -267,16 +266,12 @@ export default function App({ Component, pageProps }) {
   };
 
   const executeSale = async (tokenId, collection_address, listing_price) => {
-    console.log({ tokenId, collection_address, listing_price });
     const db = polybase();
-    console.log({ signer_address });
 
     const res = await db
       .collection("NFT")
       .record(`${collection_address}/${tokenId}`)
       .get();
-    console.log({ before_owner: res.data.owner.id });
-
     try {
       const contract = marketplace();
       const txn = await contract.executeSale(tokenId, collection_address, {
@@ -288,9 +283,7 @@ export default function App({ Component, pageProps }) {
           .collection("NFT")
           .record(`${collection_address}/${tokenId}`)
           .call("executeSale", [db.collection("User").record(signer_address)]);
-        console.log({ after_owner: res.data });
       }
-      console.log({ txn });
     } catch (error) {
       console.log(error.message);
     }
@@ -298,7 +291,6 @@ export default function App({ Component, pageProps }) {
 
   // rarx collections
   const rarx_collection = (collection_address, signer) => {
-    console.log({ collection_address });
     if (!collection_address) return;
     const collection_contract = new ethers.Contract(
       collection_address,
@@ -422,7 +414,6 @@ export default function App({ Component, pageProps }) {
 
   // create nft
   const create_token = async (_tokenURI, signer) => {
-    console.log(_tokenURI);
     try {
       const tokenURI = await storage.upload(_tokenURI);
       const rarx = rarx_collection(_tokenURI.collection, signer);
@@ -439,8 +430,6 @@ export default function App({ Component, pageProps }) {
             db.collection("User").record(signer_address),
             db.collection("NFTCollection").record(_tokenURI.collection),
           ]);
-
-        console.log({ res });
       });
       const txn = await rarx.createToken(tokenURI);
       await txn.wait();
@@ -507,29 +496,36 @@ export default function App({ Component, pageProps }) {
         .collection("NFT")
         .record(`${collection_address}/${tokenId}`)
         .get();
-      console.log({ res });
+      console.log(res);
       const collectionInfo = await db
         .collection("NFTCollection")
         .record(collection_address)
         .get();
-      console.log({ collectionInfo });
-
-      obj.collectionLogo = collectionInfo.data.logo;
       const ownerInfo = await db
         .collection("User")
-        .record(signer_address)
+        .record(res.data.owner.id)
         .get();
+      console.log({ res, collectionInfo, ownerInfo });
+      // COLLECTION INFO
+      obj.collectionLogo = collectionInfo.data.logo;
+      obj.collection_name = collectionInfo.data.name;
+      obj.collection_id = collectionInfo.data.id;
+      obj.collection_owner = collectionInfo.data.owner.id;
+      obj.collection_symbol = collectionInfo.data.symbol;
+      //OWNER INFO
       obj.ownerImage = ownerInfo.data.profileImage;
+      obj.owner_username = res.data.username;
+      obj.seller = res.data.seller?.id;
+      obj.user_id = ownerInfo.data.id;
+      // NFT INFO
       obj.chainId = res.data.chainId;
       obj.isListed = res.data.isListed;
-      obj.seller = res.data.seller?.id;
       obj.listingPrice = res.data.listingPrice;
-      obj.owner = res.data.owner.id;
+      obj.nft_owner = res.data.owner.id;
       const parsed_nft = await axios.get(
         res.data.ipfsURL.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
       );
       obj.ipfsData = parsed_nft.data;
-      console.log({ obj });
       return obj;
     } catch (error) {
       console.log(error.message);
@@ -546,6 +542,7 @@ export default function App({ Component, pageProps }) {
         const { data } = e;
         allCollections.push(data);
       });
+      console.log({ allCollections });
       set_collections(allCollections);
     } catch (error) {
       console.log(error.message);
@@ -746,11 +743,12 @@ export default function App({ Component, pageProps }) {
         window.location.reload();
       });
     }
+
+    connectToWallet();
     get_all_collections();
     fetch_all_nfts_from_polybase();
-    connectToWallet();
-    console.log("app rerender");
-  }, []);
+    console.log("render");
+  }, [router.pathname]);
 
   return (
     <>
