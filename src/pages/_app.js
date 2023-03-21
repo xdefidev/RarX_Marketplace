@@ -233,7 +233,7 @@ export default function App({ Component, pageProps }) {
     console.log({ signer_address });
     const res = await db
       .collection("NFT")
-      .record(`${collection_address}/${tokenId}`)
+      .record("0xE6aD85168620973A542368609133986B31e64cF3/13")
       .call("executeSale", [db.collection("User").record(signer_address)]);
     console.log(res.data);
     // const res = await db
