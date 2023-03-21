@@ -59,7 +59,7 @@ const Footer = () => {
             <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
               <li>
                 <Link
-                  href="/Marketplace"
+                  href="/marketplace"
                   className="hover:text-accent dark:hover:text-white"
                 >
                   Explore

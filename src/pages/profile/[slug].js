@@ -11,7 +11,8 @@ import { Framework } from "@superfluid-finance/sdk-core";
 import { Wallet, providers, ethers } from "ethers";
 import * as PushAPI from "@pushprotocol/restapi";
 import Head from "next/head";
-
+import Moralis from 'moralis';
+import { EvmChain } from '@moralisweb3/common-evm-utils';
 
 const Profile = ({
   get_my_collections,
@@ -33,6 +34,8 @@ const Profile = ({
         "https://raw.githubusercontent.com/superfluid-finance/assets/master/public//tokens/dai/icon.svg",
     },
   ];
+  const [FDAIXBALANCE, setFDAIXBALANCE] = useState("0.00");
+
   const [provider, setProvider] = useState(null);
   const [userStreamData, SetUserStreamData] = useState([]);
 
@@ -104,7 +107,7 @@ const Profile = ({
   }) => {
     if (chainIdMain != 5) {
       alert("Please switch to goerli chain to join memberships");
-      switchGoerliChain();
+      await switchGoerliChain();
     }
     try {
       set_loading(true);
@@ -134,7 +137,7 @@ const Profile = ({
     } catch (err) {
       set_loading(false);
       console.log({ CreateStreamError: err });
-      alert("Something went wrong! Please try again");
+      alert("Failed to join membership! User rejected transaction or low ETH balance");
     }
   };
 
@@ -162,7 +165,7 @@ const Profile = ({
     } catch (err) {
       set_loading(false);
       console.log({ DeleteStreamError: err })
-      alert("Something went wrong! Please try again");
+      alert("Failed to cancel membership! User rejected transaction or low ETH balance");
     }
   };
 
@@ -207,7 +210,7 @@ const Profile = ({
           title: `${title}`,
           body: `${body}`,
         },
-        recipients: `eip155:8001:${to}`,
+        recipients: `eip155:80001:${to}`,
         channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
         env: "staging",
       });
@@ -235,7 +238,7 @@ const Profile = ({
           body: `As you have cancelled the membership, you are no longer eligible for the membership perks`,
           cta: ``,
         },
-        recipients: `eip155:8001:${signer_address}`,
+        recipients: `eip155:80001:${signer_address}`,
         channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
         env: "staging",
       });
@@ -243,6 +246,35 @@ const Profile = ({
       console.error("Error: ", err);
     }
   };
+
+
+  // using moralis for balances 
+  const initiateMoralis = async () => {
+    try {
+      await Moralis.start({
+        apiKey: (process.env.NEXT_PUBLIC_MORALIS_API),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getBalanceMoralis = async () => {
+    try {
+      initiateMoralis();
+      const response = await Moralis.EvmApi.token.getWalletTokenBalances({
+        "chain": "5",
+        "tokenAddresses": [
+          "0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00"
+        ],
+        "address": signer_address
+      });
+      setFDAIXBALANCE(ethers.utils.formatEther(response.raw[0].balance));
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 
   const [loading, set_loading] = useState(false);
   const [membershipVisible, setMembershipVisible] = useState(false);
@@ -364,13 +396,13 @@ const Profile = ({
                 {signer_address != slug &&
                   <>
                     {calculateFlowRate(userStreamData?.flowRate) > 0 &&
-                      <button type="button" onClick={() => (setMembershipVisible(true))}
+                      <button type="button" onClick={() => (getBalanceMoralis(), setMembershipVisible(true))}
                         className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                         View Membership
                       </button>
                     }
                     {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
-                      <button type="button" onClick={() => (setMembershipVisible(true))}
+                      <button type="button" onClick={() => (getBalanceMoralis(), setMembershipVisible(true))}
                         className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                         Become Member
                       </button>
@@ -456,7 +488,7 @@ const Profile = ({
                         </div>
 
                         <div className="text-right">
-                          <span className="text-sm dark:text-jacarta-400">Balance: 0.00 fDAIx</span>
+                          <span className="text-sm dark:text-jacarta-400">Balance: {parseFloat(FDAIXBALANCE).toFixed(2)} fDAIx</span>
                         </div>
 
                         <div className="mt-4 flex items-center space-x-2 flex-col">
@@ -597,6 +629,8 @@ const Profile = ({
                         Description={e.ipfsData.description}
                         Address={e.ipfsData.collection}
                         tokenId={e.tokenId}
+                        chainImgPre={"../"}
+                        listedBool={e.isListed}
                       />
                     );
                   })}

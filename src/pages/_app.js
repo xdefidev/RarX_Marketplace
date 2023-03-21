@@ -46,12 +46,24 @@ export default function App({ Component, pageProps }) {
   const x_hashi_polygon = "0xd3F1A0782AFD768f8929343Fb44344A2a49fE343";
   const x_hashi_goerli = "0x8F5969b8Fa3727392385C5E74CF1AA91a4aC4b40";
 
-  //CONTRACT ADDRESSES
-  const default_collection_address =
-    "0xE6aD85168620973A542368609133986B31e64cF3";
-  const marketplace_address = "0xdcfEF1E79ACb203750b5c3D512F71aB2Fc9d85A9";
-  const collection_factory_address =
-    "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C";
+  //declaring contract address
+  let default_collection_address = "";
+  let marketplace_address = "";
+  let collection_factory_address = "";
+
+  // chain configs
+  const [chainImg, setChainImg] = useState("");
+  const [blockURL, setBlockURL] = useState("");
+  const [symbol, setSymbol] = useState("");
+
+  // declaring images
+  const filecoinLogo = "chains/filecoin.png";
+  const gnosisLogo = "chains/gnosis.png";
+  const goerliLogo = "chains/goerli.png";
+  const mantleLogo = "chains/mantle.png";
+  const polygonLogo = "chains/polygon.png";
+  const scrollLogo = "chains/scroll.png";
+  const TaikoLogo = "chains/taiko.png";
 
   // connect wallet metamask
   const connectToWallet = async () => {
@@ -88,56 +100,87 @@ export default function App({ Component, pageProps }) {
       set_format_signer_bal(formatBalance);
 
       const { chainId } = await provider.getNetwork();
+
+      if (chainId == 1442) {
+        // polygon zkevm
+        default_collection_address = "";
+        marketplace_address = "";
+        collection_factory_address = "";
+        setChainImg(polygonLogo);
+        setSymbol("ETH");
+        setBlockURL("https://mumbai.polygonscan.com/address/");
+      } else if (chainId == 3141) {
+        // filecoin
+        default_collection_address = "";
+        marketplace_address = "";
+        collection_factory_address = "";
+        setChainImg(filecoinLogo);
+        setSymbol("TFIL");
+        setBlockURL("https://hyperspace.filfox.info/en/address/");
+      } else if (chainId == 5001) {
+        // mantle
+        default_collection_address = "";
+        marketplace_address = "";
+        collection_factory_address = "";
+        setChainImg(mantleLogo);
+        setSymbol("BIT");
+        setBlockURL("https://explorer.testnet.mantle.xyz/address/");
+      } else if (chainId == 534353) {
+        // scroll
+        default_collection_address = "scroll";
+        marketplace_address = "";
+        collection_factory_address = "";
+        setChainImg(scrollLogo);
+        setSymbol("ETH");
+        setBlockURL("https://blockscout.scroll.io/address/");
+      } else if (chainId == 167002) {
+        // taiko
+        default_collection_address = "";
+        marketplace_address = "";
+        collection_factory_address = "";
+        setChainImg(TaikoLogo);
+        setSymbol("ETH");
+        setBlockURL("https://l2explorer.hackathon.taiko.xyz/address/");
+      } else if (chainId == 10200) {
+        // gnosis
+        default_collection_address = "";
+        marketplace_address = "";
+        collection_factory_address = "";
+        setChainImg(gnosisLogo);
+        setSymbol("XDAI");
+        setBlockURL("https://blockscout.com/gnosis/chiado/address/");
+      } else if (chainId == 5) {
+        // eth goerli
+        default_collection_address = "";
+        marketplace_address = "";
+        collection_factory_address = "";
+        setChainImg(goerliLogo);
+        setSymbol("ETH");
+        setBlockURL("https://goerli.etherscan.io/address/");
+      } else {
+        default_collection_address =
+          "0xE6aD85168620973A542368609133986B31e64cF3";
+        marketplace_address = "0xdcfEF1E79ACb203750b5c3D512F71aB2Fc9d85A9";
+        collection_factory_address =
+          "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C";
+        setChainImg(polygonLogo);
+        setSymbol("MATIC");
+        setBlockURL("https://mumbai.polygonscan.com/address/");
+      }
+
       setChainIdMain(chainId);
-      get_all_collections(signer);
-      fetch_all_nfts_from_polybase();
-      // deleteDataPolybase();
     } else {
-      // alert(
-      //   "Please install Metamask, Intmax or any other web3 enabled browser"
-      // );
-      console.log("No wallet detected");
+      console.log("No wallets detected");
     }
-  };
-
-  const deleteDataPolybase = async () => {
-    // collection code
-    const db = polybase();
-    const res = await db
-      .collection("User")
-      .create([
-        marketplace_address,
-        "Rarx",
-        "rarx@gmail.com",
-        "rarx is a marketplace",
-        "rarx prof image",
-        "rarx cover image",
-      ]);
-    console.log({ res });
-
-    // user code
-    // const db = polybase();
-    // const res = await db
-    //   .collection("User")
-    //   .create([
-    //     default_collection_address,
-    //     "Rarx",
-    //     "rarx@gmail.com",
-    //     "rarx is a marketplace",
-    //     "rarx prof image",
-    //     "rarx cover image",
-    //   ]);
-    // console.log("done");
-    // console.log({ res });
   };
 
   // CONNECT WALLET INTMAX
   const connectToIntmax = async () => {
     try {
       const signerIntmax = new IntmaxWalletSigner();
-      setSigner(signerIntmax);
       const accountIntmax = await signerIntmax.connectToAccount();
-      set_signer_address(accountIntmax);
+      // setSigner(signerIntmax);
+      set_signer_address("0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861");
     } catch (error) {
       console.log(error.message);
     }
@@ -402,7 +445,6 @@ export default function App({ Component, pageProps }) {
         console.log({ res });
       });
       const txn = await rarx.createToken(tokenURI);
-      console.log({ txn });
       await txn.wait();
       sendNFTMintNoti();
     } catch (error) {
@@ -460,7 +502,6 @@ export default function App({ Component, pageProps }) {
 
   //FETCHES SINGLE NFT INFO
   const fetch_NFT_info = async (collection_address, tokenId) => {
-    console.log({ collection_address, tokenId });
     try {
       const db = polybase();
       let obj = {};
@@ -498,7 +539,7 @@ export default function App({ Component, pageProps }) {
   };
 
   // GETS ALL COLLECTIONS FROM POLYBASE
-  const get_all_collections = async (signer) => {
+  const get_all_collections = async () => {
     try {
       const db = polybase();
       const collections = await db.collection("NFTCollection").get();
@@ -591,6 +632,7 @@ export default function App({ Component, pageProps }) {
         nfts.push(obj);
       }
       set_nfts(nfts);
+      console.log(nfts);
       return nfts;
     } catch (error) {
       console.log(error.message);
@@ -706,6 +748,8 @@ export default function App({ Component, pageProps }) {
         window.location.reload();
       });
     }
+    get_all_collections();
+    fetch_all_nfts_from_polybase();
     connectToWallet();
     console.log("app rerender");
   }, []);
@@ -721,6 +765,9 @@ export default function App({ Component, pageProps }) {
         chainIdMain={chainIdMain}
         setChainIdMain={setChainIdMain}
         RARX_CHANNEL_ADDRESS={RARX_CHANNEL_ADDRESS}
+        chainImg={chainImg}
+        blockURL={blockURL}
+        symbol={symbol}
       />
       <Component
         {...pageProps}
@@ -752,6 +799,8 @@ export default function App({ Component, pageProps }) {
         list_nft={list_nft}
         fetch_listed_nfts={fetch_listed_nfts}
         RARX_CHANNEL_ADDRESS={RARX_CHANNEL_ADDRESS}
+        chainImg={chainImg}
+        blockURL={blockURL}
         executeSale={executeSale}
       />
       <Footer />

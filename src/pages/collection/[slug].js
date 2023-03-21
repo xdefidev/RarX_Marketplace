@@ -49,7 +49,7 @@ const Collection = ({
         <Image
           src={collection.coverImage?.replace(
             "ipfs://",
-            "https://ipfs.io/ipfs/"
+            "https://gateway.ipfscdn.io/ipfs/"
           )}
           width={100}
           height={100}
@@ -63,7 +63,7 @@ const Collection = ({
         <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <div className="relative">
             <Image
-              src={collection.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+              src={collection.logo?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
               width={100}
               height={100}
               alt="collection avatar"
@@ -274,7 +274,7 @@ const Collection = ({
                       key={index}
                       ImageSrc={e.ipfsData.image.replace(
                         "ipfs://",
-                        "https://ipfs.io/ipfs/"
+                        "https://gateway.ipfscdn.io/ipfs/"
                       )}
                       Name={e.ipfsData.name}
                       Description={e.ipfsData.description}

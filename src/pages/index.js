@@ -124,7 +124,7 @@ export default function Home({ all_collections, nfts }) {
                   Create AI NFT
                 </Link>
                 <Link
-                  href="/Marketplace"
+                  href="/marketplace"
                   className="w-45 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                 >
                   Explore NFTs
@@ -316,6 +316,7 @@ export default function Home({ all_collections, nfts }) {
           </h2>
 
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+<<<<<<< HEAD
             {nfts.map((e, index) => (
               <NftCard
                 ImageSrc={e.ipfsData.image.replace(
@@ -328,6 +329,25 @@ export default function Home({ all_collections, nfts }) {
                 tokenId={e.tokenId}
               />
             ))}
+=======
+            {nfts.map(
+              (e, index) =>
+                index < 8 && (
+                  <NftCard
+                    ImageSrc={e.ipfsData.image.replace(
+                      "ipfs://",
+                      "https://gateway.ipfscdn.io/ipfs/"
+                    )}
+                    Name={e.ipfsData.name}
+                    Description={e.ipfsData.description}
+                    Address={e.ipfsData.collection}
+                    tokenId={e.tokenId}
+                    chainID={e.chainId}
+                    listedBool={e.isListed}
+                  />
+                )
+            )}
+>>>>>>> 12965c405cf080307a60edb44a93f68027445bf1
           </div>
         </div>
       </div>

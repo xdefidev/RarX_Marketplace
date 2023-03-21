@@ -21,7 +21,7 @@ const NFTPage = ({
   const [nft, set_nft_info] = useState({});
 
   const get_nft = async (collectionAddress, tokenId) => {
-    if (!tokenId && signer && !collectionAddress) return;
+    if (!tokenId && !collectionAddress) return;
     const nft = await fetch_NFT_info(collectionAddress, tokenId);
     console.log({ nft });
     console.log(nft?.seller, signer_address);
@@ -39,7 +39,7 @@ const NFTPage = ({
   };
 
   useEffect(() => {
-    get_nft(slug, tokenId, signer);
+    get_nft(slug, tokenId);
   }, [signer_address]);
   return (
     <>
@@ -65,7 +65,7 @@ const NFTPage = ({
               <Image
                 src={nft?.ipfsData?.image?.replace(
                   "ipfs://",
-                  "https://ipfs.io/ipfs/"
+                  "https://gateway.ipfscdn.io/ipfs/"
                 )}
                 width={100}
                 height={100}
