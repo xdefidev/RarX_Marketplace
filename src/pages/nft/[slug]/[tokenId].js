@@ -15,7 +15,7 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
   const [nft, set_nft_info] = useState({});
 
   const get_nft = async (collectionAddress, tokenId) => {
-    if (!tokenId && signer && !collectionAddress) return;
+    if (!tokenId && !collectionAddress) return;
     const nft = await fetch_NFT_info(collectionAddress, tokenId);
     set_nft_info(nft);
   };
@@ -27,7 +27,7 @@ const NFTPage = ({ fetch_NFT_info, signer, signer_address, list_nft }) => {
   };
 
   useEffect(() => {
-    get_nft(slug, tokenId, signer);
+    get_nft(slug, tokenId);
   }, [signer_address]);
   return (
     <>

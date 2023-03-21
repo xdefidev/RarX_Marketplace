@@ -23,6 +23,7 @@ import superfluid from "../../public/tech/superfluid.png";
 import thegraph from "../../public/tech/thegraph.jpeg";
 import uma from "../../public/tech/uma.jpeg";
 import ipfsLogo from "../../public/tech/ipfs.png";
+import infuraIPFS from "../../public/tech/infura.png";
 
 const About = () => {
   return (
@@ -364,14 +365,14 @@ const About = () => {
           </a>
           <a href="https://ipfs.tech" target="_blank" className="flex flex-col justify-center mt-4">
             <Image
-              src={ipfsLogo}
+              src={infuraIPFS}
               alt="ipfs"
-              className="h-[150px] w-[150px] m-4 self-center"
+              className="h-[140px] w-[140px] m-4 self-center"
               height={100}
               width={100}
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
-              IPFS
+              Infura IPFS
             </h3>
           </a>
         </div>

@@ -173,8 +173,6 @@ export default function App({ Component, pageProps }) {
       }
 
       setChainIdMain(chainId);
-      get_all_collections(signer);
-      fetch_all_nfts_from_polybase();
     } else {
       console.log("No wallets detected");
     }
@@ -477,7 +475,6 @@ export default function App({ Component, pageProps }) {
 
   //FETCHES SINGLE NFT INFO
   const fetch_NFT_info = async (collection_address, tokenId) => {
-    console.log({ collection_address, tokenId });
     try {
       const db = polybase();
       let obj = {};
@@ -510,7 +507,7 @@ export default function App({ Component, pageProps }) {
   };
 
   // GETS ALL COLLECTIONS FROM POLYBASE
-  const get_all_collections = async (signer) => {
+  const get_all_collections = async () => {
     try {
       const db = polybase();
       const collections = await db.collection("NFTCollection").get();
@@ -717,6 +714,8 @@ export default function App({ Component, pageProps }) {
         window.location.reload();
       });
     }
+    get_all_collections();
+    fetch_all_nfts_from_polybase();
     connectToWallet();
     console.log("app rerender");
   }, []);
