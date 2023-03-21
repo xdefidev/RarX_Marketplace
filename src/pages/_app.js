@@ -230,26 +230,32 @@ export default function App({ Component, pageProps }) {
   const executeSale = async (tokenId, collection_address, listing_price) => {
     console.log({ tokenId, collection_address, listing_price });
     const db = polybase();
+    console.log({ signer_address });
     const res = await db
       .collection("NFT")
       .record(`${collection_address}/${tokenId}`)
       .call("executeSale", [db.collection("User").record(signer_address)]);
-    console.log({ before_owner: res.data });
+    console.log(res.data);
+    // const res = await db
+    //   .collection("NFT")
+    //   .record(polybase_tokenID)
+    //   .get();
+    // console.log({ before_owner: res.data.owner.id });
 
     try {
-      const contract = marketplace();
-      const txn = await contract.executeSale(tokenId, collection_address, {
-        value: listing_price,
-      });
-      await txn.wait();
-      if (txn.hash) {
-        const res = await db
-          .collection("NFT")
-          .record(`${collection_address}/${tokenId}`)
-          .call("executeSale", [db.collection("User").record(signer_address)]);
-        console.log({ after_owner: res.data });
-      }
-      console.log({ txn });
+      // const contract = marketplace();
+      // const txn = await contract.executeSale(tokenId, collection_address, {
+      //   value: listing_price,
+      // });
+      // await txn.wait();
+      // if (txn.hash) {
+      //   const res = await db
+      //     .collection("NFT")
+      //     .record(polybase_tokenID)
+      //     .call("executeSale", [db.collection("User").record(signer_address)]);
+      //   console.log({ after_owner: res.data });
+      // }
+      // console.log({ txn });
     } catch (error) {
       console.log(error.message);
     }
