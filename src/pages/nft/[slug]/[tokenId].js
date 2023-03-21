@@ -24,6 +24,7 @@ const NFTPage = ({
     if (!tokenId && signer && !collectionAddress) return;
     const nft = await fetch_NFT_info(collectionAddress, tokenId);
     console.log({ nft });
+    console.log(nft?.seller, signer_address);
     set_nft_info(nft);
   };
 
@@ -305,9 +306,7 @@ const NFTPage = ({
 
                   <button
                     type="button"
-                    onClick={() =>
-                      buyNFT(tokenId, signer_address, nft?.listingPrice)
-                    }
+                    onClick={() => buyNFT(tokenId, slug, nft?.listingPrice)}
                     data-bs-toggle="modal"
                     data-bs-target="#placeBidModal"
                     className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"

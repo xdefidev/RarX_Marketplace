@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }) {
   //CONTRACT ADDRESSES
   const default_collection_address =
     "0xE6aD85168620973A542368609133986B31e64cF3";
-  const marketplace_address = "0x6D19F5c5907B70C72a1F71cfF7CDE6DF248e85a7";
+  const marketplace_address = "0xdcfEF1E79ACb203750b5c3D512F71aB2Fc9d85A9";
   const collection_factory_address =
     "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C";
 
@@ -73,7 +73,6 @@ export default function App({ Component, pageProps }) {
         .collection("User")
         .where("id", "==", user_address)
         .get();
-      console.log({ checkUser });
       if (checkUser.data.length === 0) {
         const res = await db
           .collection("User")
@@ -208,6 +207,9 @@ export default function App({ Component, pageProps }) {
       );
       await txn.wait();
 
+      const nftRec = await contract.nft_record(collection_address, tokenId);
+      console.log({ nftRec });
+
       if (txn.hash) {
         const db = polybase();
         const res = await db
@@ -227,20 +229,27 @@ export default function App({ Component, pageProps }) {
 
   const executeSale = async (tokenId, collection_address, listing_price) => {
     console.log({ tokenId, collection_address, listing_price });
+    const db = polybase();
+    const res = await db
+      .collection("NFT")
+      .record(`${collection_address}/${tokenId}`)
+      .call("executeSale", [db.collection("User").record(signer_address)]);
+    console.log({ before_owner: res.data });
+
     try {
       const contract = marketplace();
-      const txn = await contract.getListedTokenById(tokenId);
-      const price = ethers.utils.formatEther(txn.price.toString());
-      console.log({ price });
-      // const txn = await contract.executeSale(
-      //   tokenId,
-      //   default_collection_address,
-      //   {
-      //     value: ethers.utils.parseEther("0.0001"),
-      //   }
-      // );
-      // await txn.wait();
-      // console.log({ txn });
+      const txn = await contract.executeSale(tokenId, collection_address, {
+        value: listing_price,
+      });
+      await txn.wait();
+      if (txn.hash) {
+        const res = await db
+          .collection("NFT")
+          .record(`${collection_address}/${tokenId}`)
+          .call("executeSale", [db.collection("User").record(signer_address)]);
+        console.log({ after_owner: res.data });
+      }
+      console.log({ txn });
     } catch (error) {
       console.log(error.message);
     }
@@ -387,6 +396,7 @@ export default function App({ Component, pageProps }) {
         console.log({ res });
       });
       const txn = await rarx.createToken(tokenURI);
+      console.log({ txn });
       await txn.wait();
       sendNFTMintNoti();
     } catch (error) {
@@ -474,6 +484,7 @@ export default function App({ Component, pageProps }) {
         res.data.ipfsURL.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
       );
       obj.ipfsData = parsed_nft.data;
+      console.log({ obj });
       return obj;
     } catch (error) {
       console.log(error.message);
