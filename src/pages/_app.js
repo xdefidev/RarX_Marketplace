@@ -260,6 +260,7 @@ export default function App({ Component, pageProps }) {
             db.collection("User").record(marketplace_address),
           ]);
       }
+      sendNFTListNoti(tokenId, price);
     } catch (error) {
       console.log(error.message);
     }
@@ -284,6 +285,7 @@ export default function App({ Component, pageProps }) {
           .record(`${collection_address}/${tokenId}`)
           .call("executeSale", [db.collection("User").record(signer_address)]);
       }
+      sendNFTSaleNoti(tokenId, listing_price);
     } catch (error) {
       console.log(error.message);
     }
@@ -684,6 +686,60 @@ export default function App({ Component, pageProps }) {
         payload: {
           title: `Your new collection on rarx is verified`,
           body: `Congratulations, now you can sell your nfts via your collection`,
+        },
+        recipients: `eip155:80001:${signer_address}`,
+        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+        env: "staging",
+      });
+    } catch (err) {
+      console.error("Error: ", err);
+    }
+  };
+
+  // sending nft list notification
+  const sendNFTListNoti = async ({ NftName, NftPrice }) => {
+    const signer = new ethers.Wallet(
+      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    );
+    try {
+      const apiResponse = await PushAPI.payloads.sendNotification({
+        signer,
+        type: 3,
+        identityType: 2,
+        notification: {
+          title: `${NftName} is listed for sale on RarX`,
+          body: `Congratulations, you have successfully listed ${NftName} on sale for ${NftPrice}`,
+        },
+        payload: {
+          title: `${NftName} is listed for sale on RarX`,
+          body: `Congratulations, you have successfully listed ${NftName} on sale for ${NftPrice}`,
+        },
+        recipients: `eip155:80001:${signer_address}`,
+        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+        env: "staging",
+      });
+    } catch (err) {
+      console.error("Error: ", err);
+    }
+  };
+
+  // sending nft buy notification
+  const sendNFTSaleNoti = async ({ NftName, NftPrice }) => {
+    const signer = new ethers.Wallet(
+      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    );
+    try {
+      const apiResponse = await PushAPI.payloads.sendNotification({
+        signer,
+        type: 3,
+        identityType: 2,
+        notification: {
+          title: `You have purchased NFT ${NftName} for ${NftPrice}`,
+          body: `Congratulations, you have successfully purchased ${NftName}`,
+        },
+        payload: {
+          title: `You have purchased NFT ${NftName} for ${NftPrice}`,
+          body: `Congratulations, you have successfully purchased ${NftName}`,
         },
         recipients: `eip155:80001:${signer_address}`,
         channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
