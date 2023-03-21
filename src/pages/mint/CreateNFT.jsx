@@ -48,7 +48,6 @@ const CreateNFT = ({
     const values = [...data.properties];
     values.splice(index, 1);
     set_data({ ...data, properties: values });
-    console.log(data.properties);
   };
 
   const get_user_collections = async () => {

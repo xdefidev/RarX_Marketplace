@@ -25,7 +25,6 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
     const get_nfts = async () => {
         set_loading(true);
         const nfts = await fetch_nfts_from_user_wallet(signer_address);
-        console.log(nfts)
         set_nfts(nfts);
         set_loading(false);
     };

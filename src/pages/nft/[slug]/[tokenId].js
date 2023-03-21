@@ -4,7 +4,7 @@ import testNFT from "../../../../public/test.jpg";
 import Image from "next/image";
 import { ethers } from "ethers";
 import Head from "next/head";
-
+import Link from "next/link";
 const NFTPage = ({
   fetch_NFT_info,
   signer,
@@ -23,14 +23,11 @@ const NFTPage = ({
   const get_nft = async (collectionAddress, tokenId) => {
     if (!tokenId && !collectionAddress) return;
     const nft = await fetch_NFT_info(collectionAddress, tokenId);
-    console.log({ nft });
-    console.log(nft?.seller, signer_address);
     set_nft_info(nft);
   };
 
   const list_token = async (e) => {
     e.preventDefault();
-    console.log(listingPrice);
     const res = await list_nft(tokenId, listingPrice, slug, signer);
   };
 
@@ -79,12 +76,12 @@ const NFTPage = ({
               <div className="mb-3 flex">
                 {/* <!-- Collection --> */}
                 <div className="flex items-center">
-                  <a
-                    href="/collection/3737"
+                  <Link
+                    href={`/collection/${nft?.collection_id}`}
                     className="mr-2 text-sm font-bold text-accent"
                   >
-                    Sample Collection
-                  </a>
+                    {nft?.collection_name}
+                  </Link>
                   <span
                     className="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
                     data-tippy-content="Verified Collection"
@@ -169,9 +166,18 @@ const NFTPage = ({
                     <span className="block text-sm text-jacarta-400 dark:text-white">
                       Owned by
                     </span>
-                    <a href="user.html" className="block text-accent">
-                      <span className="text-sm font-bold">@051_Hart</span>
-                    </a>
+                    <Link
+                      href={`/profile/${nft?.user_id}`}
+                      className="block text-accent"
+                    >
+                      <span className="text-sm font-bold">
+                        {nft.seller
+                          ? nft.seller
+                          : nft.owner_username
+                          ? nft.owner_username
+                          : nft?.user_id}
+                      </span>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -195,7 +201,7 @@ const NFTPage = ({
               {/* <!-- list nft --> */}
               <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                 {listSale == false ? (
-                  nft?.owner === signer_address && (
+                  nft?.nft_owner === signer_address && (
                     <button
                       onClick={() => setListSale(true)}
                       href="#"

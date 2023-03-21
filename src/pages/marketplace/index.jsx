@@ -7,7 +7,6 @@ import Head from "next/head";
 const Marketplace = ({ fetch_listed_nfts, chainImg }) => {
   const [nfts, set_nfts] = useState([]);
   const get_nfts = async () => {
-    console.log("get nfts called");
     const res = await fetch_listed_nfts();
     set_nfts(res);
   };

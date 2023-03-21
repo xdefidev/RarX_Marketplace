@@ -136,7 +136,6 @@ const Profile = ({
 
     } catch (err) {
       set_loading(false);
-      console.log({ CreateStreamError: err });
       alert("Failed to join membership! User rejected transaction or low ETH balance");
     }
   };
@@ -186,7 +185,6 @@ const Profile = ({
         receiver: slug,
         providerOrSigner: provider,
       });
-      console.log({ userStreams: res })
       SetUserStreamData(res);
     }
   };
@@ -301,7 +299,6 @@ const Profile = ({
   const get_nfts = async () => {
     set_loading(true);
     const nfts = await fetch_nfts_from_user_wallet(signer_address);
-    console.log({ nfts });
     set_nfts(nfts);
     set_loading(false);
   };

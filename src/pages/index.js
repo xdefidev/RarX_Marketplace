@@ -345,17 +345,19 @@ export default function Home({ all_collections, nfts }) {
           </div>
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
             {all_collections?.map((e, index) => {
-              index < 8 && (
-                <CollectionCard
-                  key={index}
-                  Cover={e.coverImage}
-                  Logo={e.logo}
-                  Name={e.name}
-                  Description={e.description}
-                  OwnerAddress={e.owner.id}
-                  CollectionAddress={e.id}
-                  collectionId={e.id}
-                />
+              return (
+                index < 8 && (
+                  <CollectionCard
+                    key={index}
+                    Cover={e.coverImage}
+                    Logo={e.logo}
+                    Name={e.name}
+                    Description={e.description}
+                    OwnerAddress={e.owner.id}
+                    CollectionAddress={e.id}
+                    collectionId={e.id}
+                  />
+                )
               );
             })}
           </div>
