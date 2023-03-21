@@ -297,7 +297,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                         name="membershipPerks"
                         className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
                         required
-                        value="Early access to all the latest NFTs on Rarx Marketplace"
+                        defaultValue="Early access to all the latest NFTs on Rarx Marketplace"
                         placeholder="What things will you offer to your membership plan subscribers ?"
                       ></textarea>
                     </div>

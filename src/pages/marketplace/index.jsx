@@ -94,6 +94,7 @@ const Marketplace = ({ fetch_listed_nfts, chainImg }) => {
                     tokenId={e.tokenId}
                     chainImg={chainImg}
                     listedBool={e.isListed}
+                    listingPrice={e.listingPrice}
                   />
                 ))}
               </div>

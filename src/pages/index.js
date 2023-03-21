@@ -330,6 +330,7 @@ export default function Home({ all_collections, nfts }) {
                     tokenId={e.tokenId}
                     chainID={e.chainId}
                     listedBool={e.isListed}
+                    listingPrice={e.listingPrice}
                   />
                 )
             )}

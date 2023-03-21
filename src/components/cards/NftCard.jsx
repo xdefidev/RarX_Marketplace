@@ -14,6 +14,7 @@ const NftCard = ({
   chainSymbol,
   chainImg = "chains/polygon.png",
   chainImgPre = "",
+  listingPrice
 }) => {
   return (
     <div className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
@@ -66,7 +67,7 @@ const NftCard = ({
         {listedBool &&
           <span
             className="flex items-center whitespace-nowrap rounded-md border border-jacarta-100 py-1 px-2 dark:border-jacarta-600">
-            <span className=" text-sm font-medium tracking-tight text-green">1.55 ETH</span>
+            <span className=" text-sm font-medium tracking-tight text-green">{listingPrice} ETH</span>
           </span>
         }
       </div>

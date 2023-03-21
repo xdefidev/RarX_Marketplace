@@ -366,7 +366,6 @@ const Navbar = ({
         console.error("failed to get user notifications: ", err);
       });
   };
-
   useEffect(() => {
     connectToWallet();
     getNotifications();
