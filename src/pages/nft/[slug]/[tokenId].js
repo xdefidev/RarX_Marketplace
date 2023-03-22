@@ -29,7 +29,7 @@ const NFTPage = ({
     if (!tokenId && !collectionAddress) return;
     setPageLoading(true);
     const nft = await fetch_NFT_info(collectionAddress, tokenId);
-    console.log({ nft });
+    console.log({ thisNftsss: nft });
     set_nft_info(nft);
     setPageLoading(false);
   };
@@ -215,7 +215,7 @@ const NFTPage = ({
 
                 {/* <!-- list nft --> */}
                 {listSale == false ? (
-                  nft?.owner == signer_address && (
+                  nft?.nft_owner == signer_address && nft?.isListed == true && (
                     <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                       <button
                         onClick={() => setListSale(true)}
@@ -388,7 +388,7 @@ const NFTPage = ({
                 )}
 
                 {/* <!-- cancel nft sale --> */}
-                {nft?.seller == signer_address && nft?.isListed && (
+                {nft?.seller == signer_address && nft?.isListed == true && (
                   <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                     <button
                       type="button"
@@ -400,10 +400,10 @@ const NFTPage = ({
                 )}
 
                 {/* <!-- not listed --> */}
-                {nft?.owner !== signer_address && nft?.isListed == false && (
+                {nft?.nft_owner !== signer_address && nft?.isListed == false && (
                   <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                     <button
-                      type="button" 
+                      type="button"
                       className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                     >
                       Not Listed
