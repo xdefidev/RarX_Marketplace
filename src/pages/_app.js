@@ -424,10 +424,13 @@ export default function App({ Component, pageProps }) {
   // create nft
   const create_token = async (_tokenURI, signer) => {
     try {
+      console.log(_tokenURI);
       const tokenURI = await storage.upload(_tokenURI);
       const rarx = rarx_collection(_tokenURI.collection, signer);
       const network = await provider.getNetwork();
+
       rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
+        console.log({ tokenId });
         const db = polybase();
         const res = await db
           .collection("NFT")
@@ -443,9 +446,13 @@ export default function App({ Component, pageProps }) {
               : "[]",
             _tokenURI.name,
           ]);
+        console.log(res);
+        console.log("event emitted");
       });
+      
       const txn = await rarx.createToken(tokenURI);
       await txn.wait();
+      console.log({ txn });
       sendNFTMintNoti();
     } catch (error) {
       console.log(error);
