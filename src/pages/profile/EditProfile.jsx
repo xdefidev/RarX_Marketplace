@@ -22,7 +22,7 @@ const EditProfile = ({ signer_address, polybase }) => {
     twitter: "",
     instagram: "",
     customLink: "",
-    isArtist: memberShow,
+    isArtist: false,
     membership_fees: 0,
     membership_perks: "",
   });
@@ -58,36 +58,39 @@ const EditProfile = ({ signer_address, polybase }) => {
 
   const updateData = async (e) => {
     e.preventDefault();
-    console.log(data);
-    // set_loading(true);
-    // try {
-    //   const db = polybase();
+    set_loading(true);
+    try {
+      const db = polybase();
 
-    //   let coverImg;
-    //   let profileImg;
+      let coverImg;
+      let profileImg;
 
-    //   if (typeof data.coverImage === "object") {
-    //     coverImg = await storage.upload(data.coverImage);
-    //   }
-    //   if (typeof data.profileImage === "object") {
-    //     profileImg = await storage.upload(data.profileImage);
-    //   }
-    //   const res = await db
-    //     .collection("User")
-    //     .record(signer_address)
-    //     .call("updateData", [
-    //       data.username,
-    //       data.email,
-    //       data.bio,
-    //       profileImg ? profileImg : data.profileImage,
-    //       coverImg ? coverImg : data.coverImage,
-    //       [data.twitter, data.instagram, data.customLink],
-    //     ]);
-    //   // window.location.reload();
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
-    // set_loading(false);
+      if (typeof data.coverImage === "object") {
+        coverImg = await storage.upload(data.coverImage);
+      }
+      if (typeof data.profileImage === "object") {
+        profileImg = await storage.upload(data.profileImage);
+      }
+      console.log(data)
+      const res = await db
+        .collection("User")
+        .record(signer_address)
+        .call("updateData", [
+          data.username,
+          data.email,
+          data.bio,
+          profileImg ? profileImg : data.profileImage,
+          coverImg ? coverImg : data.coverImage,
+          [data.twitter, data.instagram, data.customLink],
+          data.isArtist,
+          data.membership_fees,
+          data.membership_perks,
+        ]);
+      // window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+    set_loading(false);
   };
 
   const getUserData = async () => {
@@ -106,6 +109,9 @@ const EditProfile = ({ signer_address, polybase }) => {
         profileImage,
         username,
         socials,
+        isArtist,
+        membershipFees,
+        perks,
       } = res.data;
       set_data({
         bio,
@@ -116,6 +122,9 @@ const EditProfile = ({ signer_address, polybase }) => {
         twitter: socials[0],
         instagram: socials[1],
         customLink: socials[2],
+        membership_fees: membershipFees,
+        isArtist,
+        membership_perks: perks,
       });
       set_user_exists(true);
     } catch (error) {
@@ -266,18 +275,18 @@ const EditProfile = ({ signer_address, polybase }) => {
                     Are you a NFT artist ? <span className="text-red">*</span>
                   </label>
                   <select
-                    onChange={() => setMemberShow(!memberShow)}
-                    name="artistBool"
+                    onChange={() =>
+                      set_data({ ...data, isArtist: !data.isArtist })
+                    }
+                    name="isArtist"
                     className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
                   >
-                    <option value="no" defaultValue>
-                      No
-                    </option>
-                    <option value="yes">Yes</option>
+                    <option value={false}>No</option>
+                    <option value={true}>Yes</option>
                   </select>
                 </div>
 
-                {memberShow && (
+                {data.isArtist && (
                   <>
                     <div className="mb-6">
                       <label
@@ -310,7 +319,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                         onChange={handleChange}
                         className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
                         required
-                        defaultValue="Early access to all the latest NFTs on Rarx Marketplace"
+                        // defaultValue="Early access to all the latest NFTs on Rarx Marketplace"
                         placeholder="What things will you offer to your membership plan subscribers ?"
                       ></textarea>
                     </div>
