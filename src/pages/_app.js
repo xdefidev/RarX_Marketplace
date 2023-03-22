@@ -155,20 +155,22 @@ export default function App({ Component, pageProps }) {
         setChainImg(goerliLogo);
         setSymbol("ETH");
         setBlockURL("https://goerli.etherscan.io/address/");
-      }
-      else if (chainId == 80001) {
-        // matic 
+      } else if (chainId == 80001) {
+        // matic
         setCollectionAddress("0xE6aD85168620973A542368609133986B31e64cF3");
         setMarketplaceAddress("0xB00269E098526480B3cCfC57bE99B077077969CD");
-        setCollectionFactoryAddress("0xf2C06547DEdbA59fA5F735808A3B97B212cae11C");
+        setCollectionFactoryAddress(
+          "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C"
+        );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockURL("https://mumbai.polygonscan.com/address/");
-      }
-      else {
+      } else {
         setCollectionAddress("0xE6aD85168620973A542368609133986B31e64cF3");
         setMarketplaceAddress("0xB00269E098526480B3cCfC57bE99B077077969CD");
-        setCollectionFactoryAddress("0xf2C06547DEdbA59fA5F735808A3B97B212cae11C");
+        setCollectionFactoryAddress(
+          "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C"
+        );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockURL("https://mumbai.polygonscan.com/address/");
@@ -199,6 +201,13 @@ export default function App({ Component, pageProps }) {
       signer
     );
     return marketplace_contract;
+  };
+
+  const cancel_listing = async (collection_address, tokenId) => {
+    const contract = marketplace();
+    const txn = await contract.cancelListing(collection_address, tokenId);
+    await txn.wait();
+    console.log({ txn });
   };
 
   const fetch_listed_nfts = async () => {
@@ -931,6 +940,7 @@ export default function App({ Component, pageProps }) {
         executeSale={executeSale}
         getUserData={getUserData}
         defaultCollectionAddress={defaultCollectionAddress}
+        cancel_listing={cancel_listing}
       />
       <Footer />
     </>
