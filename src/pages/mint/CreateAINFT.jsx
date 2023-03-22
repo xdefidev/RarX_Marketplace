@@ -8,7 +8,7 @@ import Head from "next/head";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, signer_address }) => {
+const CreateAINFT = ({ defaultCollectionAddress, create_token, get_my_collections, signer, signer_address }) => {
 
     const randomAIText = [
         "highly detailed wide portrait young woman anime, by atey ghailan, by greg rutkowski, by greg tocchini, by james gilleard, by joe fenton, by kaethe butcher, gradient light blue, brown, blonde cream and white color scheme, grunge aesthetic, 8 k, optimistic",
@@ -41,7 +41,7 @@ const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, sig
         image: "",
         name: "",
         description: "",
-        collection: defaultCol,
+        collection: defaultCollectionAddress,
         properties: [{ type: "", value: "" }],
     });
 
@@ -383,7 +383,7 @@ const CreateAINFT = ({ defaultCol, create_token, get_my_collections, signer, sig
                                             onChange={handleChange}
                                             className="dropdown my-1 cursor-pointer w-[100%]"
                                         >
-                                            <option value={defaultCol}>
+                                            <option value={defaultCollectionAddress}>
                                                 RarX Marketplace Collection
                                             </option>
                                             {user_collections?.map((e, index) => {

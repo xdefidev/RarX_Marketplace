@@ -6,7 +6,7 @@ import Head from "next/head";
 
 const CreateNFT = ({
   create_token,
-  defaultCol,
+  defaultCollectionAddress,
   get_my_collections,
   signer,
   signer_address,
@@ -23,7 +23,7 @@ const CreateNFT = ({
     image: "",
     name: "",
     description: "",
-    collection: defaultCol,
+    collection: defaultCollectionAddress,
     properties: [{ type: "", value: "" }],
   });
 
@@ -210,7 +210,7 @@ const CreateNFT = ({
                   onChange={handleChange}
                   className="dropdown my-1 cursor-pointer w-[100%]"
                 >
-                  <option value={defaultCol}>
+                  <option value={defaultCollectionAddress}>
                     RarX Marketplace Collection
                   </option>
                   {user_collections?.map((e, index) => {

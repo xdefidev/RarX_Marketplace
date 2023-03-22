@@ -23,7 +23,10 @@ const Navbar = ({
   chainIdMain,
   setChainIdMain,
   RARX_CHANNEL_ADDRESS,
-  symbol
+  symbol,
+  defaultCollectionAddress,
+  blockURL,
+  chainImg
 }) => {
   const user_address = async () => { };
   const [notificationData, setNotificationData] = useState();
