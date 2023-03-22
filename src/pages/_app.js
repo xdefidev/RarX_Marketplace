@@ -398,13 +398,11 @@ export default function App({ Component, pageProps }) {
         const Txnhash = await sendXChainPolygon.hash;
         setBridgedHash(Txnhash);
 
-
-        // shravan write code here 
+        // shravan write code here
         // save Txnhash and fromChainID in polybase user transactions named schema
         // ex :- transactions[{trasaction_hash: "", chainId: ""}] --- user schema
-        
-        // update xChainID of NFT in polybase NFT schema 
 
+        // update xChainID of NFT in polybase NFT schema
       } catch (error) {
         console.log({ XCallError: error });
       }
@@ -440,7 +438,9 @@ export default function App({ Component, pageProps }) {
             tokenURI,
             db.collection("User").record(signer_address),
             db.collection("NFTCollection").record(_tokenURI.collection),
-            _tokenURI.properties[0].type ? [_tokenURI.properties] : [],
+            _tokenURI.properties[0].type
+              ? JSON.stringify(_tokenURI.properties)
+              : "[]",
           ]);
       });
       const txn = await rarx.createToken(tokenURI);
@@ -518,6 +518,7 @@ export default function App({ Component, pageProps }) {
         .record(res.data.owner.id)
         .get();
       console.log({ res, collectionInfo, ownerInfo });
+      obj.nft_properties = JSON.parse(res.data.properties);
       // COLLECTION INFO
       obj.collectionLogo = collectionInfo.data.logo;
       obj.collection_name = collectionInfo.data.name;
@@ -604,6 +605,7 @@ export default function App({ Component, pageProps }) {
         obj.chainId = e.data.chainId;
         obj.tokenId = e.data.tokenId;
         obj.isListed = e.data.isListed;
+        obj.listingPrice = e.data.listingPrice;
 
         const url = await e.data.ipfsURL.replace(
           "ipfs://",

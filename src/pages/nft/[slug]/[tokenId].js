@@ -200,10 +200,10 @@ const NFTPage = ({
                         className="block text-accent"
                       >
                         <span className="text-sm font-bold">
-                          {nft.seller
-                            ? nft.seller
-                            : nft.owner_username
-                            ? nft.owner_username
+                          {nft?.seller
+                            ? nft?.seller
+                            : nft?.owner_username
+                            ? nft?.owner_username
                             : nft?.user_id}
                         </span>
                       </Link>
@@ -493,7 +493,7 @@ const NFTPage = ({
                     <div>
                       <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
                         <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
-                          {nft?.properties?.map((e, index) => {
+                          {nft?.nft_properties?.map((e, index) => {
                             return (
                               <a
                                 key={index}

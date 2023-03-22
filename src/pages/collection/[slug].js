@@ -7,7 +7,7 @@ import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import Head from "next/head";
 import Loader from "@/components/Loader";
-
+import { ethers } from "ethers";
 const Collection = ({
   fetch_collection_data_from_polybase,
   fetch_nfts_from_collection,
@@ -20,17 +20,38 @@ const Collection = ({
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
   const [nfts, set_nfts] = useState([]);
+  const [volume, set_volume] = useState(0);
+  const [floor_price, set_floor_price] = useState(0);
 
   const get_collection = async () => {
     setLoading(true);
     const collection = await fetch_collection_data_from_polybase(slug);
     set_collection(collection.data[0].data);
     setLoading(false);
-
   };
 
   const get_nfts = async () => {
     const res = await fetch_nfts_from_collection(slug);
+    console.log(res);
+    let volume = 0;
+    let lowest_price = 0;
+    if (res) {
+      for (let i = 0; i < res.length; i++) {
+        if (res[i]?.listingPrice && res[i + 1]?.listingPrice) {
+          lowest_price =
+            res[i].listingPrice > res[i + 1].listingPrice
+              ? res[i + 1].listingPrice
+              : res[i].listingPrice;
+
+          const summed_price =
+            parseFloat(ethers.utils.formatEther(res[i].listingPrice)) +
+            parseFloat(ethers.utils.formatEther(res[i + 1].listingPrice));
+          volume = summed_price;
+        }
+      }
+      set_floor_price(ethers.utils.formatEther(lowest_price));
+      set_volume(volume);
+    }
     set_nfts(res);
   };
 
@@ -50,10 +71,9 @@ const Collection = ({
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-
-      {loading ?
+      {loading ? (
         <Loader />
-        :
+      ) : (
         <>
           {/* <!-- Banner IMG--> */}
           <div className="relative mt-24">
@@ -74,7 +94,10 @@ const Collection = ({
             <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
               <div className="relative">
                 <Image
-                  src={collection.logo?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
+                  src={collection.logo?.replace(
+                    "ipfs://",
+                    "https://gateway.ipfscdn.io/ipfs/"
+                  )}
                   width={100}
                   height={100}
                   alt="collection avatar"
@@ -139,7 +162,7 @@ const Collection = ({
                     className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold">0</span>
+                      <span className="font-bold">{floor_price} matic</span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
@@ -150,7 +173,7 @@ const Collection = ({
                     className="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold">0</span>
+                      <span className="font-bold">{volume}</span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Volume Traded
@@ -258,7 +281,9 @@ const Collection = ({
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M18.364 15.536L16.95 14.12l1.414-1.414a5 5 0 1 0-7.071-7.071L9.879 7.05 8.464 5.636 9.88 4.222a7 7 0 0 1 9.9 9.9l-1.415 1.414zm-2.828 2.828l-1.415 1.414a7 7 0 0 1-9.9-9.9l1.415-1.414L7.05 9.88l-1.414 1.414a5 5 0 1 0 7.071 7.071l1.414-1.414 1.415 1.414zm-.708-10.607l1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z" />
                           </svg>
-                          <span className="mt-1 inline-block text-black">Copy</span>
+                          <span className="mt-1 inline-block text-black">
+                            Copy
+                          </span>
                         </a>
                       </div>
                     )}
@@ -300,8 +325,7 @@ const Collection = ({
             </div>
           </section>
         </>
-      }
-
+      )}
     </>
   );
 };

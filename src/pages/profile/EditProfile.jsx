@@ -22,6 +22,9 @@ const EditProfile = ({ signer_address, polybase }) => {
     twitter: "",
     instagram: "",
     customLink: "",
+    isArtist: memberShow,
+    membership_fees: 0,
+    membership_perks: "",
   });
 
   const handleChange = (e) => {
@@ -55,35 +58,36 @@ const EditProfile = ({ signer_address, polybase }) => {
 
   const updateData = async (e) => {
     e.preventDefault();
-    set_loading(true);
-    try {
-      const db = polybase();
+    console.log(data);
+    // set_loading(true);
+    // try {
+    //   const db = polybase();
 
-      let coverImg;
-      let profileImg;
+    //   let coverImg;
+    //   let profileImg;
 
-      if (typeof data.coverImage === "object") {
-        coverImg = await storage.upload(data.coverImage);
-      }
-      if (typeof data.profileImage === "object") {
-        profileImg = await storage.upload(data.profileImage);
-      }
-      const res = await db
-        .collection("User")
-        .record(signer_address)
-        .call("updateData", [
-          data.username,
-          data.email,
-          data.bio,
-          profileImg ? profileImg : data.profileImage,
-          coverImg ? coverImg : data.coverImage,
-          [data.twitter, data.instagram, data.customLink],
-        ]);
-      // window.location.reload();
-    } catch (error) {
-      console.log(error.message);
-    }
-    set_loading(false);
+    //   if (typeof data.coverImage === "object") {
+    //     coverImg = await storage.upload(data.coverImage);
+    //   }
+    //   if (typeof data.profileImage === "object") {
+    //     profileImg = await storage.upload(data.profileImage);
+    //   }
+    //   const res = await db
+    //     .collection("User")
+    //     .record(signer_address)
+    //     .call("updateData", [
+    //       data.username,
+    //       data.email,
+    //       data.bio,
+    //       profileImg ? profileImg : data.profileImage,
+    //       coverImg ? coverImg : data.coverImage,
+    //       [data.twitter, data.instagram, data.customLink],
+    //     ]);
+    //   // window.location.reload();
+    // } catch (error) {
+    //   console.log(error.message);
+    // }
+    // set_loading(false);
   };
 
   const getUserData = async () => {
@@ -152,9 +156,9 @@ const EditProfile = ({ signer_address, polybase }) => {
               src={
                 typeof data.coverImage == "string"
                   ? data.coverImage.replace(
-                    "ipfs://",
-                    "https://gateway.ipfscdn.io/ipfs/"
-                  )
+                      "ipfs://",
+                      "https://gateway.ipfscdn.io/ipfs/"
+                    )
                   : coverImg_preview
               }
               alt="banner"
@@ -259,27 +263,35 @@ const EditProfile = ({ signer_address, polybase }) => {
                     htmlFor="profile-email"
                     className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
                   >
-                    Are you a NFT artist ?{" "}<span className="text-red">*</span>
+                    Are you a NFT artist ? <span className="text-red">*</span>
                   </label>
-                  <select onChange={() => setMemberShow(!memberShow)} name="artistBool" className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300">
-                    <option value="no" defaultValue >No</option>
+                  <select
+                    onChange={() => setMemberShow(!memberShow)}
+                    name="artistBool"
+                    className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
+                  >
+                    <option value="no" defaultValue>
+                      No
+                    </option>
                     <option value="yes">Yes</option>
                   </select>
                 </div>
 
-                {memberShow &&
+                {memberShow && (
                   <>
                     <div className="mb-6">
                       <label
                         htmlFor="profile-email"
                         className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
                       >
-                        Your Membership Fees in fDAIx {" "}<span className="text-red">*</span>
+                        Your Membership Fees in fDAIx{" "}
+                        <span className="text-red">*</span>
                       </label>
                       <input
                         type="number"
-                        name="membershipFees"
-                        value="1"
+                        name="membership_fees"
+                        onChange={handleChange}
+                        value={data.membership_fees}
                         className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
                         placeholder="eg: 3"
                         required
@@ -291,10 +303,11 @@ const EditProfile = ({ signer_address, polybase }) => {
                         htmlFor="profile-bio"
                         className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
                       >
-                        Membership Perks {" "}<span className="text-red">*</span>
+                        Membership Perks <span className="text-red">*</span>
                       </label>
                       <textarea
-                        name="membershipPerks"
+                        name="membership_perks"
+                        onChange={handleChange}
                         className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
                         required
                         defaultValue="Early access to all the latest NFTs on Rarx Marketplace"
@@ -302,14 +315,17 @@ const EditProfile = ({ signer_address, polybase }) => {
                       ></textarea>
                     </div>
                   </>
-                }
+                )}
                 {/* membership end  */}
 
                 <div className="mb-6">
                   <label className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white">
                     Wallet Address
                   </label>
-                  <button type="button" className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-default">
+                  <button
+                    type="button"
+                    className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-default"
+                  >
                     <span>{signer_address}</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -337,7 +353,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                 <div className="flex space-x-5 flex-wrap">
                   <div className="shrink-0">
                     <div className="relative inline-block">
-                      {data.profileImage == "" && profImg_preview == "" ?
+                      {data.profileImage == "" && profImg_preview == "" ? (
                         <Image
                           src="../../../rarxlogo.png"
                           alt="logo"
@@ -345,14 +361,14 @@ const EditProfile = ({ signer_address, polybase }) => {
                           height={100}
                           className="rounded-xl border-[1px] border-gray-500 dark:border-jacarta-600 h-[130px] w-[auto]"
                         />
-                        :
+                      ) : (
                         <Image
                           src={
                             typeof data.profileImage == "string"
                               ? data.profileImage.replace(
-                                "ipfs://",
-                                "https://gateway.ipfscdn.io/ipfs/"
-                              )
+                                  "ipfs://",
+                                  "https://gateway.ipfscdn.io/ipfs/"
+                                )
                               : profImg_preview
                           }
                           width={100}
@@ -360,14 +376,17 @@ const EditProfile = ({ signer_address, polybase }) => {
                           alt="logo"
                           className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
                         />
-                      }
+                      )}
                       <div className="group absolute -right-3 -bottom-2 h-8 w-8 overflow-hidden rounded-full border border-jacarta-100 bg-white text-center hover:border-transparent hover:bg-accent">
                         <input
                           onChange={(e) => {
                             set_profImg_preview(
                               URL.createObjectURL(e.target.files[0])
                             );
-                            set_data({ ...data, profileImage: e.target.files[0] });
+                            set_data({
+                              ...data,
+                              profileImage: e.target.files[0],
+                            });
                           }}
                           type="file"
                           accept="image/*"
