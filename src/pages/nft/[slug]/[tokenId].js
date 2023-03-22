@@ -403,7 +403,7 @@ const NFTPage = ({
                 {nft?.owner !== signer_address && nft?.isListed == false && (
                   <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                     <button
-                      type="button"
+                      type="button" 
                       className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                     >
                       Not Listed

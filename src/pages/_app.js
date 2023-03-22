@@ -211,6 +211,9 @@ export default function App({ Component, pageProps }) {
         obj.chainId = e.data.chainId;
         obj.tokenId = e.data.tokenId;
         obj.isListed = e.data.isListed;
+        obj.listingPrice = e.data.listingPrice
+          ? ethers.utils.formatEther(e.data.listingPrice)
+          : "";
         obj.owner = e.data.owner.id;
         const url = await e.data.ipfsURL.replace(
           "ipfs://",
@@ -642,7 +645,9 @@ export default function App({ Component, pageProps }) {
         obj.chainId = e.data.chainId;
         obj.tokenId = e.data.tokenId;
         obj.isListed = e.data.isListed;
-        obj.listingPrice = e.data.listingPrice;
+        obj.listingPrice = e.data.listingPrice
+          ? ethers.utils.formatEther(e.data.listingPrice)
+          : "";
         obj.nft_name = e.data?.nft_name ? e.data?.nft_name : "";
         const url = e.data.ipfsURL.replace(
           "ipfs://",
