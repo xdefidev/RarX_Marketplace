@@ -309,7 +309,7 @@ const Profile = ({
   };
 
   const get_user_info = async () => {
-    const data = await getUserData();
+    const data = await getUserData(slug);
     console.log({ data });
     set_user_data(data);
   };

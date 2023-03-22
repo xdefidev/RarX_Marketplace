@@ -814,12 +814,12 @@ export default function App({ Component, pageProps }) {
     return db;
   };
 
-  const getUserData = async () => {
+  const getUserData = async (user_address) => {
     try {
       const db = polybase();
       const res = await db
         .collection("User")
-        .record(signer_address)
+        .record(user_address)
         .get();
       const {
         bio,
