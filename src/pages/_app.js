@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }) {
   const [format_signer_bal, set_format_signer_bal] = useState(0);
   const [bridgedHash, setBridgedHash] = useState("");
   const [nfts, set_nfts] = useState([]);
-  const [listed_nfts, set_listed_nfts] = useState([]);
+  const [search_data] = useState(nfts);
 
   //COLLECTIONS INFORMATION
   const [all_collections, set_collections] = useState([]);
@@ -642,6 +642,8 @@ export default function App({ Component, pageProps }) {
         obj.chainId = e.data.chainId;
         obj.tokenId = e.data.tokenId;
         obj.isListed = e.data.isListed;
+        obj.listingPrice = e.data.listingPrice;
+        obj.nft_name = e.data?.nft_name ? e.data?.nft_name : "";
         const url = e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
@@ -842,7 +844,14 @@ export default function App({ Component, pageProps }) {
   const search_nft = async (query) => {
     try {
       const db = polybase();
-      const res = await db.collection("NFT").where("", "==");
+      let filtered_nfts = [];
+      nfts.filter(async (item) => {
+        if (item.nft_name.toLowerCase().includes(query)) {
+          filtered_nfts.push(item);
+          return item;
+        }
+      });
+      return filtered_nfts;
     } catch (error) {
       console.log(error.message);
     }
@@ -864,6 +873,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Navbar
+        search_nft={search_nft}
         connectToWallet={connectToWallet}
         signer={signer}
         signer_bal={format_signer_bal}
