@@ -181,6 +181,11 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  const signOut = async () => {
+    set_signer_address("");
+    setSigner();
+  }
+
   // CONNECT WALLET INTMAX
   const connectToIntmax = async () => {
     try {
@@ -442,8 +447,6 @@ export default function App({ Component, pageProps }) {
   const create_token = async (_tokenURI, signer) => {
     try {
       console.log(_tokenURI);
-      console.log(chainIdMain);
-      console.log(defaultCollectionAddress);
       const tokenURI = await storage.upload(_tokenURI);
       const rarx = rarx_collection(_tokenURI.collection, signer);
       const network = await provider.getNetwork();
@@ -906,6 +909,7 @@ export default function App({ Component, pageProps }) {
         chainImg={chainImg}
         blockURL={blockURL}
         symbol={symbol}
+        signOut={signOut}
       />
       <Component
         {...pageProps}
