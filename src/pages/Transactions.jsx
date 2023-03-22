@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import Image from "next/image";
 import Head from "next/head";
+import connextPng from "../../public/tech/connext.png";
 
 
 const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
@@ -104,9 +105,34 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
                                     <div>
                                         <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
                                             <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
-                                                <h3 className="mb-1 text-[26px] font-display text-center text-jacarta-700 dark:text-white">
+                                                <div>
+                                                    <a
+                                                        className="relative flex items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
+                                                    >
+                                                        <div className="mr-5 self-start">
+                                                            <Image src={connextPng} alt="avatar 2" className="rounded-2lg" loading="lazy" height={50} width={50} />
+                                                        </div>
+                                                        <div>
+                                                            <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
+                                                                You Bridged NFT with token ID : AssetTokenID from collection : AssetCollection
+                                                            </h3>
+                                                            <span className="mb-3 block text-sm text-jacarta-500 dark:text-jacarta-200">You have successfully transfered your NFT from one chain to another</span>
+                                                            <div className="flex">
+                                                                <a href={`https://testnet.connextscan.io/tx/Txnhash`} target="_blank" className="block text-xs text-jacarta-300">View transaction on connext 🔗</a>
+                                                                <a href={`fromChainID == 5 ? "https://goerli.etherscan.io/tx/" : "https://mumbai.polygonscan.com/tx/"`} target="_blank" className="block text-xs text-jacarta-300 ml-4">View transaction on polygon 🔗</a>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="ml-auto rounded-full font-bold border border-jacarta-100 p-3 dark:border-jacarta-600">
+                                                            <a href="#" target="_blank">
+                                                                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
+                                                            </a>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                {/* <h3 className="mb-1 text-[26px] font-display text-center text-jacarta-700 dark:text-white">
                                                     No Transactions Found
-                                                </h3>
+                                                </h3> */}
                                             </div>
                                         </div>
                                     </div>
