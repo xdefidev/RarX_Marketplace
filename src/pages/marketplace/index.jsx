@@ -6,7 +6,6 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 
 const Marketplace = ({ fetch_listed_nfts, chainImg }) => {
-
   const [loading, setLoading] = useState(false);
   const [nfts, set_nfts] = useState([]);
 
@@ -28,9 +27,9 @@ const Marketplace = ({ fetch_listed_nfts, chainImg }) => {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      {loading ?
+      {loading ? (
         <Loader />
-        :
+      ) : (
         <section className="relative py-24" id="pageBack">
           <div className="container">
             <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
@@ -111,8 +110,7 @@ const Marketplace = ({ fetch_listed_nfts, chainImg }) => {
             </div>
           </div>
         </section>
-      }
-
+      )}
     </>
   );
 };

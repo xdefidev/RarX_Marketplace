@@ -69,6 +69,18 @@ contract NFTMarketplace {
         _nftId.increment();
     }
 
+    function cancelListing(NFTCollection collection, uint256 tokenId) public {
+        require(nft_record[collection][tokenId].currentlyListed, "This NFT is not listed");
+        require(nft_record[collection][tokenId].seller == msg.sender, "You are not the owner of this nft");
+
+        nft_record[collection][tokenId].owner = payable(msg.sender);
+        nft_record[collection][tokenId].seller = payable(address(0));
+        nft_record[collection][tokenId].price = 0;
+        nft_record[collection][tokenId].currentlyListed = false;
+
+        collection.transferFrom(address(this), msg.sender, tokenId);
+    }
+
     function executeSale(
         uint256 tokenId,
         NFTCollection collection

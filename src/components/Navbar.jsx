@@ -27,6 +27,7 @@ const Navbar = ({
   defaultCollectionAddress,
   blockURL,
   chainImg,
+  search_nft,
   signOut
 }) => {
   const user_address = async () => { };
@@ -38,7 +39,7 @@ const Navbar = ({
   const [optedIn, setOptedIn] = useState(false);
   const [showNotifications, SetShowNotifications] = useState(false);
   const [showNetworkPopup, setShowNetworkPopup] = useState(false);
-
+  const [search_result, set_search_result] = useState([]);
   // switch chain area
   const switchPolygonChain = async () => {
     try {
@@ -336,6 +337,19 @@ const Navbar = ({
     }
   };
 
+  const find_nft = async (e) => {
+    try {
+      if (!e.target.value) return;
+      setTimeout(async () => {
+        const res = await search_nft(e.target.value);
+        console.log(res);
+        set_search_result(res);
+      }, [500]);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   // push functions
   const optInToChannel = async () => {
     await PushAPI.channels.subscribe({
@@ -397,6 +411,8 @@ const Navbar = ({
           >
             <input
               type="search"
+              onBlur={() => set_search_result([])}
+              onChange={find_nft}
               className="w-full rounded-2xl border border-jacarta-100 py-[0.6875rem] px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
               placeholder="Search"
             />
@@ -412,6 +428,24 @@ const Navbar = ({
                 <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
               </svg>
             </span>
+
+            {/* SEARCH FUNCTIONALITY */}
+            <div className="w-full bg-green-300">
+              {search_result?.map((e, index) => (
+                // e.chainId
+                // e.ipfsData.image
+                // e.isListed
+                // e.listingPrice
+                // e.nft_name
+                // e.tokenId
+                <Link
+                  key={index}
+                  href={`/nft/${e.ipfsData.collection}/${e.tokenId}`}
+                >
+                  <div className="w-full">{e?.nft_name}</div>
+                </Link>
+              ))}
+            </div>
           </form>
 
           <div className="js-mobile-menu invisible lg:visible fixed inset-0 z-10 ml-auto items-center bg-white opacity-0 dark:bg-jacarta-800 lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent">
@@ -940,7 +974,8 @@ const Navbar = ({
                       <div className="absolute right-[-50px] z-20 w-64 mt-6 overflow-hidden origin-top-right bg-white rounded-md shadow-xl sm:w-80 dark:bg-gray-800">
                         {notificationData?.map((e, i) => {
                           return (
-                            i < 6 && e.app === "RarX Marketplace" && (
+                            i < 6 &&
+                            e.app === "RarX Marketplace" && (
                               <div key={e.sid}>
                                 <a
                                   href={e.cta}
@@ -1060,7 +1095,11 @@ const Navbar = ({
                     {/* profile icon */}
                     <button
                       className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
-                      onClick={() => (setProfileDrop(!profileDrop), SetShowNotifications(false), setShowNetworkPopup(false))}
+                      onClick={() => (
+                        setProfileDrop(!profileDrop),
+                        SetShowNotifications(false),
+                        setShowNetworkPopup(false)
+                      )}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1075,10 +1114,8 @@ const Navbar = ({
                     </button>
 
                     {/* profile dropdown  */}
-                    {profileDrop &&
-                      <div
-                        className="!-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl"
-                      >
+                    {profileDrop && (
+                      <div className="!-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl">
                         <button
                           className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white"
                           data-tippy-content="Copy"
@@ -1164,7 +1201,14 @@ const Navbar = ({
                           href="/Transactions"
                           className="flex items-center space-x-2 rounded-xl px-6 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" /></svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" />
+                          </svg>
                           <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
                             Transactions
                           </span>
@@ -1188,7 +1232,7 @@ const Navbar = ({
                           </span>
                         </a>
                       </div>
-                    }
+                    )}
                   </div>
                 </>
               )}
@@ -1240,10 +1284,8 @@ const Navbar = ({
           </div>
         </div>
         {/* profile dropdown  */}
-        {mobieProfileDrop &&
-          <div
-            className="!-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl py-6"
-          >
+        {mobieProfileDrop && (
+          <div className="!-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl py-6">
             <button
               className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white"
               data-tippy-content="Copy"
@@ -1269,7 +1311,8 @@ const Navbar = ({
               </span>
               <div className="flex items-center">
                 <span className="text-lg font-bold text-green">
-                  {signer_bal ? signer_bal : "0.00"} {"  "} {symbol ? symbol : "ETH"}
+                  {signer_bal ? signer_bal : "0.00"} {"  "}{" "}
+                  {symbol ? symbol : "ETH"}
                 </span>
               </div>
             </div>
@@ -1329,7 +1372,14 @@ const Navbar = ({
               href="/Transactions"
               className="flex items-center space-x-2 rounded-xl px-6 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" /></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+              >
+                <path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" />
+              </svg>
               <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
                 Transactions
               </span>
@@ -1353,7 +1403,7 @@ const Navbar = ({
               </span>
             </a>
           </div>
-        }
+        )}
       </div>
     </div>
   );
