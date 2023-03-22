@@ -449,7 +449,7 @@ export default function App({ Component, pageProps }) {
         console.log(res);
         console.log("event emitted");
       });
-      
+
       const txn = await rarx.createToken(tokenURI);
       await txn.wait();
       console.log({ txn });
@@ -516,7 +516,7 @@ export default function App({ Component, pageProps }) {
         .collection("NFT")
         .record(`${collection_address}/${tokenId}`)
         .get();
-      console.log(res);
+      console.log({ res });
       const collectionInfo = await db
         .collection("NFTCollection")
         .record(collection_address)
@@ -526,7 +526,9 @@ export default function App({ Component, pageProps }) {
         .record(res.data.owner.id)
         .get();
       console.log({ res, collectionInfo, ownerInfo });
-      obj.nft_properties = JSON.parse(res.data.properties);
+      obj.nft_properties = res.data.properties
+        ? JSON.parse(res.data.properties)
+        : [];
       // COLLECTION INFO
       obj.collectionLogo = collectionInfo.data.logo;
       obj.collection_name = collectionInfo.data.name;
