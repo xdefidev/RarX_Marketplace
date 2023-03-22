@@ -158,14 +158,14 @@ const NFTPage = ({
                 <div className="mb-8 flex flex-wrap">
                   <div className="mb-4 flex">
                     <figure className="mr-4 shrink-0">
-                      <a href="user.html" className="relative block">
+                      <a className="relative block">
                         <Image
                           src={
                             nft?.ownerImage
                               ? nft?.ownerImage.replace(
-                                  "ipfs://",
-                                  "https://gateway.ipfscdn.io/ipfs/"
-                                )
+                                "ipfs://",
+                                "https://gateway.ipfscdn.io/ipfs/"
+                              )
                               : testNFT
                           }
                           height={40}
@@ -203,8 +203,8 @@ const NFTPage = ({
                           {nft?.seller
                             ? nft?.seller
                             : nft?.owner_username
-                            ? nft?.owner_username
-                            : nft?.user_id}
+                              ? nft?.owner_username
+                              : nft?.user_id}
                         </span>
                       </Link>
                     </div>
@@ -215,7 +215,7 @@ const NFTPage = ({
 
                 {/* <!-- list nft --> */}
                 {listSale == false ? (
-                  nft?.owner === signer_address && (
+                  nft?.owner == signer_address && (
                     <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                       <button
                         onClick={() => setListSale(true)}
@@ -388,7 +388,7 @@ const NFTPage = ({
                 )}
 
                 {/* <!-- cancel nft sale --> */}
-                {nft?.seller === signer_address && nft?.isListed && (
+                {nft?.seller == signer_address && nft?.isListed && (
                   <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                     <button
                       type="button"

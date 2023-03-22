@@ -209,7 +209,11 @@ const CreateNFT = ({
                   value={data.collection}
                   onChange={handleChange}
                   className="dropdown my-1 cursor-pointer w-[100%]"
+                  required
                 >
+                  <option>
+                    Select Collection
+                  </option>
                   <option value={defaultCollectionAddress}>
                     RarX Marketplace Collection
                   </option>

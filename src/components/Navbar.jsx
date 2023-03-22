@@ -26,7 +26,8 @@ const Navbar = ({
   symbol,
   defaultCollectionAddress,
   blockURL,
-  chainImg
+  chainImg,
+  signOut
 }) => {
   const user_address = async () => { };
   const [notificationData, setNotificationData] = useState();
@@ -1169,8 +1170,8 @@ const Navbar = ({
                           </span>
                         </Link>
                         <a
-                          href="#"
-                          className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+                          onClick={() => signOut()}
+                          className="cursor-pointer flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
