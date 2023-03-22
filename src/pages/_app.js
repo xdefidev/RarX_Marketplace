@@ -399,8 +399,8 @@ export default function App({ Component, pageProps }) {
         setBridgedHash(Txnhash);
 
         // shravan write code here
-        // save Txnhash and fromChainID in polybase user transactions named schema
-        // ex :- transactions[{trasaction_hash: "", chainId: ""}] --- user schema
+        // save Txnhash, fromChainID, AssetCollection and AssetTokenID in polybase user transactions named schema
+        // update xChainID of NFT in polybase NFT schema
 
         // update xChainID of NFT in polybase NFT schema
       } catch (error) {
