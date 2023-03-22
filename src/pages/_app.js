@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }) {
 
   //declaring contract address
   let default_collection_address = "0xE6aD85168620973A542368609133986B31e64cF3";
-  let marketplace_address = "0xdcfEF1E79ACb203750b5c3D512F71aB2Fc9d85A9";
+  let marketplace_address = "0xB00269E098526480B3cCfC57bE99B077077969CD";
   let collection_factory_address = "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C";
 
   // chain configs
