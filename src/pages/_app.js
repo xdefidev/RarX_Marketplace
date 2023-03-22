@@ -212,7 +212,6 @@ export default function App({ Component, pageProps }) {
         obj.tokenId = e.data.tokenId;
         obj.isListed = e.data.isListed;
         obj.owner = e.data.owner.id;
-        obj.listingPrice = ethers.utils.formatEther(e.data.listingPrice);
         const url = await e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
@@ -229,6 +228,7 @@ export default function App({ Component, pageProps }) {
 
   const list_nft = async (tokenId, price, collection_address, signer) => {
     const user_address = await signer.getAddress();
+
     const collection_contract = rarx_collection(collection_address, signer);
     try {
       const txnApproval = await collection_contract.setApprovalForAll(
@@ -438,6 +438,7 @@ export default function App({ Component, pageProps }) {
             tokenURI,
             db.collection("User").record(signer_address),
             db.collection("NFTCollection").record(_tokenURI.collection),
+            _tokenURI.properties[0].type ? [_tokenURI.properties] : [],
           ]);
       });
       const txn = await rarx.createToken(tokenURI);
@@ -627,7 +628,6 @@ export default function App({ Component, pageProps }) {
         obj.chainId = e.data.chainId;
         obj.tokenId = e.data.tokenId;
         obj.isListed = e.data.isListed;
-        obj.listingPrice = e.data.listingPrice ? ethers.utils.formatEther(e.data.listingPrice) : "";
         const url = e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"

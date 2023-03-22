@@ -316,23 +316,21 @@ export default function Home({ all_collections, nfts }) {
           </h2>
 
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-            {nfts.map(
-              (e, index) =>
-                index < 8 && (
-                  <NftCard
-                    ImageSrc={e.ipfsData.image.replace(
-                      "ipfs://",
-                      "https://gateway.ipfscdn.io/ipfs/"
-                    )}
-                    Name={e.ipfsData.name}
-                    Description={e.ipfsData.description}
-                    Address={e.ipfsData.collection}
-                    tokenId={e.tokenId}
-                    listedBool={e.isListed}
-                    listingPrice={e.listingPrice}
-                  />
-                )
-            )}
+            {nfts.map((e, index) => (
+              <NftCard
+                ImageSrc={e.ipfsData.image.replace(
+                  "ipfs://",
+                  "https://gateway.ipfscdn.io/ipfs/"
+                )}
+                Name={e.ipfsData.name}
+                Description={e.ipfsData.description}
+                Address={e.ipfsData.collection}
+                tokenId={e.tokenId}
+                chainID={e.chainId}
+                listedBool={e.isListed}
+                listingPrice={e.listingPrice}
+              />
+            ))}
           </div>
         </div>
       </div>
