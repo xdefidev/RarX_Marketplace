@@ -13,6 +13,7 @@ const NFTPage = ({
   signer_address,
   list_nft,
   executeSale,
+  cancel_listing,
 }) => {
   const router = useRouter();
   const { slug, tokenId } = router.query;
@@ -163,9 +164,9 @@ const NFTPage = ({
                           src={
                             nft?.ownerImage
                               ? nft?.ownerImage.replace(
-                                "ipfs://",
-                                "https://gateway.ipfscdn.io/ipfs/"
-                              )
+                                  "ipfs://",
+                                  "https://gateway.ipfscdn.io/ipfs/"
+                                )
                               : testNFT
                           }
                           height={40}
@@ -203,8 +204,8 @@ const NFTPage = ({
                           {nft?.seller
                             ? nft?.seller
                             : nft?.owner_username
-                              ? nft?.owner_username
-                              : nft?.user_id}
+                            ? nft?.owner_username
+                            : nft?.user_id}
                         </span>
                       </Link>
                     </div>
@@ -215,7 +216,7 @@ const NFTPage = ({
 
                 {/* <!-- list nft --> */}
                 {listSale == false ? (
-                  nft?.nft_owner == signer_address && nft?.isListed == true && (
+                  nft?.nft_owner == signer_address && (
                     <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                       <button
                         onClick={() => setListSale(true)}
@@ -392,6 +393,7 @@ const NFTPage = ({
                   <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                     <button
                       type="button"
+                      onClick={() => cancel_listing(slug, tokenId)}
                       className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                     >
                       Cancel Sale

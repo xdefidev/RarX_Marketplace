@@ -175,6 +175,7 @@ export default function App({ Component, pageProps }) {
         setSymbol("MATIC");
         setBlockURL("https://mumbai.polygonscan.com/address/");
       }
+      // create_marketplace_acc();
       setChainIdMain(chainId);
     } else {
       console.log("No wallets detected");
@@ -184,7 +185,23 @@ export default function App({ Component, pageProps }) {
   const signOut = async () => {
     set_signer_address("");
     setSigner();
-  }
+  };
+
+  // const create_marketplace_acc = async () => {
+  //   const db = polybase();
+  //   const res = await db
+  //     .collection("User")
+  //     .create([
+  //       marketplaceAddress,
+  //       "new rarx",
+  //       "rarx_@gmail.com",
+  //       "this is new rarx markeptlace",
+  //       "rarx profile image new",
+  //       "rarx cover image new",
+  //     ]);
+
+  //   console.log({ res });
+  // };
 
   // CONNECT WALLET INTMAX
   const connectToIntmax = async () => {
@@ -213,6 +230,13 @@ export default function App({ Component, pageProps }) {
     const txn = await contract.cancelListing(collection_address, tokenId);
     await txn.wait();
     console.log({ txn });
+    const db = polybase();
+    const res = await db
+      .collection("NFT")
+      .record(`${collection_address}/${tokenId}`)
+      .call("cancel_listing");
+
+    console.log({ res });
   };
 
   const fetch_listed_nfts = async () => {
@@ -467,8 +491,11 @@ export default function App({ Component, pageProps }) {
               ? JSON.stringify(_tokenURI.properties)
               : "[]",
             _tokenURI.name,
+            chainImg,
+            blockURL,
+            symbol,
           ]);
-        console.log(res);
+        console.log({ res });
         console.log("event emitted");
       });
 
