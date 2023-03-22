@@ -11,8 +11,8 @@ import { Framework } from "@superfluid-finance/sdk-core";
 import { Wallet, providers, ethers } from "ethers";
 import * as PushAPI from "@pushprotocol/restapi";
 import Head from "next/head";
-import Moralis from 'moralis';
-import { EvmChain } from '@moralisweb3/common-evm-utils';
+import Moralis from "moralis";
+import { EvmChain } from "@moralisweb3/common-evm-utils";
 
 const Profile = ({
   get_my_collections,
@@ -21,9 +21,9 @@ const Profile = ({
   fetch_nfts_from_user_wallet,
   RARX_CHANNEL_ADDRESS,
   setChainIdMain,
-  chainIdMain
+  chainIdMain,
+  getUserData,
 }) => {
-
   // superfluid config start
   const tokens = [
     {
@@ -35,6 +35,8 @@ const Profile = ({
     },
   ];
   const [FDAIXBALANCE, setFDAIXBALANCE] = useState("0.00");
+
+  const [user_data, set_user_data] = useState({});
 
   const [provider, setProvider] = useState(null);
   const [userStreamData, SetUserStreamData] = useState([]);
@@ -125,18 +127,25 @@ const Profile = ({
         flowRate: flowRateInWeiPerSecond,
       });
       await flowOp.exec(provider.getSigner());
-      sendMemberCreatedNoti({ to: sender, title: `You are now a member of ${receiver} artist`, body: `Congratulations for becoming a member of ${receiver}, now you can access all the membership perks of the artist` });
-      sendMemberCreatedNoti({ to: receiver, title: `You have recieved a subscription from ${sender}`, body: `Congratulations for getting your first subscription from ${sender}, make sure you deliver your perks..` });
+      sendMemberCreatedNoti({
+        to: sender,
+        title: `You are now a member of ${receiver} artist`,
+        body: `Congratulations for becoming a member of ${receiver}, now you can access all the membership perks of the artist`,
+      });
+      sendMemberCreatedNoti({
+        to: receiver,
+        title: `You have recieved a subscription from ${sender}`,
+        body: `Congratulations for getting your first subscription from ${sender}, make sure you deliver your perks..`,
+      });
       setTimeout(() => {
-        alert(
-          "Stream created successfully"
-        );
+        alert("Stream created successfully");
         set_loading(false);
       }, 8000);
-
     } catch (err) {
       set_loading(false);
-      alert("Failed to join membership! User rejected transaction or low ETH balance");
+      alert(
+        "Failed to join membership! User rejected transaction or low ETH balance"
+      );
     }
   };
 
@@ -156,15 +165,15 @@ const Profile = ({
       await flowOp.exec(provider.getSigner());
       sendMemberCancelNoti({ to: receiver });
       setTimeout(() => {
-        alert(
-          "Stream deleted Successfully"
-        );
+        alert("Stream deleted Successfully");
         set_loading(false);
       }, 8000);
     } catch (err) {
       set_loading(false);
-      console.log({ DeleteStreamError: err })
-      alert("Failed to cancel membership! User rejected transaction or low ETH balance");
+      console.log({ DeleteStreamError: err });
+      alert(
+        "Failed to cancel membership! User rejected transaction or low ETH balance"
+      );
     }
   };
 
@@ -217,7 +226,7 @@ const Profile = ({
     }
   };
 
-  // sending membership cancelation push notification 
+  // sending membership cancelation push notification
   const sendMemberCancelNoti = async ({ to }) => {
     const signer = new ethers.Wallet(
       `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
@@ -245,34 +254,30 @@ const Profile = ({
     }
   };
 
-
-  // using moralis for balances 
+  // using moralis for balances
   const initiateMoralis = async () => {
     try {
       await Moralis.start({
-        apiKey: (process.env.NEXT_PUBLIC_MORALIS_API),
+        apiKey: process.env.NEXT_PUBLIC_MORALIS_API,
       });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const getBalanceMoralis = async () => {
     try {
       initiateMoralis();
       const response = await Moralis.EvmApi.token.getWalletTokenBalances({
-        "chain": "5",
-        "tokenAddresses": [
-          "0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00"
-        ],
-        "address": signer_address
+        chain: "5",
+        tokenAddresses: ["0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00"],
+        address: signer_address,
       });
       setFDAIXBALANCE(ethers.utils.formatEther(response.raw[0].balance));
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const [loading, set_loading] = useState(false);
   const [membershipVisible, setMembershipVisible] = useState(false);
@@ -303,6 +308,12 @@ const Profile = ({
     set_loading(false);
   };
 
+  const get_user_info = async () => {
+    const data = await getUserData();
+    console.log({ data });
+    set_user_data(data);
+  };
+
   useEffect(() => {
     if (!signer_address) return;
     const fetchData = async () => {
@@ -313,8 +324,8 @@ const Profile = ({
     fetchData();
     connectSF();
     fetchStreams();
+    get_user_info();
   }, [signer]);
-
 
   return loading ? (
     <Loader />
@@ -328,7 +339,12 @@ const Profile = ({
       {/* <!-- Banner IMG--> */}
       <div className="relative mt-24">
         <Image
-          src={testNFT}
+          src={
+            user_data.coverImage?.replace(
+              "ipfs://",
+              "https://gateway.ipfscdn.io/ipfs/"
+            ) || testNFT
+          }
           alt="banner"
           height={100}
           width={100}
@@ -341,7 +357,12 @@ const Profile = ({
         <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <figure className="relative">
             <Image
-              src={testNFT}
+              src={
+                user_data.profileImage?.replace(
+                  "ipfs://",
+                  "https://gateway.ipfscdn.io/ipfs/"
+                ) || testNFT
+              }
               alt="collection avatar"
               height={100}
               width={100}
@@ -375,7 +396,7 @@ const Profile = ({
 
           <div className="text-center">
             <h2 className="mt-[-20px] mb-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-              Aniruddha{" "}
+              {user_data?.username}
             </h2>
             <div className="mb-8 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
               <button className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
@@ -384,55 +405,81 @@ const Profile = ({
             </div>
 
             <p className="mx-auto mb-2 max-w-xl text-lg dark:text-jacarta-300">
-              I make bakwas arts, please buy them
+              {user_data?.bio}
             </p>
 
             {/* membership on click buttons */}
-            {!membershipVisible &&
+            {!membershipVisible && (
               <div className="flex justify-center align-middle mb-10 mt-10">
-                {signer_address != slug &&
+                {signer_address != slug && (
                   <>
-                    {calculateFlowRate(userStreamData?.flowRate) > 0 &&
-                      <button type="button" onClick={() => (getBalanceMoralis(), setMembershipVisible(true))}
-                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                    {calculateFlowRate(userStreamData?.flowRate) > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => (
+                          getBalanceMoralis(), setMembershipVisible(true)
+                        )}
+                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      >
                         View Membership
                       </button>
-                    }
-                    {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
-                      <button type="button" onClick={() => (getBalanceMoralis(), setMembershipVisible(true))}
-                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                    )}
+                    {calculateFlowRate(userStreamData?.flowRate) <= 0 && (
+                      <button
+                        type="button"
+                        onClick={() => (
+                          getBalanceMoralis(), setMembershipVisible(true)
+                        )}
+                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      >
                         Become Member
                       </button>
-                    }
+                    )}
                   </>
-                }
+                )}
               </div>
-            }
+            )}
             {/* membership division main  */}
-            {membershipVisible &&
+            {membershipVisible && (
               <div>
                 <div className="modal-dialog max-w-2xl">
                   <div className="modal-content">
                     <div className="modal-header">
-                      {calculateFlowRate(userStreamData?.flowRate) > 0 &&
-                        <h5 className="modal-title" id="placeBidLabel">Your Membership Info</h5>
-                      }
-                      {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
-                        <h5 className="modal-title" id="placeBidLabel">Become A Member</h5>
-                      }
-                      <button type="button" onClick={() => setMembershipVisible(false)} className="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                          className="h-6 w-6 fill-jacarta-700 dark:fill-white">
+                      {calculateFlowRate(userStreamData?.flowRate) > 0 && (
+                        <h5 className="modal-title" id="placeBidLabel">
+                          Your Membership Info
+                        </h5>
+                      )}
+                      {calculateFlowRate(userStreamData?.flowRate) <= 0 && (
+                        <h5 className="modal-title" id="placeBidLabel">
+                          Become A Member
+                        </h5>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => setMembershipVisible(false)}
+                        className="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                        >
                           <path fill="none" d="M0 0h24v24H0z" />
-                          <path
-                            d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                          <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
                         </svg>
                       </button>
                     </div>
-                    {calculateFlowRate(userStreamData?.flowRate) > 0 &&
+                    {calculateFlowRate(userStreamData?.flowRate) > 0 && (
                       <div className="modal-body p-6">
                         <div className="mb-2 flex items-center justify-between">
-                          <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">On Going Membership Streams </span>
+                          <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
+                            On Going Membership Streams{" "}
+                          </span>
                           <div className="flex items-center justify-center space-x-2 mr-6">
                             <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                             <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
@@ -440,91 +487,143 @@ const Profile = ({
                           </div>
                         </div>
 
-                        <div
-                          className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                        <div className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
                           <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
-                            <span className="font-display text-sm text-jacarta-700">fDAIx </span>
+                            <span className="font-display text-sm text-jacarta-700">
+                              fDAIx{" "}
+                            </span>
                           </div>
 
-                          <input type="text" className="h-12 w-full flex-[3] border-0 bg-jacarta-50"
-                            placeholder="Amount" value={calculateFlowRate(userStreamData.flowRate)} readOnly />
+                          <input
+                            type="text"
+                            className="h-12 w-full flex-[3] border-0 bg-jacarta-50"
+                            placeholder="Amount"
+                            value={calculateFlowRate(userStreamData.flowRate)}
+                            readOnly
+                          />
 
                           <div className="flex flex-1 justify-center self-stretch border-l border-jacarta-100 bg-jacarta-50">
-                            <span className="self-center px-2 text-sm">/ Month</span>
+                            <span className="self-center px-2 text-sm">
+                              / Month
+                            </span>
                           </div>
                         </div>
 
                         <div className="mt-4 flex items-center space-x-2 flex-col">
-                          <label htmlFor="terms" className="text-sm dark:text-jacarta-200">You are eligible to avail all the perks from the artist</label>
+                          <label
+                            htmlFor="terms"
+                            className="text-sm dark:text-jacarta-200"
+                          >
+                            You are eligible to avail all the perks from the
+                            artist
+                          </label>
                           <div className="mt-4 ">
-                            <label htmlFor="terms" className="text-sm dark:text-jacarta-200">If you cancel your membership you will no longer be eligible for the membership perks </label>
+                            <label
+                              htmlFor="terms"
+                              className="text-sm dark:text-jacarta-200"
+                            >
+                              If you cancel your membership you will no longer
+                              be eligible for the membership perks{" "}
+                            </label>
                           </div>
                         </div>
                       </div>
-                    }
+                    )}
 
-                    {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
+                    {calculateFlowRate(userStreamData?.flowRate) <= 0 && (
                       <div className="modal-body p-6">
                         <div className="mb-2 flex items-center justify-between">
-                          <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
+                          <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
+                            Price
+                          </span>
                         </div>
 
-                        <div
-                          className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                        <div className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
                           <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
-
-                            <span className="font-display text-sm text-jacarta-700">fDAIx</span>
+                            <span className="font-display text-sm text-jacarta-700">
+                              fDAIx
+                            </span>
                           </div>
 
-                          <input type="text" className="h-12 w-full flex-[3] border-0 bg-jacarta-50"
-                            placeholder="Amount" value="0.05" readOnly />
+                          <input
+                            type="text"
+                            className="h-12 w-full flex-[3] border-0 bg-jacarta-50"
+                            placeholder="Amount"
+                            value="0.05"
+                            readOnly
+                          />
 
                           <div className="flex flex-1 justify-center self-stretch border-l border-jacarta-100 bg-jacarta-50">
-                            <span className="self-center px-2 text-sm">/ Month</span>
+                            <span className="self-center px-2 text-sm">
+                              / Month
+                            </span>
                           </div>
                         </div>
 
                         <div className="text-right">
-                          <span className="text-sm dark:text-jacarta-400">Balance: {parseFloat(FDAIXBALANCE).toFixed(2)} fDAIx</span>
+                          <span className="text-sm dark:text-jacarta-400">
+                            Balance: {parseFloat(FDAIXBALANCE).toFixed(2)} fDAIx
+                          </span>
                         </div>
 
                         <div className="mt-4 flex items-center space-x-2 flex-col">
-                          <label htmlFor="terms" className="text-sm dark:text-jacarta-200">After joining membership, 0.05 fDAIx tokens will be streamed from your account to the respective artists account and you will be eligible to avail all the membership perks from the artist</label>
+                          <label
+                            htmlFor="terms"
+                            className="text-sm dark:text-jacarta-200"
+                          >
+                            After joining membership, 0.05 fDAIx tokens will be
+                            streamed from your account to the respective artists
+                            account and you will be eligible to avail all the
+                            membership perks from the artist
+                          </label>
                           <div className="mt-4 ">
-                            <input type="checkbox" id="terms" defaultChecked
-                              className="h-5 w-5 self-start rounded border-jacarta-200 text-accent checked:bg-accent focus:ring-accent/20 focus:ring-offset-0 dark:border-jacarta-500 dark:bg-jacarta-600" />
+                            <input
+                              type="checkbox"
+                              id="terms"
+                              defaultChecked
+                              className="h-5 w-5 self-start rounded border-jacarta-200 text-accent checked:bg-accent focus:ring-accent/20 focus:ring-offset-0 dark:border-jacarta-500 dark:bg-jacarta-600"
+                            />
                             {"  "}
-                            <label htmlFor="terms" className="text-sm dark:text-jacarta-200">I Accept And Understand The Terms </label>
+                            <label
+                              htmlFor="terms"
+                              className="text-sm dark:text-jacarta-200"
+                            >
+                              I Accept And Understand The Terms{" "}
+                            </label>
                           </div>
                         </div>
                       </div>
-                    }
-
+                    )}
 
                     {/* action area of membership  */}
                     <div className="modal-footer">
-                      {calculateFlowRate(userStreamData?.flowRate) > 0 &&
+                      {calculateFlowRate(userStreamData?.flowRate) > 0 && (
                         <div className="flex items-center justify-center space-x-4">
-                          <button type="button" onClick={() => (handleDeleteStream())}
-                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteStream()}
+                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
                             Cancel Memebership
                           </button>
                         </div>
-                      }
-                      {calculateFlowRate(userStreamData?.flowRate) <= 0 &&
+                      )}
+                      {calculateFlowRate(userStreamData?.flowRate) <= 0 && (
                         <div className="flex items-center justify-center space-x-4">
-                          <button type="button" onClick={() => handleCreateStream(streamInput)}
-                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                          <button
+                            type="button"
+                            onClick={() => handleCreateStream(streamInput)}
+                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
                             Join Membership
                           </button>
                         </div>
-                      }
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
-            }
-
+            )}
           </div>
         </div>
       </section>

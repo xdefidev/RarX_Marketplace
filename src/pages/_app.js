@@ -441,6 +441,7 @@ export default function App({ Component, pageProps }) {
             _tokenURI.properties[0].type
               ? JSON.stringify(_tokenURI.properties)
               : "[]",
+            _tokenURI.name,
           ]);
       });
       const txn = await rarx.createToken(tokenURI);
@@ -804,6 +805,40 @@ export default function App({ Component, pageProps }) {
     return db;
   };
 
+  const getUserData = async () => {
+    try {
+      const db = polybase();
+      const res = await db
+        .collection("User")
+        .record(signer_address)
+        .get();
+      const {
+        bio,
+        coverImage,
+        email,
+        id,
+        profileImage,
+        username,
+        socials,
+        isArtist,
+        membershipFees,
+        perks,
+      } = res.data;
+      return res.data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const search_nft = async (query) => {
+    try {
+      const db = polybase();
+      const res = await db.collection("NFT").where("", "==");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", () => {
@@ -865,6 +900,7 @@ export default function App({ Component, pageProps }) {
         chainImg={chainImg}
         blockURL={blockURL}
         executeSale={executeSale}
+        getUserData={getUserData}
       />
       <Footer />
     </>

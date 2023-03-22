@@ -58,15 +58,15 @@ const CreateNFT = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (!signer) return alert("Please provide a signer");
-    // try {
-    //   set_loading(true);
-    await create_token(data, signer);
-    //   router.push(`/profile/${signer_address}`);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    // set_loading(false);
+    if (!signer) return alert("Please provide a signer");
+    try {
+      set_loading(true);
+      await create_token(data, signer);
+      router.push(`/profile/${signer_address}`);
+    } catch (error) {
+      console.log(error);
+    }
+    set_loading(false);
   };
 
   useEffect(() => {

@@ -71,7 +71,7 @@ const EditProfile = ({ signer_address, polybase }) => {
       if (typeof data.profileImage === "object") {
         profileImg = await storage.upload(data.profileImage);
       }
-      console.log(data)
+      console.log(data);
       const res = await db
         .collection("User")
         .record(signer_address)
@@ -83,9 +83,10 @@ const EditProfile = ({ signer_address, polybase }) => {
           coverImg ? coverImg : data.coverImage,
           [data.twitter, data.instagram, data.customLink],
           data.isArtist,
-          data.membership_fees,
-          data.membership_perks,
+          data.isArtist ? data.membership_fees : "",
+          data.isArtist ? data.membership_perks : "",
         ]);
+      console.log(res);
       // window.location.reload();
     } catch (error) {
       console.log(error.message);
@@ -278,6 +279,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                     onChange={() =>
                       set_data({ ...data, isArtist: !data.isArtist })
                     }
+                    defaultValue={data.isArtist}
                     name="isArtist"
                     className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
                   >
@@ -316,6 +318,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                       </label>
                       <textarea
                         name="membership_perks"
+                        value={data.membership_perks}
                         onChange={handleChange}
                         className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
                         required
