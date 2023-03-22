@@ -24,6 +24,9 @@ const Navbar = ({
   setChainIdMain,
   RARX_CHANNEL_ADDRESS,
   symbol,
+  defaultCollectionAddress,
+  blockURL,
+  chainImg,
   search_nft,
 }) => {
   const user_address = async () => {};
