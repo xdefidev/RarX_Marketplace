@@ -383,14 +383,14 @@ export default function App({ Component, pageProps }) {
   ) => {
     try {
       // getting relayer fee
-      // const polygonDomain = "9991";
-      // const { sdkBase } = await create(SdkConfig);
-      // const relayerFee = (
-      //   await sdkBase.estimateRelayerFee({
-      //     polygonDomain,
-      //     domainID
-      //   })
-      // )
+      const polygonDomain = "9991";
+      const { sdkBase } = await create(SdkConfig);
+      const relayerFee = (
+        await sdkBase.estimateRelayerFee({
+          originDomain: polygonDomain,
+          destinationDomain: domainID
+        })
+      )
 
       // approving contract
       try {
