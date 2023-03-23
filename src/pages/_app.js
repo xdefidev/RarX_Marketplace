@@ -183,6 +183,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // signing out wallet 
   const signOut = async () => {
     set_signer_address("");
     setSigner();
@@ -209,8 +210,9 @@ export default function App({ Component, pageProps }) {
     try {
       const signerIntmax = new IntmaxWalletSigner();
       const accountIntmax = await signerIntmax.connectToAccount();
-      // setSigner(signerIntmax);
-      set_signer_address("0x7671A05D4e947A7E991a8e2A92EEd7A3a9b9A861");
+      setSigner(signerIntmax);
+      set_signer_address(accountIntmax.address);
+      setChainIdMain(accountIntmax.chainId);
     } catch (error) {
       console.log(error.message);
     }
@@ -445,9 +447,7 @@ export default function App({ Component, pageProps }) {
         const Txnhash = await sendXChainPolygon.hash;
         setBridgedHash(Txnhash);
 
-        // shravan write code here
-        // save Txnhash, fromChainID, AssetCollection and AssetTokenID in polybase user transactions named schema
-        // update xChainID of NFT in polybase NFT schema
+        // saving nft bridging info and updating NFT in polybase 
         const obj = {
           txn_hash: "Txnhash",
           from_chain_id: fromChainID,
@@ -477,8 +477,7 @@ export default function App({ Component, pageProps }) {
 
         console.log({ res });
       } catch (error) {
-        console.log(error.message);
-        // console.log({ XCallError: error });
+        console.log({ XCallError: error });
       }
     } catch (error) {
       console.log({ someCatchError: error });
