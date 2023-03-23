@@ -10,9 +10,8 @@ const NftCard = ({
   tokenId,
   onClickOpen = true,
   listedBool = false,
-  chainBlock,
-  chainSymbol,
-  chainImg = "chains/polygon.png",
+  chain_symbol,
+  chain_image,
   chainImgPre = "",
   listingPrice,
 }) => {
@@ -69,7 +68,7 @@ const NftCard = ({
         {listedBool && (
           <span className="flex items-center whitespace-nowrap rounded-md border border-jacarta-100 py-1 px-2 dark:border-jacarta-600">
             <span className=" text-sm font-medium tracking-tight text-green">
-              {listingPrice} ETH
+              {listingPrice} {" "} {chain_symbol}
             </span>
           </span>
         )}
@@ -89,7 +88,7 @@ const NftCard = ({
       </div>
       <div>
         <Image
-          src={`${chainImgPre}${chainImg}`}
+          src={`${chainImgPre}${chain_image == "" ? "chains/polygon.png" : chain_image}`}
           height={100}
           width={100}
           alt="item 5"

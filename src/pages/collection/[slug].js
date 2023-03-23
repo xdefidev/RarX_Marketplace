@@ -44,12 +44,12 @@ const Collection = ({
               : res[i].listingPrice;
 
           const summed_price =
-            parseFloat(ethers.utils.formatEther(res[i].listingPrice)) +
-            parseFloat(ethers.utils.formatEther(res[i + 1].listingPrice));
+            parseFloat(res[i].listingPrice) +
+            parseFloat(res[i + 1].listingPrice);
           volume = summed_price;
         }
       }
-      set_floor_price(ethers.utils.formatEther(lowest_price));
+      set_floor_price(lowest_price);
       set_volume(volume);
     }
     set_nfts(res);
@@ -162,7 +162,7 @@ const Collection = ({
                     className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold">{floor_price} matic</span>
+                      <span className="font-bold">{floor_price}</span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
@@ -182,7 +182,7 @@ const Collection = ({
                 </div>
 
                 <div className="mt-6 flex items-center justify-center space-x-2.5">
-                  <div className="rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
+                  {/* <div className="rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
                     <div
                       className="js-likes relative inline-flex h-10 w-10 cursor-pointer items-center justify-center text-sm before:absolute before:h-4 before:w-4 before:bg-cover before:bg-center before:bg-no-repeat before:opacity-0"
                       role="button"
@@ -199,7 +199,7 @@ const Collection = ({
                         <path d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z" />
                       </svg>
                     </div>
-                  </div>
+                  </div> */}
                   {/* Share  */}
                   <div
                     onClick={() => setShare(!share)}
@@ -316,6 +316,11 @@ const Collection = ({
                           Description={e.ipfsData.description}
                           Address={e.ipfsData.collection}
                           tokenId={e.tokenId}
+                          listedBool={e.isListed}
+                          listingPrice={e.listingPrice}
+                          chainImgPre={"../"}
+                          chain_image={e.chain_image}
+                          chain_symbol={e.chain_symbol}
                         />
                       );
                     })}

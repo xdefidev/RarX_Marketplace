@@ -13,6 +13,7 @@ import * as PushAPI from "@pushprotocol/restapi";
 import Head from "next/head";
 import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
+import Link from "next/link";
 
 const Profile = ({
   get_my_collections,
@@ -23,6 +24,7 @@ const Profile = ({
   setChainIdMain,
   chainIdMain,
   getUserData,
+  blockURL
 }) => {
   // superfluid config start
   const tokens = [
@@ -399,14 +401,25 @@ const Profile = ({
               {user_data?.username}
             </h2>
             <div className="mb-8 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
-              <button className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
+              <a href={`${blockURL}` + `address/` + `${slug}`} target="_blank" className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
                 <span>{slug}</span>
-              </button>
+              </a>
             </div>
 
             <p className="mx-auto max-w-xl text-lg dark:text-jacarta-300 mb-10">
               {user_data?.bio}
             </p>
+
+            {slug == signer_address &&
+              <div className="flex justify-center align-middle mb-10">
+                <Link
+                  href="EditProfile"
+                  className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                >
+                  Edit Profile
+                </Link>
+              </div>
+            }
 
             {user_data?.isArtist &&
               <div>
@@ -745,6 +758,8 @@ const Profile = ({
                         tokenId={e.tokenId}
                         chainImgPre={"../"}
                         listedBool={e.isListed}
+                        chain_image={e.chain_image}
+                        chain_symbol={e.chain_symbol}
                       />
                     );
                   })}

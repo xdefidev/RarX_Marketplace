@@ -106,7 +106,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress("deafult");
         setChainImg(polygonLogo);
         setSymbol("ETH");
-        setBlockURL("https://mumbai.polygonscan.com/address/");
+        setBlockURL("https://mumbai.polygonscan.com/");
       } else if (chainId == 3141) {
         // filecoin
         setCollectionAddress("deafult");
@@ -114,7 +114,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress("deafult");
         setChainImg(filecoinLogo);
         setSymbol("TFIL");
-        setBlockURL("https://hyperspace.filfox.info/en/address/");
+        setBlockURL("https://hyperspace.filfox.info/en/");
       } else if (chainId == 5001) {
         // mantle
         setCollectionAddress("deafult");
@@ -122,7 +122,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress("deafult");
         setChainImg(mantleLogo);
         setSymbol("BIT");
-        setBlockURL("https://explorer.testnet.mantle.xyz/address/");
+        setBlockURL("https://explorer.testnet.mantle.xyz/");
       } else if (chainId == 534353) {
         // scroll
         setCollectionAddress("deafult");
@@ -130,7 +130,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress("deafult");
         setChainImg(scrollLogo);
         setSymbol("ETH");
-        setBlockURL("https://blockscout.scroll.io/address/");
+        setBlockURL("https://blockscout.scroll.io/");
       } else if (chainId == 167002) {
         // taiko
         setCollectionAddress("deafult");
@@ -138,7 +138,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress("deafult");
         setChainImg(TaikoLogo);
         setSymbol("ETH");
-        setBlockURL("https://l2explorer.hackathon.taiko.xyz/address/");
+        setBlockURL("https://l2explorer.hackathon.taiko.xyz/");
       } else if (chainId == 10200) {
         // gnosis
         setCollectionAddress("deafult");
@@ -146,7 +146,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress("deafult");
         setChainImg(gnosisLogo);
         setSymbol("XDAI");
-        setBlockURL("https://blockscout.com/gnosis/chiado/address/");
+        setBlockURL("https://blockscout.com/gnosis/chiado/");
       } else if (chainId == 5) {
         // eth goerli
         setCollectionAddress("deafult");
@@ -154,7 +154,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress("deafult");
         setChainImg(goerliLogo);
         setSymbol("ETH");
-        setBlockURL("https://goerli.etherscan.io/address/");
+        setBlockURL("https://goerli.etherscan.io/");
       } else if (chainId == 80001) {
         // matic
         setCollectionAddress("0xE6aD85168620973A542368609133986B31e64cF3");
@@ -164,7 +164,7 @@ export default function App({ Component, pageProps }) {
         );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
-        setBlockURL("https://mumbai.polygonscan.com/address/");
+        setBlockURL("https://mumbai.polygonscan.com/");
       } else {
         setCollectionAddress("0xE6aD85168620973A542368609133986B31e64cF3");
         setMarketplaceAddress("0xB00269E098526480B3cCfC57bE99B077077969CD");
@@ -173,7 +173,7 @@ export default function App({ Component, pageProps }) {
         );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
-        setBlockURL("https://mumbai.polygonscan.com/address/");
+        setBlockURL("https://mumbai.polygonscan.com/");
       }
       // create_marketplace_acc();
       setChainIdMain(chainId);
@@ -229,20 +229,16 @@ export default function App({ Component, pageProps }) {
     const contract = marketplace();
     const txn = await contract.cancelListing(collection_address, tokenId);
     await txn.wait();
-    console.log({ txn });
+
     const db = polybase();
     const res = await db
       .collection("NFT")
       .record(`${collection_address}/${tokenId}`)
       .call("cancel_listing");
-
-    console.log({ res });
   };
 
   const fetch_listed_nfts = async () => {
     try {
-      // const contract = marketplace();
-      // const res = await contract.getAllNFTs();
       const db = polybase();
       let nfts = [];
       const res = await db
@@ -258,6 +254,9 @@ export default function App({ Component, pageProps }) {
           ? ethers.utils.formatEther(e.data.listingPrice)
           : "";
         obj.owner = e.data.owner.id;
+        obj.chain_block = e.data.chain_block;
+        obj.chain_image = e.data.chain_image;
+        obj.chain_symbol = e.data.chain_symbol;
         const url = await e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
@@ -564,7 +563,6 @@ export default function App({ Component, pageProps }) {
         .collection("NFT")
         .record(`${collection_address}/${tokenId}`)
         .get();
-      console.log({ res });
       const collectionInfo = await db
         .collection("NFTCollection")
         .record(collection_address)
@@ -573,7 +571,6 @@ export default function App({ Component, pageProps }) {
         .collection("User")
         .record(res.data.owner.id)
         .get();
-      console.log({ res, collectionInfo, ownerInfo });
       obj.nft_properties = res.data.properties
         ? JSON.parse(res.data.properties)
         : [];
@@ -591,8 +588,13 @@ export default function App({ Component, pageProps }) {
       // NFT INFO
       obj.chainId = res.data.chainId;
       obj.isListed = res.data.isListed;
-      obj.listingPrice = res.data.listingPrice;
+      obj.listingPrice = res.data.listingPrice
+        ? ethers.utils.formatEther(res.data.listingPrice)
+        : "";
       obj.nft_owner = res.data.owner.id;
+      obj.chain_block = res.data.chain_block;
+      obj.chain_image = res.data.chain_image;
+      obj.chain_symbol = res.data.chain_symbol;
       const parsed_nft = await axios.get(
         res.data.ipfsURL.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
       );
@@ -663,8 +665,12 @@ export default function App({ Component, pageProps }) {
         obj.chainId = e.data.chainId;
         obj.tokenId = e.data.tokenId;
         obj.isListed = e.data.isListed;
-        obj.listingPrice = e.data.listingPrice;
-
+        obj.listingPrice = e.data.listingPrice
+          ? ethers.utils.formatEther(e.data.listingPrice)
+          : "";
+        obj.chain_block = e.data.chain_block;
+        obj.chain_image = e.data.chain_image;
+        obj.chain_symbol = e.data.chain_symbol;
         const url = await e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
@@ -694,6 +700,9 @@ export default function App({ Component, pageProps }) {
           ? ethers.utils.formatEther(e.data.listingPrice)
           : "";
         obj.nft_name = e.data?.nft_name ? e.data?.nft_name : "";
+        obj.chain_block = e.data.chain_block;
+        obj.chain_image = e.data.chain_image;
+        obj.chain_symbol = e.data.chain_symbol;
         const url = e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
@@ -728,6 +737,9 @@ export default function App({ Component, pageProps }) {
         obj.chainId = e.data.chainId;
         obj.tokenId = e.data.tokenId;
         obj.isListed = e.data.isListed;
+        obj.chain_block = e.data.chain_block;
+        obj.chain_image = e.data.chain_image;
+        obj.chain_symbol = e.data.chain_symbol;
         const url = e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
@@ -834,11 +846,11 @@ export default function App({ Component, pageProps }) {
         type: 3,
         identityType: 2,
         notification: {
-          title: `Your new NFT is created on-chain via RarX Marketplace`,
+          title: `Your new NFT is created onchain via RarX Marketplace`,
           body: `Congratulations, now you can list your newly minted NFT on Rarx`,
         },
         payload: {
-          title: `Your new NFT is created on-chain via RarX Marketplace`,
+          title: `Your new NFT is created onchain via RarX Marketplace`,
           body: `Congratulations, now you can list your newly minted NFT on Rarx`,
           cta: ``,
         },

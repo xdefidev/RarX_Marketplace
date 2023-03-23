@@ -62,7 +62,7 @@ const CreateNFT = ({
     try {
       set_loading(true);
       await create_token(data, signer);
-      // router.push(`/profile/${signer_address}`);
+      router.push(`/profile/${signer_address}`);
     } catch (error) {
       console.log(error);
     }

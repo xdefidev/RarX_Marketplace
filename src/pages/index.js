@@ -329,6 +329,8 @@ export default function Home({ all_collections, nfts }) {
                 chainID={e.chainId}
                 listedBool={e.isListed}
                 listingPrice={e.listingPrice}
+                chain_image={e.chain_image}
+                chain_symbol={e.chain_symbol}
               />
             ))}
           </div>
