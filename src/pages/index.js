@@ -17,7 +17,7 @@ import polygon from "../../public/chains/polygon.png";
 import scroll from "../../public/chains/scroll.png";
 import taiko from "../../public/chains/taiko.png";
 
-export default function Home({ all_collections, nfts }) {
+export default function Home({ all_collections, nfts, artists }) {
   return (
     <>
       <Head>
@@ -92,7 +92,7 @@ export default function Home({ all_collections, nfts }) {
                 </div>
                 <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                   <span className="block font-display text-3xl text-[#737EF2]">
-                    13
+                    {nfts?.length}
                   </span>
                   <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                     Sales
@@ -100,7 +100,7 @@ export default function Home({ all_collections, nfts }) {
                 </div>
                 <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                   <span className="block font-display text-3xl text-[#F35BC7]">
-                    22
+                    {artists?.length}
                   </span>
                   <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                     Artists

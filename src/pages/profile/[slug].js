@@ -24,7 +24,8 @@ const Profile = ({
   setChainIdMain,
   chainIdMain,
   getUserData,
-  blockURL
+  blockURL,
+  fetch_collections_polybase,
 }) => {
   // superfluid config start
   const tokens = [
@@ -300,7 +301,6 @@ const Profile = ({
   const myCollections = async () => {
     if (!signer) return;
     const my_collections = await get_my_collections(signer);
-    set_my_collections(my_collections);
   };
 
   const get_nfts = async () => {
@@ -316,6 +316,11 @@ const Profile = ({
     console.log({ userDataa: data });
   };
 
+  const fetch_collections = async () => {
+    const res = await fetch_collections_polybase(slug);
+    set_my_collections(res);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       myCollections();
@@ -324,10 +329,11 @@ const Profile = ({
     fetchData();
     get_user_info();
 
+    fetch_collections();
     if (!signer_address) return;
     connectSF();
     fetchStreams();
-  }, [signer]);
+  }, [slug]);
 
   return loading ? (
     <Loader />
@@ -401,7 +407,11 @@ const Profile = ({
               {user_data?.username}
             </h2>
             <div className="mb-8 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
-              <a href={`${blockURL}` + `address/` + `${slug}`} target="_blank" className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
+              <a
+                href={`${blockURL}` + `address/` + `${slug}`}
+                target="_blank"
+                className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200"
+              >
                 <span>{slug}</span>
               </a>
             </div>
@@ -410,7 +420,7 @@ const Profile = ({
               {user_data?.bio}
             </p>
 
-            {slug == signer_address &&
+            {slug == signer_address && (
               <div className="flex justify-center align-middle mb-10">
                 <Link
                   href="EditProfile"
@@ -419,9 +429,9 @@ const Profile = ({
                   Edit Profile
                 </Link>
               </div>
-            }
+            )}
 
-            {user_data?.isArtist &&
+            {user_data?.isArtist && (
               <div>
                 {!membershipVisible && (
                   <div className="flex justify-center align-middle mb-10">
@@ -511,7 +521,9 @@ const Profile = ({
                                 type="text"
                                 className="h-12 w-full flex-[3] border-0 bg-jacarta-50"
                                 placeholder="Amount"
-                                value={calculateFlowRate(userStreamData.flowRate)}
+                                value={calculateFlowRate(
+                                  userStreamData.flowRate
+                                )}
                                 readOnly
                               />
 
@@ -535,8 +547,8 @@ const Profile = ({
                                   htmlFor="terms"
                                   className="text-sm dark:text-jacarta-200"
                                 >
-                                  If you cancel your membership you will no longer
-                                  be eligible for the membership perks{" "}
+                                  If you cancel your membership you will no
+                                  longer be eligible for the membership perks{" "}
                                 </label>
                               </div>
                             </div>
@@ -562,7 +574,11 @@ const Profile = ({
                                 type="text"
                                 className="h-12 w-full flex-[3] border-0 bg-jacarta-50"
                                 placeholder="Amount"
-                                value={user_data?.membershipFees ? user_data?.membershipFees : "0.00"}
+                                value={
+                                  user_data?.membershipFees
+                                    ? user_data?.membershipFees
+                                    : "0.00"
+                                }
                                 readOnly
                               />
 
@@ -575,35 +591,33 @@ const Profile = ({
 
                             <div className="text-right">
                               <span className="text-sm dark:text-jacarta-400">
-                                Balance: {parseFloat(FDAIXBALANCE).toFixed(2)} fDAIx
+                                Balance: {parseFloat(FDAIXBALANCE).toFixed(2)}{" "}
+                                fDAIx
                               </span>
                             </div>
 
                             <div className="mt-4 flex items-center space-x-2 flex-col">
-
-                              <label
-                                className="text-display font-semibold dark:text-jacarta-200 mt-2 mb-2"
-                              >
+                              <label className="text-display font-semibold dark:text-jacarta-200 mt-2 mb-2">
                                 PERKS OFFERED BY ARTIST
                               </label>
-                              <label
-                                className="text-sm dark:text-jacarta-200"
-                              >
-                                {user_data?.perks ? user_data?.perks : "No Perks"}
+                              <label className="text-sm dark:text-jacarta-200">
+                                {user_data?.perks
+                                  ? user_data?.perks
+                                  : "No Perks"}
                               </label>
 
-                              <label
-                                className="text-display font-semibold dark:text-jacarta-200 mt-4 mb-2"
-                              >
+                              <label className="text-display font-semibold dark:text-jacarta-200 mt-4 mb-2">
                                 IMPORTANT INFO
                               </label>
-                              <label
-                                className="text-sm dark:text-jacarta-200"
-                              >
-                                After joining membership, {user_data?.membershipFees ? user_data?.membershipFees : "0.00"} fDAIx tokens will be
-                                streamed from your account to the respective artists
-                                account and you will be eligible to avail all the
-                                membership perks from the artist
+                              <label className="text-sm dark:text-jacarta-200">
+                                After joining membership,{" "}
+                                {user_data?.membershipFees
+                                  ? user_data?.membershipFees
+                                  : "0.00"}{" "}
+                                fDAIx tokens will be streamed from your account
+                                to the respective artists account and you will
+                                be eligible to avail all the membership perks
+                                from the artist
                               </label>
                               <div className="mt-4 ">
                                 <input
@@ -654,7 +668,7 @@ const Profile = ({
                   </div>
                 )}
               </div>
-            }
+            )}
           </div>
         </div>
       </section>
@@ -783,13 +797,12 @@ const Profile = ({
                   {my_collections?.map((e, index) => (
                     <CollectionCard
                       key={index}
-                      Cover={e.image}
+                      Cover={e.coverImage}
                       Logo={e.logo}
                       Name={e.name}
                       Description={e.description}
                       OwnerAddress={e.owner}
                       CollectionAddress={e.collection_address}
-                      collectionId={e.collectionId}
                     />
                   ))}
                 </div>

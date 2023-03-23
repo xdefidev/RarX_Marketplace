@@ -33,6 +33,7 @@ export default function App({ Component, pageProps }) {
   const [bridgedHash, setBridgedHash] = useState("");
   const [nfts, set_nfts] = useState([]);
   const [search_data] = useState(nfts);
+  const [artists, set_artists] = useState([]);
 
   //COLLECTIONS INFORMATION
   const [all_collections, set_collections] = useState([]);
@@ -99,6 +100,7 @@ export default function App({ Component, pageProps }) {
       set_format_signer_bal(formatBalance);
 
       const { chainId } = await provider.getNetwork();
+      fetch_artists();
 
       if (chainId == 1442) {
         // polygon zkevm
@@ -216,6 +218,35 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  const fetch_collections_polybase = async (user_address) => {
+    try {
+      const db = polybase();
+      const collections = await db
+        .collection("NFTCollection")
+        .where("owner", "==", {
+          collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
+          id: user_address,
+        })
+        .get();
+      let fetched_collections = [];
+      for (const e of collections.data) {
+        const obj = {};
+        obj.collection_address = e.data.id;
+        obj.coverImage = e.data.coverImage;
+        obj.description = e.data.description;
+        obj.logo = e.data.logo;
+        obj.name = e.data.name;
+        obj.owner_name = e.data.owner.id;
+        obj.symbol = e.data.symbol;
+        fetched_collections.push(obj);
+      }
+
+      return fetched_collections;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   // marketplace
   const marketplace = () => {
     const marketplace_contract = new ethers.Contract(
@@ -224,6 +255,19 @@ export default function App({ Component, pageProps }) {
       signer
     );
     return marketplace_contract;
+  };
+
+  const fetch_artists = async () => {
+    try {
+      const db = polybase();
+      const res = await db
+        .collection("User")
+        .where("isArtist", "==", true)
+        .get();
+      set_artists(res.data);
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   const cancel_listing = async (collection_address, tokenId) => {
@@ -1014,6 +1058,8 @@ export default function App({ Component, pageProps }) {
         getUserData={getUserData}
         defaultCollectionAddress={defaultCollectionAddress}
         cancel_listing={cancel_listing}
+        artists={artists}
+        fetch_collections_polybase={fetch_collections_polybase}
       />
       <Footer />
     </>
