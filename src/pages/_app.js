@@ -214,7 +214,7 @@ export default function App({ Component, pageProps }) {
       console.log(error.message);
     }
   };
-
+  
   // marketplace
   const marketplace = () => {
     const marketplace_contract = new ethers.Contract(
