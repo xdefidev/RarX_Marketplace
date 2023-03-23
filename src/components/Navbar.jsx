@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { ethers } from "ethers";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { BsChevronDown } from "react-icons/bs";
 import * as PushAPI from "@pushprotocol/restapi";
@@ -28,9 +29,10 @@ const Navbar = ({
   blockURL,
   chainImg,
   search_nft,
-  signOut
+  signOut,
 }) => {
-  const user_address = async () => { };
+  const router = useRouter();
+  const user_address = async () => {};
   const [notificationData, setNotificationData] = useState();
 
   const [profileDrop, setProfileDrop] = useState(false);
@@ -386,7 +388,17 @@ const Navbar = ({
   useEffect(() => {
     connectToWallet();
     getNotifications();
-  }, [chainIdMain, signer_address]);
+    setShowNetworkPopup(false);
+    SetShowNotifications(false);
+    setProfileDrop(false);
+  }, [router.pathname]);
+
+  // OLD USE-EFFECT
+  // useEffect(() => {
+  //   connectToWallet();
+  //   getNotifications();
+  //   console.log(router.pathname);
+  // }, [chainIdMain, signer_address]);
 
   return (
     <div className="overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900">
@@ -429,14 +441,19 @@ const Navbar = ({
             </span>
 
             {/* SEARCH FUNCTIONALITY */}
-            <div className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4" onClick={() => set_search_result([])}>
+            <div
+              className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4"
+              onClick={() => set_search_result([])}
+            >
               {search_result?.map((e, index) => (
                 <Link
                   key={index}
                   href={`/nft/${e.ipfsData.collection}/${e.tokenId}`}
                   className="rounded-2xl"
                 >
-                  <div className="w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">{e?.nft_name}</div>
+                  <div className="w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
+                    {e?.nft_name}
+                  </div>
                 </Link>
               ))}
             </div>

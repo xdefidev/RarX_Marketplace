@@ -215,7 +215,7 @@ export default function App({ Component, pageProps }) {
       console.log(error.message);
     }
   };
-  
+
   // marketplace
   const marketplace = () => {
     const marketplace_contract = new ethers.Contract(
@@ -393,63 +393,87 @@ export default function App({ Component, pageProps }) {
       // )
 
       // approving contract
-      try {
-        const collectionContract = rarx_collection(AssetCollection, signer);
-        let fromChainID = 0;
-        let xChainID = 0;
-        // approve our xchain contract
-        const approveTxn = await collectionContract.setApprovalForAll(
-          xChainContract,
-          true
-        );
-        await approveTxn.wait();
+      let fromChainID = 0;
+      let xChainID = 0;
+      // try {
+      //   const collectionContract = rarx_collection(AssetCollection, signer);
 
-        // approve nfthashi polygon contract
-        if (domainID == "1735353714") {
-          const approveHashiTxn = await collectionContract.setApprovalForAll(
-            x_hashi_polygon,
-            true
-          );
-          fromChainID = 80001;
-          xChainID = 5;
-          await approveHashiTxn.wait();
-        }
-        // approve nfthashi goerli contract
-        if (domainID == "9991") {
-          const approveHashiTxn = await collectionContract.setApprovalForAll(
-            x_hashi_goerli,
-            true
-          );
-          fromChainID = 5;
-          xChainID = 80001;
-          await approveHashiTxn.wait();
-        }
-      } catch (error) {
-        console.log({ approveError: error });
-      }
+      //   // approve our xchain contract
+      //   const approveTxn = await collectionContract.setApprovalForAll(
+      //     xChainContract,
+      //     true
+      //   );
+      //   await approveTxn.wait();
+
+      //   // approve nfthashi polygon contract
+      //   if (domainID == "1735353714") {
+      //     const approveHashiTxn = await collectionContract.setApprovalForAll(
+      //       x_hashi_polygon,
+      //       true
+      //     );
+      //     fromChainID = 80001;
+      //     xChainID = 5;
+      //     await approveHashiTxn.wait();
+      //   }
+      //   // approve nfthashi goerli contract
+      //   if (domainID == "9991") {
+      //     const approveHashiTxn = await collectionContract.setApprovalForAll(
+      //       x_hashi_goerli,
+      //       true
+      //     );
+      //     fromChainID = 5;
+      //     xChainID = 80001;
+      //     await approveHashiTxn.wait();
+      //   }
+      // } catch (error) {
+      //   console.log({ approveError: error });
+      // }
 
       // sending xchain call
       try {
-        const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
-        const sendXChainPolygon = await crossChainPolygon.XChainCall(
-          domainID,
-          "0",
-          "5000",
-          AssetCollection,
-          signer_address,
-          AssetTokenID,
-          "true"
-        );
-        await sendXChainPolygon.wait();
-        const Txnhash = await sendXChainPolygon.hash;
-        setBridgedHash(Txnhash);
+        // const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
+        // const sendXChainPolygon = await crossChainPolygon.XChainCall(
+        //   domainID,
+        //   "0",
+        //   "5000",
+        //   AssetCollection,
+        //   signer_address,
+        //   AssetTokenID,
+        //   "true"
+        // );
+        // await sendXChainPolygon.wait();
+        // const Txnhash = await sendXChainPolygon.hash;
+        // setBridgedHash(Txnhash);
 
         // shravan write code here
         // save Txnhash, fromChainID, AssetCollection and AssetTokenID in polybase user transactions named schema
         // update xChainID of NFT in polybase NFT schema
+        const obj = {
+          txn_hash: "Txnhash",
+          from_chain_id: fromChainID,
+          asset_collection: AssetCollection,
+          asset_tokenId: AssetTokenID,
+        };
 
+        const parsed_data = JSON.stringify(obj);
+        const db = polybase();
+        console.log({ parsed_data, chainIdMain, chainImg, symbol, blockURL });
+
+        const save_transaction = await db
+          .collection("User")
+          .record(signer_address)
+          .call("add_transaction", ["parsed_data"]);
+        console.log({ save_transaction });
+
+        const res = db
+          .collection("NFT")
+          .record(`${AssetCollection}/${AssetTokenID}`)
+          .call("nft_bridge", [chainIdMain, chainImg, symbol, blockURL]);
+
+        console.log({ res });
       } catch (error) {
-        console.log({ XCallError: error });
+        console.log(error.message);
+        // console.log({ XCallError: error });
       }
     } catch (error) {
       console.log({ someCatchError: error });
@@ -537,7 +561,10 @@ export default function App({ Component, pageProps }) {
               name,
               symbol,
               description,
+              chainImg,
+              blockURL,
             ]);
+          console.log({ res });
         }
       );
       const txn = await collection_factory.create_collection(
