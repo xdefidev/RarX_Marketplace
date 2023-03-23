@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import testNFT from "../../../../public/test.jpg";
+import polygonChain from "../../../../public/chains/polygon.png";
 import Image from "next/image";
 import { ethers } from "ethers";
 import Head from "next/head";
@@ -43,6 +44,13 @@ const NFTPage = ({
     router.reload();
   };
 
+  const cancelListingToken = async (slug, tokenId) => {
+    set_loading(true);
+    const res = await cancel_listing(slug, tokenId);
+    set_loading(false);
+    router.reload();
+  };
+
   const buyNFT = async (tokenId, collection_address, listing_price) => {
     set_loading(true);
     const res = await executeSale(tokenId, collection_address, listing_price);
@@ -81,7 +89,7 @@ const NFTPage = ({
           </picture>
           <div className="container">
             <div className="md:flex md:flex-wrap">
-              <div className="mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
+              <div className="relative mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
                 <Image
                   src={nft?.ipfsData?.image?.replace(
                     "ipfs://",
@@ -91,6 +99,12 @@ const NFTPage = ({
                   height={100}
                   alt="item"
                   className="cursor-pointer rounded-2.5xl h-[auto] w-[100%]"
+                />
+                <Image
+                  src={`../../` + `${nft?.chain_image}`}
+                  width={100}
+                  height={100}
+                  className="absolute cursor-pointer rounded-2.5xl h-[40px] w-[40px] top-2 left-2"
                 />
               </div>
 
@@ -164,9 +178,9 @@ const NFTPage = ({
                           src={
                             nft?.ownerImage
                               ? nft?.ownerImage.replace(
-                                  "ipfs://",
-                                  "https://gateway.ipfscdn.io/ipfs/"
-                                )
+                                "ipfs://",
+                                "https://gateway.ipfscdn.io/ipfs/"
+                              )
                               : testNFT
                           }
                           height={40}
@@ -204,8 +218,8 @@ const NFTPage = ({
                           {nft?.seller
                             ? nft?.seller
                             : nft?.owner_username
-                            ? nft?.owner_username
-                            : nft?.user_id}
+                              ? nft?.owner_username
+                              : nft?.user_id}
                         </span>
                       </Link>
                     </div>
@@ -342,10 +356,10 @@ const NFTPage = ({
                           <div>
                             <div className="flex items-center whitespace-nowrap">
                               <span className="text-lg font-medium leading-tight tracking-tight text-green">
-                                {ethers.utils.formatEther(nft?.listingPrice)}{" "}
+                                {nft?.listingPrice ? nft?.listingPrice : "0.00"}{" "}
                               </span>
                               <span className="text-[19px] text-jacarta-700 ml-2">
-                                MATIC
+                                {nft?.chain_symbol ? nft?.chain_symbol : "MATIC"}
                               </span>
                             </div>
                           </div>
@@ -393,7 +407,7 @@ const NFTPage = ({
                   <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                     <button
                       type="button"
-                      onClick={() => cancel_listing(slug, tokenId)}
+                      onClick={() => cancelListingToken(slug, tokenId)}
                       className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                     >
                       Cancel Sale
@@ -510,6 +524,11 @@ const NFTPage = ({
                               </a>
                             );
                           })}
+                          {nft?.nft_properties == "" &&
+                            <p>
+                              No Properties
+                            </p>
+                          }
                         </div>
                       </div>
                     </div>
@@ -521,7 +540,7 @@ const NFTPage = ({
                             Contract Address:
                           </span>
                           <a
-                            href={`${slug}`}
+                            href={`${nft?.chain_block}` + `address/` + `${slug}`}
                             target="_blank"
                             className="text-accent"
                           >
@@ -532,12 +551,13 @@ const NFTPage = ({
                           <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">
                             Token ID:
                           </span>
-                          <span
-                            className="js-copy-clipboard cursor-pointer select-none text-jacarta-700 dark:text-white"
-                            data-tippy-content="Copy"
+                          <a
+                            href={`${nft?.chain_block}` + `token/` + `${slug}` + `?a=` + `${tokenId}`}
+                            target="_blank"
+                            className="text-accent"
                           >
                             {tokenId}
-                          </span>
+                          </a>
                         </div>
                         <div className="mb-2 flex items-center">
                           <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">
@@ -552,7 +572,7 @@ const NFTPage = ({
                             Blockchain:
                           </span>
                           <span className="text-jacarta-700 dark:text-white">
-                            Ethereum
+                            {nft?.chain_symbol ? nft?.chain_symbol : "MATIC"}
                           </span>
                         </div>
                       </div>

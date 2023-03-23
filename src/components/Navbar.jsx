@@ -342,7 +342,6 @@ const Navbar = ({
       if (!e.target.value) return;
       setTimeout(async () => {
         const res = await search_nft(e.target.value);
-        console.log(res);
         set_search_result(res);
       }, [500]);
     } catch (error) {
@@ -411,7 +410,7 @@ const Navbar = ({
           >
             <input
               type="search"
-              onBlur={() => set_search_result([])}
+              onFocus={() => set_search_result([])}
               onChange={find_nft}
               className="w-full rounded-2xl border border-jacarta-100 py-[0.6875rem] px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
               placeholder="Search"
@@ -430,19 +429,14 @@ const Navbar = ({
             </span>
 
             {/* SEARCH FUNCTIONALITY */}
-            <div className="w-full bg-green-300">
+            <div className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4" onClick={() => set_search_result([])}>
               {search_result?.map((e, index) => (
-                // e.chainId
-                // e.ipfsData.image
-                // e.isListed
-                // e.listingPrice
-                // e.nft_name
-                // e.tokenId
                 <Link
                   key={index}
                   href={`/nft/${e.ipfsData.collection}/${e.tokenId}`}
+                  className="rounded-2xl"
                 >
-                  <div className="w-full">{e?.nft_name}</div>
+                  <div className="w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">{e?.nft_name}</div>
                 </Link>
               ))}
             </div>
