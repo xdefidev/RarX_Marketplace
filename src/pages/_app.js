@@ -155,24 +155,27 @@ export default function App({ Component, pageProps }) {
         setChainImg(goerliLogo);
         setSymbol("ETH");
         setBlockURL("https://goerli.etherscan.io/address/");
-      }
-      else if (chainId == 80001) {
-        // matic 
+      } else if (chainId == 80001) {
+        // matic
         setCollectionAddress("0xE6aD85168620973A542368609133986B31e64cF3");
         setMarketplaceAddress("0xB00269E098526480B3cCfC57bE99B077077969CD");
-        setCollectionFactoryAddress("0xf2C06547DEdbA59fA5F735808A3B97B212cae11C");
+        setCollectionFactoryAddress(
+          "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C"
+        );
+        setChainImg(polygonLogo);
+        setSymbol("MATIC");
+        setBlockURL("https://mumbai.polygonscan.com/address/");
+      } else {
+        setCollectionAddress("0xE6aD85168620973A542368609133986B31e64cF3");
+        setMarketplaceAddress("0xB00269E098526480B3cCfC57bE99B077077969CD");
+        setCollectionFactoryAddress(
+          "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C"
+        );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockURL("https://mumbai.polygonscan.com/address/");
       }
-      else {
-        setCollectionAddress("0xE6aD85168620973A542368609133986B31e64cF3");
-        setMarketplaceAddress("0xB00269E098526480B3cCfC57bE99B077077969CD");
-        setCollectionFactoryAddress("0xf2C06547DEdbA59fA5F735808A3B97B212cae11C");
-        setChainImg(polygonLogo);
-        setSymbol("MATIC");
-        setBlockURL("https://mumbai.polygonscan.com/address/");
-      }
+      // create_marketplace_acc();
       setChainIdMain(chainId);
     } else {
       console.log("No wallets detected");
@@ -182,7 +185,23 @@ export default function App({ Component, pageProps }) {
   const signOut = async () => {
     set_signer_address("");
     setSigner();
-  }
+  };
+
+  // const create_marketplace_acc = async () => {
+  //   const db = polybase();
+  //   const res = await db
+  //     .collection("User")
+  //     .create([
+  //       marketplaceAddress,
+  //       "new rarx",
+  //       "rarx_@gmail.com",
+  //       "this is new rarx markeptlace",
+  //       "rarx profile image new",
+  //       "rarx cover image new",
+  //     ]);
+
+  //   console.log({ res });
+  // };
 
   // CONNECT WALLET INTMAX
   const connectToIntmax = async () => {
@@ -204,6 +223,20 @@ export default function App({ Component, pageProps }) {
       signer
     );
     return marketplace_contract;
+  };
+
+  const cancel_listing = async (collection_address, tokenId) => {
+    const contract = marketplace();
+    const txn = await contract.cancelListing(collection_address, tokenId);
+    await txn.wait();
+    console.log({ txn });
+    const db = polybase();
+    const res = await db
+      .collection("NFT")
+      .record(`${collection_address}/${tokenId}`)
+      .call("cancel_listing");
+
+    console.log({ res });
   };
 
   const fetch_listed_nfts = async () => {
@@ -457,8 +490,11 @@ export default function App({ Component, pageProps }) {
               ? JSON.stringify(_tokenURI.properties)
               : "[]",
             _tokenURI.name,
+            chainImg,
+            blockURL,
+            symbol,
           ]);
-        console.log(res);
+        console.log({ res });
         console.log("event emitted");
       });
 
@@ -934,6 +970,7 @@ export default function App({ Component, pageProps }) {
         executeSale={executeSale}
         getUserData={getUserData}
         defaultCollectionAddress={defaultCollectionAddress}
+        cancel_listing={cancel_listing}
       />
       <Footer />
     </>
