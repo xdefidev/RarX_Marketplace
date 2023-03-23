@@ -30,7 +30,6 @@ export default function App({ Component, pageProps }) {
   const [signer_address, set_signer_address] = useState("");
   const [signer_bal, set_signer_bal] = useState(0);
   const [format_signer_bal, set_format_signer_bal] = useState(0);
-  const [bridgedHash, setBridgedHash] = useState("");
   const [nfts, set_nfts] = useState([]);
   const [search_data] = useState(nfts);
 
@@ -228,6 +227,8 @@ export default function App({ Component, pageProps }) {
     return marketplace_contract;
   };
 
+
+  // cancel nft lisiting 
   const cancel_listing = async (collection_address, tokenId) => {
     const contract = marketplace();
     const txn = await contract.cancelListing(collection_address, tokenId);
@@ -240,6 +241,8 @@ export default function App({ Component, pageProps }) {
       .call("cancel_listing");
   };
 
+
+  // fetch listed nft 
   const fetch_listed_nfts = async () => {
     try {
       const db = polybase();
@@ -274,6 +277,8 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+
+  // lsit nft for sale 
   const list_nft = async (tokenId, price, collection_address, signer) => {
     const user_address = await signer.getAddress();
 
@@ -314,6 +319,8 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+
+  // execute sales 
   const executeSale = async (tokenId, collection_address, listing_price) => {
     const db = polybase();
 
@@ -385,14 +392,39 @@ export default function App({ Component, pageProps }) {
   ) => {
     try {
       // getting relayer fee
+      let relayerMain;
+      let chain_Image;
+      let chain_symbol;
+      let chain_block;
+
       const polygonDomain = "9991";
+      const goerliDomain = "1735353714";
       const { sdkBase } = await create(SdkConfig);
-      const relayerFee = (
-        await sdkBase.estimateRelayerFee({
-          originDomain: polygonDomain,
-          destinationDomain: domainID
-        })
-      )
+
+      if (domainID == "1735353714") {
+        // const relayerFee = (
+        //   await sdkBase.estimateRelayerFee({
+        //     originDomain: polygonDomain,
+        //     destinationDomain: domainID
+        //   })
+        // )
+        // relayerMain = relayerFee;
+        chain_Image = "chains/goerli.png";
+        chain_symbol = "ETH";
+        chain_block = "https://goerli.etherscan.io/";
+      }
+      if (domainID == "9991") {
+        // const relayerFee = (
+        //   await sdkBase.estimateRelayerFee({
+        //     originDomain: goerliDomain,
+        //     destinationDomain: domainID
+        //   })
+        // )
+        // relayerMain = relayerFee;
+        chain_Image = "chains/polygon.png";
+        chain_symbol = "MATIC";
+        chain_block = "https://mumbai.polygonscan.com/";
+      }
 
       // approving contract
       let fromChainID = 0;
@@ -436,7 +468,7 @@ export default function App({ Component, pageProps }) {
         const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
         const sendXChainPolygon = await crossChainPolygon.XChainCall(
           domainID,
-          relayerFee,
+          "0",
           "5000",
           AssetCollection,
           signer_address,
@@ -445,11 +477,10 @@ export default function App({ Component, pageProps }) {
         );
         await sendXChainPolygon.wait();
         const Txnhash = await sendXChainPolygon.hash;
-        setBridgedHash(Txnhash);
 
         // saving nft bridging info and updating NFT in polybase 
         const obj = {
-          txn_hash: "Txnhash",
+          txn_hash: Txnhash,
           from_chain_id: fromChainID,
           asset_collection: AssetCollection,
           asset_tokenId: AssetTokenID,
@@ -457,25 +488,21 @@ export default function App({ Component, pageProps }) {
 
         const parsed_data = JSON.stringify(obj);
         const db = polybase();
-        console.log({ parsed_data, chainIdMain, chainImg, symbol, blockURL });
 
         const save_transaction = await db
           .collection("User")
           .record(signer_address)
           .call("add_transaction", ["parsed_data"]);
-        console.log({ save_transaction });
 
-        const res = await db
+        const update_NFTChain = await db
           .collection("NFT")
           .record(`${AssetCollection}/${AssetTokenID}`)
           .call("nft_bridge", [
             xChainID.toString(),
-            chainImg,
-            symbol,
-            blockURL,
+            chain_Image,
+            chain_symbol,
+            chain_block,
           ]);
-
-        console.log({ res });
       } catch (error) {
         console.log({ XCallError: error });
       }
@@ -928,6 +955,7 @@ export default function App({ Component, pageProps }) {
         isArtist,
         membershipFees,
         perks,
+        transactions,
       } = res.data;
       return res.data;
     } catch (error) {
@@ -999,7 +1027,6 @@ export default function App({ Component, pageProps }) {
         xchain_NFT={xchain_NFT}
         x_chain_polygon_address={x_chain_polygon_address}
         x_chain_goerli_address={x_chain_goerli_address}
-        bridgedHash={bridgedHash}
         fetch_collection_data_from_polybase={
           fetch_collection_data_from_polybase
         }

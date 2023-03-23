@@ -90,40 +90,47 @@ const CreateAINFT = ({ defaultCollectionAddress, create_token, get_my_collection
     const handleAISubmit = async (e) => {
         e.preventDefault();
         set_loadingPrediction(true);
-        const response = await fetch("/api/predictions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                prompt: e.target.prompt.value,
-            }),
-        });
-        let prediction = await response.json();
-        if (response.status !== 201) {
-            setError(prediction.detail);
-            return;
-        }
-        setPrediction(prediction);
 
-        while (
-            prediction.status !== "succeeded" &&
-            prediction.status !== "failed"
-        ) {
-            await sleep(1000);
-            const response = await fetch("/api/predictions/" + prediction.id);
-            prediction = await response.json();
-            if (response.status !== 200) {
+        try {
+            const response = await fetch("/api/predictions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    prompt: e.target.prompt.value,
+                }),
+            });
+
+            let prediction = await response.json();
+            if (response.status !== 201) {
                 setError(prediction.detail);
                 return;
             }
             setPrediction(prediction);
-            if (prediction.output) {
-                setPredictionOutput(prediction.output[prediction.output.length - 1]);
-                setPredictionReady(true);
-                set_loadingPrediction(false);
+
+            while (
+                prediction.status !== "succeeded" &&
+                prediction.status !== "failed"
+            ) {
+                await sleep(1000);
+                const response = await fetch("/api/predictions/" + prediction.id);
+                prediction = await response.json();
+                if (response.status !== 200) {
+                    setError(prediction.detail);
+                    return;
+                }
+                setPrediction(prediction);
+                if (prediction.output) {
+                    setPredictionOutput(prediction.output[prediction.output.length - 1]);
+                    setPredictionReady(true);
+                    set_loadingPrediction(false);
+                }
             }
+        } catch (error) {
+            console.log({ GenError: error })
         }
+
     };
 
     useEffect(() => {

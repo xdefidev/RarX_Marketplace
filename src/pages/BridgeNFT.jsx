@@ -7,7 +7,7 @@ import Head from "next/head";
 
 
 
-const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_from_user_wallet, signer_address, xchain_NFT, x_chain_polygon_address, x_chain_goerli_address, bridgedHash }) => {
+const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_from_user_wallet, signer_address, xchain_NFT, x_chain_polygon_address, x_chain_goerli_address }) => {
 
     const [domainID, setDomainID] = useState("9991");
     const [assetContract, setAssesContract] = useState("");

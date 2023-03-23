@@ -4,12 +4,20 @@ import Head from "next/head";
 import connextPng from "../../public/tech/connext.png";
 
 
-const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
+const Notifications = ({ connectToWallet, signer_address, chainIdMain, getUserData }) => {
 
     const [propShow, setPropShow] = useState(true);
+    const [user_data, set_user_data] = useState();
+
+    const get_user_info = async () => {
+        const data = await getUserData(signer_address);
+        set_user_data(data);
+        console.log({ userDataa: data });
+    };
 
     useEffect(() => {
         connectToWallet();
+        get_user_info();
     }, [chainIdMain, signer_address]);
 
     return (
@@ -28,7 +36,7 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
                     <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" />
                 </picture>
                 <div className="container">
-                    <h1 className="mt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white mb-16">Transactions</h1>
+                    <h1 onClick={() => get_user_info()} className="mt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white mb-16">Transactions</h1>
 
                     <div className="scrollbar-custom overflow-x-auto rounded-lg">
                         <div className="min-w-fit">

@@ -13,12 +13,12 @@ const CollectionCard = ({
   collectionId,
 }) => {
   return (
-    <div className="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
+    <div className="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[300px] overflow-hidden">
       <Link
         href={`/collection/${CollectionAddress}`}
         className="relative flex space-x-[0.625rem]"
       >
-        <span className="w-[100%]">
+        <span className="w-[100%] h-[150px]">
           <Image
             src={Cover.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
             alt="Cover Image"

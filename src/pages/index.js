@@ -95,7 +95,7 @@ export default function Home({ all_collections, nfts }) {
                     13
                   </span>
                   <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                    Sales
+                    NFTs
                   </span>
                 </div>
                 <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">

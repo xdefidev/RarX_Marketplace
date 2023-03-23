@@ -15,6 +15,7 @@ const NFTPage = ({
   list_nft,
   executeSale,
   cancel_listing,
+  chainIdMain
 }) => {
   const router = useRouter();
   const { slug, tokenId } = router.query;
@@ -227,18 +228,27 @@ const NFTPage = ({
                 </div>
 
                 {/* -------------------------- all action buttons start ------------------------  */}
-
                 {/* <!-- list nft --> */}
                 {listSale == false ? (
                   nft?.nft_owner == signer_address && (
                     <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
-                      <button
-                        onClick={() => setListSale(true)}
-                        href="#"
-                        className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                      >
-                        List For Sale
-                      </button>
+                      {nft?.chainId == chainIdMain ?
+                        <button
+                          onClick={() => setListSale(true)}
+                          href="#"
+                          className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
+                          List For Sale
+                        </button>
+                        :
+                        <button
+                          onClick={() => alert("Please switch to respective chain")}
+                          href="#"
+                          className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
+                          List For Sale
+                        </button>
+                      }
                     </div>
                   )
                 ) : (
@@ -391,13 +401,25 @@ const NFTPage = ({
                         </svg>
                       </button>
                     ) : (
-                      <button
-                        type="button"
-                        onClick={() => buyNFT(tokenId, slug, nft?.listingPrice)}
-                        className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                      >
-                        Buy Now
-                      </button>
+                      <>
+                        {nft?.chainId == chainIdMain ?
+                          <button
+                            type="button"
+                            onClick={() => buyNFT(tokenId, slug, nft?.listingPrice)}
+                            className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
+                            Buy Now
+                          </button>
+                          :
+                          <button
+                            type="button"
+                            onClick={() => alert("Please switch to respective chain")}
+                            className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
+                            Buy Now
+                          </button>
+                        }
+                      </>
                     )}
                   </div>
                 )}
@@ -405,13 +427,23 @@ const NFTPage = ({
                 {/* <!-- cancel nft sale --> */}
                 {nft?.seller == signer_address && nft?.isListed == true && (
                   <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
-                    <button
-                      type="button"
-                      onClick={() => cancelListingToken(slug, tokenId)}
-                      className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                    >
-                      Cancel Sale
-                    </button>
+                    {nft?.chainId == chainIdMain ?
+                      <button
+                        type="button"
+                        onClick={() => cancelListingToken(slug, tokenId)}
+                        className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      >
+                        Cancel Sale
+                      </button>
+                      :
+                      <button
+                        type="button"
+                        onClick={() => alert("Please switch to respective chain")}
+                        className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      >
+                        Cancel Sale
+                      </button>
+                    }
                   </div>
                 )}
 
@@ -426,6 +458,7 @@ const NFTPage = ({
                     </button>
                   </div>
                 )}
+
 
                 {/* -------------------------- all action buttons end ------------------------  */}
               </div>
