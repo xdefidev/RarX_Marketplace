@@ -385,65 +385,63 @@ export default function App({ Component, pageProps }) {
       // getting relayer fee
       // const polygonDomain = "9991";
       // const { sdkBase } = await create(SdkConfig);
-      // const relayerFee = (
-      //   await sdkBase.estimateRelayerFee({
-      //     polygonDomain,
-      //     domainID
-      //   })
-      // )
+      // const relayerFee = await sdkBase.estimateRelayerFee({
+      //   polygonDomain,
+      //   domainID,
+      // });
 
       // approving contract
       let fromChainID = 0;
       let xChainID = 0;
-      // try {
-      //   const collectionContract = rarx_collection(AssetCollection, signer);
+      try {
+        const collectionContract = rarx_collection(AssetCollection, signer);
 
-      //   // approve our xchain contract
-      //   const approveTxn = await collectionContract.setApprovalForAll(
-      //     xChainContract,
-      //     true
-      //   );
-      //   await approveTxn.wait();
+        // approve our xchain contract
+        const approveTxn = await collectionContract.setApprovalForAll(
+          xChainContract,
+          true
+        );
+        await approveTxn.wait();
 
-      //   // approve nfthashi polygon contract
-      //   if (domainID == "1735353714") {
-      //     const approveHashiTxn = await collectionContract.setApprovalForAll(
-      //       x_hashi_polygon,
-      //       true
-      //     );
-      //     fromChainID = 80001;
-      //     xChainID = 5;
-      //     await approveHashiTxn.wait();
-      //   }
-      //   // approve nfthashi goerli contract
-      //   if (domainID == "9991") {
-      //     const approveHashiTxn = await collectionContract.setApprovalForAll(
-      //       x_hashi_goerli,
-      //       true
-      //     );
-      //     fromChainID = 5;
-      //     xChainID = 80001;
-      //     await approveHashiTxn.wait();
-      //   }
-      // } catch (error) {
-      //   console.log({ approveError: error });
-      // }
+        // approve nfthashi polygon contract
+        if (domainID == "1735353714") {
+          const approveHashiTxn = await collectionContract.setApprovalForAll(
+            x_hashi_polygon,
+            true
+          );
+          fromChainID = 80001;
+          xChainID = 5;
+          await approveHashiTxn.wait();
+        }
+        // approve nfthashi goerli contract
+        if (domainID == "9991") {
+          const approveHashiTxn = await collectionContract.setApprovalForAll(
+            x_hashi_goerli,
+            true
+          );
+          fromChainID = 5;
+          xChainID = 80001;
+          await approveHashiTxn.wait();
+        }
+      } catch (error) {
+        console.log({ approveError: error });
+      }
 
       // sending xchain call
       try {
-        // const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
-        // const sendXChainPolygon = await crossChainPolygon.XChainCall(
-        //   domainID,
-        //   "0",
-        //   "5000",
-        //   AssetCollection,
-        //   signer_address,
-        //   AssetTokenID,
-        //   "true"
-        // );
-        // await sendXChainPolygon.wait();
-        // const Txnhash = await sendXChainPolygon.hash;
-        // setBridgedHash(Txnhash);
+        const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
+        const sendXChainPolygon = await crossChainPolygon.XChainCall(
+          domainID,
+          "0",
+          "5000",
+          AssetCollection,
+          signer_address,
+          AssetTokenID,
+          "true"
+        );
+        await sendXChainPolygon.wait();
+        const Txnhash = await sendXChainPolygon.hash;
+        setBridgedHash(Txnhash);
 
         // shravan write code here
         // save Txnhash, fromChainID, AssetCollection and AssetTokenID in polybase user transactions named schema
@@ -465,10 +463,15 @@ export default function App({ Component, pageProps }) {
           .call("add_transaction", ["parsed_data"]);
         console.log({ save_transaction });
 
-        const res = db
+        const res = await db
           .collection("NFT")
           .record(`${AssetCollection}/${AssetTokenID}`)
-          .call("nft_bridge", [chainIdMain, chainImg, symbol, blockURL]);
+          .call("nft_bridge", [
+            xChainID.toString(),
+            chainImg,
+            symbol,
+            blockURL,
+          ]);
 
         console.log({ res });
       } catch (error) {
