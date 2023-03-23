@@ -15,8 +15,9 @@ import axios from "axios";
 import * as PushAPI from "@pushprotocol/restapi";
 import { Polybase } from "@polybase/client";
 import { ethPersonalSign } from "@polybase/eth";
-// import { create } from "@connext/sdk";
+import { create } from "@connext/sdk";
 import { useRouter } from "next/router";
+
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   const wallet = new Wallet(process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY);
@@ -348,19 +349,19 @@ export default function App({ Component, pageProps }) {
   };
 
   // connext sdk config
-  // const SdkConfig = {
-  //   signerAddress: signer_address,
-  //   network: "testnet",
-  //   environment: "staging",
-  //   chains: {
-  //     1735353714: {
-  //       providers: ["https://rpc.ankr.com/eth_goerli"],
-  //     },
-  //     9991: {
-  //       providers: ["https://matic-mumbai.chainstacklabs.com"],
-  //     },
-  //   },
-  // };
+  const SdkConfig = {
+    signerAddress: signer_address,
+    network: "testnet",
+    environment: "staging",
+    chains: {
+      1735353714: {
+        providers: ["https://rpc.ankr.com/eth_goerli"],
+      },
+      9991: {
+        providers: ["https://matic-mumbai.chainstacklabs.com"],
+      },
+    },
+  };
 
   // cross chain call main function
   const xChain_Contract_Call = (_xChainContract, signer) => {
@@ -721,7 +722,7 @@ export default function App({ Component, pageProps }) {
   //FETCHES NFTS BY USER FROM POLYBASE
   const fetch_nfts_from_user_wallet = async (signer_address) => {
     try {
-      if (!signer_address) return;
+      // if (!signer_address) return;
       let nfts = [];
       const db = polybase();
       const res = await db

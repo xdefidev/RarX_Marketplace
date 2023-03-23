@@ -295,6 +295,10 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
                                                                                     Address={e.ipfsData.collection}
                                                                                     tokenId={e.tokenId}
                                                                                     onClickOpen={false}
+                                                                                    listedBool={e.isListed}
+                                                                                    listingPrice={e.listingPrice}
+                                                                                    chain_image={e.chain_image}
+                                                                                    chain_symbol={e.chain_symbol}
                                                                                 />
                                                                             </div>
                                                                         )
@@ -338,13 +342,12 @@ const BridgeNFT = ({ connectToWallet, chainIdMain, setChainIdMain, fetch_nfts_fr
                         You shall see the NFT in your wallet in few mins..
                     </p>
                     <div className='flex justify-center'>
-                        <a
-                            href={bridgedHash}
-                            target="_blank"
+                        <Link
+                            href="/Transactions"
                             className="mt-6 w-70 align-middle rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                         >
                             View Transaction
-                        </a>
+                        </Link>
                     </div>
                 </div>
             }

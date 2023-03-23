@@ -305,7 +305,7 @@ const Profile = ({
 
   const get_nfts = async () => {
     set_loading(true);
-    const nfts = await fetch_nfts_from_user_wallet(signer_address);
+    const nfts = await fetch_nfts_from_user_wallet(slug);
     set_nfts(nfts);
     set_loading(false);
   };
@@ -317,16 +317,16 @@ const Profile = ({
   };
 
   useEffect(() => {
-    if (!signer_address) return;
     const fetchData = async () => {
       myCollections();
-      if (!signer_address) return;
       get_nfts();
     };
     fetchData();
+    get_user_info();
+
+    if (!signer_address) return;
     connectSF();
     fetchStreams();
-    get_user_info();
   }, [signer]);
 
   return loading ? (
@@ -342,7 +342,7 @@ const Profile = ({
       <div className="relative mt-24">
         <Image
           src={
-            user_data.coverImage?.replace(
+            user_data?.coverImage?.replace(
               "ipfs://",
               "https://gateway.ipfscdn.io/ipfs/"
             ) || testNFT
@@ -360,7 +360,7 @@ const Profile = ({
           <figure className="relative">
             <Image
               src={
-                user_data.profileImage?.replace(
+                user_data?.profileImage?.replace(
                   "ipfs://",
                   "https://gateway.ipfscdn.io/ipfs/"
                 ) || testNFT
