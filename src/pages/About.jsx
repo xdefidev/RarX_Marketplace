@@ -13,6 +13,7 @@ import mantle from "../../public/chains/mantle.png";
 import polygon from "../../public/chains/polygon.png";
 import scroll from "../../public/chains/scroll.png";
 import taiko from "../../public/chains/taiko.png";
+import goerli from "../../public/chains/goerli.png";
 
 //tech
 import connext from "../../public/tech/connext.png";
@@ -269,6 +270,18 @@ const About = () => {
             />
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               Taiko
+            </h3>
+          </a>
+          <a href="#" className="flex flex-col justify-center">
+            <Image
+              src={goerli}
+              alt="goerli"
+              className="h-[120px] w-[120px] m-6 self-center"
+              height={100}
+              width={100}
+            />
+            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
+              Ethereum
             </h3>
           </a>
         </div>

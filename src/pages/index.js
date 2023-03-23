@@ -388,7 +388,7 @@ export default function Home({ all_collections, nfts, artists }) {
           <h2 className="mb-16 text-center font-display text-3xl text-jacarta-700 dark:text-white">
             What Makes RarX Unique ?
           </h2>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 text-center">
             <div className="text-center">
               <div className="mb-6 inline-flex rounded-full bg-[#CDBCFF] p-3">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent">
@@ -466,13 +466,12 @@ export default function Home({ all_collections, nfts, artists }) {
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-red">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="h-5 w-5 fill-white"
+                    className="h-6 w-6 transition-colors fill-white"
                   >
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm2.828 8.486a2 2 0 1 0 2.828-2.829 2 2 0 0 0-2.828 2.829z" />
+                    <path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" />
                   </svg>
                 </div>
               </div>
@@ -480,10 +479,55 @@ export default function Home({ all_collections, nfts, artists }) {
                 4. Chat With Artists
               </h3>
               <p className="dark:text-jacarta-300">
-                Chat with any artists on RarX using push chat. Also, you can
-                send monthly tips to your favourite artists (powered by
+                Chat with any artists on RarX using push chat. Discuss about nfts, negotiate for your favourite NFTs, get tips from artists, etc.
+              </p>
+            </div>
+            <div className="text-center">
+            </div>
+            <div className="text-center">
+              <div className="mb-6 inline-flex rounded-full bg-[#FFD0D0] p-3">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-red">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="h-6 w-6 transition-colors fill-white"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z"></path>
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">
+                5. Membership Subscriptions
+              </h3>
+              <p className="dark:text-jacarta-300">
+                You can get membership subscriptions from your favourite artists and get access for all the perks provided by them (powered by
                 superfluid streams)
               </p>
+            </div>
+            <div className="text-center">
+              <div className="mb-6 inline-flex rounded-full bg-[#C4F2E3] p-3">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-green">
+                  <svg
+                    className="h-7 w-7 fill-white"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">
+                6. Realtime Notifications
+              </h3>
+              <p className="dark:text-jacarta-300">
+                Get notifications for NFT sales, NFT purchases, Memberships, cross-chain transactions, etc. Realtime notifications on RarX are powered by push protocol.
+              </p>
+            </div>
+            <div className="text-center">
             </div>
           </div>
         </div>
