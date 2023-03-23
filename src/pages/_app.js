@@ -433,7 +433,7 @@ export default function App({ Component, pageProps }) {
         const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
         const sendXChainPolygon = await crossChainPolygon.XChainCall(
           domainID,
-          "0",
+          relayerFee,
           "5000",
           AssetCollection,
           signer_address,
