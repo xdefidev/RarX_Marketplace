@@ -415,7 +415,6 @@ export default function App({ Component, pageProps }) {
         // save Txnhash, fromChainID, AssetCollection and AssetTokenID in polybase user transactions named schema
         // update xChainID of NFT in polybase NFT schema
 
-        // update xChainID of NFT in polybase NFT schema
       } catch (error) {
         console.log({ XCallError: error });
       }
