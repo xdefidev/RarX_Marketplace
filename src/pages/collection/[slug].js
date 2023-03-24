@@ -13,7 +13,8 @@ import umaPng from "../../../public/tech/uma.jpeg";
 
 const Collection = ({
   fetch_collection_data_from_polybase,
-  fetch_nfts_from_collection
+  fetch_nfts_from_collection,
+  signer_address
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -114,15 +115,17 @@ const Collection = ({
               </div>
             </div>
 
-            <div className="flex justify-center align-middle mt-[-50px]">
-              <button
-                onClick={() => setShowVerification(!showVerification)}
-                type="button"
-                className="rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
-              >
-                Verify Collection
-              </button>
-            </div>
+            {slug == signer_address &&
+              <div className="flex justify-center align-middle mt-[-50px] mb-6">
+                <button
+                  onClick={() => setShowVerification(!showVerification)}
+                  type="button"
+                  className="rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
+                >
+                  Verify Collection
+                </button>
+              </div>
+            }
 
             <div className="container">
               {showVerification &&
@@ -256,7 +259,7 @@ const Collection = ({
               }
 
               <div className="text-center">
-                <div className="mb-6 mt-6 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
+                <div className="mb-6 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
                   <a href={`${collection?.chain_block}address/${collection.id}`} target="_blank" className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
                     <span>{slug}</span>
                   </a>
