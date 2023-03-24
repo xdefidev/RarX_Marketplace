@@ -9,8 +9,9 @@ We have integrated a lot of technologies to make our marketplace stand out and m
 1) Connext: we are using connext and NFTHashi for cross-chain NFTs. Connext makes the process of bridging NFTs very easy on our marketplace.
 2) Polybase: This is the backbone of our marketplace, we are using polybase to store instances of users, NFTs, and collections when created on-chain. As it is a decentralized database with no downtime issues, we are fetching all the data from the polybase itself on our marketplace.
 3) Push Protocol: we are using push protocol for real-time notifications, and chat between users is also handled by push chat. Push protocol respects the privacy of every chat as the messages are encrypted and stored on-chain.
-4) Intmax: To provide a smooth user experience for the users who are using our marketplace on mobile phones and tablets we are using the Intmax wallet. Intmax wallet provides a lot of cool features like biometric verifications which eventually improve the UX of our marketplace.
-5) Superfluid: We are using superfluid to back our membership subscriptions of artists.
+4) UMA OO: we are using UMA's Optimistic Oracle to verify the NFT Collections.
+5) Intmax: To provide a smooth user experience for the users who are using our marketplace on mobile phones and tablets we are using the Intmax wallet. Intmax wallet provides a lot of cool features like biometric verifications which eventually improve the UX of our marketplace.
+6) Superfluid: We are using superfluid to back our membership subscriptions of artists.
 
 
 
