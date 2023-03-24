@@ -32,7 +32,7 @@ const Navbar = ({
   signOut,
 }) => {
   const router = useRouter();
-  const user_address = async () => {};
+  const user_address = async () => { };
   const [notificationData, setNotificationData] = useState();
 
   const [profileDrop, setProfileDrop] = useState(false);
@@ -983,7 +983,7 @@ const Navbar = ({
 
                     {showNotifications && (
                       <div className="absolute right-[-50px] z-20 w-64 mt-6 overflow-hidden origin-top-right bg-white rounded-md shadow-xl sm:w-80 dark:bg-gray-800">
-                        {notificationData?.map((e, i) => {
+                        {notificationData && notificationData?.map((e, i) => {
                           return (
                             i < 6 &&
                             e.app === "RarX Marketplace" && (
@@ -1019,7 +1019,7 @@ const Navbar = ({
                             )
                           );
                         })}
-                        {notificationData[0]?.app != "RarX Marketplace" && (
+                        {notificationData && notificationData[0]?.app != "RarX Marketplace" && (
                           <div className="h-[135px]">
                             <a
                               href="#"
@@ -1058,7 +1058,7 @@ const Navbar = ({
                             </a>
                           </div>
                         )}
-                        {notificationData.length === 0 &&
+                        {notificationData && notificationData.length === 0 &&
                           nullNotification == true && (
                             <div className="h-[135px]">
                               <a
