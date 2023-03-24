@@ -11,9 +11,11 @@ const CollectionCard = ({
   OwnerAddress,
   CollectionAddress,
   collectionId,
+  chainImgPre,
+  chain_image
 }) => {
   return (
-    <div className="rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[300px] overflow-hidden">
+    <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[290px] overflow-hidden">
       <Link
         href={`/collection/${CollectionAddress}`}
         className="relative flex space-x-[0.625rem]"
@@ -75,6 +77,16 @@ const CollectionCard = ({
           )}
         </div>
         {/* <span className="text-sm dark:text-jacarta-300">3 NFT Items</span> */}
+      </div>
+      <div>
+        <Image
+          src={`${chainImgPre}${chain_image == "" ? "chains/polygon.png" : chain_image}`}
+          height={100}
+          width={100}
+          alt="item 5"
+          className="absolute h-6 w-6 right-3 bottom-3"
+          loading="lazy"
+        />
       </div>
     </div>
   );

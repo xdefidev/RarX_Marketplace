@@ -5,17 +5,22 @@ import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
 import Head from "next/head";
 import Loader from "@/components/Loader";
 import { ethers } from "ethers";
+import umaPng from "../../../public/tech/uma.jpeg";
+
 const Collection = ({
   fetch_collection_data_from_polybase,
   fetch_nfts_from_collection,
+  signer_address
 }) => {
   const router = useRouter();
   const { slug } = router.query;
 
   const [loading, setLoading] = useState(false);
+  const [showVerification, setShowVerification] = useState(false);
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
@@ -104,28 +109,165 @@ const Collection = ({
                   className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
                 />
                 <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
-                  <MdVerified style={{ color: "#4f87ff" }} size={30} />
+                  {/* <MdVerified style={{ color: "#4f87ff", cursor: "pointer" }} size={30} /> */}
+                  <BsFillExclamationCircleFill style={{ color: "#cfc62d", cursor: "pointer" }} size={30} />
                 </div>
               </div>
             </div>
 
+            {slug == signer_address &&
+              <div className="flex justify-center align-middle mt-[-50px] mb-6">
+                <button
+                  onClick={() => setShowVerification(!showVerification)}
+                  type="button"
+                  className="rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
+                >
+                  Verify Collection
+                </button>
+              </div>
+            }
+
             <div className="container">
+              {showVerification &&
+                <div>
+                  <div className="modal-dialog max-w-2xl">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title" id="placeBidLabel">
+                          Collection Verification
+                        </h5>
+                        {/* <h5 className="modal-title flex mr-12" id="placeBidLabel">
+                          <p className="text-lg font-semibold">Powered by</p>
+                          <Image src={umaPng} height={15} width={30} className="ml-2" />
+                        </h5> */}
+                        <button
+                          type="button"
+                          className="btn-close"
+                          onClick={() => setShowVerification(false)}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div className="modal-body p-6">
+                        <div className="mb-2 flex items-center justify-between">
+                          <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
+                            Complete all the four steps to verify your collection {" "}
+                          </span>
+                          <div className="flex items-center justify-center space-x-2 mr-6">
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          </div>
+                        </div>
+
+                        {/* step 1  */}
+                        <div className="mt-4 flex items-center space-x-2 flex-col">
+                          <label
+                            htmlFor="terms"
+                            className="text-xl font-semibold font-display mt-2"
+                          >
+                            Step 1 -
+                          </label>
+
+                          <div className="mt-4 ">
+                            <label
+                              htmlFor="terms"
+                              className="text-sm dark:text-jacarta-200"
+                            >
+                              In the first step a contract (OptimisticOracleV2) will be deployed on goerli chain{" "}
+                            </label>
+                          </div>
+
+                          <div className="flex items-center justify-center space-x-4">
+                            <button
+                              type="button"
+                              className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
+                            >
+                              Start Verification
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* step 2  */}
+                      <div className="modal-footer">
+                        <label
+                          htmlFor="terms"
+                          className="text-xl font-semibold font-display mt-2"
+                        >
+                          Step 2 -
+                        </label>
+
+                        <div className="mt-4 text-center">
+                          <label
+                            htmlFor="terms"
+                            className="text-sm dark:text-jacarta-200"
+                          >
+                            In the second step you will request verification which will be posted on uma oracle website (where verification happens) {" "}
+                          </label>
+                        </div>
+                        <div className="flex items-center justify-center space-x-4">
+                          <button
+                            type="button"
+                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
+                          >
+                            Request Verification
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* step 3  */}
+                      <div className="modal-footer">
+                        <label
+                          htmlFor="terms"
+                          className="text-xl font-semibold font-display mt-2"
+                        >
+                          Step 3 -
+                        </label>
+
+                        <div className="mt-4 text-center">
+                          <label
+                            htmlFor="terms"
+                            className="text-sm dark:text-jacarta-200"
+                          >
+                            In this step you will settle the verification if there are no disputes your collection verification process will be completed here{" "}
+                          </label>
+                        </div>
+                        <div className="flex items-center justify-center space-x-4">
+                          <button
+                            type="button"
+                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
+                          >
+                            Settle Verification
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              }
+
               <div className="text-center">
-                <div className="mb-6 mt-[-50px] inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
-                  <button className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
+                <div className="mb-6 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
+                  <a href={`${collection?.chain_block}address/${collection.id}`} target="_blank" className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
                     <span>{slug}</span>
-                  </button>
+                  </a>
                 </div>
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                   {collection.name}
                 </h2>
                 <div className="mb-4">
-                  {/* <span className="text-sm font-bold text-jacarta-400">
-                Created by{" "}
-              </span>
-              <Link href={`/profile/${collection.owner}`} className="max-w-[10rem] text-sm font-bold text-accent overflow-hidden text-ellipsis whitespace-nowrap">
-                {collection.owner}
-              </Link> */}
                 </div>
 
                 {/* desc  */}
@@ -162,7 +304,10 @@ const Collection = ({
                     className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold">{floor_price}</span>
+                      <span className="font-bold mr-2">
+                        {floor_price}
+                      </span>
+                      <Image src={`../${collection?.chain_image ? collection?.chain_image : "chains/polygon.png"}`} height={18} width={18} />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
@@ -173,7 +318,8 @@ const Collection = ({
                     className="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold">{volume}</span>
+                      <span className="font-bold mr-2">{volume}</span>
+                      <Image src={`../${collection?.chain_image ? collection?.chain_image : "chains/polygon.png"}`} height={18} width={18} />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Volume Traded

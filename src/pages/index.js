@@ -30,52 +30,6 @@ export default function Home({ all_collections, nfts, artists }) {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      {/* hero section old  */}
-      {/* <div className="relative pb-10 pt-20 md:pt-32 lg:h-[88vh]" id="heroBack">
-        <div className="container h-full mt-10">
-          <div className="grid h-full items-center gap-6 md:grid-cols-12">
-            <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
-              <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl">
-                Buy, sell and collect NFTs.
-              </h1>
-              <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                First Cross-chain And Multi-chain Advanced NFT Marketplace With
-                AI NFT Generation
-              </p>
-              <div className="flex space-x-4">
-                <Link
-                  href="/mint/CreateNFT"
-                  className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                >
-                  Create
-                </Link>
-                <Link
-                  href="/Marketplace"
-                  className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                >
-                  Explore
-                </Link>
-              </div>
-            </div>
-
-            <div className="col-span-8 xl:col-span-8">
-              <div className="relative">
-                <Image
-                  src={heroImg}
-                  height="200px"
-                  width="auto"
-                  className="xl:ml-[300px]"
-                />
-              </div>
-            </div>
-
-            <div className="col-span-8 xl:col-span-8 ml-56" id="splineStyleMax" >
-              <Spline scene="https://prod.spline.design/VbZkYW61RBUJEl-y/scene.splinecode" />
-            </div>
-          </div>
-        </div>
-      </div> */}
-
       {/* <!-- Hero secondary --> */}
       <section className="relative py-20 md:pt-32" id="heroBack">
         <div className="h-full px-6 xl:px-20">
@@ -356,6 +310,8 @@ export default function Home({ all_collections, nfts, artists }) {
                     OwnerAddress={e.owner.id}
                     CollectionAddress={e.id}
                     collectionId={e.id}
+                    chain_image={e.chain_image}
+                    chainImgPre={"../"}
                   />
                 )
               );

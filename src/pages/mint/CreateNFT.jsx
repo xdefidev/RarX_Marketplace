@@ -51,7 +51,6 @@ const CreateNFT = ({
   };
 
   const get_user_collections = async () => {
-    if (!signer) return;
     const collections = await get_my_collections(signer);
     set_user_collections(collections);
   };
@@ -70,6 +69,7 @@ const CreateNFT = ({
   };
 
   useEffect(() => {
+    if (!signer) return;
     get_user_collections();
   }, [signer]);
 
@@ -208,6 +208,7 @@ const CreateNFT = ({
                   name="collection"
                   value={data.collection}
                   onChange={handleChange}
+                  onClick={() => get_user_collections()}
                   className="dropdown my-1 cursor-pointer w-[100%]"
                   required
                 >
