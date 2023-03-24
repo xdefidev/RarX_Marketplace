@@ -310,6 +310,8 @@ export default function Home({ all_collections, nfts, artists }) {
                     OwnerAddress={e.owner.id}
                     CollectionAddress={e.id}
                     collectionId={e.id}
+                    chain_image={e.chain_image}
+                    chainImgPre={"../"}
                   />
                 )
               );

@@ -10,7 +10,7 @@ import Loader from "@/components/Loader";
 import { ethers } from "ethers";
 const Collection = ({
   fetch_collection_data_from_polybase,
-  fetch_nfts_from_collection,
+  fetch_nfts_from_collection
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -112,9 +112,9 @@ const Collection = ({
             <div className="container">
               <div className="text-center">
                 <div className="mb-6 mt-[-50px] inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
-                  <button className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
+                  <a href={`${collection?.chain_block}address/${collection.id}`} target="_blank" className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
                     <span>{slug}</span>
-                  </button>
+                  </a>
                 </div>
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                   {collection.name}
@@ -162,7 +162,10 @@ const Collection = ({
                     className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold">{floor_price}</span>
+                      <span className="font-bold mr-2">
+                        {floor_price}
+                      </span>
+                      <Image src={`../${collection?.chain_image ? collection?.chain_image : "chains/polygon.png"}`} height={18} width={18} />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
@@ -173,7 +176,8 @@ const Collection = ({
                     className="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold">{volume}</span>
+                      <span className="font-bold mr-2">{volume}</span>
+                      <Image src={`../${collection?.chain_image ? collection?.chain_image : "chains/polygon.png"}`} height={18} width={18} />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Volume Traded

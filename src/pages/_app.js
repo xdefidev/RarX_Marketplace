@@ -238,6 +238,8 @@ export default function App({ Component, pageProps }) {
         obj.name = e.data.name;
         obj.owner_name = e.data.owner.id;
         obj.symbol = e.data.symbol;
+        obj.chain_image = e.data.chain_image;
+        obj.chain_block = e.data.chain_block;
         fetched_collections.push(obj);
       }
 
