@@ -115,7 +115,7 @@ const Collection = ({
               </div>
             </div>
 
-            {slug == signer_address &&
+            {slug != signer_address &&
               <div className="flex justify-center align-middle mt-[-50px] mb-6">
                 <button
                   onClick={() => setShowVerification(!showVerification)}
@@ -161,7 +161,7 @@ const Collection = ({
                       <div className="modal-body p-6">
                         <div className="mb-2 flex items-center justify-between">
                           <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
-                            Complete all the four steps to verify your collection {" "}
+                            Complete all the three steps to verify your collection {" "}
                           </span>
                           <div className="flex items-center justify-center space-x-2 mr-6">
                             <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
