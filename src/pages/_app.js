@@ -33,6 +33,7 @@ export default function App({ Component, pageProps }) {
   const [nfts, set_nfts] = useState([]);
   const [search_data] = useState(nfts);
   const [artists, set_artists] = useState([]);
+  const [chainId, set_current_chainId] = useState();
 
   //COLLECTIONS INFORMATION
   const [all_collections, set_collections] = useState([]);
@@ -99,6 +100,7 @@ export default function App({ Component, pageProps }) {
       set_format_signer_bal(formatBalance);
 
       const { chainId } = await provider.getNetwork();
+      set_current_chainId(chainId);
 
       if (chainId == 1442) {
         // polygon zkevm
@@ -183,7 +185,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-  // signing out wallet 
+  // signing out wallet
   const signOut = async () => {
     set_signer_address("");
     setSigner();
@@ -282,8 +284,7 @@ export default function App({ Component, pageProps }) {
       .call("cancel_listing");
   };
 
-
-  // fetch listed nft 
+  // fetch listed nft
   const fetch_listed_nfts = async () => {
     try {
       const db = polybase();
@@ -318,8 +319,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-
-  // lsit nft for sale 
+  // lsit nft for sale
   const list_nft = async (tokenId, price, collection_address, signer) => {
     const user_address = await signer.getAddress();
 
@@ -360,8 +360,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-
-  // execute sales 
+  // execute sales
   const executeSale = async (tokenId, collection_address, listing_price) => {
     const db = polybase();
 
@@ -519,7 +518,7 @@ export default function App({ Component, pageProps }) {
         await sendXChainPolygon.wait();
         const Txnhash = await sendXChainPolygon.hash;
 
-        // saving nft bridging info and updating NFT in polybase 
+        // saving nft bridging info and updating NFT in polybase
         const obj = {
           txn_hash: Txnhash,
           from_chain_id: fromChainID,
@@ -533,7 +532,7 @@ export default function App({ Component, pageProps }) {
         const save_transaction = await db
           .collection("User")
           .record(signer_address)
-          .call("add_transaction", ["parsed_data"]);
+          .call("add_transaction", [parsed_data]);
 
         const update_NFTChain = await db
           .collection("NFT")
@@ -854,6 +853,53 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  const fetch_nfts_by_chain = async () => {
+    console.log({ chainId });
+    console.log({ signer_address, chainId });
+    try {
+      const db = polybase();
+      const res = await db
+        .collection("NFT")
+        .where("owner", "==", {
+          collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
+          id: signer_address,
+        })
+        .where("chainId", "==", chainId?.toString())
+        .get();
+      let nfts = [];
+      for (const e of res.data) {
+        let obj = {};
+        const ipfsURL = e.data.ipfsURL.replace(
+          "ipfs://",
+          "https://gateway.ipfscdn.io/ipfs/"
+        );
+        const res = await axios.get(ipfsURL);
+        obj.nft_name = res.data.name;
+        obj.nft_description = res.data.description;
+        obj.image = res.data.image;
+        obj.collection = res.data.collection;
+        obj.tokenId = e.data.tokenId;
+        obj.isListed = e.data.isListed;
+        obj.listingPrice = e.data.listingPrice ? e.data.listingPrice : "";
+        obj.chain_image = e.data.chain_image;
+        obj.chain_symbol = e.data.chain_symbol;
+        nfts.push(obj);
+      }
+
+      return nfts;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // FETCH TRANSACTIONS
+  const fetch_transacrions = async () => {
+    // try {
+    //   const db = polybase();
+    //   const res = await db.collection("User").
+    // } catch (error) {}
+  };
+
   // sending collection verification notification
   const sendCollectionNoti = async ({ collectionName }) => {
     const signer = new ethers.Wallet(
@@ -998,6 +1044,7 @@ export default function App({ Component, pageProps }) {
         perks,
         transactions,
       } = res.data;
+      console.log({ transactions });
       return res.data;
     } catch (error) {
       console.log(error.message);
@@ -1085,6 +1132,7 @@ export default function App({ Component, pageProps }) {
         cancel_listing={cancel_listing}
         artists={artists}
         fetch_collections_polybase={fetch_collections_polybase}
+        fetch_nfts_by_chain={fetch_nfts_by_chain}
       />
       <Footer />
     </>
