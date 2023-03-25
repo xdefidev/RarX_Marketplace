@@ -122,6 +122,13 @@ export default function App({ Component, pageProps }) {
         setSymbol("ETH");
         setBlockchain("PolygonZKEVM");
         setBlockURL("https://mumbai.polygonscan.com/");
+
+        create_NFTCollection_default(
+          "0x0D73e15690faCBccc0769436a705595E587B8D65",
+          "PolygonZkevm",
+          "chains/polygon.png",
+          "https://mumbai.polygonscan.com/"
+        );
       } else if (chainId == 3141) {
         // filecoin
         setCollectionAddress("0xdC4643fc6A81247c75f5f434f9256A1de4C9aacb");
@@ -133,6 +140,13 @@ export default function App({ Component, pageProps }) {
         setSymbol("TFIL");
         setBlockchain("Filecoin");
         setBlockURL("https://hyperspace.filfox.info/en/");
+
+        create_NFTCollection_default(
+          "0xdC4643fc6A81247c75f5f434f9256A1de4C9aacb",
+          "Filecoin",
+          "chains/filecoin.png",
+          "https://hyperspace.filfox.info/en/"
+        );
       } else if (chainId == 5001) {
         // mantle
         setCollectionAddress("0x835BC919ED6380b330C5BC1f9459dA11ce4911C4");
@@ -144,6 +158,13 @@ export default function App({ Component, pageProps }) {
         setSymbol("BIT");
         setBlockchain("Mantle");
         setBlockURL("https://explorer.testnet.mantle.xyz/");
+
+        create_NFTCollection_default(
+          "0x835BC919ED6380b330C5BC1f9459dA11ce4911C4",
+          "Mantle",
+          "chains/mantle.png",
+          "https://explorer.testnet.mantle.xyz/"
+        );
       } else if (chainId == 534353) {
         // scroll
         setCollectionAddress("0xb0d163F7e7Acb60a5eD5d5929278ffAE8082BF8c");
@@ -155,24 +176,40 @@ export default function App({ Component, pageProps }) {
         setSymbol("ETH");
         setBlockchain("Scroll");
         setBlockURL("https://blockscout.scroll.io/");
+
+        create_NFTCollection_default(
+          "0xb0d163F7e7Acb60a5eD5d5929278ffAE8082BF8c",
+          "Scroll",
+          "chains/scroll.png",
+          "https://blockscout.scroll.io/"
+        );
       } else if (chainId == 167002) {
         // taiko
-        setCollectionAddress("deafult");
-        setMarketplaceAddress("deafult");
-        setCollectionFactoryAddress("deafult");
+        setCollectionAddress("");
+        setMarketplaceAddress("");
+        setCollectionFactoryAddress("");
         setChainImg(TaikoLogo);
         setSymbol("ETH");
         setBlockchain("Taiko");
         setBlockURL("https://l2explorer.hackathon.taiko.xyz/");
       } else if (chainId == 10200) {
         // gnosis
-        setCollectionAddress("deafult");
-        setMarketplaceAddress("deafult");
-        setCollectionFactoryAddress("deafult");
+        setCollectionAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
+        setMarketplaceAddress("0xb0d163F7e7Acb60a5eD5d5929278ffAE8082BF8c");
+        setCollectionFactoryAddress(
+          "0xC97537C89A7039bA0090Ec8220CD69Dd2fAAee7b"
+        );
         setChainImg(gnosisLogo);
         setSymbol("XDAI");
         setBlockchain("Gnosis");
         setBlockURL("https://blockscout.com/gnosis/chiado/");
+
+        create_NFTCollection_default(
+          "0x0D73e15690faCBccc0769436a705595E587B8D65",
+          "Gnosis",
+          "chains/gnosis.png",
+          "https://blockscout.com/gnosis/chiado/"
+        );
       } else if (chainId == 5) {
         // eth goerli
         setCollectionAddress("0x488cf7194C5909BC5a26469b321a21aE704E5A2A");
@@ -184,6 +221,13 @@ export default function App({ Component, pageProps }) {
         setSymbol("ETH");
         setBlockchain("Goerli");
         setBlockURL("https://goerli.etherscan.io/");
+
+        create_NFTCollection_default(
+          "0x488cf7194C5909BC5a26469b321a21aE704E5A2A",
+          "Goerli",
+          "chains/goerli.png",
+          "https://goerli.etherscan.io/"
+        );
       } else if (chainId == 80001) {
         // matic
         setCollectionAddress("0xDBf82927AccC05C9f13c15572A224B43CF375E20");
@@ -193,10 +237,15 @@ export default function App({ Component, pageProps }) {
         );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
-        setBlockchain("PolygonMum");
+        setBlockchain("Polygon Mumbai");
         setBlockURL("https://mumbai.polygonscan.com/");
 
-        create_NFTCollection_default("");
+        create_NFTCollection_default(
+          "0xDBf82927AccC05C9f13c15572A224B43CF375E20",
+          "Polygon Mumbai",
+          "chains/polygon.png",
+          "https://mumbai.polygonscan.com/"
+        );
       } else {
         setCollectionAddress("0xDBf82927AccC05C9f13c15572A224B43CF375E20");
         setMarketplaceAddress("0xcF5CB7c9ae635524f691AdeC6743d835cC2d4908");
@@ -208,7 +257,12 @@ export default function App({ Component, pageProps }) {
         setBlockchain("PolygonMum");
         setBlockURL("https://mumbai.polygonscan.com/");
 
-        create_NFTCollection_default();
+        create_NFTCollection_default(
+          "0xDBf82927AccC05C9f13c15572A224B43CF375E20",
+          "Polygon Mumbai",
+          "chains/polygon.png",
+          "https://mumbai.polygonscan.com/"
+        );
       }
       // create_marketplace_acc();
       setChainIdMain(chainId);
@@ -254,6 +308,13 @@ export default function App({ Component, pageProps }) {
     const res = await db
       .collection("User")
       .record("0xEa96732cd48db4e123B6E271207bC454e003422e")
+      .call("del");
+  };
+  const delete_collection = async () => {
+    const db = polybase();
+    const res = await db
+      .collection("NFTCollection")
+      .record("0x0D73e15690faCBccc0769436a705595E587B8D65")
       .call("del");
   };
 
