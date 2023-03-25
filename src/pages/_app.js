@@ -377,7 +377,7 @@ export default function App({ Component, pageProps }) {
       console.log(error.message);
     }
   };
-
+  
   // lsit nft for sale
   const list_nft = async (tokenId, price, collection_address, signer) => {
     const user_address = await signer.getAddress();
