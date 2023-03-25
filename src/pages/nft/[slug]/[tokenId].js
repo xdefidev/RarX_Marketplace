@@ -42,7 +42,7 @@ const NFTPage = ({
     set_loading(true);
     const res = await list_nft(tokenId, listingPrice, slug, signer);
     set_loading(false);
-    // router.reload();
+    router.reload();
   };
 
   const cancelListingToken = async (slug, tokenId) => {
