@@ -471,6 +471,11 @@ const Collection = ({
                       );
                     })}
                   </div>
+                  <div className="flex justify-center">
+                    {nfts?.length <= 0 &&
+                      <h2 className="text-xl font-display font-thin">This collection has no NFTs !!</h2>
+                    }
+                  </div>
                 </div>
               </div>
             </div>
