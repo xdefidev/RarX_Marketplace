@@ -14,7 +14,8 @@ import umaPng from "../../../public/tech/uma.jpeg";
 const Collection = ({
   fetch_collection_data_from_polybase,
   fetch_nfts_from_collection,
-  signer_address
+  signer_address,
+  deploy_uma,
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -110,12 +111,15 @@ const Collection = ({
                 />
                 <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
                   {/* <MdVerified style={{ color: "#4f87ff", cursor: "pointer" }} size={30} /> */}
-                  <BsFillExclamationCircleFill style={{ color: "#cfc62d", cursor: "pointer" }} size={30} />
+                  <BsFillExclamationCircleFill
+                    style={{ color: "#cfc62d", cursor: "pointer" }}
+                    size={30}
+                  />
                 </div>
               </div>
             </div>
 
-            {slug != signer_address &&
+            {slug != signer_address && (
               <div className="flex justify-center align-middle mt-[-50px] mb-6">
                 <button
                   onClick={() => setShowVerification(!showVerification)}
@@ -125,10 +129,10 @@ const Collection = ({
                   Verify Collection
                 </button>
               </div>
-            }
+            )}
 
             <div className="container">
-              {showVerification &&
+              {showVerification && (
                 <div>
                   <div className="modal-dialog max-w-2xl">
                     <div className="modal-content">
@@ -161,7 +165,8 @@ const Collection = ({
                       <div className="modal-body p-6">
                         <div className="mb-2 flex items-center justify-between">
                           <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
-                            Complete all the three steps to verify your collection {" "}
+                            Complete all the three steps to verify your
+                            collection{" "}
                           </span>
                           <div className="flex items-center justify-center space-x-2 mr-6">
                             <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
@@ -184,12 +189,14 @@ const Collection = ({
                               htmlFor="terms"
                               className="text-sm dark:text-jacarta-200"
                             >
-                              In the first step a contract (OptimisticOracleV2) will be deployed on goerli chain{" "}
+                              In the first step a contract (OptimisticOracleV2)
+                              will be deployed on goerli chain{" "}
                             </label>
                           </div>
 
                           <div className="flex items-center justify-center space-x-4">
                             <button
+                              onClick={() => deploy_uma(slug)}
                               type="button"
                               className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                             >
@@ -213,7 +220,9 @@ const Collection = ({
                             htmlFor="terms"
                             className="text-sm dark:text-jacarta-200"
                           >
-                            In the second step you will request verification which will be posted on uma oracle website (where verification happens) {" "}
+                            In the second step you will request verification
+                            which will be posted on uma oracle website (where
+                            verification happens){" "}
                           </label>
                         </div>
                         <div className="flex items-center justify-center space-x-4">
@@ -240,7 +249,9 @@ const Collection = ({
                             htmlFor="terms"
                             className="text-sm dark:text-jacarta-200"
                           >
-                            In this step you will settle the verification if there are no disputes your collection verification process will be completed here{" "}
+                            In this step you will settle the verification if
+                            there are no disputes your collection verification
+                            process will be completed here{" "}
                           </label>
                         </div>
                         <div className="flex items-center justify-center space-x-4">
@@ -252,23 +263,25 @@ const Collection = ({
                           </button>
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>
-              }
+              )}
 
               <div className="text-center">
                 <div className="mb-6 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
-                  <a href={`${collection?.chain_block}address/${collection.id}`} target="_blank" className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200">
+                  <a
+                    href={`${collection?.chain_block}address/${collection.id}`}
+                    target="_blank"
+                    className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200"
+                  >
                     <span>{slug}</span>
                   </a>
                 </div>
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                   {collection.name}
                 </h2>
-                <div className="mb-4">
-                </div>
+                <div className="mb-4"></div>
 
                 {/* desc  */}
                 <p className="mx-auto mb-14 max-w-xl text-lg dark:text-jacarta-300">
@@ -304,10 +317,16 @@ const Collection = ({
                     className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold mr-2">
-                        {floor_price}
-                      </span>
-                      <Image src={`../${collection?.chain_image ? collection?.chain_image : "chains/polygon.png"}`} height={18} width={18} />
+                      <span className="font-bold mr-2">{floor_price}</span>
+                      <Image
+                        src={`../${
+                          collection?.chain_image
+                            ? collection?.chain_image
+                            : "chains/polygon.png"
+                        }`}
+                        height={18}
+                        width={18}
+                      />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
@@ -319,7 +338,15 @@ const Collection = ({
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
                       <span className="font-bold mr-2">{volume}</span>
-                      <Image src={`../${collection?.chain_image ? collection?.chain_image : "chains/polygon.png"}`} height={18} width={18} />
+                      <Image
+                        src={`../${
+                          collection?.chain_image
+                            ? collection?.chain_image
+                            : "chains/polygon.png"
+                        }`}
+                        height={18}
+                        width={18}
+                      />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Volume Traded

@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -6,59 +7,44 @@ module.exports = {
   networks: {
     mumbai: {
       chainId: 80001,
-      accounts: [
-        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
-      ],
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
       url: "https://matic-mumbai.chainstacklabs.com",
     },
     zkEVM: {
       chainId: 1442,
-      accounts: [
-        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
-      ],
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
       url: "https://explorer.public.zkevm-test.net",
     },
     filecoin: {
       chainId: 3141,
       url: "https://api.hyperspace.node.glif.io/rpc/v1",
-      accounts: [
-        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
-      ],
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
     },
     mantle: {
       url: "https://rpc.testnet.mantle.xyz",
       chainId: 5001,
-      accounts: [
-        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
-      ],
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
     },
     scroll: {
       url: "https://alpha-rpc.scroll.io/l2",
       chainId: 534353,
-      accounts: [
-        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
-      ],
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
     },
     taiko: {
       url: "https://l2rpc.hackathon.taiko.xyz",
       chainId: 167002,
-      accounts: [
-        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
-      ],
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
     },
     chiado: {
       url: "https://rpc.chiadochain.net",
       chainId: 10200,
-      accounts: [
-        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
-      ],
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
     },
     goerli: {
-      url: "https://fragrant-side-liquid.ethereum-goerli.discover.quiknode.pro/85d60c255fb0a4d86910952d1838a5a227c9a690/",
+      url:
+        "https://fragrant-side-liquid.ethereum-goerli.discover.quiknode.pro/85d60c255fb0a4d86910952d1838a5a227c9a690/",
       chainId: 5,
-      accounts: [
-        "edf38e734f43872ad5d9c6a42eab6c265200aa3486241be824601a7fc94575ba",
-      ]
+      accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
     },
   },
 };
