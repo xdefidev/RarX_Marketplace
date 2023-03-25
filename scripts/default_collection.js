@@ -9,8 +9,8 @@ const hre = require("hardhat");
 async function main() {
   const Rarx_collection = await hre.ethers.getContractFactory("NFTCollection");
   const Rarx_collection_contract = await Rarx_collection.deploy(
-    "Rarx Collection Polygon",
-    "rarx_polygon"
+    "Rarx NFT Collection",
+    "RARX"
   );
 
   await Rarx_collection_contract.deployed();
