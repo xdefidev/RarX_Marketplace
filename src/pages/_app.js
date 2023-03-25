@@ -77,7 +77,7 @@ export default function App({ Component, pageProps }) {
 
     // create_NFTCollection_default();
     // delete_user();
-    create_Marketplace_user();
+    // create_Marketplace_user();
     if (window?.ethereum) {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -113,28 +113,32 @@ export default function App({ Component, pageProps }) {
 
       if (chainId == 1442) {
         // polygon zkevm
-        setCollectionAddress("deafult");
-        setMarketplaceAddress("deafult");
-        setCollectionFactoryAddress("deafult");
+        setCollectionAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
+        setMarketplaceAddress("0xC97537C89A7039bA0090Ec8220CD69Dd2fAAee7b");
+        setCollectionFactoryAddress(
+          "0xb0d163F7e7Acb60a5eD5d5929278ffAE8082BF8c"
+        );
         setChainImg(polygonLogo);
         setSymbol("ETH");
         setBlockchain("PolygonZKEVM");
         setBlockURL("https://mumbai.polygonscan.com/");
       } else if (chainId == 3141) {
         // filecoin
-        setCollectionAddress("deafult");
-        setMarketplaceAddress("deafult");
-        setCollectionFactoryAddress("deafult");
+        setCollectionAddress("0xdC4643fc6A81247c75f5f434f9256A1de4C9aacb");
+        setMarketplaceAddress("0x50a5dB0124ebA53A5bb99f11730EB942De8D8338");
+        setCollectionFactoryAddress(
+          "0x5c2A32866de13900C9f07fDe8c9E4668EC8B6396"
+        );
         setChainImg(filecoinLogo);
         setSymbol("TFIL");
         setBlockchain("Filecoin");
         setBlockURL("https://hyperspace.filfox.info/en/");
       } else if (chainId == 5001) {
         // mantle
-        setCollectionAddress("0xC97537C89A7039bA0090Ec8220CD69Dd2fAAee7b");
-        setMarketplaceAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
+        setCollectionAddress("0x835BC919ED6380b330C5BC1f9459dA11ce4911C4");
+        setMarketplaceAddress("0x2a21d13776F7317b93ba74Ac7639ad39F4e2db8E");
         setCollectionFactoryAddress(
-          "0xb0d163F7e7Acb60a5eD5d5929278ffAE8082BF8c"
+          "0x208110D0DCea9E83bdecC6C9E088af6090dE1Ef0"
         );
         setChainImg(mantleLogo);
         setSymbol("BIT");
@@ -142,9 +146,11 @@ export default function App({ Component, pageProps }) {
         setBlockURL("https://explorer.testnet.mantle.xyz/");
       } else if (chainId == 534353) {
         // scroll
-        setCollectionAddress("deafult");
-        setMarketplaceAddress("deafult");
-        setCollectionFactoryAddress("deafult");
+        setCollectionAddress("0xb0d163F7e7Acb60a5eD5d5929278ffAE8082BF8c");
+        setMarketplaceAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
+        setCollectionFactoryAddress(
+          "0xC97537C89A7039bA0090Ec8220CD69Dd2fAAee7b"
+        );
         setChainImg(scrollLogo);
         setSymbol("ETH");
         setBlockchain("Scroll");
@@ -169,34 +175,40 @@ export default function App({ Component, pageProps }) {
         setBlockURL("https://blockscout.com/gnosis/chiado/");
       } else if (chainId == 5) {
         // eth goerli
-        setCollectionAddress("deafult");
-        setMarketplaceAddress("deafult");
-        setCollectionFactoryAddress("deafult");
+        setCollectionAddress("0x488cf7194C5909BC5a26469b321a21aE704E5A2A");
+        setMarketplaceAddress("0x93544483B57295abF1756E95D6a296b81cD7541C");
+        setCollectionFactoryAddress(
+          "0xCe8fFb22DC67c11d594e0feFB1f3e2D8D9d23Bf4"
+        );
         setChainImg(goerliLogo);
         setSymbol("ETH");
         setBlockchain("Goerli");
         setBlockURL("https://goerli.etherscan.io/");
       } else if (chainId == 80001) {
         // matic
-        setCollectionAddress("0xbC40E1412DbB1D9783C787a0C99c524d5f0f922c");
-        setMarketplaceAddress("0xEa96732cd48db4e123B6E271207bC454e003422e");
+        setCollectionAddress("0xDBf82927AccC05C9f13c15572A224B43CF375E20");
+        setMarketplaceAddress("0xcF5CB7c9ae635524f691AdeC6743d835cC2d4908");
         setCollectionFactoryAddress(
-          "0xdFfcC00C15f97ca9c516c8a9CE5ca4b8E2aA5428"
+          "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
         );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockchain("PolygonMum");
         setBlockURL("https://mumbai.polygonscan.com/");
+
+        create_NFTCollection_default("");
       } else {
-        setCollectionAddress("0xbC40E1412DbB1D9783C787a0C99c524d5f0f922c");
-        setMarketplaceAddress("0xEa96732cd48db4e123B6E271207bC454e003422e");
+        setCollectionAddress("0xDBf82927AccC05C9f13c15572A224B43CF375E20");
+        setMarketplaceAddress("0xcF5CB7c9ae635524f691AdeC6743d835cC2d4908");
         setCollectionFactoryAddress(
-          "0xdFfcC00C15f97ca9c516c8a9CE5ca4b8E2aA5428"
+          "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
         );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockchain("PolygonMum");
         setBlockURL("https://mumbai.polygonscan.com/");
+
+        create_NFTCollection_default();
       }
       // create_marketplace_acc();
       setChainIdMain(chainId);
@@ -212,13 +224,18 @@ export default function App({ Component, pageProps }) {
   };
 
   // create default nft collection polybase
-  const create_NFTCollection_default = async () => {
+  const create_NFTCollection_default = async (
+    collection_address,
+    blockchain,
+    chainImg,
+    blockURL
+  ) => {
     const db = polybase();
 
     const res = await db
       .collection("NFTCollection")
       .create([
-        defaultCollectionAddress,
+        collection_address,
         db
           .collection("User")
           .record("0xe7ac0B19e48D5369db1d70e899A18063E1f19021"),
@@ -232,13 +249,13 @@ export default function App({ Component, pageProps }) {
       ]);
   };
 
-  // const delete_user = async () => {
-  //   const db = polybase();
-  //   const res = await db
-  //     .collection("User")
-  //     .where('username', '==', "new rarx").call
-  //     .call("del");
-  // };
+  const delete_user = async () => {
+    const db = polybase();
+    const res = await db
+      .collection("User")
+      .record("0xEa96732cd48db4e123B6E271207bC454e003422e")
+      .call("del");
+  };
 
   // create marketplace user polybase
   const create_Marketplace_user = async () => {
