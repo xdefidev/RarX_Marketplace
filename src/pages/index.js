@@ -439,6 +439,26 @@ export default function Home({ all_collections, nfts, artists }) {
               </p>
             </div>
             <div className="text-center">
+              <div className="mb-6 inline-flex rounded-full bg-[#CDDFFB] p-3">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="h-5 w-5 fill-white"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">
+                5. Dynamic Wallets
+              </h3>
+              <p className="dark:text-jacarta-300">
+                We have dynamic wallets for users on different devices for smooth UX. Desktop / laptop users can connect with metamask wallet whereas phone / tablet users can connect with Intmax wallet
+              </p>
             </div>
             <div className="text-center">
               <div className="mb-6 inline-flex rounded-full bg-[#FFD0D0] p-3">
@@ -456,7 +476,7 @@ export default function Home({ all_collections, nfts, artists }) {
                 </div>
               </div>
               <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">
-                5. Membership Subscriptions
+                6. Membership Subscriptions
               </h3>
               <p className="dark:text-jacarta-300">
                 You can get membership subscriptions from your favourite artists and get access for all the perks provided by them (powered by
@@ -477,13 +497,33 @@ export default function Home({ all_collections, nfts, artists }) {
                 </div>
               </div>
               <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">
-                6. Realtime Notifications
+                7. Realtime Notifications
               </h3>
               <p className="dark:text-jacarta-300">
                 Get notifications for NFT sales, NFT purchases, Memberships, cross-chain transactions, etc. Realtime notifications on RarX are powered by push protocol.
               </p>
             </div>
             <div className="text-center">
+              <div className="mb-6 inline-flex rounded-full bg-[#CDBCFF] p-3">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="h-5 w-5 fill-white"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-4 font-display text-lg text-jacarta-700 dark:text-white">
+                8. OO Verification's
+              </h3>
+              <p className="dark:text-jacarta-300">
+                We have a special verification system to verify NFT Collections, all NFTs collections on RarX Marketplace are verified using UMA's Optimistic Oracle.
+              </p>
             </div>
           </div>
         </div>

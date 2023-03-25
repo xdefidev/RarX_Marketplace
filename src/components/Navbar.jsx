@@ -42,6 +42,16 @@ const Navbar = ({
   const [showNotifications, SetShowNotifications] = useState(false);
   const [showNetworkPopup, setShowNetworkPopup] = useState(false);
   const [search_result, set_search_result] = useState([]);
+
+  const chainSwitchReload = async () => {
+    try {
+      setChainIdMain();
+      router.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // switch chain area
   const switchPolygonChain = async () => {
     try {
@@ -49,7 +59,7 @@ const Navbar = ({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x13881" }],
       });
-      setChainIdMain("80001");
+      chainSwitchReload("80001");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -71,7 +81,7 @@ const Navbar = ({
               },
             ],
           });
-          setChainIdMain("80001");
+          chainSwitchReload("80001");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -86,7 +96,7 @@ const Navbar = ({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x5A2" }],
       });
-      setChainIdMain("1442");
+      chainSwitchReload("1442");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -108,7 +118,7 @@ const Navbar = ({
               },
             ],
           });
-          setChainIdMain("1442");
+          chainSwitchReload("1442");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -123,7 +133,7 @@ const Navbar = ({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0xC45" }],
       });
-      setChainIdMain("3141");
+      chainSwitchReload("3141");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -145,7 +155,7 @@ const Navbar = ({
               },
             ],
           });
-          setChainIdMain("3141");
+          chainSwitchReload("3141");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -160,7 +170,7 @@ const Navbar = ({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x1389" }],
       });
-      setChainIdMain("5001");
+      chainSwitchReload("5001");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -182,7 +192,7 @@ const Navbar = ({
               },
             ],
           });
-          setChainIdMain("5001");
+          chainSwitchReload("5001");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -197,7 +207,7 @@ const Navbar = ({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x82751" }],
       });
-      setChainIdMain("534353");
+      chainSwitchReload("534353");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -219,7 +229,7 @@ const Navbar = ({
               },
             ],
           });
-          setChainIdMain("534353");
+          chainSwitchReload("534353");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -234,7 +244,7 @@ const Navbar = ({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x28C5A" }],
       });
-      setChainIdMain("167002");
+      chainSwitchReload("167002");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -256,7 +266,7 @@ const Navbar = ({
               },
             ],
           });
-          setChainIdMain("167002");
+          chainSwitchReload("167002");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -271,7 +281,7 @@ const Navbar = ({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x27D8" }],
       });
-      setChainIdMain("10200");
+      chainSwitchReload("10200");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -293,7 +303,7 @@ const Navbar = ({
               },
             ],
           });
-          setChainIdMain("10200");
+          chainSwitchReload("10200");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -308,7 +318,7 @@ const Navbar = ({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x5" }],
       });
-      setChainIdMain("5");
+      chainSwitchReload("5");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -330,7 +340,7 @@ const Navbar = ({
               },
             ],
           });
-          setChainIdMain("5");
+          chainSwitchReload("5");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
