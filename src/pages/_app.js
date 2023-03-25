@@ -76,9 +76,8 @@ export default function App({ Component, pageProps }) {
     const db = polybase();
 
     // create_NFTCollection_default();
-    // create_Marketplace_user();
-
-
+    // delete_user();
+    create_Marketplace_user();
     if (window?.ethereum) {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -212,7 +211,7 @@ export default function App({ Component, pageProps }) {
     setSigner();
   };
 
-  // create default nft collection polybase 
+  // create default nft collection polybase
   const create_NFTCollection_default = async () => {
     const db = polybase();
 
@@ -233,18 +232,26 @@ export default function App({ Component, pageProps }) {
       ]);
   };
 
-  // create marketplace user polybase 
+  // const delete_user = async () => {
+  //   const db = polybase();
+  //   const res = await db
+  //     .collection("User")
+  //     .where('username', '==', "new rarx").call
+  //     .call("del");
+  // };
+
+  // create marketplace user polybase
   const create_Marketplace_user = async () => {
     const db = polybase();
     const res = await db
       .collection("User")
       .create([
-        marketplaceAddress,
+        "0xEa96732cd48db4e123B6E271207bC454e003422e",
         "new rarx",
         "rarx_@gmail.com",
         "this is new rarx markeptlace",
         "https://gateway.ipfscdn.io/ipfs/Qmf75HV1vTbA6v1Cq5NAdQM4LrfQ8wYbb5K52f6pPauHhC/2(1).png",
-        "https://gateway.ipfscdn.io/ipfs/Qmf75HV1vTbA6v1Cq5NAdQM4LrfQ8wYbb5K52f6pPauHhC/2(1).png"
+        "https://gateway.ipfscdn.io/ipfs/Qmf75HV1vTbA6v1Cq5NAdQM4LrfQ8wYbb5K52f6pPauHhC/2(1).png",
       ]);
   };
 
@@ -389,10 +396,10 @@ export default function App({ Component, pageProps }) {
       console.log(error.message);
     }
   };
-  
+
   // lsit nft for sale
   const list_nft = async (tokenId, price, collection_address, signer) => {
-    console.log({ tokenId, price, collection_address, signer })
+    console.log({ tokenId, price, collection_address, signer });
     const user_address = await signer.getAddress();
 
     const collection_contract = rarx_collection(collection_address, signer);
@@ -425,7 +432,7 @@ export default function App({ Component, pageProps }) {
             chainIdMain.toString(),
             db.collection("User").record(marketplaceAddress),
           ]);
-        console.log({ polybaseres: res })
+        console.log({ polybaseres: res });
       }
       sendNFTListNoti(tokenId, price);
     } catch (error) {
@@ -435,6 +442,7 @@ export default function App({ Component, pageProps }) {
 
   // execute sales
   const executeSale = async (tokenId, collection_address, listing_price) => {
+    console.log({ tokenId, collection_address, listing_price });
     const db = polybase();
 
     const res = await db
@@ -444,7 +452,7 @@ export default function App({ Component, pageProps }) {
     try {
       const contract = marketplace();
       const txn = await contract.executeSale(tokenId, collection_address, {
-        value: listing_price,
+        value: ethers.utils.parseEther(listing_price),
       });
       await txn.wait();
       if (txn.hash) {

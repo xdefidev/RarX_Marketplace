@@ -15,7 +15,7 @@ const NFTPage = ({
   list_nft,
   executeSale,
   cancel_listing,
-  chainIdMain
+  chainIdMain,
 }) => {
   const router = useRouter();
   const { slug, tokenId } = router.query;
@@ -42,7 +42,7 @@ const NFTPage = ({
     set_loading(true);
     const res = await list_nft(tokenId, listingPrice, slug, signer);
     set_loading(false);
-    // router.reload();
+    router.reload();
   };
 
   const cancelListingToken = async (slug, tokenId) => {
@@ -56,7 +56,7 @@ const NFTPage = ({
     set_loading(true);
     const res = await executeSale(tokenId, collection_address, listing_price);
     set_loading(false);
-    router.reload();
+    // router.reload();
   };
 
   useEffect(() => {
@@ -179,9 +179,9 @@ const NFTPage = ({
                           src={
                             nft?.ownerImage
                               ? nft?.ownerImage.replace(
-                                "ipfs://",
-                                "https://gateway.ipfscdn.io/ipfs/"
-                              )
+                                  "ipfs://",
+                                  "https://gateway.ipfscdn.io/ipfs/"
+                                )
                               : testNFT
                           }
                           height={40}
@@ -219,8 +219,8 @@ const NFTPage = ({
                           {nft?.seller
                             ? nft?.seller
                             : nft?.owner_username
-                              ? nft?.owner_username
-                              : nft?.user_id}
+                            ? nft?.owner_username
+                            : nft?.user_id}
                         </span>
                       </Link>
                     </div>
@@ -232,7 +232,7 @@ const NFTPage = ({
                 {listSale == false ? (
                   nft?.nft_owner == signer_address && (
                     <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
-                      {nft?.chainId == chainIdMain ?
+                      {nft?.chainId == chainIdMain ? (
                         <button
                           onClick={() => setListSale(true)}
                           href="#"
@@ -240,15 +240,17 @@ const NFTPage = ({
                         >
                           List For Sale
                         </button>
-                        :
+                      ) : (
                         <button
-                          onClick={() => alert("Please switch to respective chain")}
+                          onClick={() =>
+                            alert("Please switch to respective chain")
+                          }
                           href="#"
                           className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                         >
                           List For Sale
                         </button>
-                      }
+                      )}
                     </div>
                   )
                 ) : (
@@ -369,7 +371,9 @@ const NFTPage = ({
                                 {nft?.listingPrice ? nft?.listingPrice : "0.00"}{" "}
                               </span>
                               <span className="text-[19px] text-jacarta-700 ml-2">
-                                {nft?.chain_symbol ? nft?.chain_symbol : "MATIC"}
+                                {nft?.chain_symbol
+                                  ? nft?.chain_symbol
+                                  : "MATIC"}
                               </span>
                             </div>
                           </div>
@@ -402,23 +406,27 @@ const NFTPage = ({
                       </button>
                     ) : (
                       <>
-                        {nft?.chainId == chainIdMain ?
+                        {nft?.chainId == chainIdMain ? (
                           <button
                             type="button"
-                            onClick={() => buyNFT(tokenId, slug, nft?.listingPrice)}
+                            onClick={() =>
+                              buyNFT(tokenId, slug, nft?.listingPrice)
+                            }
                             className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                           >
                             Buy Now
                           </button>
-                          :
+                        ) : (
                           <button
                             type="button"
-                            onClick={() => alert("Please switch to respective chain")}
+                            onClick={() =>
+                              alert("Please switch to respective chain")
+                            }
                             className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                           >
                             Buy Now
                           </button>
-                        }
+                        )}
                       </>
                     )}
                   </div>
@@ -427,7 +435,7 @@ const NFTPage = ({
                 {/* <!-- cancel nft sale --> */}
                 {nft?.seller == signer_address && nft?.isListed == true && (
                   <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
-                    {nft?.chainId == chainIdMain ?
+                    {nft?.chainId == chainIdMain ? (
                       <button
                         type="button"
                         onClick={() => cancelListingToken(slug, tokenId)}
@@ -435,15 +443,17 @@ const NFTPage = ({
                       >
                         Cancel Sale
                       </button>
-                      :
+                    ) : (
                       <button
                         type="button"
-                        onClick={() => alert("Please switch to respective chain")}
+                        onClick={() =>
+                          alert("Please switch to respective chain")
+                        }
                         className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                       >
                         Cancel Sale
                       </button>
-                    }
+                    )}
                   </div>
                 )}
 
@@ -458,7 +468,6 @@ const NFTPage = ({
                     </button>
                   </div>
                 )}
-
 
                 {/* -------------------------- all action buttons end ------------------------  */}
               </div>
@@ -557,11 +566,7 @@ const NFTPage = ({
                               </a>
                             );
                           })}
-                          {nft?.nft_properties == "" &&
-                            <p>
-                              No Properties
-                            </p>
-                          }
+                          {nft?.nft_properties == "" && <p>No Properties</p>}
                         </div>
                       </div>
                     </div>
@@ -573,7 +578,9 @@ const NFTPage = ({
                             Contract Address:
                           </span>
                           <a
-                            href={`${nft?.chain_block}` + `address/` + `${slug}`}
+                            href={
+                              `${nft?.chain_block}` + `address/` + `${slug}`
+                            }
                             target="_blank"
                             className="text-accent"
                           >
@@ -585,7 +592,13 @@ const NFTPage = ({
                             Token ID:
                           </span>
                           <a
-                            href={`${nft?.chain_block}` + `token/` + `${slug}` + `?a=` + `${tokenId}`}
+                            href={
+                              `${nft?.chain_block}` +
+                              `token/` +
+                              `${slug}` +
+                              `?a=` +
+                              `${tokenId}`
+                            }
                             target="_blank"
                             className="text-accent"
                           >
