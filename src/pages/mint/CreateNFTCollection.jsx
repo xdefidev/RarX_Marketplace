@@ -23,7 +23,7 @@ const CreateNFTCollection = ({ create_collection, signer_address }) => {
     e.preventDefault();
     set_loading(true);
     await create_collection(data);
-    router.push(`/profile/${signer_address}`);
+    // router.push(`/profile/${signer_address}`);
     set_loading(false);
   };
 
