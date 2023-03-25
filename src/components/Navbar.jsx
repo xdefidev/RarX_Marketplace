@@ -244,7 +244,7 @@ const Navbar = ({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x28C5A" }],
       });
-      chainSwitchReload("167002");
+      chainSwitchReload("167004");
       setShowNetworkPopup(!showNetworkPopup);
       // window.location.reload(false);
     } catch (error) {
@@ -266,7 +266,7 @@ const Navbar = ({
               },
             ],
           });
-          chainSwitchReload("167002");
+          chainSwitchReload("167004");
           setShowNetworkPopup(!showNetworkPopup);
         } catch (addError) {
           console.error(addError);
@@ -742,7 +742,7 @@ const Navbar = ({
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
                         )}
-                        {chainIdMain == 167002 && (
+                        {chainIdMain == 167004 && (
                           <>
                             <Image
                               src={TaikoLogo}
@@ -928,7 +928,7 @@ const Navbar = ({
                             </p>
                           </div>
                         )}
-                        {chainIdMain != 167002 && (
+                        {chainIdMain != 167004 && (
                           <div
                             className="flex flex-row justify-center pt-2 pb-2 hover:bg-slate-100"
                             onClick={() => switchTaikoChain()}
