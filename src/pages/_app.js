@@ -10,6 +10,7 @@ import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMark
 import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollection.json";
 import xChainPolygon from "../../artifacts/contracts/xChainPolygon.sol/xChainPolygon.json";
 import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/CollectionFactory.json";
+// import UMA_factory_contract from "../../artifacts/contracts/UMA/uma_info.json";
 import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
 import * as PushAPI from "@pushprotocol/restapi";
@@ -49,6 +50,9 @@ export default function App({ Component, pageProps }) {
   const x_hashi_polygon = "0xd3F1A0782AFD768f8929343Fb44344A2a49fE343";
   const x_hashi_goerli = "0x8F5969b8Fa3727392385C5E74CF1AA91a4aC4b40";
 
+  //UMA CONTRACT FACTORY
+  const uma_contract_factory = "0xD3d3cA64B3c4C3D6F506D7107d9859c5bA766de6";
+
   // chain configs
   const [chainImg, setChainImg] = useState("");
   const [blockURL, setBlockURL] = useState("");
@@ -69,6 +73,7 @@ export default function App({ Component, pageProps }) {
   // connect wallet metamask
   const connectToWallet = async () => {
     const db = polybase();
+    // create_NFTCollection_default();
     if (window?.ethereum) {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -120,9 +125,11 @@ export default function App({ Component, pageProps }) {
         setBlockURL("https://hyperspace.filfox.info/en/");
       } else if (chainId == 5001) {
         // mantle
-        setCollectionAddress("deafult");
-        setMarketplaceAddress("deafult");
-        setCollectionFactoryAddress("deafult");
+        setCollectionAddress("0xC97537C89A7039bA0090Ec8220CD69Dd2fAAee7b");
+        setMarketplaceAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
+        setCollectionFactoryAddress(
+          "0xb0d163F7e7Acb60a5eD5d5929278ffAE8082BF8c"
+        );
         setChainImg(mantleLogo);
         setSymbol("BIT");
         setBlockURL("https://explorer.testnet.mantle.xyz/");
@@ -160,19 +167,19 @@ export default function App({ Component, pageProps }) {
         setBlockURL("https://goerli.etherscan.io/");
       } else if (chainId == 80001) {
         // matic
-        setCollectionAddress("0xE6aD85168620973A542368609133986B31e64cF3");
-        setMarketplaceAddress("0xB00269E098526480B3cCfC57bE99B077077969CD");
+        setCollectionAddress("0xbC40E1412DbB1D9783C787a0C99c524d5f0f922c");
+        setMarketplaceAddress("0xEa96732cd48db4e123B6E271207bC454e003422e");
         setCollectionFactoryAddress(
-          "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C"
+          "0xdFfcC00C15f97ca9c516c8a9CE5ca4b8E2aA5428"
         );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockURL("https://mumbai.polygonscan.com/");
       } else {
-        setCollectionAddress("0xE6aD85168620973A542368609133986B31e64cF3");
-        setMarketplaceAddress("0xB00269E098526480B3cCfC57bE99B077077969CD");
+        setCollectionAddress("0xbC40E1412DbB1D9783C787a0C99c524d5f0f922c");
+        setMarketplaceAddress("0xEa96732cd48db4e123B6E271207bC454e003422e");
         setCollectionFactoryAddress(
-          "0xf2C06547DEdbA59fA5F735808A3B97B212cae11C"
+          "0xdFfcC00C15f97ca9c516c8a9CE5ca4b8E2aA5428"
         );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
@@ -189,6 +196,28 @@ export default function App({ Component, pageProps }) {
   const signOut = async () => {
     set_signer_address("");
     setSigner();
+  };
+
+  const create_NFTCollection_default = async () => {
+    const db = polybase();
+
+    const res = await db
+      .collection("NFTCollection")
+      .create([
+        "0xC97537C89A7039bA0090Ec8220CD69Dd2fAAee7b",
+        db
+          .collection("User")
+          .record("0xe7ac0B19e48D5369db1d70e899A18063E1f19021"),
+        "https://gateway.ipfscdn.io/ipfs/Qmf75HV1vTbA6v1Cq5NAdQM4LrfQ8wYbb5K52f6pPauHhC/2(1).png",
+        "https://gateway.ipfscdn.io/ipfs/Qmf75HV1vTbA6v1Cq5NAdQM4LrfQ8wYbb5K52f6pPauHhC/2(1).png",
+        "Rarx_NFTCollection_Mantle",
+        "RARX_Mantle",
+        "deployed collection on mantle",
+        "chains/mantle.png",
+        "https://explorer.testnet.mantle.xyz/",
+      ]);
+
+    console.log({ res });
   };
 
   // const create_marketplace_acc = async () => {
@@ -218,6 +247,34 @@ export default function App({ Component, pageProps }) {
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const UMA_contract = () => {
+    const contract = new ethers.Contract(
+      uma_contract_factory,
+      UMA_factory_contract.abi,
+      signer
+    );
+    return contract;
+  };
+
+  const deploy_uma = async (collection_address) => {
+    console.log({ collection_address });
+    const contract = UMA_contract();
+    // contract.on(
+    //   "UMA_Created",
+    //   async (current_count, collection_address, current_uma) => {
+    //     console.log({ current_count, collection_address, current_uma });
+    const db = polybase();
+    const res = await db
+      .collection("NFTCollection")
+      .record(collection_address)
+      .call("start_verification", ["current_uma"]);
+    console.log({ res });
+    //   }
+    // );
+    // const txn = await contract.deploy_uma(collection_address);
+    // console.log({ txn });
   };
 
   const fetch_collections_polybase = async (user_address) => {
@@ -1135,6 +1192,7 @@ export default function App({ Component, pageProps }) {
         artists={artists}
         fetch_collections_polybase={fetch_collections_polybase}
         fetch_nfts_by_chain={fetch_nfts_by_chain}
+        deploy_uma={deploy_uma}
       />
       <Footer />
     </>
