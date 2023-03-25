@@ -13,7 +13,7 @@ module.exports = {
     zkEVM: {
       chainId: 1442,
       accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
-      url: "https://explorer.public.zkevm-test.net",
+      url: "https://rpc.public.zkevm-test.net",
     },
     filecoin: {
       chainId: 3141,
@@ -31,8 +31,8 @@ module.exports = {
       accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
     },
     taiko: {
-      url: "https://l2rpc.hackathon.taiko.xyz",
-      chainId: 167002,
+      url: "https://rpc.a2.taiko.xyz",
+      chainId: 167004,
       accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
     },
     chiado: {

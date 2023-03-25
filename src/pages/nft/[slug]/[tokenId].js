@@ -56,7 +56,7 @@ const NFTPage = ({
     set_loading(true);
     const res = await executeSale(tokenId, collection_address, listing_price);
     set_loading(false);
-    // router.reload();
+    router.reload();
   };
 
   useEffect(() => {
