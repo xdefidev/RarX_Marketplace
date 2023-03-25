@@ -139,7 +139,7 @@ const BridgeNFT = ({
           xChainContract,
           domainID
         );
-        xChainBridgeTxn.wait();
+        await xChainBridgeTxn.wait();
         setIsNFTBriding(false);
         SetIsNFTBridged(true);
       } catch (error) {

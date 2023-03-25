@@ -817,6 +817,11 @@ const Profile = ({
                     );
                   })}
                 </div>
+                <div className="flex justify-center">
+                  {nfts?.length <= 0 &&
+                    <h2 className="text-xl font-display font-thin">No NFTs to show!</h2>
+                  }
+                </div>
               </div>
             </div>
           </div>
@@ -846,6 +851,11 @@ const Profile = ({
                       chainImgPre={"../"}
                     />
                   ))}
+                </div>
+                <div className="flex justify-center">
+                  {my_collections?.length <= 0 &&
+                    <h2 className="text-xl font-display font-thin">No Collections to show!</h2>
+                  }
                 </div>
               </div>
             </div>
