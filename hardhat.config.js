@@ -32,7 +32,7 @@ module.exports = {
     },
     taiko: {
       url: "https://l2rpc.hackathon.taiko.xyz",
-      chainId: 167002,
+      chainId: 167004,
       accounts: [process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY],
     },
     chiado: {
