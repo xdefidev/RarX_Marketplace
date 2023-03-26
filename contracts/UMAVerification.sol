@@ -13,7 +13,7 @@ contract UMAVerify {
         bytes(
             "I am the owner of this NFT collection, help me to get verified!"
         );
-    
+
     uint256 requestTime = 0;
 
     function requestData() public {
