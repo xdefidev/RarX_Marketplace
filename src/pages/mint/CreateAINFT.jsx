@@ -69,7 +69,6 @@ const CreateAINFT = ({ defaultCollectionAddress, create_token, get_my_collection
     };
 
     const get_user_collections = async () => {
-        if (!signer) return;
         const collections = await get_my_collections(signer);
         set_user_collections(collections);
     };
@@ -388,6 +387,7 @@ const CreateAINFT = ({ defaultCollectionAddress, create_token, get_my_collection
                                             name="collection"
                                             value={data.collection}
                                             onChange={handleChange}
+                                            onClick={() => get_user_collections()}
                                             className="dropdown my-1 cursor-pointer w-[100%]"
                                         >
                                             <option value={defaultCollectionAddress}>

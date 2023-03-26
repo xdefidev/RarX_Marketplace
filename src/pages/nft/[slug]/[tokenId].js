@@ -42,7 +42,7 @@ const NFTPage = ({
     set_loading(true);
     const res = await list_nft(tokenId, listingPrice, slug, signer);
     set_loading(false);
-    router.reload();
+    // router.reload();
   };
 
   const cancelListingToken = async (slug, tokenId) => {
@@ -297,19 +297,28 @@ const NFTPage = ({
                           <div className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
                             <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
                               <span className="font-display text-sm text-jacarta-700">
-                                ETH
+                                {nft?.chain_symbol ? nft?.chain_symbol : "MATIC"}
                               </span>
                             </div>
-
-                            <input
-                              required
-                              type="text"
-                              onChange={(e) =>
-                                set_listing_price(e.target.value)
-                              }
-                              className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
-                              placeholder="Amount"
-                            />
+                            {loading ?
+                              <input
+                                disabled
+                                required
+                                type="text"
+                                className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                                placeholder="Amount"
+                              />
+                              :
+                              <input
+                                required
+                                type="text"
+                                onChange={(e) =>
+                                  set_listing_price(e.target.value)
+                                }
+                                className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                                placeholder="Amount"
+                              />
+                            }
                           </div>
                         </div>
 

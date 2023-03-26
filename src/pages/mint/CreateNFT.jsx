@@ -212,7 +212,7 @@ const CreateNFT = ({
                   className="dropdown my-1 cursor-pointer w-[100%]"
                   required
                 >
-                  <option>
+                  <option value={defaultCollectionAddress}>
                     Select Collection
                   </option>
                   <option value={defaultCollectionAddress}>

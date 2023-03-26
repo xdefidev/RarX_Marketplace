@@ -163,6 +163,7 @@ export default function App({ Component, pageProps }) {
         setSymbol("ETH");
         setBlockchain("Taiko");
         setBlockURL("https://explorer.a2.taiko.xyz");
+        // create_Marketplace_user("marketplace_address");
       } else if (chainId == 10200) {
         // gnosis
         setCollectionAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
@@ -220,6 +221,7 @@ export default function App({ Component, pageProps }) {
     setSigner();
   };
 
+  // deafult nft collection polybase polybase 
   // create default nft collection polybase
   // const create_NFTCollection_default = async (
   //   collection_address,
@@ -246,6 +248,7 @@ export default function App({ Component, pageProps }) {
   //     ]);
   // };
 
+  // delete user polybase chain_method 
   const delete_user = async () => {
     const db = polybase();
     const res = await db
@@ -253,6 +256,8 @@ export default function App({ Component, pageProps }) {
       .record("0xEa96732cd48db4e123B6E271207bC454e003422e")
       .call("del");
   };
+
+  // delete collection polybase chain_method 
   const delete_collection = async () => {
     const db = polybase();
     const res = await db
@@ -261,7 +266,7 @@ export default function App({ Component, pageProps }) {
       .call("del");
   };
 
-  // create marketplace user polybase
+  // create marketplace user polybase chain_method 
   const create_Marketplace_user = async (marketplace_address) => {
     const db = polybase();
     const res = await db
@@ -420,7 +425,7 @@ export default function App({ Component, pageProps }) {
 
   // lsit nft for sale
   const list_nft = async (tokenId, price, collection_address, signer) => {
-    console.log({ tokenId, price, collection_address, signer });
+    console.log({ tokenId, price, collection_address, signer, marketplaceAddress });
     const user_address = await signer.getAddress();
 
     const collection_contract = rarx_collection(collection_address, signer);
