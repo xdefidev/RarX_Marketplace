@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import connextPng from "../../public/tech/connext.png";
+import Link from "next/link";
 
 const Notifications = ({
   connectToWallet,
@@ -17,15 +18,11 @@ const Notifications = ({
     const data = await getUserData(signer_address);
     set_user_data(data);
 
-    //delete this
-    // let a = JSON.parse(data.transactions[4]);
-    // setNotificationData(a);
-
     // do this
     let transactions = [];
-    data.transactions.map((e) => transactions.push(e));
-    setNotificationData(transactions);
-    console.log({ userDataa: data });
+    data?.transactions?.map((e) => transactions.push(e));
+    setNotificationData(data?.transactions ? JSON.parse(transactions) : "");
+    console.log({ notificationData });
   };
 
   useEffect(() => {
@@ -146,25 +143,27 @@ const Notifications = ({
                                 />
                               </div>
                               <div>
-                                <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
-                                  You Bridged NFT with token ID :{" "}
-                                  {notificationData.asset_tokenId} from collection :
-                                  {notificationData.asset_collection}
-                                </h3>
+                                <Link href={`/nft/${notificationData.asset_collection}/${notificationData.asset_tokenId}`}>
+                                  <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
+                                    You Bridged NFT with token ID - {" "}
+                                    {notificationData.asset_tokenId} from collection with address - {" "}
+                                    {notificationData.asset_collection}
+                                  </h3>
+                                </Link>
                                 <span className="mb-3 block text-sm text-jacarta-500 dark:text-jacarta-200">
                                   You have successfully transfered your NFT from
                                   one chain to another
                                 </span>
                                 <div className="flex">
                                   <a
-                                    href={`https://testnet.connextscan.io/tx/Txnhash/${notificationData.txn_hash}`}
+                                    href={`https://testnet.connextscan.io/tx/${notificationData.txn_hash}`}
                                     target="_blank"
                                     className="block text-xs text-jacarta-300"
                                   >
                                     View transaction on connext 🔗
                                   </a>
                                   <a
-                                    href={`fromChainID == 5 ? "https://goerli.etherscan.io/tx/" : "https://mumbai.polygonscan.com/tx/"`}
+                                    href={`${notificationData.from_chain_id == 5 ? `https://goerli.etherscan.io/tx/${notificationData.txn_hash}` : `https://mumbai.polygonscan.com/tx/${notificationData.txn_hash}`}`}
                                     target="_blank"
                                     className="block text-xs text-jacarta-300 ml-4"
                                   >
@@ -174,7 +173,7 @@ const Notifications = ({
                               </div>
 
                               <div className="ml-auto rounded-full font-bold border border-jacarta-100 p-3 dark:border-jacarta-600">
-                                <a href="#" target="_blank">
+                                <a href={`https://testnet.connextscan.io/tx/${notificationData.txn_hash}`} target="_blank">
                                   <svg
                                     width="24"
                                     height="24"

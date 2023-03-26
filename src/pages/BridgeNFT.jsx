@@ -43,7 +43,10 @@ const BridgeNFT = ({
         params: [{ chainId: "0x13881" }],
       });
       setChainIdMain("80001");
-      setShowSelectNFT(true);
+      get_nfts();
+      setTimeout(() => {
+        setShowSelectNFT(true);
+      }, 2000);
     } catch (error) {
       if (error.code === 4902) {
         try {
@@ -79,7 +82,10 @@ const BridgeNFT = ({
         params: [{ chainId: "0x5" }],
       });
       setChainIdMain("5");
-      setShowSelectNFT(true);
+      get_nfts();
+      setTimeout(() => {
+        setShowSelectNFT(true);
+      }, 2000);
     } catch (error) {
       if (error.code === 4902) {
         try {

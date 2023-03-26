@@ -623,14 +623,18 @@ export default function App({ Component, pageProps }) {
     try {
       // getting relayer fee
       let relayerMain;
+
+      // setting default values 
       let chain_Image;
       let chain_symbol;
       let chain_block;
-
       const polygonDomain = "9991";
       const goerliDomain = "1735353714";
+
+      // initiating sdk 
       const { sdkBase } = await create(SdkConfig);
 
+      // selecting destination domain, relayer fee and data
       if (domainID == "1735353714") {
         // const relayerFee = (
         //   await sdkBase.estimateRelayerFee({
@@ -696,6 +700,8 @@ export default function App({ Component, pageProps }) {
       // sending xchain call
       try {
         const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
+
+        // currently sending 0 fees as relayerfee because no nfts can get bridged because of high relayerfees, don't have more than 1 matic on testnet
         const sendXChainPolygon = await crossChainPolygon.XChainCall(
           domainID,
           "0",
