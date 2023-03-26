@@ -2,6 +2,8 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { MdVerified } from "react-icons/md";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
+
 
 const CollectionCard = ({
   Cover,
@@ -12,7 +14,8 @@ const CollectionCard = ({
   CollectionAddress,
   collectionId,
   chainImgPre,
-  chain_image
+  chain_image,
+  isCollectionVerified
 }) => {
   return (
     <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[290px] overflow-hidden">
@@ -34,7 +37,7 @@ const CollectionCard = ({
           <Image
             src={Logo?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
             alt="Logo"
-            className="h-[70px] w-[80px] rounded-[100%] "
+            className="h-[75px] w-[75px] rounded-[100%] border b-4 border-black shadow-lg"
             loading="lazy"
             height={100}
             width={100}
@@ -55,10 +58,17 @@ const CollectionCard = ({
         >
           {Name}
         </Link>
-        <MdVerified
-          style={{ color: "#4f87ff", marginLeft: "-4px", marginTop: "34px" }}
-          size={25}
-        />
+        {isCollectionVerified ?
+          <MdVerified
+            style={{ color: "#4f87ff", marginLeft: "-4px", marginTop: "34px" }}
+            size={25}
+          />
+          :
+          <BsFillExclamationCircleFill
+            style={{ color: "#cfc62d", cursor: "pointer", marginTop: "34px" }}
+            size={25}
+          />
+        }
       </div>
 
       <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">

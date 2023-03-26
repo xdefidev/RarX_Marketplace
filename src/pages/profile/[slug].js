@@ -848,6 +848,7 @@ const Profile = ({
                       OwnerAddress={e.owner}
                       CollectionAddress={e.collection_address}
                       chain_image={e.chain_image}
+                      isCollectionVerified={e.isCollectionVerified}
                       chainImgPre={"../"}
                     />
                   ))}

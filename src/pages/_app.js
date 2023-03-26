@@ -62,6 +62,7 @@ export default function App({ Component, pageProps }) {
   const [defaultCollectionAddress, setCollectionAddress] = useState("");
   const [marketplaceAddress, setMarketplaceAddress] = useState("");
   const [collectionFactoryAddress, setCollectionFactoryAddress] = useState("");
+  const [txnHashCollection, setTxnHashCollection] = useState("");
 
   // declaring images
   const filecoinLogo = "chains/filecoin.png";
@@ -305,16 +306,12 @@ export default function App({ Component, pageProps }) {
   };
 
   const deploy_uma = async (collection_address) => {
-    console.log({ collection_address });
     try {
       const contract = UMA_contract();
-
       // AFTER EVENT EMIT...SAVING DATA ON POLYBASE
       contract.on(
         "UMA_Created",
         async (current_count, collection_address, current_uma) => {
-          console.log({ current_count, collection_address, current_uma });
-
           const db = polybase();
           const res = await db
             .collection("NFTCollection")
@@ -323,12 +320,10 @@ export default function App({ Component, pageProps }) {
           console.log({ res });
         }
       );
-
       // ON CHAIN TRANSACTION
       const txn = await contract.deploy_uma(collection_address);
-      console.log({ txn });
     } catch (error) {
-      alert(error.message);
+      console.log(error)
     }
   };
 
@@ -339,7 +334,6 @@ export default function App({ Component, pageProps }) {
         .collection("NFTCollection")
         .record(collection_address)
         .get();
-      console.log(res.data.uma_contract);
 
       const contract = new ethers.Contract(
         res.data.uma_contract,
@@ -348,17 +342,17 @@ export default function App({ Component, pageProps }) {
       );
 
       const txn = await contract.requestData();
-      console.log({ txn });
 
       if (txn.hash) {
         const res = await db
           .collection("NFTCollection")
           .record(collection_address)
           .call("start_request");
-        console.log({ res });
+
+        setTxnHashCollection(txn.hash);
       }
     } catch (error) {
-      alert(error.message);
+      console.log(error)
     }
   };
 
@@ -369,8 +363,6 @@ export default function App({ Component, pageProps }) {
         .collection("NFTCollection")
         .record(collection_address)
         .get();
-      console.log(res.data.uma_contract);
-
       const contract = new ethers.Contract(
         res.data.uma_contract,
         uma_verification.abi,
@@ -378,17 +370,15 @@ export default function App({ Component, pageProps }) {
       );
 
       const txn = await contract.settleRequest();
-      console.log({ txn });
 
       if (txn.hash) {
         const res = await db
           .collection("NFTCollection")
           .record(collection_address)
           .call("settle_verification");
-        console.log({ res });
       }
     } catch (error) {
-      alert(error.message);
+      alert("Please self-verify your transaction on UMA OO first")
     }
   };
 
@@ -435,6 +425,7 @@ export default function App({ Component, pageProps }) {
         obj.owner_name = e.data.owner.id;
         obj.symbol = e.data.symbol;
         obj.chain_image = e.data.chain_image;
+        obj.isCollectionVerified = e.data.isCollectionVerified;
         obj.chain_block = e.data.chain_block;
         fetched_collections.push(obj);
       }
@@ -1336,6 +1327,7 @@ export default function App({ Component, pageProps }) {
         deploy_uma={deploy_uma}
         request_verification_UMA={request_verification_UMA}
         uma_settle_request={uma_settle_request}
+        txnHashCollection={txnHashCollection}
       />
       <Footer />
     </>

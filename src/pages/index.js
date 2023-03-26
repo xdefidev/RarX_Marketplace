@@ -311,6 +311,7 @@ export default function Home({ all_collections, nfts, artists }) {
                     CollectionAddress={e.id}
                     collectionId={e.id}
                     chain_image={e.chain_image}
+                    isCollectionVerified={e.isCollectionVerified}
                     chainImgPre={"../"}
                   />
                 )

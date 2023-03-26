@@ -38,6 +38,7 @@ const TopCollections = ({ all_collections }) => {
                 CollectionAddress={e.id}
                 collectionId={e.collectionId}
                 chain_image={e.chain_image}
+                isCollectionVerified={e.isCollectionVerified}
                 chainImgPre={"../"}
               />
             ))}

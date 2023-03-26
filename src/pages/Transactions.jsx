@@ -11,20 +11,20 @@ const Notifications = ({
 }) => {
   const [propShow, setPropShow] = useState(true);
   const [user_data, set_user_data] = useState();
-  const [testData, set_test_data] = useState();
+  const [notificationData, setNotificationData] = useState();
 
   const get_user_info = async () => {
     const data = await getUserData(signer_address);
     set_user_data(data);
 
     //delete this
-    let a = JSON.parse(data.transactions[4]);
-    set_test_data(a);
+    // let a = JSON.parse(data.transactions[4]);
+    // setNotificationData(a);
 
     // do this
-    // let transactions = [];
-    // data.transactions.map((e) => transactions.push(e));
-    // set_test_data(transactions);
+    let transactions = [];
+    data.transactions.map((e) => transactions.push(e));
+    setNotificationData(transactions);
     console.log({ userDataa: data });
   };
 
@@ -148,8 +148,8 @@ const Notifications = ({
                               <div>
                                 <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
                                   You Bridged NFT with token ID :{" "}
-                                  {testData.asset_tokenId} from collection :
-                                  {testData.asset_collection}
+                                  {notificationData.asset_tokenId} from collection :
+                                  {notificationData.asset_collection}
                                 </h3>
                                 <span className="mb-3 block text-sm text-jacarta-500 dark:text-jacarta-200">
                                   You have successfully transfered your NFT from
@@ -157,7 +157,7 @@ const Notifications = ({
                                 </span>
                                 <div className="flex">
                                   <a
-                                    href={`https://testnet.connextscan.io/tx/Txnhash/${testData.txn_hash}`}
+                                    href={`https://testnet.connextscan.io/tx/Txnhash/${notificationData.txn_hash}`}
                                     target="_blank"
                                     className="block text-xs text-jacarta-300"
                                   >
@@ -189,9 +189,11 @@ const Notifications = ({
                             </a>
                           ))}
                         </div>
-                        {/* <h3 className="mb-1 text-[26px] font-display text-center text-jacarta-700 dark:text-white">
-                                                    No Transactions Found
-                                                </h3> */}
+                        {user_data?.transactions?.length <= 0 &&
+                          <h3 className="mb-1 text-[26px] font-display text-center text-jacarta-700 dark:text-white">
+                            No Transactions Found
+                          </h3>
+                        }
                       </div>
                     </div>
                   </div>
