@@ -121,7 +121,7 @@ export default function App({ Component, pageProps }) {
         setChainImg(polygonLogo);
         setSymbol("ETH");
         setBlockchain("PolygonZKEVM");
-        setBlockURL("https://mumbai.polygonscan.com/");
+        setBlockURL("https://testnet-zkevm.polygonscan.com/");
       } else if (chainId == 3141) {
         // filecoin
         setCollectionAddress("0xdC4643fc6A81247c75f5f434f9256A1de4C9aacb");
@@ -155,7 +155,7 @@ export default function App({ Component, pageProps }) {
         setSymbol("ETH");
         setBlockchain("Scroll");
         setBlockURL("https://blockscout.scroll.io/");
-      } else if (chainId == 167002) {
+      } else if (chainId == 167004) {
         // taiko
         setCollectionAddress("");
         setMarketplaceAddress("");
@@ -163,8 +163,7 @@ export default function App({ Component, pageProps }) {
         setChainImg(TaikoLogo);
         setSymbol("ETH");
         setBlockchain("Taiko");
-        setBlockURL("https://l2explorer.hackathon.taiko.xyz/");
-        // create_Marketplace_user("marketplace_address");
+        setBlockURL("https://explorer.a2.taiko.xyz");
       } else if (chainId == 10200) {
         // gnosis
         setCollectionAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
