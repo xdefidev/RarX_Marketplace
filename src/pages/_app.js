@@ -652,25 +652,25 @@ export default function App({ Component, pageProps }) {
 
       // selecting destination domain, relayer fee and data
       if (domainID == "1735353714") {
-        // const relayerFee = (
-        //   await sdkBase.estimateRelayerFee({
-        //     originDomain: polygonDomain,
-        //     destinationDomain: domainID
-        //   })
-        // )
-        // relayerMain = relayerFee;
+        const relayerFee = (
+          await sdkBase.estimateRelayerFee({
+            originDomain: polygonDomain,
+            destinationDomain: domainID
+          })
+        )
+        relayerMain = relayerFee;
         chain_Image = "chains/goerli.png";
         chain_symbol = "ETH";
         chain_block = "https://goerli.etherscan.io/";
       }
       if (domainID == "9991") {
-        // const relayerFee = (
-        //   await sdkBase.estimateRelayerFee({
-        //     originDomain: goerliDomain,
-        //     destinationDomain: domainID
-        //   })
-        // )
-        // relayerMain = relayerFee;
+        const relayerFee = (
+          await sdkBase.estimateRelayerFee({
+            originDomain: goerliDomain,
+            destinationDomain: domainID
+          })
+        )
+        relayerMain = relayerFee;
         chain_Image = "chains/polygon.png";
         chain_symbol = "MATIC";
         chain_block = "https://mumbai.polygonscan.com/";
