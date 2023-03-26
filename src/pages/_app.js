@@ -158,14 +158,15 @@ export default function App({ Component, pageProps }) {
         setBlockURL("https://blockscout.scroll.io/");
       } else if (chainId == 167004) {
         // taiko
-        setCollectionAddress("");
-        setMarketplaceAddress("");
-        setCollectionFactoryAddress("");
+        setCollectionAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
+        setMarketplaceAddress("0xb0d163F7e7Acb60a5eD5d5929278ffAE8082BF8c");
+        setCollectionFactoryAddress(
+          "0xC97537C89A7039bA0090Ec8220CD69Dd2fAAee7b"
+        );
         setChainImg(TaikoLogo);
         setSymbol("ETH");
         setBlockchain("Taiko");
         setBlockURL("https://explorer.a2.taiko.xyz");
-        // create_Marketplace_user("marketplace_address");
       } else if (chainId == 10200) {
         // gnosis
         setCollectionAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
@@ -223,7 +224,7 @@ export default function App({ Component, pageProps }) {
     setSigner();
   };
 
-  // deafult nft collection polybase polybase 
+  // deafult nft collection polybase polybase
   // create default nft collection polybase
   // const create_NFTCollection_default = async (
   //   collection_address,
@@ -250,7 +251,7 @@ export default function App({ Component, pageProps }) {
   //     ]);
   // };
 
-  // delete user polybase chain_method 
+  // delete user polybase chain_method
   const delete_user = async () => {
     const db = polybase();
     const res = await db
@@ -259,7 +260,7 @@ export default function App({ Component, pageProps }) {
       .call("del");
   };
 
-  // delete collection polybase chain_method 
+  // delete collection polybase chain_method
   const delete_collection = async () => {
     const db = polybase();
     const res = await db
@@ -268,7 +269,7 @@ export default function App({ Component, pageProps }) {
       .call("del");
   };
 
-  // create marketplace user polybase chain_method 
+  // create marketplace user polybase chain_method
   const create_Marketplace_user = async (marketplace_address) => {
     const db = polybase();
     const res = await db
@@ -323,7 +324,7 @@ export default function App({ Component, pageProps }) {
       // ON CHAIN TRANSACTION
       const txn = await contract.deploy_uma(collection_address);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -352,7 +353,7 @@ export default function App({ Component, pageProps }) {
         setTxnHashCollection(txn.hash);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -378,7 +379,7 @@ export default function App({ Component, pageProps }) {
           .call("settle_verification");
       }
     } catch (error) {
-      alert("Please self-verify your transaction on UMA OO first")
+      alert("Please self-verify your transaction on UMA OO first");
     }
   };
 
@@ -508,7 +509,13 @@ export default function App({ Component, pageProps }) {
 
   // lsit nft for sale
   const list_nft = async (tokenId, price, collection_address, signer) => {
-    console.log({ tokenId, price, collection_address, signer, marketplaceAddress });
+    console.log({
+      tokenId,
+      price,
+      collection_address,
+      signer,
+      marketplaceAddress,
+    });
     const user_address = await signer.getAddress();
 
     const collection_contract = rarx_collection(collection_address, signer);
@@ -624,14 +631,14 @@ export default function App({ Component, pageProps }) {
       // getting relayer fee
       let relayerMain;
 
-      // setting default values 
+      // setting default values
       let chain_Image;
       let chain_symbol;
       let chain_block;
       const polygonDomain = "9991";
       const goerliDomain = "1735353714";
 
-      // initiating sdk 
+      // initiating sdk
       const { sdkBase } = await create(SdkConfig);
 
       // selecting destination domain, relayer fee and data
