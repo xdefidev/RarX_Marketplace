@@ -141,9 +141,9 @@ const Profile = ({
         body: `Congratulations for getting your first subscription from ${sender}, make sure you deliver your perks..`,
       });
       setTimeout(() => {
-        alert("Stream created successfully");
+        alert("Membership Subscription Successful");
         set_loading(false);
-      }, 8000);
+      }, 15000);
     } catch (err) {
       set_loading(false);
       alert(
@@ -168,9 +168,9 @@ const Profile = ({
       await flowOp.exec(provider.getSigner());
       sendMemberCancelNoti({ to: receiver });
       setTimeout(() => {
-        alert("Stream deleted Successfully");
+        alert("Membership cancelled succesfully");
         set_loading(false);
-      }, 8000);
+      }, 15000);
     } catch (err) {
       set_loading(false);
       console.log({ DeleteStreamError: err });
