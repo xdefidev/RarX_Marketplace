@@ -270,23 +270,26 @@ export default function Home({ all_collections, nfts, artists }) {
           </h2>
 
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-            {nfts.map((e, index) => (
-              <NftCard
-                ImageSrc={e.ipfsData.image.replace(
-                  "ipfs://",
-                  "https://gateway.ipfscdn.io/ipfs/"
-                )}
-                Name={e.ipfsData.name}
-                Description={e.ipfsData.description}
-                Address={e.ipfsData.collection}
-                tokenId={e.tokenId}
-                chainID={e.chainId}
-                listedBool={e.isListed}
-                listingPrice={e.listingPrice}
-                chain_image={e.chain_image}
-                chain_symbol={e.chain_symbol}
-              />
-            ))}
+            {nfts.map(
+              (e, index) =>
+                index < 12 && (
+                  <NftCard
+                    ImageSrc={e.ipfsData.image.replace(
+                      "ipfs://",
+                      "https://gateway.ipfscdn.io/ipfs/"
+                    )}
+                    Name={e.ipfsData.name}
+                    Description={e.ipfsData.description}
+                    Address={e.ipfsData.collection}
+                    tokenId={e.tokenId}
+                    chainID={e.chainId}
+                    listedBool={e.isListed}
+                    listingPrice={e.listingPrice}
+                    chain_image={e.chain_image}
+                    chain_symbol={e.chain_symbol}
+                  />
+                )
+            )}
           </div>
         </div>
       </div>
@@ -436,7 +439,9 @@ export default function Home({ all_collections, nfts, artists }) {
                 4. Chat With Artists
               </h3>
               <p className="dark:text-jacarta-300">
-                Chat with any artists on RarX using push chat. Discuss about nfts, negotiate for your favourite NFTs, get tips from artists, etc.
+                Chat with any artists on RarX using push chat. Discuss about
+                nfts, negotiate for your favourite NFTs, get tips from artists,
+                etc.
               </p>
             </div>
             <div className="text-center">
@@ -458,7 +463,10 @@ export default function Home({ all_collections, nfts, artists }) {
                 5. Dynamic Wallets
               </h3>
               <p className="dark:text-jacarta-300">
-                We have dynamic wallets for users on different devices for smooth UX. Desktop / laptop users can connect with metamask wallet whereas phone / tablet users can connect with Intmax wallet
+                We have dynamic wallets for users on different devices for
+                smooth UX. Desktop / laptop users can connect with metamask
+                wallet whereas phone / tablet users can connect with Intmax
+                wallet
               </p>
             </div>
             <div className="text-center">
@@ -480,7 +488,8 @@ export default function Home({ all_collections, nfts, artists }) {
                 6. Membership Subscriptions
               </h3>
               <p className="dark:text-jacarta-300">
-                You can get membership subscriptions from your favourite artists and get access for all the perks provided by them (powered by
+                You can get membership subscriptions from your favourite artists
+                and get access for all the perks provided by them (powered by
                 superfluid streams)
               </p>
             </div>
@@ -501,7 +510,9 @@ export default function Home({ all_collections, nfts, artists }) {
                 7. Realtime Notifications
               </h3>
               <p className="dark:text-jacarta-300">
-                Get notifications for NFT sales, NFT purchases, Memberships, cross-chain transactions, etc. Realtime notifications on RarX are powered by push protocol.
+                Get notifications for NFT sales, NFT purchases, Memberships,
+                cross-chain transactions, etc. Realtime notifications on RarX
+                are powered by push protocol.
               </p>
             </div>
             <div className="text-center">
@@ -523,7 +534,9 @@ export default function Home({ all_collections, nfts, artists }) {
                 8. OO Verification's
               </h3>
               <p className="dark:text-jacarta-300">
-                We have a special verification system to verify NFT Collections, all NFTs collections on RarX Marketplace are verified using UMA's Optimistic Oracle.
+                We have a special verification system to verify NFT Collections,
+                all NFTs collections on RarX Marketplace are verified using
+                UMA's Optimistic Oracle.
               </p>
             </div>
           </div>
