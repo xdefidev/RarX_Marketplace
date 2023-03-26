@@ -10,7 +10,8 @@ import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMark
 import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollection.json";
 import xChainPolygon from "../../artifacts/contracts/xChainPolygon.sol/xChainPolygon.json";
 import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/CollectionFactory.json";
-// import UMA_factory_contract from "../../artifacts/contracts/UMA/uma_info.json";
+import uma_verification from "../../artifacts/contracts/UMAVerification/uma_verification.json";
+import UMA_factory_contract from "../../artifacts/contracts/UMA/uma_info.json";
 import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
 import * as PushAPI from "@pushprotocol/restapi";
@@ -51,7 +52,7 @@ export default function App({ Component, pageProps }) {
   const x_hashi_goerli = "0x8F5969b8Fa3727392385C5E74CF1AA91a4aC4b40";
 
   //UMA CONTRACT FACTORY
-  const uma_contract_factory = "0xD3d3cA64B3c4C3D6F506D7107d9859c5bA766de6";
+  const uma_contract_factory = "0xf45DfC08119414846D8384eB2f2cdF1a2a03aB83";
 
   // chain configs
   const [chainImg, setChainImg] = useState("");
@@ -301,22 +302,113 @@ export default function App({ Component, pageProps }) {
 
   const deploy_uma = async (collection_address) => {
     console.log({ collection_address });
-    const contract = UMA_contract();
-    // contract.on(
-    //   "UMA_Created",
-    //   async (current_count, collection_address, current_uma) => {
-    //     console.log({ current_count, collection_address, current_uma });
-    const db = polybase();
-    const res = await db
-      .collection("NFTCollection")
-      .record(collection_address)
-      .call("start_verification", ["current_uma"]);
-    console.log({ res });
-    //   }
-    // );
-    // const txn = await contract.deploy_uma(collection_address);
-    // console.log({ txn });
+    try {
+      const contract = UMA_contract();
+
+      // AFTER EVENT EMIT...SAVING DATA ON POLYBASE
+      contract.on(
+        "UMA_Created",
+        async (current_count, collection_address, current_uma) => {
+          console.log({ current_count, collection_address, current_uma });
+
+          const db = polybase();
+          const res = await db
+            .collection("NFTCollection")
+            .record(collection_address)
+            .call("start_verification", [current_uma]);
+          console.log({ res });
+        }
+      );
+
+      // ON CHAIN TRANSACTION
+      const txn = await contract.deploy_uma(collection_address);
+      console.log({ txn });
+    } catch (error) {
+      alert(error.message);
+    }
   };
+
+  const request_verification_UMA = async (collection_address) => {
+    try {
+      const db = polybase();
+      const res = await db
+        .collection("NFTCollection")
+        .record(collection_address)
+        .get();
+      console.log(res.data.uma_contract);
+
+      const contract = new ethers.Contract(
+        res.data.uma_contract,
+        uma_verification.abi,
+        signer
+      );
+
+      const txn = await contract.requestData();
+      console.log({ txn });
+
+      if (txn.hash) {
+        const res = await db
+          .collection("NFTCollection")
+          .record(collection_address)
+          .call("start_request");
+        console.log({ res });
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const uma_settle_request = async (collection_address) => {
+    try {
+      const db = polybase();
+      const res = await db
+        .collection("NFTCollection")
+        .record(collection_address)
+        .get();
+      console.log(res.data.uma_contract);
+
+      const contract = new ethers.Contract(
+        res.data.uma_contract,
+        uma_verification.abi,
+        signer
+      );
+
+      const txn = await contract.settleRequest();
+      console.log({ txn });
+
+      if (txn.hash) {
+        const res = await db
+          .collection("NFTCollection")
+          .record(collection_address)
+          .call("settle_verification");
+        console.log({ res });
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  // const uma_get_settle_status = async (collection_address) => {
+  //   console.log({ collection_address });
+  //   if (!collection_address) return;
+  //   try {
+  //     // const db = polybase();
+  //     // const res = await db
+  //     //   .collection("NFTCollection")
+  //     //   .record(collection_address)
+  //     //   .get();
+  //     // console.log({ contract: res.data.uma_contract });
+  //     // const contract = new ethers.Contract(
+  //     //   res.data.uma_contract,
+  //     //   uma_verification.abi,
+  //     //   signer
+  //     // );
+  //     // const txn = await contract.getSettledData();
+  //     // console.log({ settleStatus: txn.toString() });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   const fetch_collections_polybase = async (user_address) => {
     try {
@@ -711,6 +803,8 @@ export default function App({ Component, pageProps }) {
       const collection_logo = await storage.upload(data.logo);
       const collection_image = await storage.upload(data.image);
       const collection_factory = collection_contract_factory(signer);
+
+      console.log({ collection_logo, collection_image });
 
       collection_factory.on(
         "CollectionCreated",
@@ -1236,6 +1330,8 @@ export default function App({ Component, pageProps }) {
         fetch_collections_polybase={fetch_collections_polybase}
         fetch_nfts_by_chain={fetch_nfts_by_chain}
         deploy_uma={deploy_uma}
+        request_verification_UMA={request_verification_UMA}
+        uma_settle_request={uma_settle_request}
       />
       <Footer />
     </>
