@@ -167,7 +167,7 @@ const Notifications = ({
                                     target="_blank"
                                     className="block text-xs text-jacarta-300 ml-4"
                                   >
-                                    View transaction on polygon 🔗
+                                    View transaction on {notificationData.from_chain_id == 5 ? "Goerli" : "Polygon"} 🔗
                                   </a>
                                 </div>
                               </div>
