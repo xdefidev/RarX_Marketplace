@@ -420,7 +420,7 @@ export default function App({ Component, pageProps }) {
 
   // end of UMA functions 
 
-
+  // polbase function start here 
   const fetch_collections_polybase = async (user_address) => {
     try {
       const db = polybase();
@@ -637,7 +637,7 @@ export default function App({ Component, pageProps }) {
     return x_chain_contract;
   };
 
-  //cross chain
+  //connext xchain function here
   const xchain_NFT = async (
     AssetCollection,
     AssetTokenID,
