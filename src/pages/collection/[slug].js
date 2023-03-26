@@ -16,6 +16,9 @@ const Collection = ({
   fetch_nfts_from_collection,
   signer_address,
   deploy_uma,
+  request_verification_UMA,
+  uma_settle_request,
+  uma_get_settle_status,
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -32,6 +35,7 @@ const Collection = ({
   const get_collection = async () => {
     setLoading(true);
     const collection = await fetch_collection_data_from_polybase(slug);
+    // console.log({ collection });
     set_collection(collection.data[0].data);
     setLoading(false);
   };
@@ -59,6 +63,14 @@ const Collection = ({
       set_volume(volume);
     }
     set_nfts(res);
+  };
+
+  const request_verification = async () => {
+    const res = await request_verification_UMA(slug);
+  };
+
+  const settle_verification = async () => {
+    const res = await uma_settle_request(slug);
   };
 
   useEffect(() => {
@@ -227,6 +239,7 @@ const Collection = ({
                         </div>
                         <div className="flex items-center justify-center space-x-4">
                           <button
+                            onClick={request_verification}
                             type="button"
                             className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                           >
@@ -256,6 +269,7 @@ const Collection = ({
                         </div>
                         <div className="flex items-center justify-center space-x-4">
                           <button
+                            onClick={settle_verification}
                             type="button"
                             className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                           >
@@ -499,9 +513,11 @@ const Collection = ({
                     })}
                   </div>
                   <div className="flex justify-center">
-                    {nfts?.length <= 0 &&
-                      <h2 className="text-xl font-display font-thin">This collection has no NFTs !!</h2>
-                    }
+                    {nfts?.length <= 0 && (
+                      <h2 className="text-xl font-display font-thin">
+                        This collection has no NFTs !!
+                      </h2>
+                    )}
                   </div>
                 </div>
               </div>
