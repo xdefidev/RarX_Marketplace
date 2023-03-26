@@ -46,7 +46,7 @@ const Collection = ({
 
   const get_nfts = async () => {
     const res = await fetch_nfts_from_collection(slug);
-    console.log(res);
+    // console.log(res);
     let volume = 0;
     let lowest_price = 0;
     if (res) {

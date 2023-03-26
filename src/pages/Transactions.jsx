@@ -22,7 +22,7 @@ const Notifications = ({
     let transactions = [];
     data?.transactions?.map((e) => transactions.push(e));
     setNotificationData(data?.transactions ? JSON.parse(transactions) : "");
-    console.log({ notificationData });
+    // console.log({ notificationData });
   };
 
   useEffect(() => {

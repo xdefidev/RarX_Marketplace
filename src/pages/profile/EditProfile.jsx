@@ -71,7 +71,7 @@ const EditProfile = ({ signer_address, polybase }) => {
       if (typeof data.profileImage === "object") {
         profileImg = await storage.upload(data.profileImage);
       }
-      console.log(data);
+      // console.log(data);
       const res = await db
         .collection("User")
         .record(signer_address)
@@ -86,7 +86,7 @@ const EditProfile = ({ signer_address, polybase }) => {
           data.isArtist ? data.membership_fees : "",
           data.isArtist ? data.membership_perks : "",
         ]);
-      console.log(res);
+      // console.log(res);
       // window.location.reload();
     } catch (error) {
       console.log(error.message);
@@ -166,9 +166,9 @@ const EditProfile = ({ signer_address, polybase }) => {
               src={
                 typeof data.coverImage == "string"
                   ? data.coverImage.replace(
-                      "ipfs://",
-                      "https://gateway.ipfscdn.io/ipfs/"
-                    )
+                    "ipfs://",
+                    "https://gateway.ipfscdn.io/ipfs/"
+                  )
                   : coverImg_preview
               }
               alt="banner"
@@ -378,9 +378,9 @@ const EditProfile = ({ signer_address, polybase }) => {
                           src={
                             typeof data.profileImage == "string"
                               ? data.profileImage.replace(
-                                  "ipfs://",
-                                  "https://gateway.ipfscdn.io/ipfs/"
-                                )
+                                "ipfs://",
+                                "https://gateway.ipfscdn.io/ipfs/"
+                              )
                               : profImg_preview
                           }
                           width={100}

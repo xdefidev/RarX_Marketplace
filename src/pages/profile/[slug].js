@@ -318,7 +318,7 @@ const Profile = ({
 
   const fetch_collections = async () => {
     const res = await fetch_collections_polybase(slug);
-    console.log({ coll: res });
+    // console.log({ coll: res });
     set_my_collections(res);
   };
 

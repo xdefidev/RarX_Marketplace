@@ -305,6 +305,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // UMA Functions here 
   const UMA_contract = () => {
     const contract = new ethers.Contract(
       uma_contract_factory,
@@ -314,6 +315,7 @@ export default function App({ Component, pageProps }) {
     return contract;
   };
 
+  // deploying UMA contract 
   const deploy_uma = async (collection_address) => {
     try {
       const contract = UMA_contract();
@@ -326,7 +328,7 @@ export default function App({ Component, pageProps }) {
             .collection("NFTCollection")
             .record(collection_address)
             .call("start_verification", [current_uma]);
-          console.log({ res });
+          // console.log({ res });
         }
       );
       // ON CHAIN TRANSACTION
@@ -336,6 +338,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // triggering requestData function 
   const request_verification_UMA = async (collection_address) => {
     try {
       const db = polybase();
@@ -365,6 +368,7 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  // triggering uma settle 
   const uma_settle_request = async (collection_address) => {
     try {
       const db = polybase();
@@ -391,27 +395,31 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-  // const uma_get_settle_status = async (collection_address) => {
-  //   console.log({ collection_address });
-  //   if (!collection_address) return;
-  //   try {
-  //     // const db = polybase();
-  //     // const res = await db
-  //     //   .collection("NFTCollection")
-  //     //   .record(collection_address)
-  //     //   .get();
-  //     // console.log({ contract: res.data.uma_contract });
-  //     // const contract = new ethers.Contract(
-  //     //   res.data.uma_contract,
-  //     //   uma_verification.abi,
-  //     //   signer
-  //     // );
-  //     // const txn = await contract.getSettledData();
-  //     // console.log({ settleStatus: txn.toString() });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  // getting status of uma 
+  const uma_get_settle_status = async (collection_address) => {
+    // console.log({ collection_address });
+    if (!collection_address) return;
+    try {
+      const db = polybase();
+      const res = await db
+        .collection("NFTCollection")
+        .record(collection_address)
+        .get();
+      // console.log({ contract: res.data.uma_contract });
+      const contract = new ethers.Contract(
+        res.data.uma_contract,
+        uma_verification.abi,
+        signer
+      );
+      const txn = await contract.getSettledData();
+      // console.log({ settleStatus: txn.toString() });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // end of UMA functions 
+
 
   const fetch_collections_polybase = async (user_address) => {
     try {
@@ -517,13 +525,13 @@ export default function App({ Component, pageProps }) {
 
   // lsit nft for sale
   const list_nft = async (tokenId, price, collection_address, signer) => {
-    console.log({
-      tokenId,
-      price,
-      collection_address,
-      signer,
-      marketplaceAddress,
-    });
+    // console.log({
+    //   tokenId,
+    //   price,
+    //   collection_address,
+    //   signer,
+    //   marketplaceAddress,
+    // });
     const user_address = await signer.getAddress();
 
     const collection_contract = rarx_collection(collection_address, signer);
@@ -556,7 +564,7 @@ export default function App({ Component, pageProps }) {
             chainIdMain.toString(),
             db.collection("User").record(marketplaceAddress.toLowerCase()),
           ]);
-        console.log({ polybaseres: res });
+        // console.log({ polybaseres: res });
         sendNFTListNoti(tokenId, price);
         router.reload();
       }
@@ -776,13 +784,13 @@ export default function App({ Component, pageProps }) {
   // create nft
   const create_token = async (_tokenURI, signer) => {
     try {
-      console.log(_tokenURI);
+      // console.log(_tokenURI);
       const tokenURI = await storage.upload(_tokenURI);
       const rarx = rarx_collection(_tokenURI.collection, signer);
       const network = await provider.getNetwork();
 
       rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
-        console.log({ ipfsURL, tokenId });
+        // console.log({ ipfsURL, tokenId });
         const db = polybase();
         const res = await db
           .collection("NFT")
@@ -801,13 +809,13 @@ export default function App({ Component, pageProps }) {
             blockURL,
             symbol,
           ]);
-        console.log({ polybaseres: res });
-        console.log("event emitted");
+        // console.log({ polybaseres: res });
+        // console.log("event emitted");
       });
 
       const txn = await rarx.createToken(tokenURI);
       await txn.wait();
-      console.log({ txn });
+      // console.log({ txn });
       sendNFTMintNoti();
     } catch (error) {
       console.log(error);
@@ -927,7 +935,7 @@ export default function App({ Component, pageProps }) {
         const { data } = e;
         allCollections.push(data);
       });
-      console.log({ allCollections });
+      // console.log({ allCollections });
       set_collections(allCollections);
     } catch (error) {
       console.log(error.message);
@@ -1067,7 +1075,7 @@ export default function App({ Component, pageProps }) {
   };
 
   const fetch_nfts_by_chain = async () => {
-    console.log({ chainId });
+    // console.log({ chainId });
     console.log({ signer_address, chainId });
     try {
       const db = polybase();
