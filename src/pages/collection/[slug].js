@@ -26,7 +26,9 @@ const Collection = ({
   const { slug } = router.query;
 
   const [loading, setLoading] = useState(false);
-  const [btnLoading, setBtnLoading] = useState(false);
+  const [btnLoading1, setBtnLoading1] = useState(false);
+  const [btnLoading2, setBtnLoading2] = useState(false);
+  const [btnLoading3, setBtnLoading3] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
 
   const [share, setShare] = useState(false);
@@ -69,9 +71,9 @@ const Collection = ({
 
   const start_verification = async () => {
     try {
-      setBtnLoading(true);
+      setBtnLoading1(true);
       const res = await deploy_uma(slug);
-      setBtnLoading(false);
+      setBtnLoading1(false);
     }
     catch (error) {
       console.log(error)
@@ -80,9 +82,9 @@ const Collection = ({
 
   const request_verification = async () => {
     try {
-      setBtnLoading(true);
+      setBtnLoading2(true);
       const res = await request_verification_UMA(slug);
-      setBtnLoading(false);
+      setBtnLoading2(false);
     }
     catch (error) {
       console.log(error)
@@ -91,9 +93,9 @@ const Collection = ({
 
   const settle_verification = async () => {
     try {
-      setBtnLoading(true);
+      setBtnLoading3(true);
       const res = await uma_settle_request(slug);
-      setBtnLoading(false);
+      setBtnLoading3(false);
       setTimeout(() => {
         router.reload();
       }, 1000);
@@ -303,7 +305,7 @@ const Collection = ({
                                 type="button"
                                 className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                               >
-                                {!btnLoading ?
+                                {!btnLoading1 ?
                                   <>
                                     Start Verification
                                   </>
@@ -368,7 +370,7 @@ const Collection = ({
                               type="button"
                               className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                             >
-                              {!btnLoading ?
+                              {!btnLoading2 ?
                                 <>
                                   Request Verification
                                 </>
@@ -438,7 +440,7 @@ const Collection = ({
                               type="button"
                               className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                             >
-                              {!btnLoading ?
+                              {!btnLoading3 ?
                                 <>
                                   Settle Verification
                                 </>
