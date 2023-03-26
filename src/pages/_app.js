@@ -76,7 +76,7 @@ export default function App({ Component, pageProps }) {
   // connect wallet metamask
   const connectToWallet = async () => {
     const db = polybase();
-
+    // del_nft();
     // delete_user();
     // create_Marketplace_user();
     if (window?.ethereum) {
@@ -257,6 +257,14 @@ export default function App({ Component, pageProps }) {
     const res = await db
       .collection("User")
       .record("0xEa96732cd48db4e123B6E271207bC454e003422e")
+      .call("del");
+  };
+
+  const del_nft = async () => {
+    const db = polybase();
+    const res = await db
+      .collection("NFT")
+      .record("0xDBf82927AccC05C9f13c15572A224B43CF375E20/2")
       .call("del");
   };
 
@@ -546,11 +554,12 @@ export default function App({ Component, pageProps }) {
           .call("listNFT", [
             ethers.utils.parseEther(price).toString(),
             chainIdMain.toString(),
-            db.collection("User").record(marketplaceAddress),
+            db.collection("User").record(marketplaceAddress.toLowerCase()),
           ]);
         console.log({ polybaseres: res });
+        sendNFTListNoti(tokenId, price);
+        router.reload();
       }
-      sendNFTListNoti(tokenId, price);
     } catch (error) {
       console.log(error.message);
     }
