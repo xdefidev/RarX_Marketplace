@@ -62,6 +62,7 @@ export default function App({ Component, pageProps }) {
   const [defaultCollectionAddress, setCollectionAddress] = useState("");
   const [marketplaceAddress, setMarketplaceAddress] = useState("");
   const [collectionFactoryAddress, setCollectionFactoryAddress] = useState("");
+  const [txnHashCollection, setTxnHashCollection] = useState("");
 
   // declaring images
   const filecoinLogo = "chains/filecoin.png";
@@ -164,6 +165,7 @@ export default function App({ Component, pageProps }) {
         setSymbol("ETH");
         setBlockchain("Taiko");
         setBlockURL("https://explorer.a2.taiko.xyz");
+        // create_Marketplace_user("marketplace_address");
       } else if (chainId == 10200) {
         // gnosis
         setCollectionAddress("0x0D73e15690faCBccc0769436a705595E587B8D65");
@@ -221,6 +223,7 @@ export default function App({ Component, pageProps }) {
     setSigner();
   };
 
+  // deafult nft collection polybase polybase 
   // create default nft collection polybase
   // const create_NFTCollection_default = async (
   //   collection_address,
@@ -247,6 +250,7 @@ export default function App({ Component, pageProps }) {
   //     ]);
   // };
 
+  // delete user polybase chain_method 
   const delete_user = async () => {
     const db = polybase();
     const res = await db
@@ -254,6 +258,8 @@ export default function App({ Component, pageProps }) {
       .record("0xEa96732cd48db4e123B6E271207bC454e003422e")
       .call("del");
   };
+
+  // delete collection polybase chain_method 
   const delete_collection = async () => {
     const db = polybase();
     const res = await db
@@ -262,7 +268,7 @@ export default function App({ Component, pageProps }) {
       .call("del");
   };
 
-  // create marketplace user polybase
+  // create marketplace user polybase chain_method 
   const create_Marketplace_user = async (marketplace_address) => {
     const db = polybase();
     const res = await db
@@ -300,16 +306,12 @@ export default function App({ Component, pageProps }) {
   };
 
   const deploy_uma = async (collection_address) => {
-    console.log({ collection_address });
     try {
       const contract = UMA_contract();
-
       // AFTER EVENT EMIT...SAVING DATA ON POLYBASE
       contract.on(
         "UMA_Created",
         async (current_count, collection_address, current_uma) => {
-          console.log({ current_count, collection_address, current_uma });
-
           const db = polybase();
           const res = await db
             .collection("NFTCollection")
@@ -318,12 +320,10 @@ export default function App({ Component, pageProps }) {
           console.log({ res });
         }
       );
-
       // ON CHAIN TRANSACTION
       const txn = await contract.deploy_uma(collection_address);
-      console.log({ txn });
     } catch (error) {
-      alert(error.message);
+      console.log(error)
     }
   };
 
@@ -334,7 +334,6 @@ export default function App({ Component, pageProps }) {
         .collection("NFTCollection")
         .record(collection_address)
         .get();
-      console.log(res.data.uma_contract);
 
       const contract = new ethers.Contract(
         res.data.uma_contract,
@@ -343,17 +342,17 @@ export default function App({ Component, pageProps }) {
       );
 
       const txn = await contract.requestData();
-      console.log({ txn });
 
       if (txn.hash) {
         const res = await db
           .collection("NFTCollection")
           .record(collection_address)
           .call("start_request");
-        console.log({ res });
+
+        setTxnHashCollection(txn.hash);
       }
     } catch (error) {
-      alert(error.message);
+      console.log(error)
     }
   };
 
@@ -364,8 +363,6 @@ export default function App({ Component, pageProps }) {
         .collection("NFTCollection")
         .record(collection_address)
         .get();
-      console.log(res.data.uma_contract);
-
       const contract = new ethers.Contract(
         res.data.uma_contract,
         uma_verification.abi,
@@ -373,17 +370,15 @@ export default function App({ Component, pageProps }) {
       );
 
       const txn = await contract.settleRequest();
-      console.log({ txn });
 
       if (txn.hash) {
         const res = await db
           .collection("NFTCollection")
           .record(collection_address)
           .call("settle_verification");
-        console.log({ res });
       }
     } catch (error) {
-      alert(error.message);
+      alert("Please self-verify your transaction on UMA OO first")
     }
   };
 
@@ -430,6 +425,7 @@ export default function App({ Component, pageProps }) {
         obj.owner_name = e.data.owner.id;
         obj.symbol = e.data.symbol;
         obj.chain_image = e.data.chain_image;
+        obj.isCollectionVerified = e.data.isCollectionVerified;
         obj.chain_block = e.data.chain_block;
         fetched_collections.push(obj);
       }
@@ -512,7 +508,7 @@ export default function App({ Component, pageProps }) {
 
   // lsit nft for sale
   const list_nft = async (tokenId, price, collection_address, signer) => {
-    console.log({ tokenId, price, collection_address, signer });
+    console.log({ tokenId, price, collection_address, signer, marketplaceAddress });
     const user_address = await signer.getAddress();
 
     const collection_contract = rarx_collection(collection_address, signer);
@@ -627,14 +623,18 @@ export default function App({ Component, pageProps }) {
     try {
       // getting relayer fee
       let relayerMain;
+
+      // setting default values 
       let chain_Image;
       let chain_symbol;
       let chain_block;
-
       const polygonDomain = "9991";
       const goerliDomain = "1735353714";
+
+      // initiating sdk 
       const { sdkBase } = await create(SdkConfig);
 
+      // selecting destination domain, relayer fee and data
       if (domainID == "1735353714") {
         // const relayerFee = (
         //   await sdkBase.estimateRelayerFee({
@@ -700,6 +700,8 @@ export default function App({ Component, pageProps }) {
       // sending xchain call
       try {
         const crossChainPolygon = xChain_Contract_Call(xChainContract, signer);
+
+        // currently sending 0 fees as relayerfee because no nfts can get bridged because of high relayerfees, don't have more than 1 matic on testnet
         const sendXChainPolygon = await crossChainPolygon.XChainCall(
           domainID,
           "0",
@@ -1331,6 +1333,7 @@ export default function App({ Component, pageProps }) {
         deploy_uma={deploy_uma}
         request_verification_UMA={request_verification_UMA}
         uma_settle_request={uma_settle_request}
+        txnHashCollection={txnHashCollection}
       />
       <Footer />
     </>

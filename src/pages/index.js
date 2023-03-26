@@ -137,9 +137,9 @@ export default function Home({ all_collections, nfts, artists }) {
                   <div>
                     <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                       <div className="relative">
-                        <Link href="item.html">
-                          <Image
-                            src={testNFT}
+                        <Link href="/nft/0x4065213d6d042FAdac17bffBeb13Bb0854a2E16d/0">
+                          <img
+                            src="https://gateway.ipfscdn.io/ipfs/Qmc6WoM29v824AebK4YpiaFvkhTQpLTJDxTu51jY6pb7WV/671.gif"
                             alt="item 1"
                             className="w-full object-cover"
                             height="437"
@@ -149,9 +149,9 @@ export default function Home({ all_collections, nfts, artists }) {
                       </div>
                       <div className="p-6">
                         <div className="flex">
-                          <Link href="user.html" className="shrink-0">
-                            <Image
-                              src={testNFT}
+                          <Link href="/collection/0x4065213d6d042FAdac17bffBeb13Bb0854a2E16d" className="shrink-0">
+                            <img
+                              src="https://gateway.ipfscdn.io/ipfs/QmeQXBTNbR1MaxpwLtW3QE9D9rw4ZazhsEhQoVToLPcUiW/683.gif"
                               alt="avatar"
                               className="mr-4 h-10 w-10 rounded-full"
                               height={100}
@@ -161,11 +161,11 @@ export default function Home({ all_collections, nfts, artists }) {
                           <div>
                             <a className="block">
                               <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                King of the jungle launchpad #4
+                                Potatoz #1
                               </span>
                             </a>
-                            <Link href="#" className="text-2xs text-accent">
-                              By Shravan
+                            <Link href="/collection/0x4065213d6d042FAdac17bffBeb13Bb0854a2E16d" className="text-2xs text-accent">
+                              By PotatoZ
                             </Link>
                           </div>
                         </div>
@@ -178,9 +178,9 @@ export default function Home({ all_collections, nfts, artists }) {
                   <div>
                     <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                       <div className="relative">
-                        <Link href="item.html">
-                          <Image
-                            src={testNFT}
+                        <Link href="/nft/0xf6f2d216Bf1A2d556D10AD106f97F54bD189ba95/2">
+                          <img
+                            src="https://gateway.ipfscdn.io/ipfs/QmfQV4yNAPdVPi8M5ZTxpTS8y4TrejQs4TLDVoq4t29Htr/details%20(1).jpeg"
                             alt="item 1"
                             height="437"
                             width="406"
@@ -190,9 +190,9 @@ export default function Home({ all_collections, nfts, artists }) {
                       </div>
                       <div className="p-6">
                         <div className="flex">
-                          <Link href="user.html" className="shrink-0">
-                            <Image
-                              src={testNFT}
+                          <Link href="/collection/0xf6f2d216Bf1A2d556D10AD106f97F54bD189ba95" className="shrink-0">
+                            <img
+                              src="https://gateway.ipfscdn.io/ipfs/QmTd5SFv6rAEEJSaDEvfd3YjAbRaj9N2AaLceX3Y2ECvXJ/cd7ada2dd9f2c930d433e0c27c891a2bb88eea51.jpeg"
                               alt="avatar"
                               className="mr-4 h-10 w-10 rounded-full"
                               height={100}
@@ -202,11 +202,11 @@ export default function Home({ all_collections, nfts, artists }) {
                           <div>
                             <a className="block">
                               <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                The Universe
+                                Bored
                               </span>
                             </a>
-                            <Link href="#" className="text-2xs text-accent">
-                              By Aniruddha
+                            <Link href="/collection/0xf6f2d216Bf1A2d556D10AD106f97F54bD189ba95" className="text-2xs text-accent">
+                              By Monsterland
                             </Link>
                           </div>
                         </div>
@@ -218,9 +218,9 @@ export default function Home({ all_collections, nfts, artists }) {
                     <div>
                       <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                         <div className="relative">
-                          <Link href="item.html">
-                            <Image
-                              src={testNFT}
+                          <Link href="/nft/0x483A767912818E7A3De29f95bc0d51b30070Bf02/0">
+                            <img
+                              src="https://gateway.ipfscdn.io/ipfs/QmaEwNaNLxwCzN6kmuZZTF9Ltu8dMUj8AXRf4kaVTELThe/f1.png"
                               alt="item 1"
                               className="w-full object-cover"
                               height="300"
@@ -230,9 +230,9 @@ export default function Home({ all_collections, nfts, artists }) {
                         </div>
                         <div className="p-6">
                           <div className="flex">
-                            <Link href="user.html" className="shrink-0">
-                              <Image
-                                src={testNFT}
+                            <Link href="/collection/0x483A767912818E7A3De29f95bc0d51b30070Bf02" className="shrink-0">
+                              <img
+                                src="https://gateway.ipfscdn.io/ipfs/QmbGiScF3zL8KLxCApp6DFbSmN4WJT2cQoKgav1aT9Xfoa/firat.jpg"
                                 alt="avatar"
                                 className="mr-4 h-10 w-10 rounded-full"
                                 height={100}
@@ -242,11 +242,11 @@ export default function Home({ all_collections, nfts, artists }) {
                             <div>
                               <a className="block">
                                 <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                  Ethereum NFT
+                                  NFT #1
                                 </span>
                               </a>
-                              <Link href="#" className="text-2xs text-accent">
-                                By Petkar
+                              <Link href="/collection/0x483A767912818E7A3De29f95bc0d51b30070Bf02" className="text-2xs text-accent">
+                                By Firat's NFT Collection
                               </Link>
                             </div>
                           </div>
@@ -314,6 +314,7 @@ export default function Home({ all_collections, nfts, artists }) {
                     CollectionAddress={e.id}
                     collectionId={e.id}
                     chain_image={e.chain_image}
+                    isCollectionVerified={e.isCollectionVerified}
                     chainImgPre={"../"}
                   />
                 )

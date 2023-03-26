@@ -7,6 +7,8 @@ import { ethers } from "ethers";
 import Head from "next/head";
 import Loader from "@/components/Loader";
 import Link from "next/link";
+import { MdVerified } from "react-icons/md";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
 
 const NFTPage = ({
   fetch_NFT_info,
@@ -42,7 +44,7 @@ const NFTPage = ({
     set_loading(true);
     const res = await list_nft(tokenId, listingPrice, slug, signer);
     set_loading(false);
-    router.reload();
+    // router.reload();
   };
 
   const cancelListingToken = async (slug, tokenId) => {
@@ -120,21 +122,14 @@ const NFTPage = ({
                     >
                       {nft?.collection_name}
                     </Link>
-                    <span
-                      className="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-                      data-tippy-content="Verified Collection"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="h-[.875rem] w-[.875rem] fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z"></path>
-                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                      </svg>
-                    </span>
+                    <MdVerified
+                      style={{ color: "#4f87ff", marginLeft: "-4px" }}
+                      size={25}
+                    />
+                    {/* <BsFillExclamationCircleFill
+                        style={{ color: "#cfc62d", cursor: "pointer", marginTop: "34px" }}
+                        size={25}
+                      /> */}
                   </div>
 
                   {/*Likes*/}
@@ -297,19 +292,28 @@ const NFTPage = ({
                           <div className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
                             <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
                               <span className="font-display text-sm text-jacarta-700">
-                                ETH
+                                {nft?.chain_symbol ? nft?.chain_symbol : "MATIC"}
                               </span>
                             </div>
-
-                            <input
-                              required
-                              type="text"
-                              onChange={(e) =>
-                                set_listing_price(e.target.value)
-                              }
-                              className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
-                              placeholder="Amount"
-                            />
+                            {loading ?
+                              <input
+                                disabled
+                                required
+                                type="text"
+                                className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                                placeholder="Amount"
+                              />
+                              :
+                              <input
+                                required
+                                type="text"
+                                onChange={(e) =>
+                                  set_listing_price(e.target.value)
+                                }
+                                className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                                placeholder="Amount"
+                              />
+                            }
                           </div>
                         </div>
 
