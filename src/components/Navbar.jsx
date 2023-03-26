@@ -242,7 +242,7 @@ const Navbar = ({
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x28C5A" }],
+        params: [{ chainId: "0x28C5C" }],
       });
       chainSwitchReload("167004");
       setShowNetworkPopup(!showNetworkPopup);
@@ -254,7 +254,7 @@ const Navbar = ({
             method: "wallet_addEthereumChain",
             params: [
               {
-                chainId: "0x28C5A",
+                chainId: "0x28C5C",
                 chainName: "Taiko Testnet",
                 nativeCurrency: {
                   name: "Taiko",
