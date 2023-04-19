@@ -804,7 +804,24 @@ export default function App({ Component, pageProps }) {
       const rarx = rarx_collection(_tokenURI.collection, signer);
       const network = await provider.getNetwork();
 
-      rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
+      let chain_Image;
+      let chain_symbol;
+      let chain_block;
+
+      if (symbol == "ETH") {
+        chain_Image = "chains/goerli.png";
+        chain_symbol = "ETH";
+        chain_block = "https://etherscan.io/";
+      }
+      if (symbol == "BNB") {
+        chain_Image = "chains/bsc.png";
+        chain_symbol = "MATIC";
+        chain_block = "https://bscscan.com/";
+      }
+
+      console.log(tokenURI, "tokenURI");
+
+      await rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
         // console.log({ ipfsURL, tokenId });
         const db = await polybase();
         const res = await db
@@ -818,15 +835,18 @@ export default function App({ Component, pageProps }) {
             db.collection("Collection").record(_tokenURI.collection),
             _tokenURI.properties[0].type
               ? JSON.stringify(_tokenURI.properties)
-              : [],
+              : "[]",
             _tokenURI.name,
             ipfsURL,
             _tokenURI.description,
-            _tokenURI.collection,
+            false,
             signer_address,
+            chain_block,
+            chain_Image,
+            chain_symbol,
           ]);
-        // console.log({ polybaseres: res });
-        // console.log("event emitted");
+        console.log({ polybaseres: res });
+        console.log("res", res);
       });
 
       const txn = await rarx.createToken(tokenURI);
@@ -860,9 +880,13 @@ export default function App({ Component, pageProps }) {
           collection_address
         ) => {
           const db = await polybase();
+          console.log(
+            "collection",
+            db.collection("User").record(signer_address)
+          );
           const res = await db.collection("Collection").create([
             collection_address,
-            db.collection("User").record(signer_address).collectionId,
+            await db.collection("User").record(signer_address)?.collection.id,
             name,
             logo,
             image,
@@ -872,6 +896,7 @@ export default function App({ Component, pageProps }) {
             // chainImg,
             // blockURL,
           ]);
+          console.log(res);
           console.log({ polybase: res });
         }
       );
@@ -1027,6 +1052,8 @@ export default function App({ Component, pageProps }) {
       const db = await polybase();
       const res = await db.collection("NFT").get();
       let nfts = [];
+      console.log(nfts, "nfts");
+      console.log(res.data, "res");
       for (const e of res.data) {
         let obj = {};
         obj.chainId = e.data.chainId;
@@ -1035,11 +1062,11 @@ export default function App({ Component, pageProps }) {
         obj.listingPrice = e.data.listingPrice
           ? ethers.utils.formatEther(e.data.listingPrice)
           : "";
-        obj.nft_name = e.data?.nft_name ? e.data?.nft_name : "";
+        obj.nft_name = e.data?.name ? e.data?.name : "";
         obj.chain_block = e.data.chain_block;
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
-        const url = e.data.ipfsURL.replace(
+        const url = e.data.ipfsURL?.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
         );
@@ -1048,6 +1075,7 @@ export default function App({ Component, pageProps }) {
         nfts.push(obj);
       }
       set_nfts(nfts);
+
       return nfts;
     } catch (error) {
       console.log(error.message);
