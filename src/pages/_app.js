@@ -443,13 +443,12 @@ export default function App({ Component, pageProps }) {
   const fetch_collections_polybase = async (user_address) => {
     try {
       const db = await polybase();
-      console.log(
-        await db
-          .collection("Collection")
-          .record("0x562661f3fa2DC38fB32513d32fF7C7A873F9A23d")
-          .get(),
-        "own"
-      );
+
+      const test = await db
+        .collection("Collection")
+        .record("0x562661f3fa2DC38fB32513d32fF7C7A873F9A23d")
+        .get();
+      console.log(test?.data?.owner, "own");
       const ownnerFind = {
         collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
         id: user_address,
@@ -457,10 +456,13 @@ export default function App({ Component, pageProps }) {
       console.log(ownnerFind, "ownnerFind");
       const collections = await db
         .collection("Collection")
-        .where("owner", "==", ownnerFind)
+        .where("owner", "===", test?.data?.owner)
         .get();
+
+      console.log(collections, "etem1");
       let fetched_collections = [];
       for (const e of collections.data) {
+        console.log(e, "etem");
         const obj = {};
         obj.collection_address = e.data.id;
         obj.coverImage = e.data.coverImage;
