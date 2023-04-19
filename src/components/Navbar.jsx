@@ -6,7 +6,7 @@ import { BsChevronDown } from "react-icons/bs";
 import * as PushAPI from "@pushprotocol/restapi";
 
 import Image from "next/image";
-import rarxlogo from "../../public/rarxpng.png";
+import rarxlogo from "../../public/shiblite.png";
 import filecoinLogo from "../../public/chains/filecoin.png";
 import gnosisLogo from "../../public/chains/gnosis.png";
 import goerliLogo from "../../public/chains/goerli.png";
@@ -14,6 +14,7 @@ import mantleLogo from "../../public/chains/mantle.png";
 import polygonLogo from "../../public/chains/polygon.png";
 import scrollLogo from "../../public/chains/scroll.png";
 import TaikoLogo from "../../public/chains/taiko.png";
+import bscLogo from "../../public/chains/bsc.png";
 
 const Navbar = ({
   connectToWallet,
@@ -32,7 +33,7 @@ const Navbar = ({
   signOut,
 }) => {
   const router = useRouter();
-  const user_address = async () => { };
+  const user_address = async () => {};
   const [notificationData, setNotificationData] = useState();
 
   const [profileDrop, setProfileDrop] = useState(false);
@@ -50,7 +51,7 @@ const Navbar = ({
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // switch chain area
   const switchPolygonChain = async () => {
@@ -312,6 +313,80 @@ const Navbar = ({
     }
   };
 
+  const switchEthereumChain = async () => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x1" }],
+      });
+      chainSwitchReload("1");
+      setShowNetworkPopup(!showNetworkPopup);
+      // window.location.reload(false);
+    } catch (error) {
+      if (error.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0x1",
+                chainName: "Ethereum Mainnet",
+                nativeCurrency: {
+                  name: "ETHEREUM",
+                  symbol: "ETH",
+                  decimals: 18,
+                },
+                blockExplorerUrls: ["https://etherscan.io"],
+                rpcUrls: [""],
+              },
+            ],
+          });
+          chainSwitchReload("1");
+          setShowNetworkPopup(!showNetworkPopup);
+        } catch (addError) {
+          console.error(addError);
+        }
+      }
+    }
+  };
+
+  const switchBSCChain = async () => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x87" }],
+      });
+      chainSwitchReload("56");
+      setShowNetworkPopup(!showNetworkPopup);
+      // window.location.reload(false);
+    } catch (error) {
+      if (error.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0x27D8",
+                chainName: "BSC Mainnet",
+                nativeCurrency: {
+                  name: "BNB",
+                  symbol: "BNB",
+                  decimals: 18,
+                },
+                blockExplorerUrls: ["https://bscscan.com/"],
+                rpcUrls: [""],
+              },
+            ],
+          });
+          chainSwitchReload("56");
+          setShowNetworkPopup(!showNetworkPopup);
+        } catch (addError) {
+          console.error(addError);
+        }
+      }
+    }
+  };
+
   const switchGoerliChain = async () => {
     try {
       await window.ethereum.request({
@@ -387,7 +462,7 @@ const Navbar = ({
       })
       .then((feeds) => {
         setNotificationData(feeds);
-        if (feeds[0]?.app != "RarX Marketplace") {
+        if (feeds[0]?.app != "ShibLite Marketplace") {
           setNullNotification(false);
         }
       })
@@ -406,14 +481,14 @@ const Navbar = ({
   return (
     <div className="overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900">
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
-        <div className="flex items-center px-6 py-6 xl:px-24">
+        <div className="flex items-center px-6 py-4 xl:px-24">
           {/* icon  */}
           <Link href="/" className="shrink-0">
             <Image
               src={rarxlogo}
-              height={120}
-              width={120}
-              alt="RarX | NFT Marketplace"
+              height={60}
+              width={60}
+              alt="ShibLite | NFT Marketplace"
             />
           </Link>
 
@@ -781,21 +856,31 @@ const Navbar = ({
                         {/* unsupported chains  */}
                         {chainIdMain == 1 && (
                           <>
+                            <Image
+                              src={goerliLogo}
+                              height={20}
+                              width={30}
+                              alt="goerliLogo"
+                            />
                             <p className="pl-2 pr-2 mt-1 font-bold ">
-                              Unsupported Chain
+                              Ethereum
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
                         )}
                         {chainIdMain == 56 && (
                           <>
-                            <p className="pl-2 pr-2 mt-1 font-bold ">
-                              Unsupported Chain
-                            </p>
+                            <Image
+                              src={bscLogo}
+                              height={20}
+                              width={30}
+                              alt="bscLogo"
+                            />
+                            <p className="pl-2 pr-2 mt-1 font-bold ">BSC</p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
                         )}
-                        {chainIdMain == 137 && (
+                        {/* {chainIdMain == 137 && (
                           <>
                             <p className="pl-2 pr-2 mt-1 font-bold ">
                               Unsupported Chain
@@ -810,8 +895,8 @@ const Navbar = ({
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
-                        )}
-                        {chainIdMain == 97 && (
+                        )} */}
+                        {chainIdMain !== 56 && chainIdMain !== 1 && (
                           <>
                             <p className="pl-2 pr-2 mt-1 font-bold ">
                               Unsupported Chain
@@ -825,7 +910,38 @@ const Navbar = ({
                     {/* network drop down  */}
                     {showNetworkPopup && (
                       <div className="flex flex-col justify-center w-[200px] absolute top-[24px] right-0 mt-7 shadow-xl bg-white z-10 text-sm shadow-4xl rounded-b-lg cursor-pointer">
-                        {chainIdMain != 10200 && (
+                        {chainIdMain != 1 && (
+                          <div
+                            className="flex flex-row justify-center pt-4 pb-2 hover:bg-slate-100"
+                            onClick={() => switchEthereumChain()}
+                          >
+                            <Image
+                              src={goerliLogo}
+                              height={25}
+                              width={30}
+                              alt="gnosis"
+                            />
+                            <p className="pl-2 pr-2 mt-1 font-bold ">
+                              Ethereum
+                            </p>
+                          </div>
+                        )}
+
+                        {chainIdMain != 56 && (
+                          <div
+                            className="flex flex-row justify-center pt-4 pb-2 hover:bg-slate-100"
+                            onClick={() => switchBSCChain()}
+                          >
+                            <Image
+                              src={bscLogo}
+                              height={25}
+                              width={30}
+                              alt="bscLogo"
+                            />
+                            <p className="pl-2 pr-2 mt-1 font-bold ">BSC</p>
+                          </div>
+                        )}
+                        {/* {chainIdMain != 10200 && (
                           <div
                             className="flex flex-row justify-center pt-4 pb-2 hover:bg-slate-100"
                             onClick={() => switchChiadoChain()}
@@ -952,7 +1068,7 @@ const Navbar = ({
                               Eth Goerli
                             </p>
                           </div>
-                        )}
+                        )} */}
                       </div>
                     )}
                   </div>
@@ -986,82 +1102,86 @@ const Navbar = ({
 
                     {showNotifications && (
                       <div className="absolute right-[-50px] z-20 w-64 mt-6 overflow-hidden origin-top-right bg-white rounded-md shadow-xl sm:w-80 dark:bg-gray-800">
-                        {notificationData && notificationData?.map((e, i) => {
-                          return (
-                            i < 6 &&
-                            e.app === "RarX Marketplace" && (
-                              <div key={e.sid}>
-                                <a
-                                  href={e.cta}
-                                  rel="noreferrer"
-                                  target="_blank"
-                                  className="flex items-center px-4 py-3 -mx-2 transition-colors duration-300 transform border-b border-gray-100 hover:bg-gray-100"
-                                >
-                                  <Image
-                                    className="flex-shrink-0 object-cover w-8 h-8 mx-1 rounded-full"
-                                    src={e.icon}
-                                    alt="avatar"
-                                    height={100}
-                                    width={100}
-                                  />
-                                  <p className="mx-2 text-sm text-black flex flex-col">
-                                    <a
-                                      className="font-bold text-[12px]"
-                                      href={e.cta}
-                                      target="_blank"
-                                      rel="noreferrer"
+                        {notificationData &&
+                          notificationData?.map((e, i) => {
+                            return (
+                              i < 6 &&
+                              e.app === "ShibLite Marketplace" && (
+                                <div key={e.sid}>
+                                  <a
+                                    href={e.cta}
+                                    rel="noreferrer"
+                                    target="_blank"
+                                    className="flex items-center px-4 py-3 -mx-2 transition-colors duration-300 transform border-b border-gray-100 hover:bg-gray-100"
+                                  >
+                                    <Image
+                                      className="flex-shrink-0 object-cover w-8 h-8 mx-1 rounded-full"
+                                      src={e.icon}
+                                      alt="avatar"
+                                      height={100}
+                                      width={100}
+                                    />
+                                    <p className="mx-2 text-sm text-black flex flex-col">
+                                      <a
+                                        className="font-bold text-[12px]"
+                                        href={e.cta}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                      >
+                                        {e.notification.title}
+                                      </a>
+                                      <span className="font-mono text-[10px]">
+                                        {e.notification.body}
+                                      </span>
+                                    </p>
+                                  </a>
+                                </div>
+                              )
+                            );
+                          })}
+                        {notificationData &&
+                          notificationData[0]?.app !=
+                            "ShibLite Marketplace" && (
+                            <div className="h-[135px]">
+                              <a
+                                href="#"
+                                rel="noreferrer"
+                                className="flex items-center px-4 py-3 transition-colors duration-300 transform border-gray-100"
+                              >
+                                <p className="mx-2 text-sm text-black flex flex-col">
+                                  <a
+                                    className="font-bold text-[12px]"
+                                    href="#"
+                                    rel="noreferrer"
+                                  >
+                                    No Notifications yet! click below button to
+                                    susbcribe the rarx marketplace notification
+                                    channel, ignore if already subscribed
+                                  </a>
+                                  {optedIn ? (
+                                    <button
+                                      type="button"
+                                      className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4"
+                                      style={{ backgroundColor: "#6D3EEE" }}
                                     >
-                                      {e.notification.title}
-                                    </a>
-                                    <span className="font-mono text-[10px]">
-                                      {e.notification.body}
-                                    </span>
-                                  </p>
-                                </a>
-                              </div>
-                            )
-                          );
-                        })}
-                        {notificationData && notificationData[0]?.app != "RarX Marketplace" && (
-                          <div className="h-[135px]">
-                            <a
-                              href="#"
-                              rel="noreferrer"
-                              className="flex items-center px-4 py-3 transition-colors duration-300 transform border-gray-100"
-                            >
-                              <p className="mx-2 text-sm text-black flex flex-col">
-                                <a
-                                  className="font-bold text-[12px]"
-                                  href="#"
-                                  rel="noreferrer"
-                                >
-                                  No Notifications yet! click below button to
-                                  susbcribe the rarx marketplace notification
-                                  channel, ignore if already subscribed
-                                </a>
-                                {optedIn ? (
-                                  <button
-                                    type="button"
-                                    className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4"
-                                    style={{ backgroundColor: "#6D3EEE" }}
-                                  >
-                                    Subscribed 🎉
-                                  </button>
-                                ) : (
-                                  <button
-                                    onClick={() => optInToChannel()}
-                                    type="button"
-                                    className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4"
-                                    style={{ backgroundColor: "#6D3EEE" }}
-                                  >
-                                    Subscribe
-                                  </button>
-                                )}
-                              </p>
-                            </a>
-                          </div>
-                        )}
-                        {notificationData && notificationData.length === 0 &&
+                                      Subscribed 🎉
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() => optInToChannel()}
+                                      type="button"
+                                      className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-4 mt-4"
+                                      style={{ backgroundColor: "#6D3EEE" }}
+                                    >
+                                      Subscribe
+                                    </button>
+                                  )}
+                                </p>
+                              </a>
+                            </div>
+                          )}
+                        {notificationData &&
+                          notificationData.length === 0 &&
                           nullNotification == true && (
                             <div className="h-[135px]">
                               <a

@@ -31,11 +31,8 @@ const About = () => {
   return (
     <>
       <Head>
-        <title>About - RarX Marketplace</title>
-        <meta
-          name="description"
-          content="About rarx marketplace"
-        />
+        <title>About - ShibLite Marketplace</title>
+        <meta name="description" content="About rarx marketplace" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
@@ -45,12 +42,16 @@ const About = () => {
         <div className="container">
           <div className="mx-auto max-w-2xl py-16 text-center">
             <h1 className="mb-8 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-              About RarX
+              About ShibLite
             </h1>
             <p className="text-lg leading-normal dark:text-jacarta-300">
-              Rarx is a multi-chain and cross-chain advanced NFT marketplace with features like AI NFT Generation, Cross-chain NFTs, On-chain Collections, Realtime Notifications, Chat with artists, Membership subscriptions for artists, etc. Build By A Team Of 2 Passionate Developers During
-              Scaling Ethereum 2023 Hackathon Organised by Ethglobal. Below is
-              the introduction video of RarX Marketplace.
+              Rarx is a multi-chain and cross-chain advanced NFT marketplace
+              with features like AI NFT Generation, Cross-chain NFTs, On-chain
+              Collections, Realtime Notifications, Chat with artists, Membership
+              subscriptions for artists, etc. Build By A Team Of 2 Passionate
+              Developers During Scaling Ethereum 2023 Hackathon Organised by
+              Ethglobal. Below is the introduction video of ShibLite
+              Marketplace.
             </p>
           </div>
         </div>
@@ -67,7 +68,15 @@ const About = () => {
           <div className="modal-content">
             <div className="modal-body">
               <div className="ratio ratio-16x9 before:bg-jacarta-900">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/hJsEJF-TrtM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe
+                  width="560"
+                  height="315"
+                  src="https://www.youtube.com/embed/hJsEJF-TrtM"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
               </div>
             </div>
           </div>
@@ -78,7 +87,7 @@ const About = () => {
       <section className="py-24">
         <div className="container">
           <h2 className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-            Team Behind RarX
+            Team Behind ShibLite
           </h2>
           <div className="flex flex-wrap justify-center align-middle">
             <div className="rounded-2lg border border-jacarta-100 bg-white p-8 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-700 m-4 w-[270px]">
@@ -200,7 +209,11 @@ const About = () => {
           Supported Chains
         </h2>
         <div className="grid grid-cols-2 py-8 sm:grid-cols-5 text-center">
-          <a href="https://fvm.filecoin.io/" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://fvm.filecoin.io/"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={filecoin}
               alt="filecoin"
@@ -212,7 +225,11 @@ const About = () => {
               Filecoin
             </h3>
           </a>
-          <a href="https://gnosischain.com" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://gnosischain.com"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={gnosis}
               alt="gnosis"
@@ -224,7 +241,11 @@ const About = () => {
               Gnosis
             </h3>
           </a>
-          <a href="https://mantle.xyz" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://mantle.xyz"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={mantle}
               alt="mantle"
@@ -236,7 +257,11 @@ const About = () => {
               Mantle
             </h3>
           </a>
-          <a href="https://polygon.technology/" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://polygon.technology/"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={polygon}
               alt="polygon"
@@ -248,7 +273,11 @@ const About = () => {
               Polygon
             </h3>
           </a>
-          <a href="https://scroll.io/" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://scroll.io/"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={scroll}
               alt="scroll"
@@ -260,7 +289,11 @@ const About = () => {
               Scroll
             </h3>
           </a>
-          <a href="https://taiko.xyz/" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://taiko.xyz/"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={taiko}
               alt="taiko"
@@ -293,7 +326,11 @@ const About = () => {
           Integrated Technologies
         </h2>
         <div className="grid grid-cols-2 py-8 sm:grid-cols-5 text-center">
-          <a href="https://www.connext.network/" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://www.connext.network/"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={connext}
               alt="connext"
@@ -305,7 +342,11 @@ const About = () => {
               Connext
             </h3>
           </a>
-          <a href="https://intmaxwallet.io/" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://intmaxwallet.io/"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={intmax}
               alt="intmax"
@@ -317,7 +358,11 @@ const About = () => {
               IntMax
             </h3>
           </a>
-          <a href="https://polybase.xyz/" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://polybase.xyz/"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={polybase}
               alt="polybase"
@@ -329,7 +374,11 @@ const About = () => {
               Polybase
             </h3>
           </a>
-          <a href="https://push.org/" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://push.org/"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={push}
               alt="push"
@@ -341,7 +390,11 @@ const About = () => {
               Push Protocol
             </h3>
           </a>
-          <a href="https://www.superfluid.finance/" target="_blank" className="flex flex-col justify-center">
+          <a
+            href="https://www.superfluid.finance/"
+            target="_blank"
+            className="flex flex-col justify-center"
+          >
             <Image
               src={superfluid}
               alt="superfluid"
@@ -365,7 +418,11 @@ const About = () => {
               The Graph
             </h3>
           </a> */}
-          <a href="https://uma.xyz/" target="_blank" className="flex flex-col justify-center mt-4">
+          <a
+            href="https://uma.xyz/"
+            target="_blank"
+            className="flex flex-col justify-center mt-4"
+          >
             <Image
               src={uma}
               alt="uma"
@@ -377,7 +434,11 @@ const About = () => {
               UMA
             </h3>
           </a>
-          <a href="https://www.infura.io/" target="_blank" className="flex flex-col justify-center mt-4">
+          <a
+            href="https://www.infura.io/"
+            target="_blank"
+            className="flex flex-col justify-center mt-4"
+          >
             <Image
               src={infuraIPFS}
               alt="ipfs"
@@ -389,7 +450,11 @@ const About = () => {
               Infura IPFS
             </h3>
           </a>
-          <a href="https://moralis.io/" target="_blank" className="flex flex-col justify-center mt-4">
+          <a
+            href="https://moralis.io/"
+            target="_blank"
+            className="flex flex-col justify-center mt-4"
+          >
             <Image
               src={moralisIMG}
               alt="ipfs"

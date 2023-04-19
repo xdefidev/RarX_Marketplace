@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import rarxlogo from "../../public/rarxpng.png";
+import rarxlogo from "../../public/shiblite.png";
 import Link from "next/link";
 
 const Footer = () => {
@@ -14,12 +14,12 @@ const Footer = () => {
                 src={rarxlogo}
                 height={130}
                 width={150}
-                alt="RarX | NFT Marketplace"
+                alt="ShibLite | NFT Marketplace"
               />
             </Link>
             <p className="mb-6 dark:text-jacarta-300">
-              Create, sell and collect NFTs on RarX. Powered by
-              various technologies.
+              Create, sell and collect NFTs on ShibLite. Powered by various
+              technologies.
             </p>
             <div className="flex space-x-5">
               {/* <a href="#" className="group">
@@ -133,16 +133,12 @@ const Footer = () => {
                   About
                 </Link>
               </li>
-
             </ul>
           </div>
         </div>
         <div className="flex flex-col items-center justify-between space-y-2 py-8 sm:flex-row sm:space-y-0">
           <span className="text-sm dark:text-jacarta-400">
-            &copy; 2023 RarX — Built during{" "}
-            <a href="https://ethglobal.com/events/scaling2023" target="_blank" className="text-accent">
-              Ethglobal Scaling ETH Hackathon
-            </a>
+            &copy; 2023 ShibLite
           </span>
         </div>
       </div>

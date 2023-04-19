@@ -8,7 +8,7 @@ const TopCollections = ({ all_collections }) => {
   return (
     <>
       <Head>
-        <title>Top Collections - RarX Marketplace</title>
+        <title>Top Collections - ShibLite Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>

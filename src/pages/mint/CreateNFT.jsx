@@ -76,7 +76,7 @@ const CreateNFT = ({
   return (
     <>
       <Head>
-        <title>Create NFT - RarX Marketplace</title>
+        <title>Create NFT - ShibLite Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
@@ -212,11 +212,9 @@ const CreateNFT = ({
                   className="dropdown my-1 cursor-pointer w-[100%]"
                   required
                 >
-                  <option>
-                    Select Collection
-                  </option>
+                  <option>Select Collection</option>
                   <option value={defaultCollectionAddress}>
-                    RarX Marketplace Collection
+                    ShibLite Marketplace Collection
                   </option>
                   {user_collections?.map((e, index) => {
                     return (

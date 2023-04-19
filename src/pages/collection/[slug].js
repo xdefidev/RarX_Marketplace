@@ -20,7 +20,7 @@ const Collection = ({
   uma_settle_request,
   chainIdMain,
   setChainIdMain,
-  txnHashCollection
+  txnHashCollection,
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -74,9 +74,8 @@ const Collection = ({
       setBtnLoading1(true);
       const res = await deploy_uma(slug);
       setBtnLoading1(false);
-    }
-    catch (error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -85,9 +84,8 @@ const Collection = ({
       setBtnLoading2(true);
       const res = await request_verification_UMA(slug);
       setBtnLoading2(false);
-    }
-    catch (error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -99,9 +97,8 @@ const Collection = ({
       setTimeout(() => {
         router.reload();
       }, 1000);
-    }
-    catch (error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -112,7 +109,7 @@ const Collection = ({
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const checkGoerli = async () => {
     if (chainIdMain == 5) {
@@ -165,7 +162,7 @@ const Collection = ({
   return (
     <>
       <Head>
-        <title>Collection - RarX Marketplace</title>
+        <title>Collection - ShibLite Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
@@ -203,14 +200,17 @@ const Collection = ({
                   className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
                 />
                 <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
-                  {collection.isCollectionVerified ?
-                    <MdVerified style={{ color: "#4f87ff", cursor: "pointer" }} size={30} />
-                    :
+                  {collection.isCollectionVerified ? (
+                    <MdVerified
+                      style={{ color: "#4f87ff", cursor: "pointer" }}
+                      size={30}
+                    />
+                  ) : (
                     <BsFillExclamationCircleFill
                       style={{ color: "#cfc62d", cursor: "pointer" }}
                       size={30}
                     />
-                  }
+                  )}
                 </div>
               </div>
             </div>
@@ -218,7 +218,7 @@ const Collection = ({
             {slug != signer_address && !collection.isCollectionVerified && (
               <div className="flex justify-center align-middle mt-[-50px] mb-6">
                 <button
-                  onClick={async () => (await checkGoerli())}
+                  onClick={async () => await checkGoerli()}
                   type="button"
                   className="rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                 >
@@ -291,7 +291,7 @@ const Collection = ({
                           </div>
 
                           <div className="flex items-center justify-center space-x-4">
-                            {collection.isStarted ?
+                            {collection.isStarted ? (
                               <button
                                 disabled
                                 type="button"
@@ -299,17 +299,15 @@ const Collection = ({
                               >
                                 Verification Is Already Started
                               </button>
-                              :
+                            ) : (
                               <button
                                 onClick={start_verification}
                                 type="button"
                                 className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                               >
-                                {!btnLoading1 ?
-                                  <>
-                                    Start Verification
-                                  </>
-                                  :
+                                {!btnLoading1 ? (
+                                  <>Start Verification</>
+                                ) : (
                                   <>
                                     Starting
                                     <svg
@@ -329,9 +327,9 @@ const Collection = ({
                                       />
                                     </svg>
                                   </>
-                                }
+                                )}
                               </button>
-                            }
+                            )}
                           </div>
                         </div>
                       </div>
@@ -356,7 +354,7 @@ const Collection = ({
                           </label>
                         </div>
                         <div className="flex items-center justify-center space-x-4">
-                          {collection.isRequested ?
+                          {collection.isRequested ? (
                             <button
                               disabled
                               type="button"
@@ -364,17 +362,15 @@ const Collection = ({
                             >
                               Verification Requested
                             </button>
-                            :
+                          ) : (
                             <button
                               onClick={request_verification}
                               type="button"
                               className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                             >
-                              {!btnLoading2 ?
-                                <>
-                                  Request Verification
-                                </>
-                                :
+                              {!btnLoading2 ? (
+                                <>Request Verification</>
+                              ) : (
                                 <>
                                   Requesting
                                   <svg
@@ -394,15 +390,24 @@ const Collection = ({
                                     />
                                   </svg>
                                 </>
-                              }
+                              )}
                             </button>
-                          }
+                          )}
                         </div>
                         <label
                           htmlFor="terms"
                           className="text-sm dark:text-jacarta-200 mt-4 text-center"
                         >
-                          You have initited the verification process, <a href={`https://testnet.oracle.uma.xyz/request?transactionHash=${txnHashCollection}&chainId=5&oracleType=OptimisticV2`} className="text-red-400" target="_blank">Click Here </a> to visit UMA Oracle website and self-verify your collection (Submit a proposal with input 1)
+                          You have initited the verification process,{" "}
+                          <a
+                            href={`https://testnet.oracle.uma.xyz/request?transactionHash=${txnHashCollection}&chainId=5&oracleType=OptimisticV2`}
+                            className="text-red-400"
+                            target="_blank"
+                          >
+                            Click Here{" "}
+                          </a>{" "}
+                          to visit UMA Oracle website and self-verify your
+                          collection (Submit a proposal with input 1)
                         </label>
                       </div>
 
@@ -420,13 +425,14 @@ const Collection = ({
                             htmlFor="terms"
                             className="text-sm dark:text-jacarta-200"
                           >
-                            In this step you will settle the verification, after self-verification if
-                            there are no disputes your collection verification
-                            process will be completed here{" "}
+                            In this step you will settle the verification, after
+                            self-verification if there are no disputes your
+                            collection verification process will be completed
+                            here{" "}
                           </label>
                         </div>
                         <div className="flex items-center justify-center space-x-4">
-                          {collection.isSettled ?
+                          {collection.isSettled ? (
                             <button
                               disabled
                               type="button"
@@ -434,17 +440,15 @@ const Collection = ({
                             >
                               Verification Is Settled
                             </button>
-                            :
+                          ) : (
                             <button
                               onClick={settle_verification}
                               type="button"
                               className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark mt-4"
                             >
-                              {!btnLoading3 ?
-                                <>
-                                  Settle Verification
-                                </>
-                                :
+                              {!btnLoading3 ? (
+                                <>Settle Verification</>
+                              ) : (
                                 <>
                                   Settleing
                                   <svg
@@ -464,9 +468,9 @@ const Collection = ({
                                     />
                                   </svg>
                                 </>
-                              }
+                              )}
                             </button>
-                          }
+                          )}
                         </div>
                       </div>
                     </div>
@@ -525,10 +529,11 @@ const Collection = ({
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
                       <span className="font-bold mr-2">{floor_price}</span>
                       <Image
-                        src={`../${collection?.chain_image
-                          ? collection?.chain_image
-                          : "chains/polygon.png"
-                          }`}
+                        src={`../${
+                          collection?.chain_image
+                            ? collection?.chain_image
+                            : "chains/polygon.png"
+                        }`}
                         height={18}
                         width={18}
                       />
@@ -544,10 +549,11 @@ const Collection = ({
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
                       <span className="font-bold mr-2">{volume}</span>
                       <Image
-                        src={`../${collection?.chain_image
-                          ? collection?.chain_image
-                          : "chains/polygon.png"
-                          }`}
+                        src={`../${
+                          collection?.chain_image
+                            ? collection?.chain_image
+                            : "chains/polygon.png"
+                        }`}
                         height={18}
                         width={18}
                       />

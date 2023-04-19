@@ -342,7 +342,7 @@ const Profile = ({
   ) : (
     <>
       <Head>
-        <title>Profile - RarX Marketplace</title>
+        <title>Profile - ShibLite Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
@@ -818,9 +818,11 @@ const Profile = ({
                   })}
                 </div>
                 <div className="flex justify-center">
-                  {nfts?.length <= 0 &&
-                    <h2 className="text-xl font-display font-thin">No NFTs to show!</h2>
-                  }
+                  {nfts?.length <= 0 && (
+                    <h2 className="text-xl font-display font-thin">
+                      No NFTs to show!
+                    </h2>
+                  )}
                 </div>
               </div>
             </div>
@@ -854,9 +856,11 @@ const Profile = ({
                   ))}
                 </div>
                 <div className="flex justify-center">
-                  {my_collections?.length <= 0 &&
-                    <h2 className="text-xl font-display font-thin">No Collections to show!</h2>
-                  }
+                  {my_collections?.length <= 0 && (
+                    <h2 className="text-xl font-display font-thin">
+                      No Collections to show!
+                    </h2>
+                  )}
                 </div>
               </div>
             </div>

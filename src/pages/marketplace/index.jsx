@@ -5,7 +5,11 @@ import NftCard from "@/components/cards/NftCard";
 import Head from "next/head";
 import Loader from "@/components/Loader";
 
-const Marketplace = ({ fetch_listed_nfts, chainImg, fetch_all_nfts_from_polybase }) => {
+const Marketplace = ({
+  fetch_listed_nfts,
+  chainImg,
+  fetch_all_nfts_from_polybase,
+}) => {
   const [loading, setLoading] = useState(false);
   const [nfts, set_nfts] = useState([]);
   const [notListedNFts, setNotListedNFts] = useState([]);
@@ -26,7 +30,6 @@ const Marketplace = ({ fetch_listed_nfts, chainImg, fetch_all_nfts_from_polybase
     setLoading(false);
   };
 
-
   useEffect(() => {
     get_nfts();
     get_all_nfts();
@@ -35,7 +38,7 @@ const Marketplace = ({ fetch_listed_nfts, chainImg, fetch_all_nfts_from_polybase
   return (
     <>
       <Head>
-        <title>Marketplace - RarX Marketplace</title>
+        <title>Marketplace - ShibLite Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
@@ -55,7 +58,8 @@ const Marketplace = ({ fetch_listed_nfts, chainImg, fetch_all_nfts_from_polybase
                 <li className="my-1 mr-2.5" onClick={() => setPropShow(true)}>
                   <a
                     href="#"
-                    className={`${propShow && "border-transparent bg-accent text-white"} group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                    className={`${propShow &&
+                      "border-transparent bg-accent text-white"} group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +77,8 @@ const Marketplace = ({ fetch_listed_nfts, chainImg, fetch_all_nfts_from_polybase
                 <li className="my-1 mr-2.5" onClick={() => setPropShow(false)}>
                   <a
                     href="#"
-                    className={`${!propShow && "border-transparent bg-accent text-white"} group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                    className={`${!propShow &&
+                      "border-transparent bg-accent text-white"} group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +98,7 @@ const Marketplace = ({ fetch_listed_nfts, chainImg, fetch_all_nfts_from_polybase
 
             <div>
               <div className="container">
-                {propShow ?
+                {propShow ? (
                   <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
                     {nfts.map((e) => (
                       <NftCard
@@ -113,7 +118,7 @@ const Marketplace = ({ fetch_listed_nfts, chainImg, fetch_all_nfts_from_polybase
                       />
                     ))}
                   </div>
-                  :
+                ) : (
                   <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
                     {notListedNFts.map((e) => (
                       <NftCard
@@ -133,13 +138,12 @@ const Marketplace = ({ fetch_listed_nfts, chainImg, fetch_all_nfts_from_polybase
                       />
                     ))}
                   </div>
-                }
+                )}
               </div>
             </div>
           </div>
         </section>
-      )
-      }
+      )}
     </>
   );
 };

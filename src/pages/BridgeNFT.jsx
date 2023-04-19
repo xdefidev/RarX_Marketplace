@@ -179,7 +179,7 @@ const BridgeNFT = ({
   return (
     <>
       <Head>
-        <title>Bridge NFT - RarX Marketplace</title>
+        <title>Bridge NFT - ShibLite Marketplace</title>
         <meta name="description" content="Bridge NFT" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />

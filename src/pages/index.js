@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/CollectionCard";
+import Slider from "../components/Slider";
+import Slider1 from "../components/Slider1";
 
 //chains
 import filecoin from "../../public/chains/filecoin.png";
@@ -21,7 +23,7 @@ export default function Home({ all_collections, nfts, artists }) {
   return (
     <>
       <Head>
-        <title>RarX - Advanced NFT Marketplace</title>
+        <title>ShibLite - Advanced NFT Marketplace</title>
         <meta
           name="description"
           content="First Cross-chain And Multi-chain Advanced NFT Marketplace With AI NFT Generation"
@@ -31,7 +33,10 @@ export default function Home({ all_collections, nfts, artists }) {
       </Head>
 
       {/* <!-- Hero secondary --> */}
+
       <section className="relative py-20 md:pt-32" id="heroBack">
+        <Slider />
+        <Slider1 />
         <div className="h-full px-6 xl:px-20">
           <div className="grid h-full items-center gap-4 lg:grid-cols-12">
             <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
@@ -72,10 +77,10 @@ export default function Home({ all_collections, nfts, artists }) {
               </p>
               <div className="flex space-x-4">
                 <Link
-                  href="/mint/CreateAINFT"
+                  href="/mint/CreateNFT"
                   className="w-45 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                 >
-                  Create AI NFT
+                  Create NFT
                 </Link>
                 <Link
                   href="/marketplace"
@@ -149,7 +154,10 @@ export default function Home({ all_collections, nfts, artists }) {
                       </div>
                       <div className="p-6">
                         <div className="flex">
-                          <Link href="/collection/0x4065213d6d042FAdac17bffBeb13Bb0854a2E16d" className="shrink-0">
+                          <Link
+                            href="/collection/0x4065213d6d042FAdac17bffBeb13Bb0854a2E16d"
+                            className="shrink-0"
+                          >
                             <img
                               src="https://gateway.ipfscdn.io/ipfs/QmeQXBTNbR1MaxpwLtW3QE9D9rw4ZazhsEhQoVToLPcUiW/683.gif"
                               alt="avatar"
@@ -164,7 +172,10 @@ export default function Home({ all_collections, nfts, artists }) {
                                 Potatoz #1
                               </span>
                             </a>
-                            <Link href="/collection/0x4065213d6d042FAdac17bffBeb13Bb0854a2E16d" className="text-2xs text-accent">
+                            <Link
+                              href="/collection/0x4065213d6d042FAdac17bffBeb13Bb0854a2E16d"
+                              className="text-2xs text-accent"
+                            >
                               By PotatoZ
                             </Link>
                           </div>
@@ -190,7 +201,10 @@ export default function Home({ all_collections, nfts, artists }) {
                       </div>
                       <div className="p-6">
                         <div className="flex">
-                          <Link href="/collection/0xf6f2d216Bf1A2d556D10AD106f97F54bD189ba95" className="shrink-0">
+                          <Link
+                            href="/collection/0xf6f2d216Bf1A2d556D10AD106f97F54bD189ba95"
+                            className="shrink-0"
+                          >
                             <img
                               src="https://gateway.ipfscdn.io/ipfs/QmTd5SFv6rAEEJSaDEvfd3YjAbRaj9N2AaLceX3Y2ECvXJ/cd7ada2dd9f2c930d433e0c27c891a2bb88eea51.jpeg"
                               alt="avatar"
@@ -205,7 +219,10 @@ export default function Home({ all_collections, nfts, artists }) {
                                 Bored
                               </span>
                             </a>
-                            <Link href="/collection/0xf6f2d216Bf1A2d556D10AD106f97F54bD189ba95" className="text-2xs text-accent">
+                            <Link
+                              href="/collection/0xf6f2d216Bf1A2d556D10AD106f97F54bD189ba95"
+                              className="text-2xs text-accent"
+                            >
                               By Monsterland
                             </Link>
                           </div>
@@ -230,7 +247,10 @@ export default function Home({ all_collections, nfts, artists }) {
                         </div>
                         <div className="p-6">
                           <div className="flex">
-                            <Link href="/collection/0x483A767912818E7A3De29f95bc0d51b30070Bf02" className="shrink-0">
+                            <Link
+                              href="/collection/0x483A767912818E7A3De29f95bc0d51b30070Bf02"
+                              className="shrink-0"
+                            >
                               <img
                                 src="https://gateway.ipfscdn.io/ipfs/QmbGiScF3zL8KLxCApp6DFbSmN4WJT2cQoKgav1aT9Xfoa/firat.jpg"
                                 alt="avatar"
@@ -245,7 +265,10 @@ export default function Home({ all_collections, nfts, artists }) {
                                   NFT #1
                                 </span>
                               </a>
-                              <Link href="/collection/0x483A767912818E7A3De29f95bc0d51b30070Bf02" className="text-2xs text-accent">
+                              <Link
+                                href="/collection/0x483A767912818E7A3De29f95bc0d51b30070Bf02"
+                                className="text-2xs text-accent"
+                              >
                                 By Firat's NFT Collection
                               </Link>
                             </div>
@@ -346,7 +369,7 @@ export default function Home({ all_collections, nfts, artists }) {
         </picture>
         <div className="container">
           <h2 className="mb-16 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-            What Makes RarX Unique ?
+            What Makes ShibLite Unique ?
           </h2>
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 text-center">
             <div className="text-center">
@@ -416,7 +439,7 @@ export default function Home({ all_collections, nfts, artists }) {
                 3. On Chain Collections
               </h3>
               <p className="dark:text-jacarta-300">
-                Create your own on-chain NFT collection on RarX. By creating
+                Create your own on-chain NFT collection on ShibLite. By creating
                 on-chain collections you can access your collections with their
                 NFTs on any marketplace
               </p>
@@ -439,7 +462,7 @@ export default function Home({ all_collections, nfts, artists }) {
                 4. Chat With Artists
               </h3>
               <p className="dark:text-jacarta-300">
-                Chat with any artists on RarX using push chat. Discuss about
+                Chat with any artists on ShibLite using push chat. Discuss about
                 nfts, negotiate for your favourite NFTs, get tips from artists,
                 etc.
               </p>
@@ -511,8 +534,8 @@ export default function Home({ all_collections, nfts, artists }) {
               </h3>
               <p className="dark:text-jacarta-300">
                 Get notifications for NFT sales, NFT purchases, Memberships,
-                cross-chain transactions, etc. Realtime notifications on RarX
-                are powered by push protocol.
+                cross-chain transactions, etc. Realtime notifications on
+                ShibLite are powered by push protocol.
               </p>
             </div>
             <div className="text-center">
@@ -535,7 +558,7 @@ export default function Home({ all_collections, nfts, artists }) {
               </h3>
               <p className="dark:text-jacarta-300">
                 We have a special verification system to verify NFT Collections,
-                all NFTs collections on RarX Marketplace are verified using
+                all NFTs collections on ShibLite Marketplace are verified using
                 UMA's Optimistic Oracle.
               </p>
             </div>

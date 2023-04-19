@@ -32,7 +32,7 @@ const CreateNFTCollection = ({ create_collection, signer_address }) => {
   return (
     <>
       <Head>
-        <title>Create NFT Collection - RarX Marketplace</title>
+        <title>Create NFT Collection - ShibLite Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>

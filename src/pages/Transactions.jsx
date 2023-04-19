@@ -33,7 +33,7 @@ const Notifications = ({
   return (
     <>
       <Head>
-        <title>Transactions - RarX Marketplace</title>
+        <title>Transactions - ShibLite Marketplace</title>
         <meta name="description" content="Recent Transactions" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
@@ -143,10 +143,13 @@ const Notifications = ({
                                 />
                               </div>
                               <div>
-                                <Link href={`/nft/${notificationData.asset_collection}/${notificationData.asset_tokenId}`}>
+                                <Link
+                                  href={`/nft/${notificationData.asset_collection}/${notificationData.asset_tokenId}`}
+                                >
                                   <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
-                                    You Bridged NFT with token ID - {" "}
-                                    {notificationData.asset_tokenId} from collection with address - {" "}
+                                    You Bridged NFT with token ID -{" "}
+                                    {notificationData.asset_tokenId} from
+                                    collection with address -{" "}
                                     {notificationData.asset_collection}
                                   </h3>
                                 </Link>
@@ -163,17 +166,28 @@ const Notifications = ({
                                     View transaction on connext 🔗
                                   </a>
                                   <a
-                                    href={`${notificationData.from_chain_id == 5 ? `https://goerli.etherscan.io/tx/${notificationData.txn_hash}` : `https://mumbai.polygonscan.com/tx/${notificationData.txn_hash}`}`}
+                                    href={`${
+                                      notificationData.from_chain_id == 5
+                                        ? `https://goerli.etherscan.io/tx/${notificationData.txn_hash}`
+                                        : `https://mumbai.polygonscan.com/tx/${notificationData.txn_hash}`
+                                    }`}
                                     target="_blank"
                                     className="block text-xs text-jacarta-300 ml-4"
                                   >
-                                    View transaction on {notificationData.from_chain_id == 5 ? "Goerli" : "Polygon"} 🔗
+                                    View transaction on{" "}
+                                    {notificationData.from_chain_id == 5
+                                      ? "Goerli"
+                                      : "Polygon"}{" "}
+                                    🔗
                                   </a>
                                 </div>
                               </div>
 
                               <div className="ml-auto rounded-full font-bold border border-jacarta-100 p-3 dark:border-jacarta-600">
-                                <a href={`https://testnet.connextscan.io/tx/${notificationData.txn_hash}`} target="_blank">
+                                <a
+                                  href={`https://testnet.connextscan.io/tx/${notificationData.txn_hash}`}
+                                  target="_blank"
+                                >
                                   <svg
                                     width="24"
                                     height="24"
@@ -188,11 +202,11 @@ const Notifications = ({
                             </a>
                           ))}
                         </div>
-                        {user_data?.transactions?.length <= 0 &&
+                        {user_data?.transactions?.length <= 0 && (
                           <h3 className="mb-1 text-[26px] font-display text-center text-jacarta-700 dark:text-white">
                             No Transactions Found
                           </h3>
-                        }
+                        )}
                       </div>
                     </div>
                   </div>

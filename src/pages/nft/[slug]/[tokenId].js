@@ -66,7 +66,7 @@ const NFTPage = ({
   return (
     <>
       <Head>
-        <title>NFT - RarX Marketplace</title>
+        <title>NFT - ShibLite Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
@@ -173,9 +173,9 @@ const NFTPage = ({
                           src={
                             nft?.ownerImage
                               ? nft?.ownerImage.replace(
-                                "ipfs://",
-                                "https://gateway.ipfscdn.io/ipfs/"
-                              )
+                                  "ipfs://",
+                                  "https://gateway.ipfscdn.io/ipfs/"
+                                )
                               : testNFT
                           }
                           height={40}
@@ -213,8 +213,8 @@ const NFTPage = ({
                           {nft?.seller
                             ? nft?.seller
                             : nft?.owner_username
-                              ? nft?.owner_username
-                              : nft?.user_id}
+                            ? nft?.owner_username
+                            : nft?.user_id}
                         </span>
                       </Link>
                     </div>

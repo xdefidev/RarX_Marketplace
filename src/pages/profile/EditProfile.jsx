@@ -145,7 +145,7 @@ const EditProfile = ({ signer_address, polybase }) => {
   ) : (
     <>
       <Head>
-        <title>Edit Profile - RarX Marketplace</title>
+        <title>Edit Profile - ShibLite Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
@@ -155,7 +155,7 @@ const EditProfile = ({ signer_address, polybase }) => {
         <div className="relative  mt-24">
           {data.coverImage == "" && coverImg_preview == "" ? (
             <Image
-              src="../../../rarxlogo.png"
+              src="../../../shiblite2.png"
               alt="banner"
               width={100}
               height={100}
@@ -166,9 +166,9 @@ const EditProfile = ({ signer_address, polybase }) => {
               src={
                 typeof data.coverImage == "string"
                   ? data.coverImage.replace(
-                    "ipfs://",
-                    "https://gateway.ipfscdn.io/ipfs/"
-                  )
+                      "ipfs://",
+                      "https://gateway.ipfscdn.io/ipfs/"
+                    )
                   : coverImg_preview
               }
               alt="banner"
@@ -367,7 +367,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                     <div className="relative inline-block">
                       {data.profileImage == "" && profImg_preview == "" ? (
                         <Image
-                          src="../../../rarxlogo.png"
+                          src="../../../shiblite2.png"
                           alt="logo"
                           width={100}
                           height={100}
@@ -378,9 +378,9 @@ const EditProfile = ({ signer_address, polybase }) => {
                           src={
                             typeof data.profileImage == "string"
                               ? data.profileImage.replace(
-                                "ipfs://",
-                                "https://gateway.ipfscdn.io/ipfs/"
-                              )
+                                  "ipfs://",
+                                  "https://gateway.ipfscdn.io/ipfs/"
+                                )
                               : profImg_preview
                           }
                           width={100}
