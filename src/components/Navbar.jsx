@@ -354,7 +354,7 @@ const Navbar = ({
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x87" }],
+        params: [{ chainId: "0x38" }],
       });
       chainSwitchReload("56");
       setShowNetworkPopup(!showNetworkPopup);
@@ -374,7 +374,7 @@ const Navbar = ({
                   decimals: 18,
                 },
                 blockExplorerUrls: ["https://bscscan.com/"],
-                rpcUrls: [""],
+                rpcUrls: ["https://bsc-dataseed2.ninicoin.io"],
               },
             ],
           });
@@ -740,7 +740,7 @@ const Navbar = ({
                       className="relative hidden sm:block"
                     >
                       <div className="flex flex-row justify-center align-middle w-[200px] ">
-                        {chainIdMain == 10200 && (
+                        {/* {chainIdMain == 10200 && (
                           <>
                             <Image
                               src={gnosisLogo}
@@ -851,7 +851,7 @@ const Navbar = ({
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />
                           </>
-                        )}
+                        )} */}
 
                         {/* unsupported chains  */}
                         {chainIdMain == 1 && (
@@ -898,7 +898,7 @@ const Navbar = ({
                         )} */}
                         {chainIdMain !== 56 && chainIdMain !== 1 && (
                           <>
-                            <p className="pl-2 pr-2 mt-1 font-bold ">
+                            <p className="pl-2 pr-2 mt-1 font-bold text-red">
                               Unsupported Chain
                             </p>
                             <BsChevronDown className="h-3 w-3 2xl:h-3 2xl:w-3 mt-[10px] hover:text-blue-400 " />

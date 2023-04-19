@@ -305,9 +305,11 @@ const Profile = ({
 
   const get_nfts = async () => {
     set_loading(true);
-    const nfts = await fetch_nfts_from_user_wallet(slug);
+    const nfts = await fetch_nfts_from_user_wallet(signer_address);
     set_nfts(nfts);
     set_loading(false);
+    console.log(signer_address, "signer_address");
+    console.log(nfts, "user_nfts");
   };
 
   const get_user_info = async () => {
@@ -317,8 +319,8 @@ const Profile = ({
   };
 
   const fetch_collections = async () => {
-    const res = await fetch_collections_polybase(slug);
-    // console.log({ coll: res });
+    const res = await fetch_collections_polybase(signer_address);
+    console.log(res, "collection_p");
     set_my_collections(res);
   };
 
@@ -330,9 +332,8 @@ const Profile = ({
     fetchData();
     get_user_info();
 
-    fetch_collections();
-
     if (!signer_address) return;
+    fetch_collections();
     connectSF();
     fetchStreams();
   }, [slug, signer_address]);
@@ -801,10 +802,14 @@ const Profile = ({
                     return (
                       <NftCard
                         key={index}
-                        ImageSrc={e.ipfsData.image.replace(
-                          "ipfs://",
-                          "https://gateway.ipfscdn.io/ipfs/"
-                        )}
+                        ImageSrc={
+                          e.ipfsData.image
+                            ? e.ipfsData.image.replace(
+                                "ipfs://",
+                                "https://gateway.ipfscdn.io/ipfs/"
+                              )
+                            : "/test.jpg"
+                        }
                         Name={e.ipfsData.name}
                         Description={e.ipfsData.description}
                         Address={e.ipfsData.collection}

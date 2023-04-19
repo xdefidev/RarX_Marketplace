@@ -14,10 +14,17 @@ collection NFT {
     name: string;
     image: string;
     description: string;
+    isListed: boolean;
+    listingPrice: string;
+    chain_block: string;
+    chain_image: string;
+    chain_symbol: string;
+    ipfsURL: string;
     nftCollection: Collection;
-    properties: string[];
+    properties: string;
     ownerWallet: string;
     owner: User;
+    marketAddress: string;
 
     constructor(
         id: string,
@@ -26,13 +33,17 @@ collection NFT {
         tokenURI: string,
         user: User,
         nftCollection: Collection,
-        properties: string[],
+        properties: string,
         name: string,
         image: string,
         description: string,
-        nftCollection: string,
-        ownerWallet: string
-        
+        isListed: boolean,
+        ownerWallet: string,
+        chain_block: string,
+        chain_image: string,
+        chain_symbol: string,
+        ipfsURL: string,
+        listingPrice: string
     ) {
         this.id = id;
         this.tokenId = tokenId;
@@ -45,7 +56,31 @@ collection NFT {
         this.properties = properties;
         this.ownerWallet = ownerWallet;
         this.owner = user;
+        this.isListed = isListed;
+        this.chain_block = chain_block;
+        this.chain_image = chain_image;
+        this.chain_symbol = chain_symbol;
+        this.ipfsURL = ipfsURL;
+        this.listingPrice = listingPrice;
     }
+
+  cancel_listing(){
+    this.isListed = false;
+    this.listingPrice = "0";
+}
+
+  listNFT(price: string, chainId: string, marketAddress: string) {
+    this.isListed = true;
+    this.listingPrice = price;
+    this.marketAddress = marketAddress;
+  }
+
+  executeSale(address: User) {
+    this.owner = address;
+    this.isListed = false;
+    this.listingPrice = "0";
+  }
+  
 }
 
 @public
@@ -118,6 +153,7 @@ collection User {
         this.socials = socials;
     }
 }
+
 
 
 `);

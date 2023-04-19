@@ -443,12 +443,21 @@ export default function App({ Component, pageProps }) {
   const fetch_collections_polybase = async (user_address) => {
     try {
       const db = await polybase();
+      console.log(
+        await db
+          .collection("Collection")
+          .record("0x562661f3fa2DC38fB32513d32fF7C7A873F9A23d")
+          .get(),
+        "own"
+      );
+      const ownnerFind = {
+        collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
+        id: user_address,
+      };
+      console.log(ownnerFind, "ownnerFind");
       const collections = await db
         .collection("Collection")
-        .where("owner", "==", {
-          collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
-          id: user_address,
-        })
+        .where("owner", "==", ownnerFind)
         .get();
       let fetched_collections = [];
       for (const e of collections.data) {
@@ -581,7 +590,7 @@ export default function App({ Component, pageProps }) {
           .call("listNFT", [
             ethers.utils.parseEther(price).toString(),
             chainIdMain.toString(),
-            db.collection("User").record(marketplaceAddress.toLowerCase()),
+            // db.collection("User").record(marketplaceAddress.toLowerCase()),
           ]);
         // console.log({ polybaseres: res });
         sendNFTListNoti(tokenId, price);
@@ -1096,10 +1105,11 @@ export default function App({ Component, pageProps }) {
       const db = await polybase();
       const res = await db
         .collection("NFT")
-        .where("owner", "==", {
-          collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
-          id: signer_address,
-        })
+        // .where("owner", "==", {
+        //   collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
+        //   id: signer_address,
+        // })
+        .where("ownerWallet", "==", signer_address)
         .get();
 
       for (const e of res.data) {
@@ -1110,7 +1120,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_block = e.data.chain_block;
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
-        const url = e.data.ipfsURL.replace(
+        const url = e.data.ipfsURL?.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
         );

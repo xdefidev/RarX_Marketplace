@@ -224,7 +224,8 @@ const NFTPage = ({
                 {/* -------------------------- all action buttons start ------------------------  */}
                 {/* <!-- list nft --> */}
                 {listSale == false ? (
-                  nft?.nft_owner == signer_address && (
+                  nft?.nft_owner == signer_address &&
+                  nft?.isListed == false && (
                     <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                       {nft?.chainId == chainIdMain ? (
                         <button
