@@ -13,7 +13,9 @@ import Slider1 from "../components/Slider1";
 
 //chains
 import filecoin from "../../public/chains/filecoin.png";
+import bscLogo from "../../public/chains/bsc.png";
 import gnosis from "../../public/chains/gnosis.png";
+import ethLogo from "../../public/chains/goerli.png";
 import mantle from "../../public/chains/mantle.png";
 import polygon from "../../public/chains/polygon.png";
 import scroll from "../../public/chains/scroll.png";
@@ -91,20 +93,20 @@ export default function Home({ all_collections, nfts, artists }) {
               </div>
               <div className="flex space-x-4">
                 <Image
-                  src={polygon}
+                  src={bscLogo}
                   alt="chainImg"
                   className="h-[27px] w-[auto] my-8"
                   height={100}
                   width={100}
                 />
                 <Image
-                  src={gnosis}
+                  src={ethLogo}
                   alt="chainImg"
                   className="h-[27px] w-[auto] my-8"
                   height={100}
                   width={100}
                 />
-                <Image
+                {/* <Image
                   src={mantle}
                   alt="chainImg"
                   className="h-[27px] w-[auto] my-8"
@@ -131,7 +133,7 @@ export default function Home({ all_collections, nfts, artists }) {
                   className="h-[23px] w-[auto] my-8"
                   height={100}
                   width={100}
-                />
+                /> */}
               </div>
             </div>
 
