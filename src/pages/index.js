@@ -299,7 +299,7 @@ export default function Home({ all_collections, nfts, artists }) {
               (e, index) =>
                 index < 12 && (
                   <NftCard
-                    ImageSrc={e.ipfsData.image.replace(
+                    ImageSrc={e.ipfsData.image?.replace(
                       "ipfs://",
                       "https://gateway.ipfscdn.io/ipfs/"
                     )}

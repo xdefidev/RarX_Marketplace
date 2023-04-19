@@ -815,8 +815,12 @@ export default function App({ Component, pageProps }) {
       }
       if (symbol == "BNB") {
         chain_Image = "chains/bsc.png";
-        chain_symbol = "MATIC";
+        chain_symbol = "BNB";
         chain_block = "https://bscscan.com/";
+      } else {
+        chain_Image = "chains/polygon.png";
+        chain_symbol = "MATIC";
+        chain_block = "https://mumbai.polygonscan.com/";
       }
 
       console.log(tokenURI, "tokenURI");
@@ -844,6 +848,8 @@ export default function App({ Component, pageProps }) {
             chain_block,
             chain_Image,
             chain_symbol,
+            ipfsURL,
+            "0",
           ]);
         console.log({ polybaseres: res });
         console.log("res", res);
@@ -1066,7 +1072,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_block = e.data.chain_block;
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
-        const url = e.data.ipfsURL?.replace(
+        const url = e.data.ipfsURL.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
         );
