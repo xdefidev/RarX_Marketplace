@@ -4,15 +4,17 @@ import Image from "next/image";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import Loader from "@/components/Loader";
 import Head from "next/head";
+import { Polybase } from "@polybase/client";
+import { ethers, Wallet } from "ethers";
 
-const EditProfile = ({ signer_address, polybase }) => {
+const EditProfile = ({ signer_address, getUserData, updateData, polybase }) => {
   const storage = new ThirdwebStorage();
   const [coverImg_preview, set_coverImg_preview] = useState("");
   const [profImg_preview, set_profImg_preview] = useState("");
   const [loading, set_loading] = useState(true);
   const [memberShow, setMemberShow] = useState(false);
   const [user_exists, set_user_exists] = useState(false);
-  const [data, set_data] = useState({
+  const [datas, set_data] = useState({
     username: "",
     bio: "",
     email: "",
@@ -27,18 +29,32 @@ const EditProfile = ({ signer_address, polybase }) => {
     membership_perks: "",
   });
 
+  function polyBase() {
+    const wallet = new Wallet(process.env.NEXT_PUBLIC_ACCOUNT_PRIVATE_KEY);
+    const db = new Polybase({
+      defaultNamespace: process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE,
+      signer: async (data) => {
+        return {
+          h: "eth-personal-sign",
+          sig: await wallet.signMessage(data),
+        };
+      },
+    });
+    return db;
+  }
+
   const handleChange = (e) => {
-    set_data({ ...data, [e.target.name]: e.target.value });
+    set_data({ ...datas, [e.target.name]: e.target.value });
   };
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
 
   //   set_loading(true);
-  //   console.log("new data created");
+  //   console.log("new datas created");
   //   const db = polybase();
   //   try {
-  //     const coverImg = await storage.upload(data.coverImage);
-  //     const profileImg = await storage.upload(data.profileImage);
+  //     const coverImg = await storage.upload(datas.coverImage);
+  //     const profileImg = await storage.upload(datas.profileImage);
   //     const res = await db
   //       .collection("User")
   //       .create([
@@ -56,52 +72,54 @@ const EditProfile = ({ signer_address, polybase }) => {
   //   set_loading(false);
   // };
 
-  const updateData = async (e) => {
-    e.preventDefault();
+  // const updateData = async (e) => {
+  //   e.preventDefault();
+  //   set_loading(true);
+
+  //   try {
+  //     let coverImg;
+  //     let profileImg;
+
+  //     if (typeof datas.coverImage === "object") {
+  //       coverImg = await storage.upload(datas.coverImage);
+  //     }
+  //     if (typeof datas.profileImage === "object") {
+  //       profileImg = await storage.upload(datas.profileImage);
+  //     }
+  //     console.log(datas);
+  //     const db = await polyBase();
+  //     const res = await db
+  //       .collection("User")
+  //       .record(signer_address)
+  //       .call("updateData", [
+  //         datas.username,
+  //         datas.email,
+  //         datas.bio,
+  //         profileImg ? profileImg : datas.profileImage,
+  //         coverImg ? coverImg : datas.coverImage,
+  //         JSON.stringify([datas.twitter, datas.instagram, datas.customLink]),
+  //         datas.isArtist,
+  //       ]);
+  //     console.log(res);
+  //     // window.location.reload();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   set_loading(false);
+  // };
+
+  function handleSubmit(e) {
+    updateData(e, datas, set_loading);
+  }
+
+  const getUserData1 = async () => {
     set_loading(true);
     try {
-      const db = polybase();
-
-      let coverImg;
-      let profileImg;
-
-      if (typeof data.coverImage === "object") {
-        coverImg = await storage.upload(data.coverImage);
-      }
-      if (typeof data.profileImage === "object") {
-        profileImg = await storage.upload(data.profileImage);
-      }
-      // console.log(data);
-      const res = await db
-        .collection("User")
-        .record(signer_address)
-        .call("updateData", [
-          data.username,
-          data.email,
-          data.bio,
-          profileImg ? profileImg : data.profileImage,
-          coverImg ? coverImg : data.coverImage,
-          [data.twitter, data.instagram, data.customLink],
-          data.isArtist,
-          data.isArtist ? data.membership_fees : "",
-          data.isArtist ? data.membership_perks : "",
-        ]);
-      // console.log(res);
-      // window.location.reload();
-    } catch (error) {
-      console.log(error.message);
-    }
-    set_loading(false);
-  };
-
-  const getUserData = async () => {
-    set_loading(true);
-    try {
-      const db = polybase();
-      const res = await db
-        .collection("User")
-        .record(signer_address)
-        .get();
+      // const db = polyBase();
+      // const res = await db
+      //   .collection("User")
+      //   .record(signer_address)
+      //   .get();
       const {
         bio,
         coverImage,
@@ -113,20 +131,22 @@ const EditProfile = ({ signer_address, polybase }) => {
         isArtist,
         membershipFees,
         perks,
-      } = res.data;
+      } = await getUserData(signer_address);
+
       set_data({
         bio,
         coverImage,
         email,
         profileImage,
         username,
-        twitter: socials[0],
-        instagram: socials[1],
-        customLink: socials[2],
+        twitter: JSON.parse(socials)[0],
+        instagram: JSON.parse(socials)[1],
+        customLink: JSON.parse(socials)[2],
         membership_fees: membershipFees,
         isArtist,
         membership_perks: perks,
       });
+
       set_user_exists(true);
     } catch (error) {
       console.log(error.message);
@@ -136,8 +156,8 @@ const EditProfile = ({ signer_address, polybase }) => {
 
   useEffect(() => {
     if (!signer_address) return;
-    getUserData();
-    set_data({ ...data, walletAddress: signer_address });
+    getUserData1();
+    set_data({ ...datas, walletAddress: signer_address });
   }, [signer_address]);
 
   return loading ? (
@@ -150,10 +170,10 @@ const EditProfile = ({ signer_address, polybase }) => {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      <form onSubmit={updateData}>
+      <form onSubmit={handleSubmit}>
         {/* <!-- Banner --> */}
         <div className="relative  mt-24">
-          {data.coverImage == "" && coverImg_preview == "" ? (
+          {datas.coverImage == "" && coverImg_preview == "" ? (
             <Image
               src="../../../shiblite2.png"
               alt="banner"
@@ -164,8 +184,8 @@ const EditProfile = ({ signer_address, polybase }) => {
           ) : (
             <Image
               src={
-                typeof data.coverImage == "string"
-                  ? data.coverImage.replace(
+                typeof datas.coverImage == "string"
+                  ? datas.coverimage?.replace(
                       "ipfs://",
                       "https://gateway.ipfscdn.io/ipfs/"
                     )
@@ -182,7 +202,7 @@ const EditProfile = ({ signer_address, polybase }) => {
               <input
                 onChange={(e) => {
                   set_coverImg_preview(URL.createObjectURL(e.target.files[0]));
-                  set_data({ ...data, coverImage: e.target.files[0] });
+                  set_data({ ...datas, coverImage: e.target.files[0] });
                 }}
                 type="file"
                 accept="image/*"
@@ -222,7 +242,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                     type="text"
                     name="username"
                     onChange={handleChange}
-                    value={data.username}
+                    value={datas.username}
                     id="profile-username"
                     className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
                     placeholder="Enter username"
@@ -238,7 +258,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                   </label>
                   <textarea
                     name="bio"
-                    value={data.bio}
+                    value={datas.bio}
                     onChange={handleChange}
                     id="profile-bio"
                     className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
@@ -257,7 +277,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                   <input
                     type="email"
                     name="email"
-                    value={data.email}
+                    value={datas.email}
                     onChange={handleChange}
                     id="profile-email"
                     className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
@@ -277,9 +297,9 @@ const EditProfile = ({ signer_address, polybase }) => {
                   </label>
                   <select
                     onChange={() =>
-                      set_data({ ...data, isArtist: !data.isArtist })
+                      set_data({ ...datas, isArtist: !datas.isArtist })
                     }
-                    defaultValue={data.isArtist}
+                    defaultValue={datas.isArtist}
                     name="isArtist"
                     className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
                   >
@@ -288,7 +308,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                   </select>
                 </div>
 
-                {data.isArtist && (
+                {datas.isArtist && (
                   <>
                     <div className="mb-6">
                       <label
@@ -302,7 +322,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                         type="number"
                         name="membership_fees"
                         onChange={handleChange}
-                        value={data.membership_fees}
+                        value={datas.membership_fees}
                         className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
                         placeholder="eg: 3"
                         required
@@ -318,7 +338,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                       </label>
                       <textarea
                         name="membership_perks"
-                        value={data.membership_perks}
+                        value={datas.membership_perks}
                         onChange={handleChange}
                         className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300"
                         required
@@ -365,7 +385,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                 <div className="flex space-x-5 flex-wrap">
                   <div className="shrink-0">
                     <div className="relative inline-block">
-                      {data.profileImage == "" && profImg_preview == "" ? (
+                      {datas.profileImage == "" && profImg_preview == "" ? (
                         <Image
                           src="../../../shiblite2.png"
                           alt="logo"
@@ -376,8 +396,8 @@ const EditProfile = ({ signer_address, polybase }) => {
                       ) : (
                         <Image
                           src={
-                            typeof data.profileImage == "string"
-                              ? data.profileImage.replace(
+                            typeof datas.profileImage == "string"
+                              ? datas.profileimage?.replace(
                                   "ipfs://",
                                   "https://gateway.ipfscdn.io/ipfs/"
                                 )
@@ -396,7 +416,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                               URL.createObjectURL(e.target.files[0])
                             );
                             set_data({
-                              ...data,
+                              ...datas,
                               profileImage: e.target.files[0],
                             });
                           }}
@@ -452,7 +472,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                     <input
                       type="text"
                       name="twitter"
-                      value={data.twitter}
+                      value={datas.twitter}
                       onChange={handleChange}
                       id="profile-twitter"
                       className="w-full rounded-t-lg border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300"
@@ -474,7 +494,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                     </svg>
                     <input
                       name="instagram"
-                      value={data.instagram}
+                      value={datas.instagram}
                       type="text"
                       onChange={handleChange}
                       id="profile-instagram"
@@ -494,7 +514,7 @@ const EditProfile = ({ signer_address, polybase }) => {
                       <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667zM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.905 15.905 0 0 0 13.97 13h-3.94zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13zM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11zm5.969 0h3.938A15.905 15.905 0 0 0 12 4.248 15.905 15.905 0 0 0 10.03 11zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667z" />
                     </svg>
                     <input
-                      value={data.customLink}
+                      value={datas.customLink}
                       name="customLink"
                       onChange={handleChange}
                       type="url"

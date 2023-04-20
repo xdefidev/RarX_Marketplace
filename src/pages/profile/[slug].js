@@ -804,7 +804,7 @@ const Profile = ({
                         key={index}
                         ImageSrc={
                           e.ipfsData.image
-                            ? e.ipfsData.image.replace(
+                            ? e.ipfsData.image?.replace(
                                 "ipfs://",
                                 "https://gateway.ipfscdn.io/ipfs/"
                               )

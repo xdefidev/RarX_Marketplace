@@ -35,7 +35,7 @@ const CreateNFT = ({
     const values = [...data.properties];
     values[index][e.target.name] = e.target.value;
     set_data({ ...data, properties: values });
-    console.log(JSON.stringify(data.properties).replace(/[\[\]']+/g, "'"));
+    console.log(JSON.stringify(data.properties)?.replace(/[\[\]']+/g, "'"));
   };
 
   const handle_add_field = () => {

@@ -46,7 +46,8 @@ const Collection = ({
 
   const get_nfts = async () => {
     const res = await fetch_nfts_from_collection(slug);
-    // console.log(res);
+    console.log(res, "coll page");
+
     let volume = 0;
     let lowest_price = 0;
     if (res) {
@@ -691,10 +692,14 @@ const Collection = ({
                       return (
                         <NftCard
                           key={index}
-                          ImageSrc={e.ipfsData.image.replace(
-                            "ipfs://",
-                            "https://gateway.ipfscdn.io/ipfs/"
-                          )}
+                          ImageSrc={
+                            e.ipfsData.image
+                              ? e.ipfsData.image?.replace(
+                                  "ipfs://",
+                                  "https://gateway.ipfscdn.io/ipfs/"
+                                )
+                              : "/test.jpg"
+                          }
                           Name={e.ipfsData.name}
                           Description={e.ipfsData.description}
                           Address={e.ipfsData.collection}

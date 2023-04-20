@@ -37,8 +37,8 @@ export default function Home({ all_collections, nfts, artists }) {
       {/* <!-- Hero secondary --> */}
 
       <section className="relative py-20 md:pt-32" id="heroBack">
-        <Slider />
-        <Slider1 />
+        <Slider nfts={nfts} />
+        <Slider1 nfts={nfts} />
         <div className="h-full px-6 xl:px-20">
           <div className="grid h-full items-center gap-4 lg:grid-cols-12">
             <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">

@@ -8,6 +8,7 @@ const Schema = await db.applySchema(`
 @public
 collection NFT {
     id: string;
+    collectionId: string;
     tokenId: string;
     chainId: string;
     tokenURI: string;
@@ -24,10 +25,12 @@ collection NFT {
     properties: string;
     ownerWallet: string;
     owner: User;
-    marketAddress: string;
+    seller: User;
+    marketAddress: User;
 
     constructor(
         id: string,
+        collectionId: string,
         tokenId: string,
         chainId: string,
         tokenURI: string,
@@ -46,6 +49,7 @@ collection NFT {
         listingPrice: string
     ) {
         this.id = id;
+        this.collectionId = collectionId;
         this.tokenId = tokenId;
         this.chainId = chainId;
         this.tokenURI = tokenURI;
@@ -62,20 +66,26 @@ collection NFT {
         this.chain_symbol = chain_symbol;
         this.ipfsURL = ipfsURL;
         this.listingPrice = listingPrice;
+        this.marketAddress = {collectionId: "", id: ""};
+        this.seller = {collectionId: "", id: ""};
     }
 
   cancel_listing(){
+    
     this.isListed = false;
     this.listingPrice = "0";
 }
 
-  listNFT(price: string, chainId: string, marketAddress: string) {
+  listNFT(price: string, chainId: string) {
+
     this.isListed = true;
     this.listingPrice = price;
-    this.marketAddress = marketAddress;
+    // this.marketAddress = marketAddress;
+    this.seller = this.owner;
   }
 
   executeSale(address: User) {
+
     this.owner = address;
     this.isListed = false;
     this.listingPrice = "0";
@@ -93,6 +103,9 @@ collection Collection {
     symbol: string;
     description: string;
     owner: User;
+    ownerWallet: string;
+    chain_image: string;
+    isCollectionVerified: string;
 
     constructor(
         id: string,
@@ -102,7 +115,10 @@ collection Collection {
         coverImage: string,
         symbol: string,
         description: string,
-        owner: User
+        owner: User,
+        ownerWallet: string,
+        chain_image: string,
+        isCollectionVerified: string
     ) {
         this.id = id;
         this.collectionId = collectionId;
@@ -112,6 +128,9 @@ collection Collection {
         this.symbol = symbol;
         this.description = description;
         this.owner = owner;
+        this.ownerWallet = ownerWallet;
+        this.chain_image = chain_image;
+        this.isCollectionVerified = isCollectionVerified;
     }
 }
 
@@ -124,8 +143,9 @@ collection User {
     bio: string;
     email: string;
     wallet: string;
-    socials: string[];
-    isArtist?: boolean;
+    socials: string;
+    isArtist: boolean;
+    transactions: string;
 
     constructor(
         id: string,
@@ -135,7 +155,8 @@ collection User {
         bio: string,
         email: string,
         wallet: string,
-        isArtist?: boolean
+        isArtist: boolean,
+        transactions: string
     ) {
         this.id = id;
         this.username = username;
@@ -144,16 +165,25 @@ collection User {
         this.bio = bio;
         this.email = email;
         this.wallet = wallet;
-        this.socials = [];
+        this.socials = "";
         this.isArtist = isArtist;
+        this.transactions = "";
     }
 
-    setSocials(socials: string[]) {
-        assert(msg.sender == this.id, "Only the owner of the account can set socials");
+    setSocials(socials: string) {
+       
         this.socials = socials;
     }
+
+    updateData(username: string, email: string, bio: string, profileImage: string, coverImage: string, socials: string, isArtist: boolean) {
+        this.username = username;
+        this.email = email;
+        this.bio = bio;
+        this.profileImage = profileImage;
+        this.coverImage = coverImage;
+        this.socials = socials;
+        this.isArtist = isArtist;
+    }
 }
-
-
 
 `);

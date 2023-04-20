@@ -104,7 +104,7 @@ const Marketplace = ({
                       <NftCard
                         ImageSrc={
                           e.ipfsData.image
-                            ? e.ipfsData.image.replace(
+                            ? e.ipfsData.image?.replace(
                                 "ipfs://",
                                 "https://gateway.ipfscdn.io/ipfs/"
                               )
@@ -126,10 +126,14 @@ const Marketplace = ({
                   <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
                     {notListedNFts.map((e) => (
                       <NftCard
-                        ImageSrc={e.ipfsData.image.replace(
-                          "ipfs://",
-                          "https://gateway.ipfscdn.io/ipfs/"
-                        )}
+                        ImageSrc={
+                          e.ipfsData.image
+                            ? e.ipfsData.image?.replace(
+                                "ipfs://",
+                                "https://gateway.ipfscdn.io/ipfs/"
+                              )
+                            : "/test.jpg"
+                        }
                         Name={e.ipfsData.name}
                         Description={e.ipfsData.description}
                         Address={e.ipfsData.collection}

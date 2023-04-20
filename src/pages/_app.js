@@ -100,7 +100,7 @@ export default function App({ Component, pageProps }) {
       if (checkUser.data.length === 0) {
         const res = await db
           .collection("User")
-          .create([user_address, "", "", "", "", "", user_address, false]);
+          .create([user_address, "", "", "", "", "", user_address, false, ""]);
       }
 
       const user_balance = await signer.getBalance();
@@ -444,25 +444,15 @@ export default function App({ Component, pageProps }) {
     try {
       const db = await polybase();
 
-      const test = await db
-        .collection("Collection")
-        .record("0x562661f3fa2DC38fB32513d32fF7C7A873F9A23d")
-        .get();
-      console.log(test?.data?.owner, "own");
-      const ownnerFind = {
-        collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
-        id: user_address,
-      };
-      console.log(ownnerFind, "ownnerFind");
       const collections = await db
         .collection("Collection")
-        .where("owner", "===", test?.data?.owner)
+        .where("ownerWallet", "==", user_address)
         .get();
 
-      console.log(collections, "etem1");
+      // console.log(collections, "etem1");
       let fetched_collections = [];
       for (const e of collections.data) {
-        console.log(e, "etem");
+        // console.log(e, "etem");
         const obj = {};
         obj.collection_address = e.data.id;
         obj.coverImage = e.data.coverImage;
@@ -539,7 +529,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_block = e.data.chain_block;
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
-        const url = await e.data.ipfsURL.replace(
+        const url = await e.data.ipfsURL?.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
         );
@@ -834,7 +824,7 @@ export default function App({ Component, pageProps }) {
         chain_block = "https://mumbai.polygonscan.com/";
       }
 
-      console.log(tokenURI, "tokenURI");
+      // console.log(tokenURI, "tokenURI");
 
       await rarx.on("TokenCreated", async (ipfsURL, tokenId) => {
         // console.log({ ipfsURL, tokenId });
@@ -843,6 +833,7 @@ export default function App({ Component, pageProps }) {
           .collection("NFT")
           .create([
             `${_tokenURI.collection}/${tokenId.toString()}`,
+            _tokenURI.collection,
             tokenId.toString(),
             network.chainId.toString(),
             tokenURI,
@@ -862,8 +853,8 @@ export default function App({ Component, pageProps }) {
             ipfsURL,
             "0",
           ]);
-        console.log({ polybaseres: res });
-        console.log("res", res);
+        // console.log({ polybaseres: res });
+        // console.log("res", res);
       });
 
       const txn = await rarx.createToken(tokenURI);
@@ -882,6 +873,25 @@ export default function App({ Component, pageProps }) {
       const collection_image = await storage.upload(data.image);
       const collection_factory = collection_contract_factory(signer);
 
+      let chain_Image;
+      let chain_symbol;
+      let chain_block;
+
+      if (symbol == "ETH") {
+        chain_Image = "chains/goerli.png";
+        chain_symbol = "ETH";
+        chain_block = "https://etherscan.io/";
+      }
+      if (symbol == "BNB") {
+        chain_Image = "chains/bsc.png";
+        chain_symbol = "BNB";
+        chain_block = "https://bscscan.com/";
+      } else {
+        chain_Image = "chains/polygon.png";
+        chain_symbol = "MATIC";
+        chain_block = "https://mumbai.polygonscan.com/";
+      }
+
       console.log({ collection_logo, collection_image });
 
       collection_factory.on(
@@ -897,10 +907,10 @@ export default function App({ Component, pageProps }) {
           collection_address
         ) => {
           const db = await polybase();
-          console.log(
-            "collection",
-            db.collection("User").record(signer_address)
-          );
+          // console.log(
+          //   "collection",
+          //   db.collection("User").record(signer_address)
+          // );
           const res = await db.collection("Collection").create([
             collection_address,
             await db.collection("User").record(signer_address)?.collection.id,
@@ -910,11 +920,14 @@ export default function App({ Component, pageProps }) {
             symbol,
             description,
             db.collection("User").record(signer_address),
+            signer_address,
+            chain_Image,
+            true,
             // chainImg,
             // blockURL,
           ]);
-          console.log(res);
-          console.log({ polybase: res });
+          // console.log(res);
+          // console.log({ polybase: res });
         }
       );
       const txn = await collection_factory.create_collection(
@@ -973,7 +986,7 @@ export default function App({ Component, pageProps }) {
       obj.chain_image = res.data.chain_image;
       obj.chain_symbol = res.data.chain_symbol;
       const parsed_nft = await axios.get(
-        res.data.ipfsURL.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
+        res.data.ipfsURL?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
       );
       obj.ipfsData = parsed_nft.data;
       return obj;
@@ -987,7 +1000,7 @@ export default function App({ Component, pageProps }) {
     try {
       const db = await polybase();
       const collections = await db.collection("Collection").get();
-      console.log(collections, "db");
+      // console.log(collections, "db");
       const allCollections = [];
       collections.data.map((e) => {
         const { data } = e;
@@ -1032,10 +1045,7 @@ export default function App({ Component, pageProps }) {
       let nfts = [];
       const res = await db
         .collection("NFT")
-        .where("nftCollection", "==", {
-          collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/NFTCollection`,
-          id: collection_address,
-        })
+        .where("collectionId", "==", collection_address)
         .get();
 
       for (const e of res.data) {
@@ -1049,7 +1059,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_block = e.data.chain_block;
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
-        const url = await e.data.ipfsURL.replace(
+        const url = await e.data.ipfsURL?.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
         );
@@ -1069,8 +1079,8 @@ export default function App({ Component, pageProps }) {
       const db = await polybase();
       const res = await db.collection("NFT").get();
       let nfts = [];
-      console.log(nfts, "nfts");
-      console.log(res.data, "res");
+      // console.log(nfts, "nfts");
+      // console.log(res.data, "res");
       for (const e of res.data) {
         let obj = {};
         obj.chainId = e.data.chainId;
@@ -1083,7 +1093,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_block = e.data.chain_block;
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
-        const url = e.data.ipfsURL.replace(
+        const url = e.data.ipfsURL?.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
         );
@@ -1138,21 +1148,18 @@ export default function App({ Component, pageProps }) {
 
   const fetch_nfts_by_chain = async () => {
     // console.log({ chainId });
-    console.log({ signer_address, chainId });
+    // console.log({ signer_address, chainId });
     try {
       const db = await polybase();
       const res = await db
         .collection("NFT")
-        .where("owner", "==", {
-          collectionId: `${process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE}/User`,
-          id: signer_address,
-        })
+        .where("ownerWallet", "==", signer_address)
         .where("chainId", "==", chainId?.toString())
         .get();
       let nfts = [];
       for (const e of res.data) {
         let obj = {};
-        const ipfsURL = e.data.ipfsURL.replace(
+        const ipfsURL = e.data.ipfsURL?.replace(
           "ipfs://",
           "https://gateway.ipfscdn.io/ipfs/"
         );
@@ -1304,112 +1311,6 @@ export default function App({ Component, pageProps }) {
       },
     });
 
-    //     await db.applySchema(`
-
-    //     @public
-    // collection NFT {
-    //     id: string;
-    //     tokenId: string;
-    //     name: string;
-    //     image: string;
-    //     description: string;
-    //     nftCollection: Collection;
-    //     properties: string[];
-    //     ownerWallet: string;
-    //     owner: User;
-
-    //     constructor(
-    //         id: string,
-    //         tokenId: string,
-    //         name: string,
-    //         image: string,
-    //         description: string,
-    //         nftCollection: string,
-    //         properties: string[],
-    //         ownerWallet: string,
-    //         user: User
-    //     ) {
-    //         this.id = id;
-    //         this.tokenId = tokenId;
-    //         this.name = name;
-    //         this.image = image;
-    //         this.description = description;
-    //         this.nftCollection = nftCollection;
-    //         this.properties = properties;
-    //         this.ownerWallet = ownerWallet;
-    //         this.owner = user;
-    //     }
-    // }
-
-    // @public
-    // collection Collection {
-    //     id: string;
-    //     collectionId: string;
-    //     name: string;
-    //     logo: string;
-    //     coverImage: string;
-    //     symbol: string;
-    //     description: string;
-    //     owner: User;
-
-    //     constructor(
-    //         id: string,
-    //         collectionId: string,
-    //         name: string,
-    //         logo: string,
-    //         coverImage: string,
-    //         symbol: string,
-    //         description: string,
-    //         owner: User
-    //     ) {
-    //         this.id = id;
-    //         this.collectionId = collectionId;
-    //         this.name = name;
-    //         this.logo = logo;
-    //         this.coverImage = coverImage;
-    //         this.symbol = symbol;
-    //         this.description = description;
-    //         this.owner = owner;
-    //     }
-    // }
-
-    // @public
-    // collection User {
-    //     id: string;
-    //     username: string;
-    //     profileImage: string;
-    //     coverImage: string;
-    //     bio: string;
-    //     email: string;
-    //     wallet: string;
-    //     socials: string[];
-
-    //     constructor(
-    //         id: string,
-    //         username: string,
-    //         profileImage: string,
-    //         coverImage: string,
-    //         bio: string,
-    //         email: string,
-    //         wallet: string
-    //     ) {
-    //         this.id = id;
-    //         this.username = username;
-    //         this.profileImage = profileImage;
-    //         this.coverImage = coverImage;
-    //         this.bio = bio;
-    //         this.email = email;
-    //         this.wallet = wallet;
-    //         this.socials = [];
-    //     }
-
-    //     setSocials(socials: string[]) {
-    //         assert(msg.sender == this.id, "Only the owner of the account can set socials");
-    //         this.socials = socials;
-    //     }
-    // }
-    // `);
-
     return db;
   };
 
@@ -1433,11 +1334,48 @@ export default function App({ Component, pageProps }) {
         perks,
         transactions,
       } = res.data;
+
       console.log({ transactions });
       return res.data;
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const updateData = async (e, datas, set_loading) => {
+    e.preventDefault();
+    set_loading(true);
+
+    try {
+      let coverImg;
+      let profileImg;
+
+      if (typeof datas.coverImage === "object") {
+        coverImg = await storage.upload(datas.coverImage);
+      }
+      if (typeof datas.profileImage === "object") {
+        profileImg = await storage.upload(datas.profileImage);
+      }
+      console.log(datas);
+      const db = await polybase();
+      const res = await db
+        .collection("User")
+        .record(signer_address)
+        .call("updateData", [
+          datas.username,
+          datas.email,
+          datas.bio,
+          profileImg ? profileImg : datas.profileImage,
+          coverImg ? coverImg : datas.coverImage,
+          JSON.stringify([datas.twitter, datas.instagram, datas.customLink]),
+          datas.isArtist,
+        ]);
+      console.log(res);
+      // window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+    set_loading(false);
   };
 
   const search_nft = async (query) => {
@@ -1517,6 +1455,7 @@ export default function App({ Component, pageProps }) {
         blockURL={blockURL}
         executeSale={executeSale}
         getUserData={getUserData}
+        updateData={updateData}
         defaultCollectionAddress={defaultCollectionAddress}
         cancel_listing={cancel_listing}
         artists={artists}
