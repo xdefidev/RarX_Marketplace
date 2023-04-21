@@ -82,8 +82,8 @@ const NftCard = ({
           overflow: "hidden",
         }}
       >
-        <span className="mr-1 text-jacarta-700 dark:text-jacarta-200 ">
-          {Description}
+        <span className="font-bold mr-1 text-jacarta-700 dark:text-jacarta-200 ">
+          {/* {Description} */}#{tokenId}
         </span>
       </div>
       <div>
