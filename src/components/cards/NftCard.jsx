@@ -25,7 +25,7 @@ const NftCard = ({
               height={100}
               width={100}
               alt="item 5"
-              className="hover:scale-110 ease-in duration-300 h-[220px] w-full rounded-[0.625rem]"
+              className="hover:scale-110 ease-in duration-400 h-[220px] w-full rounded-[0.625rem]"
               loading="lazy"
             />
           </Link>
