@@ -20,7 +20,7 @@ const Slider = ({ nfts }) => {
                   <img
                     width={240}
                     height={120}
-                    className="hover:scale-110 ease-in min-w-[240px] min-h-[120px] aspect-auto"
+                    className="hover:scale-110 ease-in duration-300 min-w-[240px] min-h-[120px] aspect-auto"
                     src={
                       e.ipfsData.image
                         ? e.ipfsData.image?.replace(

@@ -4,7 +4,6 @@ import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 
-
 const CollectionCard = ({
   Cover,
   Logo,
@@ -15,7 +14,7 @@ const CollectionCard = ({
   collectionId,
   chainImgPre,
   chain_image,
-  isCollectionVerified
+  isCollectionVerified,
 }) => {
   return (
     <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[290px] overflow-hidden">
@@ -58,17 +57,17 @@ const CollectionCard = ({
         >
           {Name}
         </Link>
-        {isCollectionVerified ?
+        {isCollectionVerified ? (
           <MdVerified
             style={{ color: "#4f87ff", marginLeft: "-4px", marginTop: "34px" }}
             size={25}
           />
-          :
+        ) : (
           <BsFillExclamationCircleFill
             style={{ color: "#cfc62d", cursor: "pointer", marginTop: "34px" }}
             size={25}
           />
-        }
+        )}
       </div>
 
       <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
@@ -90,7 +89,9 @@ const CollectionCard = ({
       </div>
       <div>
         <Image
-          src={`${chainImgPre}${chain_image == "" ? "chains/polygon.png" : chain_image}`}
+          src={`${chainImgPre}${
+            chain_image == "" ? "chains/polygon.png" : chain_image
+          }`}
           height={100}
           width={100}
           alt="item 5"
