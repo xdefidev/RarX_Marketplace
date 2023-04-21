@@ -26,7 +26,7 @@ const Notifications = ({ connectToWallet, signer_address, chainIdMain }) => {
 
   useEffect(() => {
     connectToWallet();
-    getNotifications();
+    // getNotifications();
   }, [chainIdMain, signer_address]);
 
   return (

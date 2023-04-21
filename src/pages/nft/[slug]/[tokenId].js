@@ -50,14 +50,18 @@ const NFTPage = ({
     set_loading(true);
     const res = await cancel_listing(slug, tokenId);
     set_loading(false);
-    router.reload();
+    setTimeout(() => {
+      router.reload();
+    }, 3000);
   };
 
   const buyNFT = async (tokenId, collection_address, listing_price) => {
     set_loading(true);
     const res = await executeSale(tokenId, collection_address, listing_price);
     set_loading(false);
-    router.reload();
+    setTimeout(() => {
+      router.reload();
+    }, 3000);
   };
 
   useEffect(() => {

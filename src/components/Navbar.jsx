@@ -472,7 +472,7 @@ const Navbar = ({
   };
   useEffect(() => {
     connectToWallet();
-    getNotifications();
+    // getNotifications();
     setShowNetworkPopup(false);
     SetShowNotifications(false);
     setProfileDrop(false);
@@ -1077,7 +1077,7 @@ const Navbar = ({
                   <div className="relative mr-2 z-[100]">
                     <button
                       onClick={() => (
-                        getNotifications(),
+                        // getNotifications(),
                         SetShowNotifications(!showNotifications),
                         setShowNetworkPopup(false),
                         setProfileDrop(false)

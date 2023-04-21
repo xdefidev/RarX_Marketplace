@@ -83,7 +83,9 @@ const CreateAINFT = ({
     try {
       set_loading(true);
       await create_token(data, signer);
-      router.push(`/profile/${signer_address}`);
+      setTimeout(() => {
+        router.push(`/profile/${signer_address}`);
+      }, 3000);
     } catch (error) {
       console.log(error);
     }

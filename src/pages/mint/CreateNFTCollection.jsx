@@ -25,7 +25,7 @@ const CreateNFTCollection = ({ create_collection, signer_address }) => {
     await create_collection(data);
     setTimeout(() => {
       router.push(`/profile/${signer_address}`);
-    }, 1000);
+    }, 3000);
     set_loading(false);
   };
 
