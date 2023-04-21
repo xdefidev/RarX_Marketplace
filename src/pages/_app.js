@@ -19,6 +19,8 @@ import { Polybase } from "@polybase/client";
 import { ethPersonalSign } from "@polybase/eth";
 import { create } from "@connext/sdk";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -192,7 +194,7 @@ export default function App({ Component, pageProps }) {
         setBlockURL("https://goerli.etherscan.io/");
       } else if (chainId == 80001) {
         // matic
-        setCollectionAddress("0xDBf82927AccC05C9f13c15572A224B43CF375E20");
+        setCollectionAddress("0xcB6BD973E79Ff196B50F9c32076E6c2e145a46cd");
         setMarketplaceAddress("0xcF5CB7c9ae635524f691AdeC6743d835cC2d4908");
         setCollectionFactoryAddress(
           "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
@@ -220,7 +222,7 @@ export default function App({ Component, pageProps }) {
         setBlockchain("BSC Mainnet");
         setBlockURL("https://bscscan.com/");
       } else {
-        setCollectionAddress("0xDBf82927AccC05C9f13c15572A224B43CF375E20");
+        setCollectionAddress("0xcB6BD973E79Ff196B50F9c32076E6c2e145a46cd");
         setMarketplaceAddress("0xcF5CB7c9ae635524f691AdeC6743d835cC2d4908");
         setCollectionFactoryAddress(
           "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
@@ -231,7 +233,7 @@ export default function App({ Component, pageProps }) {
         setBlockURL("https://mumbai.polygonscan.com/");
       }
       // create_marketplace_acc();
-      setChainIdMain(chainId);
+      await setChainIdMain(chainId);
     } else {
       console.log("No wallets detected");
     }
@@ -245,30 +247,37 @@ export default function App({ Component, pageProps }) {
 
   // deafult nft collection polybase polybase
   // create default nft collection polybase
-  // const create_NFTCollection_default = async (
-  //   collection_address,
-  //   blockchain,
-  //   chainImg,
-  //   blockURL
-  // ) => {
-  //   const db = await polybase();
+  const create_NFTCollection_default = async (
+    collection_address,
+    blockchain,
+    chainImg,
+    blockURL
+  ) => {
+    const db = await polybase();
+    console.log(chainIdMain, defaultCollectionAddress, "chainIdMain");
 
-  //   const res = await db
-  //     .collection("Collection")
-  //     .create([
-  //       collection_address,
-  //       db
-  //         .collection("User")
-  //         .record("0xe7ac0B19e48D5369db1d70e899A18063E1f19021"),
-  //       "https://gateway.ipfscdn.io/ipfs/Qmf75HV1vTbA6v1Cq5NAdQM4LrfQ8wYbb5K52f6pPauHhC/2(1).png",
-  //       "https://gateway.ipfscdn.io/ipfs/Qmf75HV1vTbA6v1Cq5NAdQM4LrfQ8wYbb5K52f6pPauHhC/2(1).png",
-  //       `Rarx Collection ${blockchain}`,
-  //       `RARX ${blockchain}`,
-  //       `deployed collection on ${blockchain}`,
-  //       chainImg,
-  //       blockURL,
-  //     ]);
-  // };
+    const checkUser = await db
+      .collection("Collection")
+      .where("id", "==", defaultCollectionAddress)
+      .get();
+    if (checkUser.data.length === 0) {
+      const res = await db
+        .collection("Collection")
+        .create([
+          defaultCollectionAddress,
+          await db.collection("User").record(signer_address)?.collection.id,
+          "ShibLite Marketplace",
+          "ipfs://QmSjD48DU9rK1iUceeVMiPHExgbYLbbSHdZV6XtjPZYXum/Screenshot%202023-04-19.png",
+          "ipfs://QmSjD48DU9rK1iUceeVMiPHExgbYLbbSHdZV6XtjPZYXum/Screenshot%202023-04-19.png",
+          "ShibLite Marketplace",
+          "ShibLite Marketplace Collection",
+          db.collection("User").record(signer_address),
+          signer_address,
+          chainImg,
+          true,
+        ]);
+    }
+  };
 
   // delete user polybase chain_method
   const delete_user = async () => {
@@ -283,7 +292,7 @@ export default function App({ Component, pageProps }) {
     const db = await polybase();
     const res = await db
       .collection("NFT")
-      .record("0xDBf82927AccC05C9f13c15572A224B43CF375E20/2")
+      .record("0xcB6BD973E79Ff196B50F9c32076E6c2e145a46cd/2")
       .call("del");
   };
 
@@ -585,8 +594,11 @@ export default function App({ Component, pageProps }) {
             // db.collection("User").record(marketplaceAddress.toLowerCase()),
           ]);
         // console.log({ polybaseres: res });
+
         sendNFTListNoti(tokenId, price);
-        router.reload();
+        setTimeout(() => {
+          router.reload();
+        }, 3000);
       }
     } catch (error) {
       console.log(error.message);
@@ -1192,111 +1204,186 @@ export default function App({ Component, pageProps }) {
 
   // sending collection verification notification
   const sendCollectionNoti = async ({ collectionName }) => {
-    const signer = new ethers.Wallet(
-      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
-    );
     try {
-      const apiResponse = await PushAPI.payloads.sendNotification({
-        signer,
-        type: 3,
-        identityType: 2,
-        notification: {
-          title: `Your new collection ${collectionName} on rarx is verified`,
-          body: `Congratulations, now you can sell your nfts via your ${collectionName} collection`,
-        },
-        payload: {
-          title: `Your new collection on rarx is verified`,
-          body: `Congratulations, now you can sell your nfts via your collection`,
-        },
-        recipients: `eip155:80001:${signer_address}`,
-        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
-        env: "staging",
-      });
-    } catch (err) {
-      console.error("Error: ", err);
+      // console.log(NftName, NftPrice);
+      toast.success(
+        `Congratulations, now you can sell your nfts via your ${collectionName} collection`,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    } catch (e) {
+      console.log(e);
     }
+    // const signer = new ethers.Wallet(
+    //   `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    // );
+    // try {
+    //   const apiResponse = await PushAPI.payloads.sendNotification({
+    //     signer,
+    //     type: 3,
+    //     identityType: 2,
+    //     notification: {
+    //       title: `Your new collection ${collectionName} on rarx is verified`,
+    //       body: `Congratulations, now you can sell your nfts via your ${collectionName} collection`,
+    //     },
+    //     payload: {
+    //       title: `Your new collection on rarx is verified`,
+    //       body: `Congratulations, now you can sell your nfts via your collection`,
+    //     },
+    //     recipients: `eip155:80001:${signer_address}`,
+    //     channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+    //     env: "staging",
+    //   });
+    // } catch (err) {
+    //   console.error("Error: ", err);
+    // }
   };
 
   // sending nft list notification
-  const sendNFTListNoti = async ({ NftName, NftPrice }) => {
-    const signer = new ethers.Wallet(
-      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
-    );
+  const sendNFTListNoti = async (NftName, NftPrice) => {
     try {
-      const apiResponse = await PushAPI.payloads.sendNotification({
-        signer,
-        type: 3,
-        identityType: 2,
-        notification: {
-          title: `${NftName} is listed for sale on ShibLite`,
-          body: `Congratulations, you have successfully listed ${NftName} on sale for ${NftPrice}`,
-        },
-        payload: {
-          title: `${NftName} is listed for sale on ShibLite`,
-          body: `Congratulations, you have successfully listed ${NftName} on sale for ${NftPrice}`,
-        },
-        recipients: `eip155:80001:${signer_address}`,
-        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
-        env: "staging",
-      });
-    } catch (err) {
-      console.error("Error: ", err);
+      console.log(NftName, NftPrice);
+      toast.success(
+        "Congratulations, you have successfully listed id:" +
+          NftName +
+          "on sale for " +
+          NftPrice +
+          symbol,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    } catch (e) {
+      console.log(e);
     }
+    // const signer = new ethers.Wallet(
+    //   `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    // );
+    // try {
+    //   const apiResponse = await PushAPI.payloads.sendNotification({
+    //     signer,
+    //     type: 3,
+    //     identityType: 2,
+    //     notification: {
+    //       title: `${NftName} is listed for sale on ShibLite`,
+    //       body: `Congratulations, you have successfully listed ${NftName} on sale for ${NftPrice}`,
+    //     },
+    //     payload: {
+    //       title: `${NftName} is listed for sale on ShibLite`,
+    //       body: `Congratulations, you have successfully listed ${NftName} on sale for ${NftPrice}`,
+    //     },
+    //     recipients: `eip155:80001:${signer_address}`,
+    //     channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+    //     env: "staging",
+    //   });
+    // } catch (err) {
+    //   console.error("Error: ", err);
+    // }
   };
 
   // sending nft buy notification
-  const sendNFTSaleNoti = async ({ NftName, NftPrice }) => {
-    const signer = new ethers.Wallet(
-      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
-    );
+  const sendNFTSaleNoti = async (NftName, NftPrice) => {
     try {
-      const apiResponse = await PushAPI.payloads.sendNotification({
-        signer,
-        type: 3,
-        identityType: 2,
-        notification: {
-          title: `You have purchased NFT ${NftName} for ${NftPrice}`,
-          body: `Congratulations, you have successfully purchased ${NftName}`,
-        },
-        payload: {
-          title: `You have purchased NFT ${NftName} for ${NftPrice}`,
-          body: `Congratulations, you have successfully purchased ${NftName}`,
-        },
-        recipients: `eip155:80001:${signer_address}`,
-        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
-        env: "staging",
-      });
-    } catch (err) {
-      console.error("Error: ", err);
+      toast.success(
+        `Congratulations, you have successfully purchased ${NftName} for ${NftPrice}`,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    } catch (e) {
+      console.log(e);
     }
+    // const signer = new ethers.Wallet(
+    //   `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    // );
+    // try {
+    //   const apiResponse = await PushAPI.payloads.sendNotification({
+    //     signer,
+    //     type: 3,
+    //     identityType: 2,
+    //     notification: {
+    //       title: `You have purchased NFT ${NftName} for ${NftPrice}`,
+    //       body: `Congratulations, you have successfully purchased ${NftName}`,
+    //     },
+    //     payload: {
+    //       title: `You have purchased NFT ${NftName} for ${NftPrice}`,
+    //       body: `Congratulations, you have successfully purchased ${NftName}`,
+    //     },
+    //     recipients: `eip155:80001:${signer_address}`,
+    //     channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+    //     env: "staging",
+    //   });
+    // } catch (err) {
+    //   console.error("Error: ", err);
+    // }
   };
 
   // sending nft minted notification
   const sendNFTMintNoti = async () => {
-    const signer = new ethers.Wallet(
-      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
-    );
     try {
-      const apiResponse = await PushAPI.payloads.sendNotification({
-        signer,
-        type: 3,
-        identityType: 2,
-        notification: {
-          title: `Your new NFT is created onchain via ShibLite Marketplace`,
-          body: `Congratulations, now you can list your newly minted NFT on Rarx`,
-        },
-        payload: {
-          title: `Your new NFT is created onchain via ShibLite Marketplace`,
-          body: `Congratulations, now you can list your newly minted NFT on Rarx`,
-          cta: ``,
-        },
-        recipients: `eip155:8001:${signer_address}`,
-        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
-        env: "staging",
-      });
-    } catch (err) {
-      console.error("Error: ", err);
+      // console.log(NftName, NftPrice);
+      toast.success(
+        "Congratulations, now you can list your newly minted NFT on ShibLite",
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    } catch (e) {
+      console.log(e);
     }
+    // const signer = new ethers.Wallet(
+    //   `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    // );
+    // try {
+    //   const apiResponse = await PushAPI.payloads.sendNotification({
+    //     signer,
+    //     type: 3,
+    //     identityType: 2,
+    //     notification: {
+    //       title: `Your new NFT is created onchain via ShibLite Marketplace`,
+    //       body: `Congratulations, now you can list your newly minted NFT on Rarx`,
+    //     },
+    //     payload: {
+    //       title: `Your new NFT is created onchain via ShibLite Marketplace`,
+    //       body: `Congratulations, now you can list your newly minted NFT on Rarx`,
+    //       cta: ``,
+    //     },
+    //     recipients: `eip155:8001:${signer_address}`,
+    //     channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+    //     env: "staging",
+    //   });
+    // } catch (err) {
+    //   console.error("Error: ", err);
+    // }
   };
 
   // polybase db connect
@@ -1407,6 +1494,22 @@ export default function App({ Component, pageProps }) {
     fetch_all_nfts_from_polybase();
   }, [router.pathname]);
 
+  useEffect(() => {
+    if (!defaultCollectionAddress) {
+      return;
+    }
+
+    async function call() {
+      await create_NFTCollection_default(
+        defaultCollectionAddress,
+        blockchain,
+        chainImg,
+        blockURL
+      );
+    }
+    call();
+  }, [defaultCollectionAddress]);
+
   return (
     <>
       <Navbar
@@ -1466,6 +1569,7 @@ export default function App({ Component, pageProps }) {
         uma_settle_request={uma_settle_request}
         txnHashCollection={txnHashCollection}
       />
+      <ToastContainer />
       <Footer />
     </>
   );

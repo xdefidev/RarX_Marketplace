@@ -14,6 +14,7 @@ import Head from "next/head";
 import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
 
 const Profile = ({
   get_my_collections,
@@ -26,6 +27,7 @@ const Profile = ({
   getUserData,
   blockURL,
   fetch_collections_polybase,
+  connectToWallet,
 }) => {
   // superfluid config start
   const tokens = [
@@ -204,57 +206,87 @@ const Profile = ({
 
   // sending membership stream created push notification
   const sendMemberCreatedNoti = async ({ to, title, body }) => {
-    const signer = new ethers.Wallet(
-      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
-    );
     try {
-      const apiResponse = await PushAPI.payloads.sendNotification({
-        signer,
-        type: 3,
-        identityType: 2,
-        notification: {
-          title: `${title}`,
-          body: `${body}`,
-        },
-        payload: {
-          title: `${title}`,
-          body: `${body}`,
-        },
-        recipients: `eip155:80001:${to}`,
-        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
-        env: "staging",
+      console.log(NftName, NftPrice);
+      toast.success("You are now an artist", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
-    } catch (err) {
-      console.error("Error: ", err);
+    } catch (e) {
+      console.log(e);
     }
+    // const signer = new ethers.Wallet(
+    //   `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    // );
+    // try {
+    //   const apiResponse = await PushAPI.payloads.sendNotification({
+    //     signer,
+    //     type: 3,
+    //     identityType: 2,
+    //     notification: {
+    //       title: `${title}`,
+    //       body: `${body}`,
+    //     },
+    //     payload: {
+    //       title: `${title}`,
+    //       body: `${body}`,
+    //     },
+    //     recipients: `eip155:80001:${to}`,
+    //     channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+    //     env: "staging",
+    //   });
+    // } catch (err) {
+    //   console.error("Error: ", err);
+    // }
   };
 
   // sending membership cancelation push notification
   const sendMemberCancelNoti = async ({ to }) => {
-    const signer = new ethers.Wallet(
-      `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
-    );
     try {
-      const apiResponse = await PushAPI.payloads.sendNotification({
-        signer,
-        type: 3,
-        identityType: 2,
-        notification: {
-          title: `You have cancelled your membership of artist ${to}`,
-          body: `As you have cancelled the membership, you are no longer eligible for the membership perks`,
-        },
-        payload: {
-          title: `You have cancelled your membership of artist ${to}`,
-          body: `As you have cancelled the membership, you are no longer eligible for the membership perks`,
-          cta: ``,
-        },
-        recipients: `eip155:80001:${signer_address}`,
-        channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
-        env: "staging",
+      console.log(NftName, NftPrice);
+      toast.success("You have cancelled your artist membership", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
-    } catch (err) {
-      console.error("Error: ", err);
+    } catch (e) {
+      console.log(e);
     }
+    // const signer = new ethers.Wallet(
+    //   `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
+    // );
+    // try {
+    //   const apiResponse = await PushAPI.payloads.sendNotification({
+    //     signer,
+    //     type: 3,
+    //     identityType: 2,
+    //     notification: {
+    //       title: `You have cancelled your membership of artist ${to}`,
+    //       body: `As you have cancelled the membership, you are no longer eligible for the membership perks`,
+    //     },
+    //     payload: {
+    //       title: `You have cancelled your membership of artist ${to}`,
+    //       body: `As you have cancelled the membership, you are no longer eligible for the membership perks`,
+    //       cta: ``,
+    //     },
+    //     recipients: `eip155:80001:${signer_address}`,
+    //     channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
+    //     env: "staging",
+    //   });
+    // } catch (err) {
+    //   console.error("Error: ", err);
+    // }
   };
 
   // using moralis for balances
@@ -326,6 +358,7 @@ const Profile = ({
 
   useEffect(() => {
     const fetchData = async () => {
+      await connectToWallet();
       myCollections();
       get_nfts();
     };
@@ -889,6 +922,7 @@ const Profile = ({
           )}
         </div>
       )}
+      <ToastContainer />
     </>
   );
 };

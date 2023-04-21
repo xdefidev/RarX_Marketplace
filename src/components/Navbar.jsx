@@ -652,7 +652,7 @@ const Navbar = ({
                   </ul>
                 </li>
 
-                <li className="js-nav-dropdown group relative">
+                {/* <li className="js-nav-dropdown group relative">
                   <a
                     href="#"
                     className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
@@ -688,7 +688,7 @@ const Navbar = ({
                       </Link>
                     </li>
                   </ul>
-                </li>
+                </li> */}
 
                 <li className="js-nav-dropdown group relative">
                   <Link

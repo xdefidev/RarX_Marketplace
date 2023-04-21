@@ -17,10 +17,14 @@ const Footer = () => {
                 alt="ShibLite | NFT Marketplace"
               />
             </Link>
-            <p className="mb-6 dark:text-jacarta-300">
-              Create, sell and collect NFTs on ShibLite. Powered by various
-              technologies.
-            </p>
+            <div>
+              <small className="mb-6 dark:text-jacarta-300">
+                Create, sell and collect NFTs on ShibLite. Powered by various
+                technologies. EVM-compatible public chains, focused on GameFi.
+                Enjoy exploring & trading with your friends!
+              </small>
+            </div>
+
             <div className="flex space-x-5">
               {/* <a href="#" className="group">
                 <svg
@@ -69,14 +73,14 @@ const Footer = () => {
                   Top Collections
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href="/BridgeNFT"
                   className="hover:text-accent dark:hover:text-white"
                 >
                   Bridge NFT
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   href="/mint/CreateAINFT"
