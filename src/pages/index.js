@@ -289,9 +289,9 @@ export default function Home({ all_collections, nfts, artists }) {
       {/* Newly minted  */}
       <div className="py-24">
         <div className="container">
-          <h2 className="mb-8 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+          <h2 className="mb-8 text-left font-display text-3xl text-jacarta-700 dark:text-white">
             <span className="mr-1 inline-block h-6 w-6 bg-contain bg-center text-xl"></span>
-            Newly Minted NFTs
+            DIscover.
           </h2>
 
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
@@ -322,8 +322,8 @@ export default function Home({ all_collections, nfts, artists }) {
       {/* trending collections  */}
       <div className="relative py-24 dark:bg-jacarta-800">
         <div className="container">
-          <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-            <h2 className="inline">Trending Collections </h2>
+          <div className="mb-12 text-left font-display text-3xl text-jacarta-700 dark:text-white">
+            <h2 className="inline">Hot Collections. </h2>
           </div>
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
             {all_collections?.map((e, index) => {
