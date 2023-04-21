@@ -42,7 +42,7 @@ const NftCard = ({
           </Link>
         )}
       </div>
-      <div className="mt-7 flex items-center justify-between">
+      <div className="mt-3 flex items-center justify-between">
         <div
           style={{
             width: "150px",
@@ -74,7 +74,7 @@ const NftCard = ({
         )}
       </div>
       <div
-        className="mt-2 text-sm text-ellipsis overflow-hidden"
+        className="mt-1 text-sm text-ellipsis overflow-hidden"
         style={{
           width: "220px",
           whiteSpace: "nowrap",
