@@ -9,7 +9,7 @@ const Slider = ({ nfts }) => {
       <div>
         <div className="mb-4 flex space-x-4">
           {nfts
-            .filter((nft, index) => index < 5)
+            .filter((nft, index) => index > 10 && index < 20)
             .map((e, i) => (
               <Link href={`/nft/${e.ipfsData.collection}/${e.tokenId}`}>
                 <div
@@ -19,7 +19,7 @@ const Slider = ({ nfts }) => {
                   <img
                     width={240}
                     height={120}
-                    className=" hover:scale-110 ease-in "
+                    className=" hover:scale-110 ease-in min-w-[240px] min-h-[120px] aspect-auto"
                     src={
                       e.ipfsData.image
                         ? e.ipfsData.image?.replace(
