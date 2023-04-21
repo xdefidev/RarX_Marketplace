@@ -171,14 +171,14 @@ export default function Home({ all_collections, nfts, artists }) {
                           <div>
                             <a className="block">
                               <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                Potatoz #1
+                                ShibLite Marketplace Collection #1
                               </span>
                             </a>
                             <Link
                               href="/collection/0x4065213d6d042FAdac17bffBeb13Bb0854a2E16d"
                               className="text-2xs text-accent"
                             >
-                              By PotatoZ
+                              By ShibLite Marketplace Collection
                             </Link>
                           </div>
                         </div>
@@ -218,14 +218,14 @@ export default function Home({ all_collections, nfts, artists }) {
                           <div>
                             <a className="block">
                               <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                Bored
+                                ShibLite Marketplace Collection #2
                               </span>
                             </a>
                             <Link
-                              href="/collection/0xf6f2d216Bf1A2d556D10AD106f97F54bD189ba95"
+                              href="/collection/address"
                               className="text-2xs text-accent"
                             >
-                              By Monsterland
+                              By ShibLite Marketplace Collection
                             </Link>
                           </div>
                         </div>
@@ -250,7 +250,7 @@ export default function Home({ all_collections, nfts, artists }) {
                         <div className="p-6">
                           <div className="flex">
                             <Link
-                              href="/collection/0x483A767912818E7A3De29f95bc0d51b30070Bf02"
+                              href="/collection/address"
                               className="shrink-0"
                             >
                               <img
@@ -264,14 +264,14 @@ export default function Home({ all_collections, nfts, artists }) {
                             <div>
                               <a className="block">
                                 <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                  NFT #1
+                                  ShibLite Marketplace Collection #3
                                 </span>
                               </a>
                               <Link
-                                href="/collection/0x483A767912818E7A3De29f95bc0d51b30070Bf02"
+                                href="/collection/address"
                                 className="text-2xs text-accent"
                               >
-                                By Firat's NFT Collection
+                                By ShibLite Marketplace Collection
                               </Link>
                             </div>
                           </div>

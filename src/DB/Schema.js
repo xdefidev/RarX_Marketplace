@@ -85,10 +85,11 @@ collection NFT {
   }
 
   executeSale(address: User) {
-
+    this.seller = address;
     this.owner = address;
     this.isListed = false;
     this.listingPrice = "0";
+    this.ownerWallet = address.id;
   }
   
 }
@@ -105,7 +106,7 @@ collection Collection {
     owner: User;
     ownerWallet: string;
     chain_image: string;
-    isCollectionVerified: string;
+    isCollectionVerified: boolean;
 
     constructor(
         id: string,
@@ -118,7 +119,7 @@ collection Collection {
         owner: User,
         ownerWallet: string,
         chain_image: string,
-        isCollectionVerified: string
+        isCollectionVerified: boolean
     ) {
         this.id = id;
         this.collectionId = collectionId;
@@ -185,5 +186,4 @@ collection User {
         this.isArtist = isArtist;
     }
 }
-
 `);
