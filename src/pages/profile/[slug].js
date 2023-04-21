@@ -910,15 +910,15 @@ const Profile = ({
       {signer_address !== slug && (
         <div>
           {signer_address && (
-            <Chat
-              account={signer_address}
-              supportAddress={slug}
-              apiKey={process.env.NEXT_PUBLIC_PUSH_API_KEY}
-              env="staging"
-              greetingMsg={`Hey, I am available to chat`}
-              // modalTitle={`chat with ${slug}`}
-              theme={theme}
-            />
+            // <Chat
+            //   account={signer_address}
+            //   supportAddress={slug}
+            //   apiKey={process.env.NEXT_PUBLIC_PUSH_API_KEY}
+            //   env="staging"
+            //   greetingMsg={`Hey, I am available to chat`}
+            //   // modalTitle={`chat with ${slug}`}
+            //   theme={theme}
+            // />
           )}
         </div>
       )}
