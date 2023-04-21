@@ -68,13 +68,13 @@ const NftCard = ({
         {listedBool && (
           <span className="flex items-center whitespace-nowrap rounded-md border border-jacarta-100 py-1 px-2 dark:border-jacarta-600">
             <span className=" text-sm font-medium tracking-tight text-green">
-              {listingPrice} {" "} {chain_symbol}
+              {listingPrice} {chain_symbol}
             </span>
           </span>
         )}
       </div>
       <div
-        className="mt-2 text-sm"
+        className="mt-2 text-sm text-ellipsis overflow-hidden"
         style={{
           width: "220px",
           whiteSpace: "nowrap",
@@ -82,13 +82,15 @@ const NftCard = ({
           overflow: "hidden",
         }}
       >
-        <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">
+        <span className="mr-1 text-jacarta-700 dark:text-jacarta-200 ">
           {Description}
         </span>
       </div>
       <div>
         <Image
-          src={`${chainImgPre}${chain_image == "" ? "chains/polygon.png" : chain_image}`}
+          src={`${chainImgPre}${
+            chain_image == "" ? "chains/polygon.png" : chain_image
+          }`}
           height={100}
           width={100}
           alt="item 5"
