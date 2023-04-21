@@ -42,6 +42,7 @@ const Profile = ({
   const [FDAIXBALANCE, setFDAIXBALANCE] = useState("0.00");
 
   const [user_data, set_user_data] = useState({});
+  const [social_data, set_social] = useState([]);
 
   const [provider, setProvider] = useState(null);
   const [userStreamData, SetUserStreamData] = useState([]);
@@ -347,6 +348,8 @@ const Profile = ({
   const get_user_info = async () => {
     const data = await getUserData(slug);
     set_user_data(data);
+
+    set_social(data?.socials && JSON.parse(data?.socials));
     console.log({ userDataa: data });
   };
 
@@ -455,9 +458,7 @@ const Profile = ({
             {signer_address && (
               <div className="flex justify-center align-middle mb-6 mt-4">
                 <a
-                  href={
-                    user_data?.socials?.length ? user_data?.socials[0] : "#"
-                  }
+                  href={social_data?.length ? social_data[0] : "#"}
                   target="_blank"
                   className="group mr-4"
                 >
@@ -471,9 +472,7 @@ const Profile = ({
                   </svg>
                 </a>
                 <a
-                  href={
-                    user_data?.socials?.length ? user_data?.socials[1] : "#"
-                  }
+                  href={social_data?.length ? social_data[1] : "#"}
                   target="_blank"
                   className="group"
                 >
