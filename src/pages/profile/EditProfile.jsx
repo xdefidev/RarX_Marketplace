@@ -146,6 +146,7 @@ const EditProfile = ({ signer_address, getUserData, updateData, polybase }) => {
         isArtist,
         membership_perks: perks,
       });
+      console.log("ep", coverImage);
 
       set_user_exists(true);
     } catch (error) {
@@ -184,12 +185,10 @@ const EditProfile = ({ signer_address, getUserData, updateData, polybase }) => {
           ) : (
             <Image
               src={
-                typeof datas.coverImage == "string"
-                  ? datas.coverimage?.replace(
-                      "ipfs://",
-                      "https://gateway.ipfscdn.io/ipfs/"
-                    )
-                  : coverImg_preview
+                datas?.coverimage?.replace(
+                  "ipfs://",
+                  "https://gateway.ipfscdn.io/ipfs/"
+                ) || coverImg_preview
               }
               alt="banner"
               width={100}
