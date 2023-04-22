@@ -481,7 +481,7 @@ const Navbar = ({
   return (
     <div className="overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900">
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
-        <div className="flex items-center px-6 py-4 xl:px-24">
+        <div className="flex items-center px-6 py-2 xl:px-24">
           {/* icon  */}
           <Link href="/" className="shrink-0">
             <Image
