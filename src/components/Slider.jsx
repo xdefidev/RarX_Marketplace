@@ -6,7 +6,7 @@ import Link from "next/link";
 const Slider = ({ nfts }) => {
   console.log(nfts);
   return (
-    <div className="flex overflow-hidden max-w-full">
+    <div className="flex overflow-hidden max-w-full sm:mt-0 mt-4">
       <div>
         <div className="mb-4 flex space-x-4 relative left-[-60px] right-[60px]">
           {nfts
