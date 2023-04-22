@@ -59,8 +59,8 @@ const Collection = ({
               : res[i].listingPrice;
 
           const summed_price =
-            parseFloat(res[i].listingPrice) +
-            parseFloat(res[i + 1].listingPrice);
+            parseFloat(res[i]?.listingPrice) +
+            parseFloat(res[i + 1]?.listingPrice);
           volume = summed_price;
         }
       }

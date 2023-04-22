@@ -121,14 +121,16 @@ const EditProfile = ({ signer_address, getUserData, updateData, polybase }) => {
       //   .record(signer_address)
       //   .get();
       const {
-        bio,
-        coverImage,
-        email,
         id,
-        profileImage,
         username,
+        profileImage,
+        coverImage,
+        bio,
+        email,
+        wallet,
         socials,
         isArtist,
+        trasactions,
         membershipFees,
         perks,
       } = await getUserData(signer_address);
@@ -174,28 +176,31 @@ const EditProfile = ({ signer_address, getUserData, updateData, polybase }) => {
       <form onSubmit={handleSubmit}>
         {/* <!-- Banner --> */}
         <div className="relative  mt-24">
-          {datas.coverImage == "" && coverImg_preview == "" ? (
+          {console.log(datas, "datas.coverimage")}
+          {datas.coverimage ? (
             <Image
-              src="../../../shiblite2.png"
-              alt="banner"
+              src={
+                datas?.coverimage &&
+                datas?.coverimage?.replace(
+                  "ipfs://",
+                  "https://gateway.ipfscdn.io/ipfs/"
+                )
+              }
+              alt="Add banner"
               width={100}
               height={100}
               className="h-[18.75rem] w-[100%] object-cover"
             />
           ) : (
             <Image
-              src={
-                datas?.coverimage?.replace(
-                  "ipfs://",
-                  "https://gateway.ipfscdn.io/ipfs/"
-                ) || coverImg_preview
-              }
-              alt="banner"
+              src={coverImg_preview}
+              alt="Add banner"
               width={100}
               height={100}
               className="h-[18.75rem] w-[100%] object-cover"
             />
           )}
+
           <div className="container relative -translate-y-4">
             <div className="group absolute right-0 bottom-4 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
               <input
@@ -387,7 +392,7 @@ const EditProfile = ({ signer_address, getUserData, updateData, polybase }) => {
                       {datas.profileImage == "" && profImg_preview == "" ? (
                         <Image
                           src="../../../shiblite2.png"
-                          alt="logo"
+                          alt="Add logo"
                           width={100}
                           height={100}
                           className="rounded-xl border-[1px] border-gray-500 dark:border-jacarta-600 h-[130px] w-[auto]"
@@ -404,7 +409,7 @@ const EditProfile = ({ signer_address, getUserData, updateData, polybase }) => {
                           }
                           width={100}
                           height={100}
-                          alt="logo"
+                          alt="Add logo"
                           className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
                         />
                       )}
