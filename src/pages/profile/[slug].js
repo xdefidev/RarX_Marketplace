@@ -28,6 +28,8 @@ const Profile = ({
   blockURL,
   fetch_collections_polybase,
   connectToWallet,
+  polybase,
+  symbol,
 }) => {
   // superfluid config start
   const tokens = [
@@ -43,6 +45,8 @@ const Profile = ({
 
   const [user_data, set_user_data] = useState({});
   const [social_data, set_social] = useState([]);
+
+  const [walletNFTs, setWalletNft] = useState([]);
 
   const [provider, setProvider] = useState(null);
   const [userStreamData, SetUserStreamData] = useState([]);
@@ -303,13 +307,28 @@ const Profile = ({
 
   const getBalanceMoralis = async () => {
     try {
-      initiateMoralis();
       const response = await Moralis.EvmApi.token.getWalletTokenBalances({
-        chain: "5",
+        chain: chainIdMain,
         tokenAddresses: ["0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00"],
         address: signer_address,
       });
       setFDAIXBALANCE(ethers.utils.formatEther(response.raw[0].balance));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const runApp = async () => {
+    try {
+      // const chainID = EvmChain.ETHEREUM;
+      const response = await Moralis.EvmApi.nft.getWalletNFTs({
+        chain: chainIdMain,
+        address: signer_address,
+      });
+      setWalletNft(
+        response?.jsonResponse?.result && response.jsonResponse.result
+      );
+      console.log(response?.jsonResponse?.result, "response.nft");
     } catch (error) {
       console.log(error);
     }
@@ -322,6 +341,10 @@ const Profile = ({
   const { slug } = router.query;
 
   const [myNFTsActive, setMyNFTSActive] = useState(true);
+  const [statusArray, setStatusArray] = useState(
+    (typeof window !== "undefined" && localStorage.getItem("statusArr")) || []
+  );
+  const [myWalletActive, setMyWalletActive] = useState(false);
   const [my_collections, set_my_collections] = useState([]);
   const [nfts, set_nfts] = useState([]);
 
@@ -355,15 +378,174 @@ const Profile = ({
 
   const fetch_collections = async () => {
     const res = await fetch_collections_polybase(signer_address);
-    console.log(res, "collection_p");
+    // console.log(res, "collection_p");
     set_my_collections(res);
   };
+
+  async function checkWalletNft(collectionId, nftId) {
+    try {
+      // console.log(typeof collectionId);
+      const db = await polybase();
+
+      let nftStatus,
+        collectionStatus = false;
+
+      const checkCollection = await db
+        .collection("Collection")
+        .where("id", "==", collectionId)
+        .get();
+
+      const checkNft = await db
+        .collection("NFT")
+        .where("id", "==", nftId)
+        .get();
+
+      if (checkNft.data.length === 0) {
+        nftStatus = true;
+      }
+
+      if (checkCollection.data.length === 0) {
+        collectionStatus = true;
+      }
+
+      return { nftStatus, collectionStatus };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getStatus() {
+    const newResults = [];
+    for (const item of walletNFTs) {
+      const nftStatus = await checkWalletNft(
+        item.token_address,
+        item.token_address + "/" + item.token_id
+      );
+      console.log(nftStatus, "sey");
+      newResults.push(nftStatus);
+    }
+    setStatusArray(newResults);
+    localStorage.setItem("statusArr", newResults);
+  }
+
+  async function listCollection(
+    collection_address,
+    name,
+    logo,
+    image,
+    symbol,
+    description,
+    owner
+  ) {
+    let chain_Image;
+    let chain_symbol;
+    let chain_block;
+
+    if (symbol == "ETH") {
+      chain_Image = "chains/goerli.png";
+      chain_symbol = "ETH";
+      chain_block = "https://etherscan.io/";
+    }
+    if (symbol == "BNB") {
+      chain_Image = "chains/bsc.png";
+      chain_symbol = "BNB";
+      chain_block = "https://bscscan.com/";
+    } else {
+      chain_Image = "chains/polygon.png";
+      chain_symbol = "MATIC";
+      chain_block = "https://mumbai.polygonscan.com/";
+    }
+
+    const db = await polybase();
+
+    const checkUser = await db
+      .collection("User")
+      .where("id", "==", owner)
+      .get();
+    if (checkUser.data.length === 0) {
+      const res = await db
+        .collection("User")
+        .create([owner, "", "", "", "", "", owner, false, ""]);
+    }
+
+    const res = await db
+      .collection("Collection")
+      .create([
+        collection_address,
+        await db.collection("User").record(owner)?.collection.id,
+        symbol,
+        logo,
+        image,
+        symbol,
+        description,
+        db.collection("User").record(owner),
+        owner,
+        chain_Image,
+        false,
+      ]);
+  }
+
+  async function listNft(
+    id,
+    token_uri,
+    collection_address,
+    properties,
+    name,
+    image,
+    description
+  ) {
+    let chain_Image;
+    let chain_symbol;
+    let chain_block;
+
+    if (symbol == "ETH") {
+      chain_Image = "chains/goerli.png";
+      chain_symbol = "ETH";
+      chain_block = "https://etherscan.io/";
+    }
+    if (symbol == "BNB") {
+      chain_Image = "chains/bsc.png";
+      chain_symbol = "BNB";
+      chain_block = "https://bscscan.com/";
+    } else {
+      chain_Image = "chains/polygon.png";
+      chain_symbol = "MATIC";
+      chain_block = "https://mumbai.polygonscan.com/";
+    }
+
+    const db = await polybase();
+    const res = await db
+      .collection("NFT")
+      .create([
+        `${collection_address}/${id}`,
+        collection_address,
+        id,
+        chainIdMain?.toString(),
+        token_uri,
+        db.collection("User").record(signer_address),
+        db.collection("Collection").record(collection_address),
+        JSON.stringify(properties),
+        name,
+        image,
+        description,
+        false,
+        signer_address,
+        chain_block,
+        chain_Image,
+        chain_symbol,
+        token_uri,
+        "0",
+      ]);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       await connectToWallet();
+
       myCollections();
       get_nfts();
+      await initiateMoralis();
+      runApp();
     };
     fetchData();
     get_user_info();
@@ -372,7 +554,13 @@ const Profile = ({
     fetch_collections();
     connectSF();
     fetchStreams();
-  }, [slug, signer_address]);
+  }, [slug, signer_address, chainIdMain]);
+
+  useEffect(() => {
+    if (walletNFTs) {
+      getStatus();
+    }
+  }, [walletNFTs]);
 
   return loading ? (
     <Loader />
@@ -755,7 +943,45 @@ const Profile = ({
           <li
             className="nav-item"
             role="presentation"
-            onClick={() => setMyNFTSActive(true)}
+            onClick={() => {
+              setMyWalletActive(true);
+              setMyNFTSActive(false);
+            }}
+          >
+            <button
+              className={`nav-link ${myWalletActive &&
+                "active relative"} flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              id="wallet-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#wallet"
+              type="button"
+              role="tab"
+              aria-controls="wallet"
+              aria-selected="false"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="mr-1 h-5 w-5 fill-current"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M5 5v3h14V5H5zM4 3h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 9h6a1 1 0 0 1 1 1v3h1v6h-4v-6h1v-2H5a1 1 0 0 1-1-1v-2h2v1zm11.732 1.732l1.768-1.768 1.768 1.768a2.5 2.5 0 1 1-3.536 0z" />
+              </svg>
+              <span className="font-display text-base font-medium">
+                In Wallet ({walletNFTs?.length ? walletNFTs?.length : "0"})
+              </span>
+            </button>
+          </li>
+
+          <li
+            className="nav-item"
+            role="presentation"
+            onClick={() => {
+              setMyNFTSActive(true);
+              setMyWalletActive(false);
+            }}
           >
             <button
               className={`nav-link ${myNFTsActive &&
@@ -788,10 +1014,14 @@ const Profile = ({
           <li
             className="nav-item"
             role="presentation"
-            onClick={() => setMyNFTSActive(false)}
+            onClick={() => {
+              setMyNFTSActive(false);
+              setMyWalletActive(false);
+            }}
           >
             <button
               className={`nav-link ${!myNFTsActive &&
+                !myWalletActive &&
                 "active relative"} flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
@@ -812,14 +1042,114 @@ const Profile = ({
                 <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
               </svg>
               <span className="font-display text-base font-medium">
-                My Collections
+                My Collections (
+                {my_collections?.length ? my_collections?.length : "0"})
               </span>
             </button>
           </li>
         </ul>
       </div>
 
-      {myNFTsActive == true ? (
+      {myWalletActive == true && (
+        <section className="relative py-24 pt-20">
+          <div className="container">
+            <div className="tab-content">
+              <div
+                className="tab-pane fade show active"
+                id="on-sale"
+                role="tabpanel"
+                aria-labelledby="on-sale-tab"
+              >
+                <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
+                  {walletNFTs?.map((e, index) => {
+                    const p = JSON.parse(e?.metadata);
+
+                    // console.log(statusArray);
+
+                    return (
+                      <div className="block">
+                        <NftCard
+                          key={index}
+                          ImageSrc={
+                            p?.image
+                              ? p?.image?.replace(
+                                  "ipfs://",
+                                  "https://gateway.ipfscdn.io/ipfs/"
+                                )
+                              : "/test.jpg"
+                          }
+                          Name={p?.name}
+                          Description={p?.description}
+                          Address={e.token_address}
+                          tokenId={e.token_id}
+                          chainImgPre={"../"}
+                          listedBool={false}
+                          chain_image={
+                            chainIdMain == 1
+                              ? "chains/goerli.png"
+                              : chainIdMain == "56"
+                              ? "chains/bsc.png"
+                              : "chains/polygon.png"
+                          }
+                          chain_symbol={e.symbol}
+                        />
+                        <div className="flex justify-between pt-1 px-2">
+                          {statusArray[index]?.collectionStatus && (
+                            <button
+                              onClick={() =>
+                                listCollection(
+                                  e?.token_address,
+                                  p?.name,
+                                  p?.image,
+                                  p?.image,
+                                  e?.symbol,
+                                  p?.description,
+                                  e?.owner_of
+                                )
+                              }
+                              className="inline-block rounded-full bg-accent py-3 px-4 text-center text-xs text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                            >
+                              Load Collection
+                            </button>
+                          )}
+
+                          {statusArray[index]?.nftStatus && (
+                            <button
+                              onClick={() =>
+                                listNft(
+                                  e?.token_id,
+                                  e?.token_uri,
+                                  e?.token_address,
+                                  p?.properties,
+                                  p?.name,
+                                  p?.image,
+                                  p?.description
+                                )
+                              }
+                              className="inline-block rounded-full bg-accent py-3 px-4 text-center text-xs text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                            >
+                              Load NFT
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="flex justify-center">
+                  {nfts?.length <= 0 && (
+                    <h2 className="text-xl font-display font-thin">
+                      No NFTs to show!
+                    </h2>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {myNFTsActive == true && (
         <section className="relative py-24 pt-20">
           <div className="container">
             <div className="tab-content">
@@ -865,7 +1195,8 @@ const Profile = ({
             </div>
           </div>
         </section>
-      ) : (
+      )}
+      {!myNFTsActive && !myWalletActive && (
         //fetch collections here
         <section className="relative py-24 pt-20">
           <div className="container">

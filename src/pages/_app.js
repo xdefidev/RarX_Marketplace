@@ -936,7 +936,7 @@ export default function App({ Component, pageProps }) {
             db.collection("User").record(signer_address),
             signer_address,
             chain_Image,
-            true,
+            false,
             // chainImg,
             // blockURL,
           ]);
@@ -1532,6 +1532,7 @@ export default function App({ Component, pageProps }) {
       <Component
         {...pageProps}
         create_token={create_token}
+        symbol={symbol}
         create_collection={create_collection}
         all_collections={all_collections}
         signer={signer}

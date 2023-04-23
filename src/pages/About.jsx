@@ -14,6 +14,7 @@ import polygon from "../../public/chains/polygon.png";
 import scroll from "../../public/chains/scroll.png";
 import taiko from "../../public/chains/taiko.png";
 import goerli from "../../public/chains/goerli.png";
+import bscLogo from "../../public/chains/bsc.png";
 
 //tech
 import connext from "../../public/tech/connext.png";
@@ -32,7 +33,7 @@ const About = () => {
     <>
       <Head>
         <title>About - ShibLite Marketplace</title>
-        <meta name="description" content="About rarx marketplace" />
+        <meta name="description" content="About ShibLite marketplace" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
@@ -45,20 +46,15 @@ const About = () => {
               About ShibLite
             </h1>
             <p className="text-lg leading-normal dark:text-jacarta-300">
-              Rarx is a multi-chain and cross-chain advanced NFT marketplace
-              with features like AI NFT Generation, Cross-chain NFTs, On-chain
-              Collections, Realtime Notifications, Chat with artists, Membership
-              subscriptions for artists, etc. Build By A Team Of 2 Passionate
-              Developers During Scaling Ethereum 2023 Hackathon Organised by
-              Ethglobal. Below is the introduction video of ShibLite
-              Marketplace.
+              ShibLite is a multi-chain and cross-chain advanced NFT marketplace
+              with features like AI NFT Generation, On-chain Collections, etc.
             </p>
           </div>
         </div>
       </section>
 
       {/* <!-- YouTube Modal --> */}
-      <div
+      {/* <div
         className=" fade video-lightbox js-video-lightbox"
         tabindex="-1"
         aria-label="Youtube Modal"
@@ -81,7 +77,7 @@ const About = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* <!-- Team --> */}
       <section className="py-24">
@@ -209,102 +205,6 @@ const About = () => {
           Supported Chains
         </h2>
         <div className="grid grid-cols-2 py-8 sm:grid-cols-5 text-center">
-          <a
-            href="https://fvm.filecoin.io/"
-            target="_blank"
-            className="flex flex-col justify-center"
-          >
-            <Image
-              src={filecoin}
-              alt="filecoin"
-              className="h-[150px] w-[auto] m-4"
-              height={100}
-              width={100}
-            />
-            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
-              Filecoin
-            </h3>
-          </a>
-          <a
-            href="https://gnosischain.com"
-            target="_blank"
-            className="flex flex-col justify-center"
-          >
-            <Image
-              src={gnosis}
-              alt="gnosis"
-              className="h-[150px] w-[150px] m-4 self-center"
-              height={100}
-              width={100}
-            />
-            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
-              Gnosis
-            </h3>
-          </a>
-          <a
-            href="https://mantle.xyz"
-            target="_blank"
-            className="flex flex-col justify-center"
-          >
-            <Image
-              src={mantle}
-              alt="mantle"
-              className="h-[150px] w-[150px] m-4 self-center"
-              height={100}
-              width={100}
-            />
-            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
-              Mantle
-            </h3>
-          </a>
-          <a
-            href="https://polygon.technology/"
-            target="_blank"
-            className="flex flex-col justify-center"
-          >
-            <Image
-              src={polygon}
-              alt="polygon"
-              className="h-[150px] w-[150px] m-4 self-center"
-              height={100}
-              width={100}
-            />
-            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
-              Polygon
-            </h3>
-          </a>
-          <a
-            href="https://scroll.io/"
-            target="_blank"
-            className="flex flex-col justify-center"
-          >
-            <Image
-              src={scroll}
-              alt="scroll"
-              className="h-[150px]  w-[150px] m-4 self-center"
-              height={100}
-              width={100}
-            />
-            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
-              Scroll
-            </h3>
-          </a>
-          <a
-            href="https://taiko.xyz/"
-            target="_blank"
-            className="flex flex-col justify-center"
-          >
-            <Image
-              src={taiko}
-              alt="taiko"
-              className="h-[150px] w-[150px] m-4 self-center"
-              height={100}
-              width={100}
-            />
-            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
-              Taiko
-            </h3>
-          </a>
           <a href="#" className="flex flex-col justify-center">
             <Image
               src={goerli}
@@ -317,11 +217,23 @@ const About = () => {
               Ethereum
             </h3>
           </a>
+          <a href="#" className="flex flex-col justify-center">
+            <Image
+              src={bscLogo}
+              alt="goerli"
+              className="h-[120px] w-[120px] m-6 self-center"
+              height={100}
+              width={100}
+            />
+            <h3 className="font-display text-md text-jacarta-700 dark:text-white">
+              Binance Smart Chain
+            </h3>
+          </a>
         </div>
       </div>
 
       {/* <!-- tech --> */}
-      <div className="container">
+      {/* <div className="container">
         <h2 className="mb-6 mt-16 text-center font-display text-3xl text-jacarta-700 dark:text-white">
           Integrated Technologies
         </h2>
@@ -406,7 +318,7 @@ const About = () => {
               Superfluid
             </h3>
           </a>
-          {/* <a href="https://thegraph.com/" target="_blank" className="flex flex-col justify-center">
+          <a href="https://thegraph.com/" target="_blank" className="flex flex-col justify-center">
             <Image
               src={thegraph}
               alt="thegraph"
@@ -417,7 +329,7 @@ const About = () => {
             <h3 className="font-display text-md text-jacarta-700 dark:text-white">
               The Graph
             </h3>
-          </a> */}
+          </a>
           <a
             href="https://uma.xyz/"
             target="_blank"
@@ -466,8 +378,8 @@ const About = () => {
               Moralis
             </h3>
           </a>
-        </div>
-      </div>
+        </div> 
+      </div>*/}
     </>
   );
 };
