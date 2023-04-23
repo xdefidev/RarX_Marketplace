@@ -576,7 +576,7 @@ const Profile = ({
         <Image
           src={
             user_data?.coverImage?.replace(
-              "ipfs://",
+              /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
               "https://gateway.ipfscdn.io/ipfs/"
             ) || testNFT
           }
@@ -594,7 +594,7 @@ const Profile = ({
             <Image
               src={
                 user_data?.profileImage?.replace(
-                  "ipfs://",
+                  /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                   "https://gateway.ipfscdn.io/ipfs/"
                 ) || testNFT
               }
@@ -1073,7 +1073,7 @@ const Profile = ({
                           ImageSrc={
                             p?.image
                               ? p?.image?.replace(
-                                  "ipfs://",
+                                  /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                                   "https://gateway.ipfscdn.io/ipfs/"
                                 )
                               : "/test.jpg"
@@ -1167,7 +1167,7 @@ const Profile = ({
                         ImageSrc={
                           e.ipfsData.image
                             ? e.ipfsData.image?.replace(
-                                "ipfs://",
+                                /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                                 "https://gateway.ipfscdn.io/ipfs/"
                               )
                             : "/test.jpg"

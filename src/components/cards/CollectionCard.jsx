@@ -24,7 +24,10 @@ const CollectionCard = ({
       >
         <span className="w-[100%] h-[150px]">
           <Image
-            src={Cover?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
+            src={Cover?.replace(
+              /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
+              "https://gateway.ipfscdn.io/ipfs/"
+            )}
             alt="Cover Image"
             className="h-full w-[100%] rounded-[0.625rem] object-cover"
             loading="lazy"
@@ -34,7 +37,10 @@ const CollectionCard = ({
         </span>
         <span className="absolute bottom-[-25px] right-20">
           <Image
-            src={Logo?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
+            src={Logo?.replace(
+              /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
+              "https://gateway.ipfscdn.io/ipfs/"
+            )}
             alt="Logo"
             className="h-[75px] w-[75px] rounded-[100%] border b-4 border-black shadow-lg"
             loading="lazy"

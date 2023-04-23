@@ -300,7 +300,7 @@ export default function Home({ all_collections, nfts, artists }) {
                 index < 12 && (
                   <NftCard
                     ImageSrc={e.ipfsData.image?.replace(
-                      "ipfs://",
+                      /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                       "https://gateway.ipfscdn.io/ipfs/"
                     )}
                     Name={e.ipfsData.name}

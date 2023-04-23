@@ -98,7 +98,7 @@ const NFTPage = ({
               <div className="relative mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
                 <Image
                   src={nft?.ipfsData?.image?.replace(
-                    "ipfs://",
+                    /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                     "https://gateway.ipfscdn.io/ipfs/"
                   )}
                   width={100}
@@ -177,7 +177,7 @@ const NFTPage = ({
                           src={
                             nft?.ownerImage
                               ? nft?.ownerimage?.replace(
-                                  "ipfs://",
+                                  /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                                   "https://gateway.ipfscdn.io/ipfs/"
                                 )
                               : testNFT

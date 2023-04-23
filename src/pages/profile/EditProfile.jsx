@@ -182,7 +182,7 @@ const EditProfile = ({ signer_address, getUserData, updateData, polybase }) => {
               src={
                 datas?.coverimage &&
                 datas?.coverimage?.replace(
-                  "ipfs://",
+                  /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                   "https://gateway.ipfscdn.io/ipfs/"
                 )
               }
@@ -402,7 +402,7 @@ const EditProfile = ({ signer_address, getUserData, updateData, polybase }) => {
                           src={
                             typeof datas.profileImage == "string"
                               ? datas.profileimage?.replace(
-                                  "ipfs://",
+                                  /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                                   "https://gateway.ipfscdn.io/ipfs/"
                                 )
                               : profImg_preview

@@ -314,7 +314,7 @@ const BridgeNFT = ({
                                         <NftCard
                                           key={index}
                                           ImageSrc={e.image?.replace(
-                                            "ipfs://",
+                                            /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                                             "https://gateway.ipfscdn.io/ipfs/"
                                           )}
                                           Name={e.nft_name}

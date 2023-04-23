@@ -541,7 +541,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
         const url = await e.data.ipfsURL?.replace(
-          "ipfs://",
+          /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
           "https://gateway.ipfscdn.io/ipfs/"
         );
         const { data } = await axios.get(url);
@@ -1000,7 +1000,10 @@ export default function App({ Component, pageProps }) {
       obj.chain_image = res.data.chain_image;
       obj.chain_symbol = res.data.chain_symbol;
       const parsed_nft = await axios.get(
-        res.data.ipfsURL?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
+        res.data.ipfsURL?.replace(
+          /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
+          "https://gateway.ipfscdn.io/ipfs/"
+        )
       );
       obj.ipfsData = parsed_nft.data;
       return obj;
@@ -1074,7 +1077,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
         const url = await e.data.ipfsURL?.replace(
-          "ipfs://",
+          /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
           "https://gateway.ipfscdn.io/ipfs/"
         );
         const { data } = await axios.get(url);
@@ -1108,7 +1111,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
         const url = e.data.ipfsURL?.replace(
-          "ipfs://",
+          /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
           "https://gateway.ipfscdn.io/ipfs/"
         );
         const { data } = await axios.get(url);
@@ -1147,7 +1150,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
         const url = e.data.ipfsURL?.replace(
-          "ipfs://",
+          /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
           "https://gateway.ipfscdn.io/ipfs/"
         );
         const { data } = await axios.get(url);
@@ -1174,7 +1177,7 @@ export default function App({ Component, pageProps }) {
       for (const e of res.data) {
         let obj = {};
         const ipfsURL = e.data.ipfsURL?.replace(
-          "ipfs://",
+          /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
           "https://gateway.ipfscdn.io/ipfs/"
         );
         const res = await axios.get(ipfsURL);

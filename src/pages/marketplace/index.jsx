@@ -105,7 +105,7 @@ const Marketplace = ({
                         ImageSrc={
                           e.ipfsData.image
                             ? e.ipfsData.image?.replace(
-                                "ipfs://",
+                                /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                                 "https://gateway.ipfscdn.io/ipfs/"
                               )
                             : "/test.jpg"
@@ -129,7 +129,7 @@ const Marketplace = ({
                         ImageSrc={
                           e.ipfsData.image
                             ? e.ipfsData.image?.replace(
-                                "ipfs://",
+                                /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                                 "https://gateway.ipfscdn.io/ipfs/"
                               )
                             : "/test.jpg"

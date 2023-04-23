@@ -176,7 +176,7 @@ const Collection = ({
           <div className="relative mt-24">
             <Image
               src={collection.coverImage?.replace(
-                "ipfs://",
+                /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                 "https://gateway.ipfscdn.io/ipfs/"
               )}
               width={100}
@@ -192,7 +192,7 @@ const Collection = ({
               <div className="relative">
                 <Image
                   src={collection.logo?.replace(
-                    "ipfs://",
+                    /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                     "https://gateway.ipfscdn.io/ipfs/"
                   )}
                   width={100}
@@ -695,7 +695,7 @@ const Collection = ({
                           ImageSrc={
                             e.ipfsData.image
                               ? e.ipfsData.image?.replace(
-                                  "ipfs://",
+                                  /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
                                   "https://gateway.ipfscdn.io/ipfs/"
                                 )
                               : "/test.jpg"
