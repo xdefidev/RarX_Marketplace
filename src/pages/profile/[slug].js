@@ -321,6 +321,7 @@ const Profile = ({
 
   const runApp = async () => {
     try {
+      set_loading(true);
       // const chainID = EvmChain.ETHEREUM;
       const response = await Moralis.EvmApi.nft.getWalletNFTs({
         chain: chainIdMain,
@@ -329,6 +330,7 @@ const Profile = ({
       setWalletNft(
         response?.jsonResponse?.result && response.jsonResponse.result
       );
+      set_loading(false);
       console.log(response?.jsonResponse?.result, "response.nft");
     } catch (error) {
       console.log(error);
@@ -386,6 +388,7 @@ const Profile = ({
   async function checkWalletNft(collectionId, nftId) {
     try {
       // console.log(typeof collectionId);
+      // set_loading(true);
       const db = await polybase();
 
       let nftStatus,
@@ -416,6 +419,7 @@ const Profile = ({
   }
 
   async function getStatus() {
+    set_loading(true);
     const newResults = [];
     for (const item of walletNFTs) {
       const address = toChecksumAddress(item.token_address);
@@ -427,6 +431,7 @@ const Profile = ({
       newResults.push(nftStatus);
     }
     setStatusArray(newResults);
+    set_loading(false);
     localStorage.setItem("statusArr", newResults);
   }
 
