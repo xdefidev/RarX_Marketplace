@@ -297,7 +297,8 @@ export default function Home({ all_collections, nfts, artists }) {
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
             {nfts.map(
               (e, index) =>
-                index < 12 && (
+                index < 12 &&
+                e.isListed == true && (
                   <NftCard
                     ImageSrc={e.ipfsData.image?.replace(
                       /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
