@@ -491,6 +491,8 @@ const Profile = ({
         chain_Image,
         false,
       ]);
+
+    router.reload();
   }
 
   async function listNft(
@@ -544,6 +546,7 @@ const Profile = ({
         token_uri,
         "0",
       ]);
+    router.reload();
   }
 
   useEffect(() => {
