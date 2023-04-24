@@ -1082,7 +1082,7 @@ const Profile = ({
                           }
                           Name={p?.name}
                           Description={p?.description}
-                          Address={e.token_address}
+                          Address={toChecksumAddress(e.token_address)}
                           tokenId={e.token_id}
                           chainImgPre={"../"}
                           listedBool={false}
