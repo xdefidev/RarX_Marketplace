@@ -15,6 +15,7 @@ import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
+import { checkAddressChecksum, toChecksumAddress } from "web3-utils";
 
 const Profile = ({
   get_my_collections,
@@ -417,9 +418,10 @@ const Profile = ({
   async function getStatus() {
     const newResults = [];
     for (const item of walletNFTs) {
+      const address = toChecksumAddress(item.token_address);
       const nftStatus = await checkWalletNft(
-        item.token_address,
-        item.token_address + "/" + item.token_id
+        address,
+        address + "/" + item.token_id
       );
       console.log(nftStatus, "sey");
       newResults.push(nftStatus);
@@ -1098,13 +1100,13 @@ const Profile = ({
                             <button
                               onClick={() =>
                                 listCollection(
-                                  e?.token_address,
+                                  toChecksumAddress(e?.token_address),
                                   p?.name,
                                   p?.image,
                                   p?.image,
                                   e?.symbol,
                                   p?.description,
-                                  e?.owner_of
+                                  toChecksumAddress(e?.owner_of)
                                 )
                               }
                               className="inline-block rounded-full bg-accent py-3 px-4 text-center text-xs text-white shadow-accent-volume transition-all hover:bg-accent-dark"
@@ -1119,7 +1121,7 @@ const Profile = ({
                                 listNft(
                                   e?.token_id,
                                   e?.token_uri,
-                                  e?.token_address,
+                                  toChecksumAddress(e?.token_address),
                                   p?.properties,
                                   p?.name,
                                   p?.image,
