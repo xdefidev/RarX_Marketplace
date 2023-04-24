@@ -423,6 +423,7 @@ const Profile = ({
     const newResults = [];
     for (const item of walletNFTs) {
       const address = toChecksumAddress(item.token_address);
+
       const nftStatus = await checkWalletNft(
         address,
         address + "/" + item.token_id
