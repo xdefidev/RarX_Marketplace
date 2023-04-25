@@ -224,11 +224,9 @@ export default function App({ Component, pageProps }) {
         setBlockchain("BSC Mainnet");
         setBlockURL("https://bscscan.com/");
       } else {
-        setCollectionAddress("0xcB6BD973E79Ff196B50F9c32076E6c2e145a46cd");
+        setCollectionAddress("");
         setMarketplaceAddress("0xcF5CB7c9ae635524f691AdeC6743d835cC2d4908");
-        setCollectionFactoryAddress(
-          "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
-        );
+        setCollectionFactoryAddress("");
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockchain("PolygonMum");

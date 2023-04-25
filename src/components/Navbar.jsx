@@ -1333,7 +1333,7 @@ const Navbar = ({
                             Create NFT
                           </span>
                         </Link>
-                        <Link
+                        {/* <Link
                           href="/Notifications"
                           className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                         >
@@ -1364,7 +1364,7 @@ const Navbar = ({
                           <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
                             Transactions
                           </span>
-                        </Link>
+                        </Link> */}
                         <a
                           onClick={() => signOut()}
                           className="cursor-pointer flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
@@ -1504,7 +1504,7 @@ const Navbar = ({
                 Edit Profile
               </span>
             </Link>
-            <Link
+            {/* <Link
               href="/Notifications"
               className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
             >
@@ -1535,7 +1535,7 @@ const Navbar = ({
               <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
                 Transactions
               </span>
-            </Link>
+            </Link> */}
             <a
               href="#"
               className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
