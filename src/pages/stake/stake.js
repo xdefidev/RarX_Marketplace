@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 // import { Flex, Box, Text } from "@chakra-ui/react";
 // import { NFTContext } from "../context/NFTContext";
@@ -7,9 +7,26 @@ import { ethers } from "ethers";
 // import { Loader, SearchBar, Banner, Button } from "../components";
 // import { Network } from "@ethersproject/networks";
 import Head from "next/head";
+import NftCard from "@/components/cards/NftCard";
+import { checkAddressChecksum, toChecksumAddress } from "web3-utils";
 // import images from "../assets";
 
-const Stake = () => {
+const Stake = ({
+  get_my_collections,
+  signer,
+  signer_address,
+  fetch_nfts_from_user_wallet,
+  RARX_CHANNEL_ADDRESS,
+  setChainIdMain,
+  chainIdMain,
+  getUserData,
+  blockURL,
+  fetch_collections_polybase,
+  connectToWallet,
+  polybase,
+  symbol,
+  defaultCollectionAddress,
+}) => {
   //   const {
   //     fetchMyNFTsOrCreatedNFTs,
   //     claimRewards,
@@ -23,6 +40,7 @@ const Stake = () => {
   const [nfts, setNfts] = useState([]);
   const [nftsCopy, setNftsCopy] = useState([]);
   const [stakedNFTS, setStakedNFTs] = useState([]);
+  const [unStakedNFTS, setUnStakedNFTs] = useState([]);
   const [claimable, setClaimable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [activeSelect, setActiveSelect] = useState("Recently Added");
@@ -35,14 +53,25 @@ const Stake = () => {
       new providers.JsonRpcProvider(`https://api.baobab.klaytn.net:8651`),
   };
 
-  //   useEffect(() => {
-  //     setIsLoading(true);
-  //     fetchMyNFTsOrCreatedNFTs("fetchMyNFTs").then((items) => {
-  //       setNfts(items);
-  //       setNftsCopy(items);
-  //       setIsLoading(false);
-  //     });
-  //   }, []);
+  async function user_market_nfts() {
+    const nfts1 = await fetch_nfts_from_user_wallet(signer_address);
+    console.log("defaultCollectionAddress", defaultCollectionAddress);
+    const nfts2 = nfts1.filter((item) => {
+      console.log(item);
+      return item.collectionId == defaultCollectionAddress;
+    });
+    console.log("nfts2", nfts2);
+    setUnStakedNFTs(nfts2);
+  }
+
+  useEffect(() => {
+    async function run() {
+      await connectToWallet();
+      user_market_nfts();
+    }
+
+    run();
+  }, [signer_address, chainIdMain]);
 
   //   useEffect(() => {
   //     setIsLoading(true);
@@ -263,6 +292,53 @@ const Stake = () => {
                 action={() => Withdraw(nft.tokenId)}
               />
             ))} */}
+          </div>
+        )}
+      </div>
+      <div className="w-full mt-8 flex-col justify-center text-center pl-16 pr-16 sm:pl-2 sm:pr-2">
+        <h1 className="font-poppins mt-4 text-slate-600 text-3xl font-extrabold">
+          Your Unstaked NFTs
+        </h1>
+        {unStakedNFTS.length === 0 ? (
+          <div className="flex-col sm:p-4 p-16 border border-nft-gray-2 mt-4 rounded-md dark:bg-nft-black-1 bg-slate-800 h-[300px] flex content-center justify-center">
+            <h1 className="font-poppins text-slate-200 text-2xl font-extrabold">
+              No NFTs owned
+            </h1>
+            <p className="font-poppins text-slate-200 text-1xl font-bold">
+              Buy a ShibLite NFT first
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4 py-12 px-0 sm:px-4">
+            {unStakedNFTS?.map((nft, index) => (
+              <a href="/">
+                <NftCard
+                  key={index}
+                  ImageSrc={
+                    nft?.ipfsData?.image
+                      ? nft?.ipfsData?.image?.replace(
+                          /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
+                          "https://gateway.ipfscdn.io/ipfs/"
+                        )
+                      : "/test.jpg"
+                  }
+                  Name={nft?.ipfsData?.name}
+                  Description={nft?.ipfsData?.description}
+                  Address={toChecksumAddress(nft?.collectionId)}
+                  tokenId={nft?.tokenId}
+                  chainImgPre={"../"}
+                  listedBool={false}
+                  chain_image={
+                    chainIdMain == 1
+                      ? "chains/goerli.png"
+                      : chainIdMain == "56"
+                      ? "chains/bsc.png"
+                      : "chains/polygon.png"
+                  }
+                  chain_symbol={nft?.chain_symbol}
+                />
+              </a>
+            ))}
           </div>
         )}
       </div>

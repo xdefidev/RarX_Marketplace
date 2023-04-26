@@ -224,9 +224,11 @@ export default function App({ Component, pageProps }) {
         setBlockchain("BSC Mainnet");
         setBlockURL("https://bscscan.com/");
       } else {
-        setCollectionAddress("");
+        setCollectionAddress("0xcB6BD973E79Ff196B50F9c32076E6c2e145a46cd");
         setMarketplaceAddress("0xcF5CB7c9ae635524f691AdeC6743d835cC2d4908");
-        setCollectionFactoryAddress("");
+        setCollectionFactoryAddress(
+          "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
+        );
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockchain("PolygonMum");
@@ -1147,6 +1149,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_block = e.data.chain_block;
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
+        obj.collectionId = e.data.collectionId;
         const url = e.data.ipfsURL?.replace(
           /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
           "https://gateway.ipfscdn.io/ipfs/"
