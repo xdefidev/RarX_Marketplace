@@ -652,6 +652,19 @@ const Navbar = ({
                   </ul>
                 </li>
 
+                <li>
+                  <a
+                    href="/stake/stake"
+                    className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
+                    id="navDropdown-4"
+                    aria-expanded="false"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                  >
+                    Stake
+                  </a>
+                </li>
+
                 {/* <li className="js-nav-dropdown group relative">
                   <a
                     href="#"
