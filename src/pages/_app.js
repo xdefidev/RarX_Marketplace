@@ -214,10 +214,10 @@ export default function App({ Component, pageProps }) {
         setBlockURL("https://etherscan.io/");
       } else if (chainId == 56) {
         // matic
-        setCollectionAddress("0xA489aB9Bb841c772192f8fF9Ca7f74be5A42C793");
+        setCollectionAddress("0xa7953bf159A938630C50Df9d712e72d6254d7019");
         setMarketplaceAddress("0x17c309d1fd44463f5B94f95A33bcE3BaC383Ea68");
         setCollectionFactoryAddress(
-          "0x1d3aE96180C10864528AAed203C00326D4CFc260"
+          "0x01c00C36C431017aF981D9C4B7DAc551c3310D9F"
         );
         setChainImg(bscLogo);
         setSymbol("BNB");

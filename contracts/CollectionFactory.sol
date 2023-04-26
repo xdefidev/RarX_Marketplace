@@ -2,16 +2,16 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
-import './NFTCollection.sol';
-contract CollectionFactory {
+import "./NFTCollection.sol";
 
+contract CollectionFactory {
     using Counters for Counters.Counter;
     Counters.Counter private _collectionId;
     NFTCollection private nftMarketplace;
-    
+
     address payable owner;
 
-    struct Collection{
+    struct Collection {
         uint256 collectionId;
         string name;
         string symbol;
@@ -19,10 +19,10 @@ contract CollectionFactory {
         string image;
         string logo;
         address owner;
-        NFTCollection collection_address; 
+        NFTCollection collection_address;
     }
 
-    event CollectionCreated (
+    event CollectionCreated(
         uint256 collectionId,
         string name,
         string symbol,
@@ -32,11 +32,11 @@ contract CollectionFactory {
         address owner,
         NFTCollection collection_address
     );
-    
+
     mapping(address => Collection[]) private userToCollections;
     mapping(uint256 => Collection) private idToCollection;
 
-    constructor(){
+    constructor() {
         owner = payable(msg.sender);
     }
 
@@ -52,6 +52,8 @@ contract CollectionFactory {
             collection_name,
             collection_symbol
         );
+
+        new_nft_collection.transferOwnership(msg.sender);
 
         Collection memory newCollection = Collection(
             collectionCount,
@@ -77,44 +79,45 @@ contract CollectionFactory {
             collection_logo,
             msg.sender,
             new_nft_collection
-            );
+        );
     }
 
-    function getAllCollections() public view returns(Collection[] memory) {
+    function getAllCollections() public view returns (Collection[] memory) {
         uint256 collectionCount = _collectionId.current();
         Collection[] memory collections = new Collection[](collectionCount);
         require(collectionCount >= 0, "you have not created any collection");
-        for(uint256 i = 0; i < collectionCount; i++){
+        for (uint256 i = 0; i < collectionCount; i++) {
             Collection storage current_collection = idToCollection[i];
             collections[i] = current_collection;
         }
         return collections;
     }
-    
-    function getCollectionById(uint256 collection_id) public view returns (Collection memory) {
+
+    function getCollectionById(
+        uint256 collection_id
+    ) public view returns (Collection memory) {
         return idToCollection[collection_id];
     }
 
-    function getMyCollections() public view returns (Collection[] memory){
+    function getMyCollections() public view returns (Collection[] memory) {
         uint256 collectionCount = _collectionId.current();
         uint256 itemCount = 0;
         uint256 currentIndex = 0;
 
-        for(uint256 i = 0; i< collectionCount; i++){
-            if(idToCollection[i].owner == msg.sender){
+        for (uint256 i = 0; i < collectionCount; i++) {
+            if (idToCollection[i].owner == msg.sender) {
                 itemCount += 1;
             }
         }
 
         Collection[] memory collections = new Collection[](itemCount);
-        for(uint256 i = 0; i < collectionCount; i++){
-            if(idToCollection[i].owner == msg.sender){
+        for (uint256 i = 0; i < collectionCount; i++) {
+            if (idToCollection[i].owner == msg.sender) {
                 Collection storage collection = idToCollection[i];
-                collections[currentIndex] = collection;     
-                currentIndex += 1;       
+                collections[currentIndex] = collection;
+                currentIndex += 1;
             }
         }
         return collections;
     }
 }
-
