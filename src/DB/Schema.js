@@ -17,6 +17,7 @@ collection NFT {
     description: string;
     isListed: boolean;
     listingPrice: string;
+    isStaked: boolean;
     chain_block: string;
     chain_image: string;
     chain_symbol: string;
@@ -68,6 +69,7 @@ collection NFT {
         this.listingPrice = listingPrice;
         this.marketAddress = {collectionId: "", id: ""};
         this.seller = {collectionId: "", id: ""};
+        this.isStaked = false;
     }
 
   cancel_listing(){
@@ -90,6 +92,12 @@ collection NFT {
     this.isListed = false;
     this.listingPrice = "0";
     this.ownerWallet = address.id;
+  }
+  
+  updateStake(stake: boolean) {
+
+    this.isStaked = stake;
+    
   }
   
 }
@@ -185,5 +193,4 @@ collection User {
         this.socials = socials;
         this.isArtist = isArtist;
     }
-}
-`);
+}`);

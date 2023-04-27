@@ -9,6 +9,7 @@ import { ethers } from "ethers";
 import Head from "next/head";
 import NftCard from "@/components/cards/NftCard";
 import { checkAddressChecksum, toChecksumAddress } from "web3-utils";
+import { MdEventAvailable } from "react-icons/md";
 // import images from "../assets";
 
 const Stake = ({
@@ -27,6 +28,9 @@ const Stake = ({
   symbol,
   defaultCollectionAddress,
   stake_nft,
+  unstake_nft,
+  available_reward,
+  claim_reward,
 }) => {
   //   const {
   //     fetchMyNFTsOrCreatedNFTs,
@@ -45,6 +49,7 @@ const Stake = ({
   const [claimable, setClaimable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [activeSelect, setActiveSelect] = useState("Recently Added");
+  const [reward, set_reward] = useState("0.00");
   const [balance, setBalance] = useState(0);
 
   const klay = {
@@ -68,6 +73,8 @@ const Stake = ({
     async function run() {
       await connectToWallet();
       user_market_nfts();
+      const reward = await available_reward();
+      set_reward(reward);
     }
 
     run();
@@ -249,17 +256,16 @@ const Stake = ({
             /> */}
             <div className="bg-slate-800 text-white w-full h-[150px] p-4 font-display rounded shadow-xl">
               <h2 className="h-[60px]">Claimable Rewards</h2>
-              <p className="text-slate-400">0.000</p>
-            </div>
-            <div className="bg-slate-800 text-white w-full h-[150px] p-4 font-display rounded shadow-xl">
-              <h2 className="h-[60px]">Current Balance</h2>
-              <p className="text-slate-400">0.000</p>
+              <p className="text-slate-400">{reward} SHIBLITE</p>
             </div>
           </div>
 
           {/* <Step title="Current Balance" amount={balance} /> */}
         </div>
-        <button className="inline-block rounded bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+        <button
+          onClick={claim_reward}
+          className="inline-block rounded bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+        >
           Claim Rewards
         </button>
         {/* <Button
@@ -270,7 +276,7 @@ const Stake = ({
         /> */}
       </div>
 
-      <div className="w-full mt-8 flex-col justify-center text-center pl-16 pr-16 sm:pl-2 sm:pr-2">
+      {/* <div className="w-full mt-8 flex-col justify-center text-center pl-16 pr-16 sm:pl-2 sm:pr-2">
         <h1 className="font-poppins mt-4 text-slate-600 text-3xl font-extrabold">
           Your Staked NFTs
         </h1>
@@ -285,19 +291,19 @@ const Stake = ({
           </div>
         ) : (
           <div className="mt-3 w-full flex flex-wrap">
-            {/* {stakedNFTS?.map((nft) => (
+            {stakedNFTS?.map((nft) => (
               <NFTCard
                 key={`nft-${nft.tokenId}`}
                 nft={nft}
                 action={() => Withdraw(nft.tokenId)}
               />
-            ))} */}
+            ))}
           </div>
         )}
-      </div>
+      </div> */}
       <div className="w-full mt-8 flex-col justify-center text-center pl-16 pr-16 sm:pl-2 sm:pr-2">
         <h1 className="font-poppins mt-4 text-slate-600 text-3xl font-extrabold">
-          Your Unstaked NFTs
+          Your NFTs
         </h1>
         {unStakedNFTS.length === 0 ? (
           <div className="flex-col sm:p-4 p-16 border border-nft-gray-2 mt-4 rounded-md dark:bg-nft-black-1 bg-slate-800 h-[300px] flex content-center justify-center">
@@ -305,46 +311,59 @@ const Stake = ({
               No NFTs owned
             </h1>
             <p className="font-poppins text-slate-200 text-1xl font-bold">
-              Buy a ShibLite NFT first
+              Buy or Unlist a ShibLite NFT first
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4 py-12 px-0 sm:px-4">
-            {unStakedNFTS?.map((nft, index) => (
-              <a>
-                <NftCard
-                  key={index}
-                  ImageSrc={
-                    nft?.ipfsData?.image
-                      ? nft?.ipfsData?.image?.replace(
-                          /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
-                          "https://gateway.ipfscdn.io/ipfs/"
-                        )
-                      : "/test.jpg"
-                  }
-                  Name={nft?.ipfsData?.name}
-                  Description={nft?.ipfsData?.description}
-                  Address={toChecksumAddress(nft?.collectionId)}
-                  tokenId={nft?.tokenId}
-                  chainImgPre={"../"}
-                  listedBool={false}
-                  chain_image={
-                    chainIdMain == 1
-                      ? "chains/goerli.png"
-                      : chainIdMain == "56"
-                      ? "chains/bsc.png"
-                      : "chains/polygon.png"
-                  }
-                  chain_symbol={nft?.chain_symbol}
-                />
-                <button
-                  className="inline-block rounded bg-accent py-3 px-8 mt-2 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                  onClick={() => stake_nft(nft?.tokenId)}
-                >
-                  Stake
-                </button>
-              </a>
-            ))}
+            {unStakedNFTS?.map(
+              (nft, index) =>
+                nft.isListed !== true && (
+                  <a>
+                    <NftCard
+                      key={index}
+                      ImageSrc={
+                        nft?.ipfsData?.image
+                          ? nft?.ipfsData?.image?.replace(
+                              /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
+                              "https://gateway.ipfscdn.io/ipfs/"
+                            )
+                          : "/test.jpg"
+                      }
+                      Name={nft?.ipfsData?.name}
+                      Description={nft?.ipfsData?.description}
+                      Address={toChecksumAddress(nft?.collectionId)}
+                      tokenId={nft?.tokenId}
+                      chainImgPre={"../"}
+                      listedBool={false}
+                      chain_image={
+                        chainIdMain == 1
+                          ? "chains/goerli.png"
+                          : chainIdMain == "56"
+                          ? "chains/bsc.png"
+                          : "chains/polygon.png"
+                      }
+                      chain_symbol={nft?.chain_symbol}
+                    />
+
+                    {nft?.isStaked ? (
+                      <button
+                        className="inline-block rounded bg-accent py-3 px-8 mt-2 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        onClick={() => unstake_nft(nft?.tokenId)}
+                      >
+                        Unstake
+                      </button>
+                    ) : (
+                      <button
+                        className="inline-block rounded bg-accent py-3 px-8 mt-2 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        onClick={() => stake_nft(nft?.tokenId)}
+                      >
+                        Stake
+                      </button>
+                    )}
+                  </a>
+                )
+            )}
           </div>
         )}
       </div>

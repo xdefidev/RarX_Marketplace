@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
 import "@/styles/tailwind.css";
 import "@/styles/custom.css";
-import { ethers, Wallet } from "ethers";
+import { ethers, Wallet, BigNumber } from "ethers";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 import Stake from "../../artifacts/contracts/Stake.sol/NFTStake.json";
@@ -235,6 +235,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress(
           "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
         );
+        setStakingContract("0xb3Fd39C30F847C127cb1abAE3f0A23eF6eA6E736");
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockchain("PolygonMum");
@@ -501,12 +502,12 @@ export default function App({ Component, pageProps }) {
   };
 
   const stake = () => {
-    const marketplace_contract = new ethers.Contract(
+    const stake_contract = new ethers.Contract(
       stakingContract,
       Stake.abi,
       signer
     );
-    return marketplace_contract;
+    return stake_contract;
   };
 
   const fetch_artists = async () => {
@@ -650,26 +651,86 @@ export default function App({ Component, pageProps }) {
 
       const stakeRec = await contract.stakers(signer_address);
       console.log(stakeRec, "stakeRec");
-      // if (txn.hash) {
-      //   const db = await polybase();
-      //   const res = await db
-      //     .collection("Stake")
-      //     .record(`${collection_address}/${tokenId}`)
-      //     .call("listNFT", [
-      //       ethers.utils.parseEther(price).toString(),
-      //       chainIdMain.toString(),
-      //       // db.collection("User").record(marketplaceAddress.toLowerCase()),
-      //     ]);
-      //   // console.log({ polybaseres: res });
+      if (txn.hash) {
+        const db = await polybase();
+        const res = await db
+          .collection("NFT")
+          .record(`${defaultCollectionAddress}/${tokenId}`)
+          .call("updateStake", [true]);
+        // console.log({ polybaseres: res });
 
-      //   sendNFTListNoti(tokenId, price);
-      //   setTimeout(() => {
-      //     router.reload();
-      //   }, 3000);
-      // }
+        sendNFTStakeNoti(tokenId);
+        setTimeout(() => {
+          router.reload();
+        }, 3000);
+      }
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const unstake_nft = async (tokenId) => {
+    // console.log({
+    //   tokenId,
+    //   price,
+    //   collection_address,
+    //   signer,
+    //   marketplaceAddress,
+    // });
+    // const user_address = await signer.getAddress();
+    const collection_contract = rarx_collection(
+      defaultCollectionAddress,
+      signer
+    );
+    try {
+      // const txnApproval = await collection_contract.setApprovalForAll(
+      //   stakingContract,
+      //   true
+      // );
+      // await txnApproval.wait();
+      const contract = stake();
+
+      const txn = await contract.withdraw(tokenId, {
+        gasLimit: 500000,
+      });
+      await txn.wait();
+
+      const stakeRec = await contract.stakers(signer_address);
+      console.log(stakeRec, "stakeRec");
+      if (txn.hash) {
+        const db = await polybase();
+        const res = await db
+          .collection("NFT")
+          .record(`${defaultCollectionAddress}/${tokenId}`)
+          .call("updateStake", [false]);
+        // console.log({ polybaseres: res });
+
+        sendNFTunStakeNoti(tokenId);
+        setTimeout(() => {
+          router.reload();
+        }, 3000);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const claim_reward = async () => {
+    const contract = stake();
+
+    const txn = await contract.claimRewards({
+      gasLimit: 500000,
+    });
+    await txn.wait();
+  };
+
+  const available_reward = async () => {
+    if (!stakingContract) return;
+    console.log(stakingContract, "stakingContract");
+    const contract = new ethers.Contract(stakingContract, Stake.abi, provider);
+    const txn = await contract.availableRewards(signer_address);
+
+    return ethers.utils.formatEther(txn);
   };
 
   // execute sales
@@ -1215,6 +1276,7 @@ export default function App({ Component, pageProps }) {
         obj.chain_image = e.data.chain_image;
         obj.chain_symbol = e.data.chain_symbol;
         obj.collectionId = e.data.collectionId;
+        obj.isStaked = e.data.isStaked;
         const url = e.data.ipfsURL?.replace(
           /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
           "https://gateway.ipfscdn.io/ipfs/"
@@ -1342,29 +1404,48 @@ export default function App({ Component, pageProps }) {
     } catch (e) {
       console.log(e);
     }
-    // const signer = new ethers.Wallet(
-    //   `${process.env.NEXT_PUBLIC_OWNER_PRIVATE_KEY}`
-    // );
-    // try {
-    //   const apiResponse = await PushAPI.payloads.sendNotification({
-    //     signer,
-    //     type: 3,
-    //     identityType: 2,
-    //     notification: {
-    //       title: `${NftName} is listed for sale on ShibLite`,
-    //       body: `Congratulations, you have successfully listed ${NftName} on sale for ${NftPrice}`,
-    //     },
-    //     payload: {
-    //       title: `${NftName} is listed for sale on ShibLite`,
-    //       body: `Congratulations, you have successfully listed ${NftName} on sale for ${NftPrice}`,
-    //     },
-    //     recipients: `eip155:80001:${signer_address}`,
-    //     channel: `eip155:80001:${RARX_CHANNEL_ADDRESS}`,
-    //     env: "staging",
-    //   });
-    // } catch (err) {
-    //   console.error("Error: ", err);
-    // }
+  };
+
+  const sendNFTStakeNoti = async (NftId) => {
+    try {
+      // console.log(NftName, NftPrice);
+      toast.success(
+        "Congratulations, you have successfully staked id:" + NftId,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const sendNFTunStakeNoti = async (NftId) => {
+    try {
+      // console.log(NftName, NftPrice);
+      toast.success(
+        "Congratulations, you have successfully unstaked id:" + NftId,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   // sending nft buy notification
@@ -1625,6 +1706,9 @@ export default function App({ Component, pageProps }) {
         nfts={nfts}
         list_nft={list_nft}
         stake_nft={stake_nft}
+        unstake_nft={unstake_nft}
+        available_reward={available_reward}
+        claim_reward={claim_reward}
         fetch_listed_nfts={fetch_listed_nfts}
         RARX_CHANNEL_ADDRESS={RARX_CHANNEL_ADDRESS}
         chainImg={chainImg}

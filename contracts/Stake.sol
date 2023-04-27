@@ -224,4 +224,17 @@ contract NFTStake is ReentrancyGuard {
             return new StakedToken[](0);
         }
     }
+
+    function onERC721Received(
+        address _operator,
+        address _from,
+        uint256 _tokenId,
+        bytes calldata _data
+    ) external returns (bytes4) {
+        // Your code here
+        return
+            bytes4(
+                keccak256("onERC721Received(address,address,uint256,bytes)")
+            );
+    }
 }
