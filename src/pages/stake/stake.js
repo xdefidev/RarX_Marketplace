@@ -26,6 +26,7 @@ const Stake = ({
   polybase,
   symbol,
   defaultCollectionAddress,
+  stake_nft,
 }) => {
   //   const {
   //     fetchMyNFTsOrCreatedNFTs,
@@ -310,7 +311,7 @@ const Stake = ({
         ) : (
           <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4 py-12 px-0 sm:px-4">
             {unStakedNFTS?.map((nft, index) => (
-              <a href="/">
+              <a>
                 <NftCard
                   key={index}
                   ImageSrc={
@@ -336,6 +337,12 @@ const Stake = ({
                   }
                   chain_symbol={nft?.chain_symbol}
                 />
+                <button
+                  className="inline-block rounded bg-accent py-3 px-8 mt-2 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  onClick={() => stake_nft(nft?.tokenId)}
+                >
+                  Stake
+                </button>
               </a>
             ))}
           </div>

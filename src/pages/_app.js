@@ -7,11 +7,12 @@ import "@/styles/custom.css";
 import { ethers, Wallet } from "ethers";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import NFTMarketplace from "../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
+import Stake from "../../artifacts/contracts/Stake.sol/NFTStake.json";
 import NFTCollection from "../../artifacts/contracts/NFTCollection.sol/NFTCollection.json";
 import xChainPolygon from "../../artifacts/contracts/xChainPolygon.sol/xChainPolygon.json";
 import CollectionFactory from "../../artifacts/contracts/CollectionFactory.sol/CollectionFactory.json";
-import uma_verification from "../../artifacts/contracts/UMAVerification/uma_verification.json";
-import UMA_factory_contract from "../../artifacts/contracts/UMA/uma_info.json";
+import uma_verification from "../../artifacts/contracts/UMAVerification.sol/UMAVerify.json";
+import UMA_factory_contract from "../../artifacts/contracts/UMAFactory.sol/UMAFactory.json";
 import { IntmaxWalletSigner } from "webmax";
 import axios from "axios";
 import * as PushAPI from "@pushprotocol/restapi";
@@ -63,6 +64,8 @@ export default function App({ Component, pageProps }) {
   const [blockchain, setBlockchain] = useState("");
   const [defaultCollectionAddress, setCollectionAddress] = useState("");
   const [marketplaceAddress, setMarketplaceAddress] = useState("");
+  const [stakingContract, setStakingContract] = useState("");
+
   const [collectionFactoryAddress, setCollectionFactoryAddress] = useState("");
   const [txnHashCollection, setTxnHashCollection] = useState("");
 
@@ -199,6 +202,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress(
           "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
         );
+        setStakingContract("0xb3Fd39C30F847C127cb1abAE3f0A23eF6eA6E736");
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockchain("Polygon Mumbai");
@@ -208,6 +212,7 @@ export default function App({ Component, pageProps }) {
         setCollectionAddress("");
         setMarketplaceAddress("");
         setCollectionFactoryAddress("");
+        setStakingContract("");
         setChainImg(goerliLogo);
         setSymbol("ETH");
         setBlockchain("Ethereum");
@@ -219,6 +224,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress(
           "0x01c00C36C431017aF981D9C4B7DAc551c3310D9F"
         );
+        setStakingContract("");
         setChainImg(bscLogo);
         setSymbol("BNB");
         setBlockchain("BSC Mainnet");
@@ -494,6 +500,15 @@ export default function App({ Component, pageProps }) {
     return marketplace_contract;
   };
 
+  const stake = () => {
+    const marketplace_contract = new ethers.Contract(
+      stakingContract,
+      Stake.abi,
+      signer
+    );
+    return marketplace_contract;
+  };
+
   const fetch_artists = async () => {
     try {
       const db = await polybase();
@@ -602,6 +617,56 @@ export default function App({ Component, pageProps }) {
           router.reload();
         }, 3000);
       }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const stake_nft = async (tokenId) => {
+    // console.log({
+    //   tokenId,
+    //   price,
+    //   collection_address,
+    //   signer,
+    //   marketplaceAddress,
+    // });
+    // const user_address = await signer.getAddress();
+    const collection_contract = rarx_collection(
+      defaultCollectionAddress,
+      signer
+    );
+    try {
+      const txnApproval = await collection_contract.setApprovalForAll(
+        stakingContract,
+        true
+      );
+      await txnApproval.wait();
+      const contract = stake();
+
+      const txn = await contract.stake(tokenId, {
+        gasLimit: 500000,
+      });
+      await txn.wait();
+
+      const stakeRec = await contract.stakers(signer_address);
+      console.log(stakeRec, "stakeRec");
+      // if (txn.hash) {
+      //   const db = await polybase();
+      //   const res = await db
+      //     .collection("Stake")
+      //     .record(`${collection_address}/${tokenId}`)
+      //     .call("listNFT", [
+      //       ethers.utils.parseEther(price).toString(),
+      //       chainIdMain.toString(),
+      //       // db.collection("User").record(marketplaceAddress.toLowerCase()),
+      //     ]);
+      //   // console.log({ polybaseres: res });
+
+      //   sendNFTListNoti(tokenId, price);
+      //   setTimeout(() => {
+      //     router.reload();
+      //   }, 3000);
+      // }
     } catch (error) {
       console.log(error.message);
     }
@@ -1559,6 +1624,7 @@ export default function App({ Component, pageProps }) {
         fetch_all_nfts_from_polybase={fetch_all_nfts_from_polybase}
         nfts={nfts}
         list_nft={list_nft}
+        stake_nft={stake_nft}
         fetch_listed_nfts={fetch_listed_nfts}
         RARX_CHANNEL_ADDRESS={RARX_CHANNEL_ADDRESS}
         chainImg={chainImg}
