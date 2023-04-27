@@ -55,12 +55,11 @@ const Stake = ({
 
   async function user_market_nfts() {
     const nfts1 = await fetch_nfts_from_user_wallet(signer_address);
-    console.log("defaultCollectionAddress", defaultCollectionAddress);
+
     const nfts2 = nfts1.filter((item) => {
-      console.log(item);
       return item.collectionId == defaultCollectionAddress;
     });
-    console.log("nfts2", nfts2);
+
     setUnStakedNFTs(nfts2);
   }
 

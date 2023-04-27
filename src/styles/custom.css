@@ -33,6 +33,7 @@
 #pcMenu {
   display: block;
 }
+
 #phoneMenu {
   display: none;
 }
@@ -41,9 +42,11 @@
   #pcMenu {
     display: none;
   }
+
   #phoneMenu {
     display: block;
   }
+
   #formDisplay {
     display: none;
   }
@@ -51,7 +54,7 @@
 
 @media only screen and (max-width: 1485px) {
   #searchInp {
-    display: none;
+    /* display: none; */
   }
 }
 

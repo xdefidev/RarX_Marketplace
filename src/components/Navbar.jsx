@@ -493,10 +493,11 @@ const Navbar = ({
           </Link>
 
           {/* search form  */}
+
           <div className="flex">
             <form
               action="search"
-              className="relative ml-12 mr-8 basis-3/12 xl:ml-[8%]"
+              className="relative ml-12 mr-8 basis-8/12 xl:ml-[8%]"
               id="searchInp"
             >
               <input
@@ -1410,7 +1411,7 @@ const Navbar = ({
             {!signer_address ? (
               <a
                 href="#"
-                onClick={connectToIntmax}
+                // onClick={}
                 className="ml-4 js-wallet group flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
                 data-bs-toggle="modal"
                 data-bs-target="#walletModal"
