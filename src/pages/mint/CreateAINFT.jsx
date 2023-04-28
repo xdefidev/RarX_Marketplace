@@ -137,10 +137,9 @@ const CreateAINFT = ({
           const response = await axios.get(
             prediction.output[prediction.output.length - 1],
             {
-              responseType: "ArrayBuffer",
+              responseType: "arraybuffer",
             }
           );
-
           console.log(response, "response");
 
           // const formData = new FormData();
@@ -149,17 +148,18 @@ const CreateAINFT = ({
           const imageData = Buffer.from(response.data, "binary").toString(
             "base64"
           );
+
           console.log(imageData, "imageData");
           // const image = new Image();
           // image.src = "data:image/png;base64," + imageData;
           // document.body.appendChild(image);
-          const img = await storage.upload(
-            "data:image/png;base64," + imageData
-          );
+          // const img = await storage.upload(
+          //   "data:image/png;base64," + imageData
+          // );
 
-          console.log(img, "imgfinal");
+          // console.log(img, "imgfinal");
 
-          setPredictionOutput(img);
+          setPredictionOutput("data:image/png;base64," + imageData);
           setPredictionReady(true);
           set_loadingPrediction(false);
         }
