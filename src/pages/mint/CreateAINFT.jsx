@@ -4,6 +4,9 @@ import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
 import sample from "lodash/sample";
 import Head from "next/head";
+import axios from "axios";
+import { ThirdwebStorage } from "@thirdweb-dev/storage";
+import FormData from "form-data";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -48,6 +51,9 @@ const CreateAINFT = ({
     collection: defaultCollectionAddress,
     properties: [{ type: "", value: "" }],
   });
+
+  const storage = new ThirdwebStorage();
+  const formData = new FormData();
 
   const handleChange = (e) => {
     set_data({ ...data, [e.target.name]: e.target.value });
@@ -127,7 +133,33 @@ const CreateAINFT = ({
         }
         setPrediction(prediction);
         if (prediction.output) {
-          setPredictionOutput(prediction.output[prediction.output.length - 1]);
+          console.log(prediction.output, "prediction.output");
+          const response = await axios.get(
+            prediction.output[prediction.output.length - 1],
+            {
+              responseType: "ArrayBuffer",
+            }
+          );
+
+          console.log(response, "response");
+
+          // const formData = new FormData();
+          // formData.append("file", new File([response.data], "image.png"));
+          // console.log(formData, "formData");
+          const imageData = Buffer.from(response.data, "binary").toString(
+            "base64"
+          );
+          console.log(imageData, "imageData");
+          // const image = new Image();
+          // image.src = "data:image/png;base64," + imageData;
+          // document.body.appendChild(image);
+          const img = await storage.upload(
+            "data:image/png;base64," + imageData
+          );
+
+          console.log(img, "imgfinal");
+
+          setPredictionOutput(img);
           setPredictionReady(true);
           set_loadingPrediction(false);
         }
@@ -171,7 +203,13 @@ const CreateAINFT = ({
                       <>
                         <div className="flex items-center justify-center">
                           <img
-                            src={predictionOutput}
+                            src={
+                              predictionOutput &&
+                              predictionOutput?.replace(
+                                /^(ipfs:\/\/|https:\/\/ipfs\.moralis\.io:2053\/ipfs\/)/,
+                                "https://gateway.ipfscdn.io/ipfs/"
+                              )
+                            }
                             alt="predictionOutput"
                             className="h-[300px] w-[auto] rounded-lg border-2 border-gray-500"
                           />

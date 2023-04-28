@@ -1032,7 +1032,7 @@ export default function App({ Component, pageProps }) {
         chain_block = "https://mumbai.polygonscan.com/";
       }
 
-      console.log({ collection_logo, collection_image });
+      // console.log({ collection_logo, collection_image });
 
       collection_factory.on(
         "CollectionCreated",
