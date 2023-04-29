@@ -295,9 +295,13 @@ export default function Home({ all_collections, nfts, artists }) {
           </h2>
 
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-            {nfts.map(
-              (e, index) =>
-                index < 12 &&
+            {nfts.map((e, index) => {
+              let x = 0;
+              if (e.isListed) {
+                x++;
+              }
+              return (
+                x < 12 &&
                 e.isListed == true && (
                   <NftCard
                     ImageSrc={e.ipfsData.image?.replace(
@@ -315,7 +319,8 @@ export default function Home({ all_collections, nfts, artists }) {
                     chain_symbol={e.chain_symbol}
                   />
                 )
-            )}
+              );
+            })}
           </div>
         </div>
       </div>

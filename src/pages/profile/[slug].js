@@ -331,7 +331,7 @@ const Profile = ({
         response?.jsonResponse?.result && response.jsonResponse.result
       );
       set_loading(false);
-      console.log(response?.jsonResponse?.result, "response.nft");
+      // console.log(response?.jsonResponse?.result, "response.nft");
     } catch (error) {
       console.log(error);
     }
@@ -365,11 +365,11 @@ const Profile = ({
   const get_nfts = async () => {
     set_loading(true);
     const nfts = await fetch_nfts_from_user_wallet(signer_address);
-    console.log("editpage", nfts);
+    // console.log("editpage", nfts);
     set_nfts(nfts);
     set_loading(false);
-    console.log(signer_address, "signer_address");
-    console.log(nfts, "user_nfts");
+    // console.log(signer_address, "signer_address");
+    // console.log(nfts, "user_nfts");
   };
 
   const get_user_info = async () => {
@@ -377,7 +377,7 @@ const Profile = ({
     set_user_data(data);
 
     set_social(data?.socials && JSON.parse(data?.socials));
-    console.log({ userDataa: data });
+    // console.log({ userDataa: data });
   };
 
   const fetch_collections = async () => {
@@ -421,20 +421,44 @@ const Profile = ({
 
   async function getStatus() {
     set_loading(true);
-    const newResults = [];
-    for (const item of walletNFTs) {
-      const address = toChecksumAddress(item.token_address);
+    // const newResults = [];
+    for (const e of walletNFTs) {
+      const p = JSON.parse(e?.metadata);
+      const address = toChecksumAddress(e.token_address);
 
       const nftStatus = await checkWalletNft(
         address,
-        address + "/" + item.token_id
+        address + "/" + e.token_id
       );
-      console.log(nftStatus, "sey");
-      newResults.push(nftStatus);
+
+      if (nftStatus.collectionStatus) {
+        await listCollection(
+          toChecksumAddress(e?.token_address),
+          p?.name,
+          p?.image,
+          p?.image,
+          e?.symbol,
+          p?.description,
+          toChecksumAddress(e?.owner_of)
+        );
+      }
+
+      if (nftStatus.nftStatus) {
+        await listNft(
+          e?.token_id,
+          e?.token_uri,
+          toChecksumAddress(e?.token_address),
+          p?.properties || p?.attributes,
+          p?.name,
+          p?.image,
+          p?.description
+        );
+      }
+
+      // newResults.push(nftStatus);
     }
-    setStatusArray(newResults);
+    // setStatusArray(newResults);
     set_loading(false);
-    localStorage.setItem("statusArr", newResults);
   }
 
   async function listCollection(
@@ -493,7 +517,7 @@ const Profile = ({
         false,
       ]);
 
-    router.reload();
+    // router.reload();
   }
 
   async function listNft(
@@ -547,7 +571,7 @@ const Profile = ({
         token_uri,
         "0",
       ]);
-    router.reload();
+    // router.reload();
   }
 
   useEffect(() => {
@@ -1105,7 +1129,7 @@ const Profile = ({
                           }
                           chain_symbol={e.symbol}
                         />
-                        <div className="flex justify-between pt-1 px-2">
+                        {/* <div className="flex justify-between pt-1 px-2">
                           {statusArray[index]?.collectionStatus && (
                             <button
                               onClick={() =>
@@ -1132,7 +1156,7 @@ const Profile = ({
                                   e?.token_id,
                                   e?.token_uri,
                                   toChecksumAddress(e?.token_address),
-                                  p?.properties,
+                                  p?.properties || p?.attributes,
                                   p?.name,
                                   p?.image,
                                   p?.description
@@ -1143,7 +1167,7 @@ const Profile = ({
                               Load NFT
                             </button>
                           )}
-                        </div>
+                        </div> */}
                       </div>
                     );
                   })}

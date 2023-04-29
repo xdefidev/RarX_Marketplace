@@ -54,7 +54,7 @@ contract NFTStake is ReentrancyGuard {
     }
 
     // Rewards per hour per token deposited in wei.
-    uint256 private rewardsPerHour = 1000;
+    uint256 private rewardsPerHour = 2853000000000000000000;
 
     // Mapping of User Address to Staker info
     mapping(address => Staker) public stakers;
@@ -62,6 +62,11 @@ contract NFTStake is ReentrancyGuard {
     // Mapping of Token Id to staker. Made for the SC to remeber
     // who to send back the ERC721 Token to.
     mapping(uint256 => address) public stakerAddress;
+
+    modifier onlyOwner() {
+        owner == msg.sender;
+        _;
+    }
 
     constructor(IERC721 _nftContract, ERC20 _token) {
         owner = payable(msg.sender);
@@ -197,6 +202,15 @@ contract NFTStake is ReentrancyGuard {
         uint256 rewards = calculateRewards(_staker) +
             stakers[_staker].unclaimedRewards;
         return rewards;
+    }
+
+    function changeTokens(IERC20 _token, IERC721 _collection) public onlyOwner {
+        nftContract = _collection;
+        rewardsToken = _token;
+    }
+
+    function changeReward(uint256 _rewardsPerHour) public onlyOwner {
+        rewardsPerHour = _rewardsPerHour;
     }
 
     function getStakedTokens(

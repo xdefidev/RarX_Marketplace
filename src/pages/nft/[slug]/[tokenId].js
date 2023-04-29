@@ -568,7 +568,7 @@ const NFTPage = ({
                                 className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
                               >
                                 <span className="text-sm uppercase text-accent">
-                                  {e.type}
+                                  {e.type || e.trait_type}
                                 </span>
                                 <span className="text-base text-jacarta-700 dark:text-white">
                                   {e.value}

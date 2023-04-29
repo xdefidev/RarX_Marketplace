@@ -202,7 +202,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress(
           "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
         );
-        setStakingContract("0xb3Fd39C30F847C127cb1abAE3f0A23eF6eA6E736");
+        setStakingContract("0xbEb37A34CAa2cC6b0641EaeC8D08326fc3Ad5F40");
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockchain("Polygon Mumbai");
@@ -219,12 +219,12 @@ export default function App({ Component, pageProps }) {
         setBlockURL("https://etherscan.io/");
       } else if (chainId == 56) {
         // matic
-        setCollectionAddress("0xa7953bf159A938630C50Df9d712e72d6254d7019");
+        setCollectionAddress("0x870696c21EA3f46bb9Acf84F71973246E4EFa239");
         setMarketplaceAddress("0x17c309d1fd44463f5B94f95A33bcE3BaC383Ea68");
         setCollectionFactoryAddress(
           "0x01c00C36C431017aF981D9C4B7DAc551c3310D9F"
         );
-        setStakingContract("");
+        setStakingContract("0xC4632C27b4D85164A344A7d4A766513b6F7fcE94");
         setChainImg(bscLogo);
         setSymbol("BNB");
         setBlockchain("BSC Mainnet");
@@ -235,7 +235,7 @@ export default function App({ Component, pageProps }) {
         setCollectionFactoryAddress(
           "0x2c8Db32cDf0Ec95A1194Fe2842A4168a69ed556f"
         );
-        setStakingContract("0xb3Fd39C30F847C127cb1abAE3f0A23eF6eA6E736");
+        setStakingContract("0xbEb37A34CAa2cC6b0641EaeC8D08326fc3Ad5F40");
         setChainImg(polygonLogo);
         setSymbol("MATIC");
         setBlockchain("PolygonMum");
@@ -263,7 +263,6 @@ export default function App({ Component, pageProps }) {
     blockURL
   ) => {
     const db = await polybase();
-    console.log(chainIdMain, defaultCollectionAddress, "chainIdMain");
 
     const checkUser = await db
       .collection("Collection")
@@ -274,15 +273,20 @@ export default function App({ Component, pageProps }) {
         .collection("Collection")
         .create([
           defaultCollectionAddress,
-          await db.collection("User").record(signer_address)?.collection.id,
-          "ShibLite Marketplace",
-          "ipfs://QmSjD48DU9rK1iUceeVMiPHExgbYLbbSHdZV6XtjPZYXum/Screenshot%202023-04-19.png",
-          "ipfs://QmSjD48DU9rK1iUceeVMiPHExgbYLbbSHdZV6XtjPZYXum/Screenshot%202023-04-19.png",
-          "ShibLite Marketplace",
-          "ShibLite Marketplace Collection",
-          db.collection("User").record(signer_address),
-          signer_address,
-          chainImg,
+          await db
+            .collection("User")
+            .record("0x8ab7C842935F9C652Da3370E1ce9d592569a3fb9")?.collection
+            .id,
+          "Shiba Lite - Lite Guys",
+          "https://img.tofunft.com/v2/56/0x870696c21ea3f46bb9acf84f71973246e4efa239/25/720/static.jpg",
+          "https://cdn.tofunft.com/covers/6baoxm8yc1b084e.png/1440.png",
+          "Lite Guys",
+          "If you missed #ShibaInu you don't want to miss ShibaLite 💎 A community driven #Crypto which rewards holders & donates",
+          db
+            .collection("User")
+            .record("0x8ab7C842935F9C652Da3370E1ce9d592569a3fb9"),
+          "0x8ab7C842935F9C652Da3370E1ce9d592569a3fb9",
+          "chains/bsc.png",
           true,
         ]);
     }
@@ -315,18 +319,27 @@ export default function App({ Component, pageProps }) {
   };
 
   // create marketplace user polybase chain_method
-  const create_Marketplace_user = async (marketplace_address) => {
+  const create_Marketplace_user = async () => {
     const db = await polybase();
-    const res = await db
+    const checkUser = await db
       .collection("User")
-      .create([
-        marketplace_address,
-        "ShibLite Marketplace",
-        "shiblite@gmail.com",
-        "This is a shiblite marketplace vault account",
-        "https://gateway.ipfscdn.io/ipfs/Qmf75HV1vTbA6v1Cq5NAdQM4LrfQ8wYbb5K52f6pPauHhC/2(1).png",
-        "https://gateway.ipfscdn.io/ipfs/QmW4Z9enwQT6F8pMUUpPvoLfZqjb1yNZrCBsseQyuqnxgq/1(1).png",
-      ]);
+      .where("id", "==", "0x8ab7C842935F9C652Da3370E1ce9d592569a3fb9")
+      .get();
+    if (checkUser.data.length === 0) {
+      const res = await db
+        .collection("User")
+        .create([
+          "0x8ab7C842935F9C652Da3370E1ce9d592569a3fb9",
+          "LiteGuys Admin",
+          "https://img.tofunft.com/v2/56/0x870696c21ea3f46bb9acf84f71973246e4efa239/25/720/static.jpg",
+          "https://cdn.tofunft.com/covers/6baoxm8yc1b084e.png/1440.png",
+          "If you missed #ShibaInu you don't want to miss ShibaLite 💎 A community driven #Crypto which rewards holders & donates.",
+          "email",
+          "0x8ab7C842935F9C652Da3370E1ce9d592569a3fb9",
+          false,
+          "",
+        ]);
+    }
   };
 
   // CONNECT WALLET INTMAX
@@ -1652,6 +1665,8 @@ export default function App({ Component, pageProps }) {
     }
 
     async function call() {
+      await create_Marketplace_user();
+
       await create_NFTCollection_default(
         defaultCollectionAddress,
         blockchain,

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 const Slider = ({ nfts }) => {
-  console.log(nfts);
+  // console.log(nfts);
   return (
     <div className="flex overflow-hidden max-w-full sm:mt-0 mt-4">
       <div>
