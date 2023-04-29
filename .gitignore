@@ -37,6 +37,7 @@ coverage
 coverage.json
 typechain
 typechain-types
+rar.zip
 
 # Hardhat files
 cache
