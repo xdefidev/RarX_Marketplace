@@ -366,7 +366,7 @@ const Navbar = ({
             method: "wallet_addEthereumChain",
             params: [
               {
-                chainId: "0x27D8",
+                chainId: "0x38",
                 chainName: "BSC Mainnet",
                 nativeCurrency: {
                   name: "BNB",
